@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:flutter/services.dart';
 import 'package:newket/model/auth_model.dart';
-import 'package:newket/secure/token_storage.dart';
 import 'package:get/route_manager.dart';
 import 'package:newket/view/home.dart';
 
@@ -14,13 +14,10 @@ enum LoginPlatform {
 
 class AuthRepository {
   final Dio dio = Dio();
-  final SecureStorage storage;
+  var storage = const FlutterSecureStorage();
 
-  AuthRepository(this.storage) {
+  AuthRepository() {
     dio.options.baseUrl = dotenv.get("BASE_URL");
-    dio.options.validateStatus = (status) {
-      return status! < 500;
-    };
   }
 
   Future<void> kakaoLoginApi() async {
@@ -92,8 +89,8 @@ class AuthRepository {
         final responseBody = SocialLoginResponse.fromJson(response.data);
 
         await Future.wait([
-          storage.saveAccessToken(responseBody.accessToken),
-          storage.saveRefreshToken(responseBody.refreshToken)
+        storage.write(key: 'ACCESS_TOKEN', value: responseBody.accessToken),
+        storage.write(key: 'REFRESH_TOKEN', value: responseBody.refreshToken)
         ]);
       }
     } catch (e) {

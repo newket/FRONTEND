@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:newket/secure/token_storage.dart';
 import 'package:newket/repository/auth_repository.dart';
 
 class Login extends StatefulWidget {
@@ -17,7 +15,7 @@ class _Login extends State<Login> {
   @override
   void initState() {
     super.initState();
-    authRepository = AuthRepository(SecureStorage(storage: FlutterSecureStorage()));
+    authRepository = AuthRepository();
   }
 
   @override
@@ -29,13 +27,13 @@ class _Login extends State<Login> {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Text("NEWKET",
+            const Text("NEWKET",
                 style: TextStyle(
                     fontFamily: 'Pretendard',
                     fontSize: 40,
                     color: Color(0xff5A4EF6),
                     fontWeight: FontWeight.w900)),
-            Text("뉴켓에 오신것을 환영합니다.",
+            const Text("뉴켓에 오신것을 환영합니다.",
                 style: TextStyle(
                     fontFamily: 'Pretendard',
                     fontSize: 20,

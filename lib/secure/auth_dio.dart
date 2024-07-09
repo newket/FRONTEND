@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:newket/model/auth_model.dart';
 import 'package:newket/view/auth.dart';
 
 Future authDio(BuildContext context) async {
@@ -17,6 +18,7 @@ Future authDio(BuildContext context) async {
     // 매 요청마다 헤더에 AccessToken을 포함
     options.baseUrl = dotenv.get("BASE_URL");
     options.headers['Authorization'] = 'Bearer $accessToken';
+
     return handler.next(options);
   }, onError: (error, handler) async {
     // 인증 오류가 발생했을 경우: AccessToken의 만료
@@ -37,28 +39,31 @@ Future authDio(BuildContext context) async {
           await storage.deleteAll();
 
           // 로그인 만료 dialog 발생 후 로그인 페이지로 이동
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const Login()));
+          if (context.mounted) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => const Login()));
+          }
         }
-        // return handler.next(error);
+        return handler.next(error);
       }));
 
       // 토큰 갱신 API 요청
       refreshDio.options.baseUrl = dotenv.get("BASE_URL");
-      final refreshResponse = await refreshDio
-          .post('/api/v1/auth/reissue',
-          data: {"refreshToken": refreshToken});
+      final requestBody = ReissueRequest(refreshToken!).toJson();
+      final response = await refreshDio.post(
+          "/api/v1/auth/reissue",
+          data: requestBody
+      );
 
-      // response로부터 새로 갱신된 AccessToken과 RefreshToken 파싱
-      final newAccessToken = refreshResponse.data["accessToken"];
-      final newRefreshToken = refreshResponse.data["refreshToken"];
+      final responseBody = ReissueResponse.fromJson(response.data);
 
       // 기기에 저장된 AccessToken과 RefreshToken 갱신
-      await storage.write(key: 'ACCESS_TOKEN', value: newAccessToken);
-      await storage.write(key: 'REFRESH_TOKEN', value: newRefreshToken);
+      await storage.write(key: 'ACCESS_TOKEN', value: responseBody.accessToken);
+      await storage.write(key: 'REFRESH_TOKEN', value: responseBody.refreshToken);
 
       // // AccessToken의 만료로 수행하지 못했던 API 요청에 담겼던 AccessToken 갱신
-      error.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
+      error.requestOptions.headers['Authorization'] = 'Bearer $responseBody.accessToken';
+
       // 수행하지 못했던 API 요청 복사본 생성
       final clonedRequest = await dio.request(error.requestOptions.path,
           options: Options(

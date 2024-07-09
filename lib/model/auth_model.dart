@@ -20,3 +20,25 @@ class SocialLoginResponse {
     accessToken = json['accessToken'],
     refreshToken = json['refreshToken'];
 }
+
+class ReissueRequest{
+  String refreshToken;
+
+  ReissueRequest(this.refreshToken);
+  Map<String, dynamic> toJson() {
+    return <String, dynamic> {
+      "refreshToken":refreshToken
+    };
+  }
+}
+
+class ReissueResponse {
+  String accessToken;
+  String refreshToken;
+
+  ReissueResponse(this.accessToken,this.refreshToken);
+
+  ReissueResponse.fromJson(Map<String, dynamic> json) :
+        accessToken = json['accessToken'],
+        refreshToken = json['refreshToken'];
+}

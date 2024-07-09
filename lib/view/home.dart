@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:newket/secure/token_storage.dart';
 import 'package:newket/repository/user_repository.dart';
 
 class MyApp extends StatelessWidget {
@@ -26,7 +24,7 @@ class _Home extends State<Home> {
   @override
   void initState() {
     super.initState();
-    userRepository = UserRepository(SecureStorage(storage: const FlutterSecureStorage()));
+    userRepository = UserRepository();
   }
   @override
   Widget build(BuildContext context) {
@@ -38,7 +36,7 @@ class _Home extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   FutureBuilder<String>(
-                    future: userRepository.getUserApi(),
+                    future: userRepository.getUserApi(context),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const CircularProgressIndicator();
