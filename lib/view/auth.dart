@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:newket/service/login_service.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:newket/secure/token_storage.dart';
+import 'package:newket/repository/auth_repository.dart';
 
 class Login extends StatefulWidget {
+  const Login({super.key});
+
   @override
   State<StatefulWidget> createState() => _Login();
 }
 
 class _Login extends State<Login> {
+
+  late AuthRepository authRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    authRepository = AuthRepository(SecureStorage(storage: FlutterSecureStorage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +44,7 @@ class _Login extends State<Login> {
             IconButton(
                 icon: Image.asset("images/login/kakao_login_medium_wide.png"),
                 onPressed: () async {
-                  kakaoLoginApi();
+                  await authRepository.kakaoLoginApi();
                 })
           ],
         )));
