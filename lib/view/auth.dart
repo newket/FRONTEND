@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:newket/service/login_service.dart';
+import 'package:newket/repository/auth_repository.dart';
 
 class Login extends StatefulWidget {
+  const Login({super.key});
+
   @override
   State<StatefulWidget> createState() => _Login();
 }
 
 class _Login extends State<Login> {
+
+  late AuthRepository authRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    authRepository = AuthRepository();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,13 +27,13 @@ class _Login extends State<Login> {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Text("NEWKET",
+            const Text("NEWKET",
                 style: TextStyle(
                     fontFamily: 'Pretendard',
                     fontSize: 40,
                     color: Color(0xff5A4EF6),
                     fontWeight: FontWeight.w900)),
-            Text("뉴켓에 오신것을 환영합니다.",
+            const Text("뉴켓에 오신것을 환영합니다.",
                 style: TextStyle(
                     fontFamily: 'Pretendard',
                     fontSize: 20,
@@ -31,7 +42,7 @@ class _Login extends State<Login> {
             IconButton(
                 icon: Image.asset("images/login/kakao_login_medium_wide.png"),
                 onPressed: () async {
-                  kakaoLoginApi();
+                  await authRepository.kakaoLoginApi();
                 })
           ],
         )));
