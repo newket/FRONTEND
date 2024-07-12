@@ -13,13 +13,15 @@ void main() async {
     nativeAppKey: dotenv.get("NATIVE_APP_KEY"),
   );
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return const GetMaterialApp(
       home: Scaffold(
         body: Center(child: Login()),
       ),
