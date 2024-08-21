@@ -10,12 +10,21 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.6
 
-#  의존성 추가
+  #  의존성 추가
   kakao_flutter_sdk: ^1.9.2
   get: ^4.6.6
   dio: ^5.5.0
   flutter_dotenv: ^5.1.0
   flutter_secure_storage: ^9.2.2
+
+  # 점선
+  dotted_border: ^2.1.0
+
+  #svg
+  flutter_svg: ^2.0.10+1
+
+  #url
+  url_launcher: ^6.3.0
 
 dev_dependencies:
   flutter_test:
@@ -28,9 +37,30 @@ flutter:
   assets:
     - images/
     - images/login/
+    - images/navigator/
+    - images/appbar/
+    - images/opening_notice/
+    - images/on_sale/
+    - images/ticket_detail/
     - .env
   fonts:
     - family: Pretendard
       fonts:
-        - asset: font/PretendardVariable.ttf
+        - asset: font/pretendard/Pretendard-Thin.ttf
+          weight: 100
+        - asset: font/pretendard/Pretendard-ExtraLight.ttf
+          weight: 200
+        - asset: font/pretendard/Pretendard-Light.ttf
+          weight: 300
+        - asset: font/pretendard/Pretendard-Regular.ttf
           weight: 400
+        - asset: font/pretendard/Pretendard-Medium.ttf
+          weight: 500
+        - asset: font/pretendard/Pretendard-SemiBold.ttf
+          weight: 600
+        - asset: font/pretendard/Pretendard-Bold.ttf
+          weight: 700
+        - asset: font/pretendard/Pretendard-ExtraBold.ttf
+          weight: 800
+        - asset: font/pretendard/Pretendard-Black.ttf
+          weight: 900
