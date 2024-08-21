@@ -5,7 +5,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:flutter/services.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:get/route_manager.dart';
-import 'package:newket/view/home.dart';
+import 'package:newket/view/tapbar/tap_bar.dart';
 
 enum LoginPlatform {
   KAKAO,
@@ -25,7 +25,6 @@ class AuthRepository {
     // 카카오톡 실행이 가능하면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
     if (await isKakaoTalkInstalled()) {
       try {
-        await UserApi.instance.loginWithKakaoTalk();
         OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
         String accessToken = token.accessToken;
 
@@ -33,7 +32,7 @@ class AuthRepository {
 
         print('카카오톡으로 로그인 성공');
         print("토큰: $accessToken");
-        Get.offAll(Home());
+        Get.offAll(const TapBar());
       } catch (error) {
         print('카카오톡으로 로그인 실패 $error');
 
@@ -43,32 +42,30 @@ class AuthRepository {
           return;
         }
         try {
-          await UserApi.instance.loginWithKakaoAccount();
-          OAuthToken Token = await UserApi.instance.loginWithKakaoAccount();
-          String accessToken = Token.accessToken;
+          OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
+          String accessToken = token.accessToken;
 
           await socialLoginApi(SocialLoginRequest(accessToken));
 
           print('카카오계정으로 로그인 성공');
           print("토큰: $accessToken");
 
-          Get.offAll(const Home());
+          Get.offAll(const TapBar());
         } catch (error) {
           print('카카오계정으로 로그인 실패 $error');
         }
       }
     } else {
       try {
-        await UserApi.instance.loginWithKakaoAccount();
-        OAuthToken Token = await UserApi.instance.loginWithKakaoAccount();
-        String accessToken = Token.accessToken;
+        OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
+        String accessToken = token.accessToken;
 
         await socialLoginApi(SocialLoginRequest(accessToken));
 
         print('카카오계정으로 로그인 성공');
-        print("토큰: ${accessToken}");
+        print("토큰: $accessToken");
 
-        Get.offAll(Home());
+        Get.offAll(const TapBar());
       } catch (error) {
         print('카카오계정으로 로그인 실패 $error');
       }
