@@ -155,7 +155,9 @@ class TicketDetail {
   String place;
   String placeUrl;
   List<String> date;
-  List<TicketProvider> ticketProvider;
+  String ticketProvider;
+  String url;
+  List<TicketingSchedule2> ticketingSchedule;
 
   TicketDetail({
     required this.imageUrl,
@@ -164,11 +166,13 @@ class TicketDetail {
     required this.placeUrl,
     required this.date,
     required this.ticketProvider,
+    required this.url,
+    required this.ticketingSchedule,
   });
 
   factory TicketDetail.fromJson(Map<String, dynamic> json) {
     var dateList = json['date'] as List;
-    var ticketProviderList = json['ticketProvider'] as List;
+    var scheduleList = json['ticketingSchedule'] as List;
 
     return TicketDetail(
       imageUrl: json['imageUrl'],
@@ -176,8 +180,10 @@ class TicketDetail {
       place: json['place'],
       placeUrl: json['placeUrl'],
       date: List<String>.from(dateList),
-      ticketProvider: ticketProviderList
-          .map((provider) => TicketProvider.fromJson(provider))
+      ticketProvider: json['ticketProvider'],
+      url: json['url'],
+      ticketingSchedule: scheduleList
+          .map((schedule) => TicketingSchedule2.fromJson(schedule))
           .toList(),
     );
   }
@@ -189,36 +195,6 @@ class TicketDetail {
       'place': place,
       'placeUrl': placeUrl,
       'date': date,
-      'ticketProvider': ticketProvider.map((v) => v.toJson()).toList(),
-    };
-  }
-}
-
-class TicketProvider {
-  String ticketProvider;
-  String url;
-  List<TicketingSchedule2> ticketingSchedule;
-
-  TicketProvider({
-    required this.ticketProvider,
-    required this.url,
-    required this.ticketingSchedule,
-  });
-
-  factory TicketProvider.fromJson(Map<String, dynamic> json) {
-    var scheduleList = json['ticketingSchedule'] as List;
-
-    return TicketProvider(
-      ticketProvider: json['ticketProvider'],
-      url: json['url'],
-      ticketingSchedule: scheduleList
-          .map((schedule) => TicketingSchedule2.fromJson(schedule))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
       'ticketProvider': ticketProvider,
       'url': url,
       'ticketingSchedule':

@@ -101,8 +101,11 @@ class _Home extends State<Home> {
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
+                                return const Text("",
+                                    style: TextStyle(
+                                        fontFamily: 'Pretendard',
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700));
                               } else if (snapshot.hasError) {
                                 //데이터 로딩 실패
                                 return const Text("",
@@ -149,12 +152,22 @@ class _Home extends State<Home> {
                                           fontSize: 18,
                                           color: b_100,
                                           fontWeight: FontWeight.w700)),
-                                  const CircularProgressIndicator()
                                 ]));
                               } else if (!snapshot.hasData) {
                                 //데이터 없음
-                                return const Center(
-                                    child: CircularProgressIndicator());
+                                return Center(
+                                    child: Row(children: [
+                                      Image.asset(
+                                          "images/opening_notice/opening_notice_logo.png",
+                                          height: 24),
+                                      Container(width: 8),
+                                      const Text("오픈이 임박한 티켓",
+                                          style: TextStyle(
+                                              fontFamily: 'Pretendard',
+                                              fontSize: 18,
+                                              color: b_100,
+                                              fontWeight: FontWeight.w700)),
+                                    ]));
                               } else {
                                 final openingResponse = snapshot.data!;
                                 return Column(
