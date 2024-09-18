@@ -42,6 +42,7 @@ flutter:
     - images/opening_notice/
     - images/on_sale/
     - images/ticket_detail/
+    - images/search/
     - .env
   fonts:
     - family: Pretendard

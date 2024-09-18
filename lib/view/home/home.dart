@@ -331,7 +331,7 @@ class _Home extends State<Home> {
                                                               if (openingResponse
                                                                       .concerts[
                                                                           index1]
-                                                                      .ticketingSchedule
+                                                                      .ticketingSchedules
                                                                       .length ==
                                                                   1)
                                                                 Row(
@@ -346,7 +346,7 @@ class _Home extends State<Home> {
                                                                             MainAxisAlignment.center,
                                                                         children: [
                                                                           Text(
-                                                                            "${openingResponse.concerts[index1].ticketingSchedule[0].type} 오픈",
+                                                                            "${openingResponse.concerts[index1].ticketingSchedules[0].type} 오픈",
                                                                             style:
                                                                                 const TextStyle(
                                                                               fontFamily: 'Pretendard',
@@ -355,12 +355,12 @@ class _Home extends State<Home> {
                                                                               fontWeight: FontWeight.w400,
                                                                             ),
                                                                           ),
-                                                                          if (openingResponse.concerts[index1].ticketingSchedule[0].dday == 'D-3' ||
-                                                                              openingResponse.concerts[index1].ticketingSchedule[0].dday == 'D-2' ||
-                                                                              openingResponse.concerts[index1].ticketingSchedule[0].dday == 'D-1' ||
-                                                                              openingResponse.concerts[index1].ticketingSchedule[0].dday == 'D-Day')
+                                                                          if (openingResponse.concerts[index1].ticketingSchedules[0].dday == 'D-3' ||
+                                                                              openingResponse.concerts[index1].ticketingSchedules[0].dday == 'D-2' ||
+                                                                              openingResponse.concerts[index1].ticketingSchedules[0].dday == 'D-1' ||
+                                                                              openingResponse.concerts[index1].ticketingSchedules[0].dday == 'D-Day')
                                                                             Text(
-                                                                              openingResponse.concerts[index1].ticketingSchedule[0].dday,
+                                                                              openingResponse.concerts[index1].ticketingSchedules[0].dday,
                                                                               style: const TextStyle(
                                                                                 fontFamily: 'Pretendard',
                                                                                 fontSize: 12,
@@ -370,7 +370,7 @@ class _Home extends State<Home> {
                                                                             )
                                                                           else
                                                                             Text(
-                                                                              openingResponse.concerts[index1].ticketingSchedule[0].dday,
+                                                                              openingResponse.concerts[index1].ticketingSchedules[0].dday,
                                                                               style: const TextStyle(
                                                                                 fontFamily: 'Pretendard',
                                                                                 fontSize: 12,
@@ -397,7 +397,7 @@ class _Home extends State<Home> {
                                                                               .center,
                                                                       children: [
                                                                         Text(
-                                                                          "${openingResponse.concerts[index1].ticketingSchedule[0].type} 오픈",
+                                                                          "${openingResponse.concerts[index1].ticketingSchedules[0].type} 오픈",
                                                                           style:
                                                                               const TextStyle(
                                                                             fontFamily:
@@ -410,15 +410,15 @@ class _Home extends State<Home> {
                                                                                 FontWeight.w400,
                                                                           ),
                                                                         ),
-                                                                        if (openingResponse.concerts[index1].ticketingSchedule[0].dday == 'D-3' ||
-                                                                            openingResponse.concerts[index1].ticketingSchedule[0].dday ==
+                                                                        if (openingResponse.concerts[index1].ticketingSchedules[0].dday == 'D-3' ||
+                                                                            openingResponse.concerts[index1].ticketingSchedules[0].dday ==
                                                                                 'D-2' ||
-                                                                            openingResponse.concerts[index1].ticketingSchedule[0].dday ==
+                                                                            openingResponse.concerts[index1].ticketingSchedules[0].dday ==
                                                                                 'D-1' ||
-                                                                            openingResponse.concerts[index1].ticketingSchedule[0].dday ==
+                                                                            openingResponse.concerts[index1].ticketingSchedules[0].dday ==
                                                                                 'D-Day')
                                                                           Text(
-                                                                            openingResponse.concerts[index1].ticketingSchedule[0].dday,
+                                                                            openingResponse.concerts[index1].ticketingSchedules[0].dday,
                                                                             style:
                                                                                 const TextStyle(
                                                                               fontFamily: 'Pretendard',
@@ -429,7 +429,7 @@ class _Home extends State<Home> {
                                                                           )
                                                                         else
                                                                           Text(
-                                                                            openingResponse.concerts[index1].ticketingSchedule[0].dday,
+                                                                            openingResponse.concerts[index1].ticketingSchedules[0].dday,
                                                                             style:
                                                                                 const TextStyle(
                                                                               fontFamily: 'Pretendard',
@@ -463,7 +463,7 @@ class _Home extends State<Home> {
                                                                               .center,
                                                                       children: [
                                                                         Text(
-                                                                          "${openingResponse.concerts[index1].ticketingSchedule[1].type} 오픈",
+                                                                          "${openingResponse.concerts[index1].ticketingSchedules[1].type} 오픈",
                                                                           style:
                                                                               const TextStyle(
                                                                             fontFamily:
@@ -476,15 +476,15 @@ class _Home extends State<Home> {
                                                                                 FontWeight.w400,
                                                                           ),
                                                                         ),
-                                                                        if (openingResponse.concerts[index1].ticketingSchedule[1].dday == 'D-3' ||
-                                                                            openingResponse.concerts[index1].ticketingSchedule[1].dday ==
+                                                                        if (openingResponse.concerts[index1].ticketingSchedules[1].dday == 'D-3' ||
+                                                                            openingResponse.concerts[index1].ticketingSchedules[1].dday ==
                                                                                 'D-2' ||
-                                                                            openingResponse.concerts[index1].ticketingSchedule[1].dday ==
+                                                                            openingResponse.concerts[index1].ticketingSchedules[1].dday ==
                                                                                 'D-1' ||
-                                                                            openingResponse.concerts[index1].ticketingSchedule[1].dday ==
+                                                                            openingResponse.concerts[index1].ticketingSchedules[1].dday ==
                                                                                 'D-Day')
                                                                           Text(
-                                                                            openingResponse.concerts[index1].ticketingSchedule[1].dday,
+                                                                            openingResponse.concerts[index1].ticketingSchedules[1].dday,
                                                                             style:
                                                                                 const TextStyle(
                                                                               fontFamily: 'Pretendard',
@@ -495,7 +495,7 @@ class _Home extends State<Home> {
                                                                           )
                                                                         else
                                                                           Text(
-                                                                            openingResponse.concerts[index1].ticketingSchedule[1].dday,
+                                                                            openingResponse.concerts[index1].ticketingSchedules[1].dday,
                                                                             style:
                                                                                 const TextStyle(
                                                                               fontFamily: 'Pretendard',

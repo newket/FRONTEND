@@ -71,7 +71,7 @@ class _OnSale extends State<OnSale> {
         future: repository,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center();
           } else if (snapshot.hasError) {
             // 데이터 로딩 실패
             return const Center();
@@ -115,7 +115,7 @@ class _OnSale extends State<OnSale> {
                       color: b_900,
                       shape: RoundedRectangleBorder(
                         side: const BorderSide(
-                            width: 1, color: Color(0x7F5A4EF6)),
+                            width: 1, color: pt_50),
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),

@@ -11,6 +11,9 @@ const p_700 = Color(0xff5A4EF6);
 const p_800 = Color(0xff473CDC);
 const p_900 = Color(0xff392EC5);
 
+//transparent
+const pt_50 = Color(0x7F5A4EF6);
+
 //black
 const b_50 = Color(0xffF8FAFC);
 const b_100 = Color(0xffF1F5F9);
