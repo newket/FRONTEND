@@ -117,8 +117,7 @@ class _OpeningNotice extends State<OpeningNotice> {
                     decoration: ShapeDecoration(
                       color: b_900,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                            width: 1, color: Color(0x7F5A4EF6)),
+                        side: const BorderSide(width: 1, color: pt_50),
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
@@ -158,8 +157,7 @@ class _OpeningNotice extends State<OpeningNotice> {
                       offset: const Offset(-8, 40),
                       color: b_900,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                            width: 1, color: Color(0xE55A4EF6)),
+                        side: const BorderSide(width: 1, color: Color(0xE55A4EF6)),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
@@ -185,8 +183,7 @@ class _OpeningNotice extends State<OpeningNotice> {
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              const Icon(Icons.keyboard_arrow_down_outlined,
-                                  color: Colors.white),
+                              const Icon(Icons.keyboard_arrow_down_outlined, color: Colors.white),
                             ],
                           ),
                         ],
@@ -213,8 +210,7 @@ class _OpeningNotice extends State<OpeningNotice> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => OpeningNoticeDetail(
-                                    concertId: openingResponse.concerts[index]
-                                        .concertId, // 상세 페이지에 데이터 전달
+                                    concertId: openingResponse.concerts[index].concertId, // 상세 페이지에 데이터 전달
                                   ),
                                 ),
                               );
@@ -243,8 +239,7 @@ class _OpeningNotice extends State<OpeningNotice> {
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           text: TextSpan(
-                                            text: openingResponse
-                                                .concerts[index].title,
+                                            text: openingResponse.concerts[index].title,
                                             style: const TextStyle(
                                               fontFamily: 'Pretendard',
                                               fontSize: 14,
@@ -255,70 +250,56 @@ class _OpeningNotice extends State<OpeningNotice> {
                                   Container(height: 8),
                                   Column(
                                       children: List.generate(
-                                          openingResponse
-                                              .concerts[index]
-                                              .ticketingSchedule
-                                              .length, (index1) {
+                                          //최대 2개
+                                          openingResponse.concerts[index].ticketingSchedules.length > 2
+                                              ? 2
+                                              : openingResponse.concerts[index].ticketingSchedules.length, (index1) {
                                     return Column(
                                       children: [
                                         Container(
                                           height: 25,
                                           decoration: BoxDecoration(
                                             color: b_900,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(8),
                                           ),
-                                          padding: const EdgeInsets.only(
-                                              left: 8, right: 8),
+                                          padding: const EdgeInsets.only(left: 8, right: 8),
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                  "${openingResponse.concerts[index].ticketingSchedule[index1].type} 오픈",
+                                                  "${openingResponse.concerts[index].ticketingSchedules[index1].type} 오픈",
                                                   style: const TextStyle(
                                                     fontFamily: 'Pretendard',
                                                     fontSize: 12,
                                                     color: b_400,
                                                     fontWeight: FontWeight.w400,
                                                   )),
-                                              if (openingResponse.concerts[index].ticketingSchedule[index1].dday == 'D-3' ||
+                                              if (openingResponse
+                                                          .concerts[index].ticketingSchedules[index1].dday ==
+                                                      'D-3' ||
                                                   openingResponse
-                                                          .concerts[index]
-                                                          .ticketingSchedule[
-                                                              index1]
-                                                          .dday ==
+                                                          .concerts[index].ticketingSchedules[index1].dday ==
                                                       'D-2' ||
-                                                  openingResponse
-                                                          .concerts[index]
-                                                          .ticketingSchedule[
-                                                              index1]
-                                                          .dday ==
+                                                  openingResponse.concerts[index].ticketingSchedules[index1].dday ==
                                                       'D-1' ||
-                                                  openingResponse
-                                                          .concerts[index]
-                                                          .ticketingSchedule[
-                                                              index1]
-                                                          .dday ==
+                                                  openingResponse.concerts[index].ticketingSchedules[index1].dday ==
                                                       'D-Day')
                                                 Text(
-                                                    "${openingResponse.concerts[index].ticketingSchedule[index1].dday}",
+                                                    "${openingResponse.concerts[index].ticketingSchedules[index1].dday}",
                                                     style: const TextStyle(
                                                       fontFamily: 'Pretendard',
                                                       fontSize: 12,
                                                       color: Color(0xffFF5F5F),
-                                                      fontWeight:
-                                                          FontWeight.w700,
+                                                      fontWeight: FontWeight.w700,
                                                     ))
                                               else
                                                 Text(
-                                                    "${openingResponse.concerts[index].ticketingSchedule[index1].dday}",
+                                                    "${openingResponse.concerts[index].ticketingSchedules[index1].dday}",
                                                     style: const TextStyle(
                                                       fontFamily: 'Pretendard',
                                                       fontSize: 12,
                                                       color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.w700,
+                                                      fontWeight: FontWeight.w700,
                                                     ))
                                             ],
                                           ),

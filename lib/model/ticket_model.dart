@@ -34,17 +34,17 @@ class Concert {
   int concertId;
   String imageUrl;
   String title;
-  List<TicketingSchedule> ticketingSchedule;
+  List<TicketingSchedule> ticketingSchedules;
 
   Concert({
     required this.concertId,
     required this.imageUrl,
     required this.title,
-    required this.ticketingSchedule,
+    required this.ticketingSchedules,
   });
 
   factory Concert.fromJson(Map<String, dynamic> json) {
-    var ticketingScheduleList = json['ticketingSchedule'] as List;
+    var ticketingScheduleList = json['ticketingSchedules'] as List;
     List<TicketingSchedule> ticketingScheduleItems =
     ticketingScheduleList.map((i) => TicketingSchedule.fromJson(i)).toList();
 
@@ -52,7 +52,7 @@ class Concert {
       concertId: json['concertId'],
       imageUrl: json['imageUrl'],
       title: json['title'],
-      ticketingSchedule: ticketingScheduleItems,
+      ticketingSchedules: ticketingScheduleItems,
     );
   }
 
@@ -61,7 +61,7 @@ class Concert {
       'concertId': concertId,
       'imageUrl': imageUrl,
       'title': title,
-      'ticketingSchedule': ticketingSchedule.map((v) => v.toJson()).toList(),
+      'ticketingSchedules': ticketingSchedules.map((v) => v.toJson()).toList(),
     };
   }
 }
@@ -155,9 +155,8 @@ class TicketDetail {
   String place;
   String placeUrl;
   List<String> date;
-  String ticketProvider;
-  String url;
-  List<TicketingSchedule2> ticketingSchedule;
+  List<ConcertTicketProvider> ticketProviders;
+
 
   TicketDetail({
     required this.imageUrl,
@@ -165,14 +164,12 @@ class TicketDetail {
     required this.place,
     required this.placeUrl,
     required this.date,
-    required this.ticketProvider,
-    required this.url,
-    required this.ticketingSchedule,
+    required this.ticketProviders,
   });
 
   factory TicketDetail.fromJson(Map<String, dynamic> json) {
     var dateList = json['date'] as List;
-    var scheduleList = json['ticketingSchedule'] as List;
+    var providerList = json['ticketProviders'] as List;
 
     return TicketDetail(
       imageUrl: json['imageUrl'],
@@ -180,11 +177,7 @@ class TicketDetail {
       place: json['place'],
       placeUrl: json['placeUrl'],
       date: List<String>.from(dateList),
-      ticketProvider: json['ticketProvider'],
-      url: json['url'],
-      ticketingSchedule: scheduleList
-          .map((schedule) => TicketingSchedule2.fromJson(schedule))
-          .toList(),
+      ticketProviders: providerList.map((provider) => ConcertTicketProvider.fromJson(provider)).toList(),
     );
   }
 
@@ -195,27 +188,57 @@ class TicketDetail {
       'place': place,
       'placeUrl': placeUrl,
       'date': date,
-      'ticketProvider': ticketProvider,
-      'url': url,
-      'ticketingSchedule':
-      ticketingSchedule.map((v) => v.toJson()).toList(),
+      'ticketProviders': ticketProviders.map((v) => v.toJson()).toList()
     };
   }
 }
 
-class TicketingSchedule2 {
+class ConcertTicketProvider {
+  String ticketProvider;
+  String url;
+  List<ConcertTicketingSchedule> ticketingSchedules;
+
+  ConcertTicketProvider({
+    required this.ticketProvider,
+    required this.url,
+    required this.ticketingSchedules,
+  });
+
+  factory ConcertTicketProvider.fromJson(Map<String, dynamic> json) {
+    var scheduleList = json['ticketingSchedules'] as List;
+
+    return ConcertTicketProvider(
+      ticketProvider: json['ticketProvider'],
+      url: json['url'],
+      ticketingSchedules: scheduleList
+          .map((schedule) => ConcertTicketingSchedule.fromJson(schedule))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'ticketProvider': ticketProvider,
+      'url': url,
+      'ticketingSchedule':
+      ticketingSchedules.map((v) => v.toJson()).toList(),
+    };
+  }
+}
+
+class ConcertTicketingSchedule {
   String type;
   String date;
   String time;
 
-  TicketingSchedule2({
+  ConcertTicketingSchedule({
     required this.type,
     required this.date,
     required this.time,
   });
 
-  factory TicketingSchedule2.fromJson(Map<String, dynamic> json) {
-    return TicketingSchedule2(
+  factory ConcertTicketingSchedule.fromJson(Map<String, dynamic> json) {
+    return ConcertTicketingSchedule(
       type: json['type'],
       date: json['date'],
       time: json['time'],
