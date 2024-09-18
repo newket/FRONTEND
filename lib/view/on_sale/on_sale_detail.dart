@@ -66,7 +66,7 @@ class _OnSaleDetail extends State<OnSaleDetail> {
                             //점선 위 전체
                             SizedBox(
                               width: double.infinity,
-                              height: 328,
+                              height: 335,
                               child: ClipRRect(
                                 borderRadius: const BorderRadius.only(
                                   bottomLeft: Radius.circular(24),
@@ -83,7 +83,7 @@ class _OnSaleDetail extends State<OnSaleDetail> {
                             //검은 그림자
                             Container(
                               width: double.infinity,
-                              height: 328,
+                              height: 335,
                               decoration: const ShapeDecoration(
                                 gradient: LinearGradient(
                                   begin: Alignment(0.00, -1.00),
@@ -104,7 +104,7 @@ class _OnSaleDetail extends State<OnSaleDetail> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      const SizedBox(height: 16),
+                                      const SizedBox(height: 32),
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(12.0),
                                         child: Image.network(
