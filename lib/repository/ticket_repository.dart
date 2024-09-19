@@ -69,4 +69,16 @@ class TicketRepository{
 
     return TicketDetail.fromJson(response.data);
   }
+
+  //티켓 검색
+  Future<SearchTicketResponse> searchTicket(BuildContext context, String keyword) async {
+    var dio = Dio();
+    dio.options.baseUrl = dotenv.get("BASE_URL");
+
+    final response = await dio.get(
+        "/api/v1/tickets/search?keyword=$keyword"
+    );
+
+    return SearchTicketResponse.fromJson(response.data);
+  }
 }

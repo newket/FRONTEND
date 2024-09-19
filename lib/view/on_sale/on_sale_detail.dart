@@ -17,13 +17,11 @@ class OnSaleDetail extends StatefulWidget {
 
 class _OnSaleDetail extends State<OnSaleDetail> {
   late TicketRepository ticketRepository;
-  late Future repository; // Future 타입으로 초기화
 
   @override
   void initState() {
     super.initState();
     ticketRepository = TicketRepository();
-    repository = ticketRepository.onSaleApi(context);
   }
 
   @override

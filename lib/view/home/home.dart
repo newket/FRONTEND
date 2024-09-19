@@ -71,7 +71,7 @@ class _Home extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                //오픈이 임박한 티켓
+                //오픈 예정 티켓
                 Stack(children: [
                   Container(
                     width: double.infinity,
@@ -146,7 +146,7 @@ class _Home extends State<Home> {
                                       "images/opening_notice/opening_notice_logo.png",
                                       height: 24),
                                   Container(width: 8),
-                                  const Text("오픈이 임박한 티켓",
+                                  const Text("오픈 예정 티켓",
                                       style: TextStyle(
                                           fontFamily: 'Pretendard',
                                           fontSize: 18,
@@ -161,7 +161,7 @@ class _Home extends State<Home> {
                                           "images/opening_notice/opening_notice_logo.png",
                                           height: 24),
                                       Container(width: 8),
-                                      const Text("오픈이 임박한 티켓",
+                                      const Text("오픈 예정 티켓",
                                           style: TextStyle(
                                               fontFamily: 'Pretendard',
                                               fontSize: 18,
@@ -189,13 +189,13 @@ class _Home extends State<Home> {
                                     ]),
                                     //빈공간 33
                                     Container(height: 33),
-                                    //로고 + 오픈이 임박한 티켓
+                                    //로고 + 오픈 예정 티켓
                                     Row(children: [
                                       Image.asset(
                                           "images/opening_notice/opening_notice_logo.png",
                                           height: 24),
                                       Container(width: 8),
-                                      const Text("오픈이 임박한 티켓",
+                                      const Text("오픈 예정 티켓",
                                           style: TextStyle(
                                               fontFamily: 'Pretendard',
                                               fontSize: 18,

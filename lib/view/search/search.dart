@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/theme/colors.dart';
+import 'package:newket/view/search/search_detail.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -81,9 +82,9 @@ class _Search extends State<Search> {
                     Image.asset('images/navigator/search_on.png', height: 20,width: 20),
                     const SizedBox(width: 12),
                     // 텍스트 필드 (예시 텍스트)
-                    const Expanded(
+                    Expanded(
                       child: TextField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none, // 입력 필드의 기본 테두리 제거
                           hintText: '관심 있는 공연을 검색해보세요!',
                           hintStyle: TextStyle(
@@ -93,10 +94,21 @@ class _Search extends State<Search> {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        style: TextStyle(
-                          color: Colors.white, // 입력한 텍스트의 색상
+                        style: const TextStyle(
+                          color: Colors.white,
                           fontSize: 12,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
                         ),
+                          onSubmitted: (value) {
+                            // 검색어 제출 시 페이지 이동
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SearchDetail(keyword: value),
+                              ),
+                            );
+                          }
                       ),
                     ),
                   ],
