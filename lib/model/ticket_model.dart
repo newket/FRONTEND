@@ -4,11 +4,7 @@ class OpeningNoticeResponse {
   String artistName;
   List<Concert> concerts;
 
-  OpeningNoticeResponse({
-    required this.totalNum,
-    required this.artistName,
-    required this.concerts
-  });
+  OpeningNoticeResponse({required this.totalNum, required this.artistName, required this.concerts});
 
   factory OpeningNoticeResponse.fromJson(Map<String, dynamic> json) {
     var concertList = json['concerts'] as List;
@@ -46,7 +42,7 @@ class Concert {
   factory Concert.fromJson(Map<String, dynamic> json) {
     var ticketingScheduleList = json['ticketingSchedules'] as List;
     List<TicketingSchedule> ticketingScheduleItems =
-    ticketingScheduleList.map((i) => TicketingSchedule.fromJson(i)).toList();
+        ticketingScheduleList.map((i) => TicketingSchedule.fromJson(i)).toList();
 
     return Concert(
       concertId: json['concertId'],
@@ -73,30 +69,20 @@ class TicketingSchedule {
   TicketingSchedule({required this.type, required this.dday});
 
   factory TicketingSchedule.fromJson(Map<String, dynamic> json) {
-    return TicketingSchedule(
-        type: json['type'],
-        dday:json['dday']
-    );
+    return TicketingSchedule(type: json['type'], dday: json['dday']);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'type': type,
-      'dday': dday
-    };
+    return {'type': type, 'dday': dday};
   }
 }
-
 
 // OnSale
 class OnSaleResponse {
   int totalNum;
   List<ConcertOnSale> concerts;
 
-  OnSaleResponse({
-    required this.totalNum,
-    required this.concerts
-  });
+  OnSaleResponse({required this.totalNum, required this.concerts});
 
   factory OnSaleResponse.fromJson(Map<String, dynamic> json) {
     var concertList = json['concerts'] as List;
@@ -157,7 +143,6 @@ class TicketDetail {
   List<String> date;
   List<ConcertTicketProvider> ticketProviders;
 
-
   TicketDetail({
     required this.imageUrl,
     required this.title,
@@ -210,9 +195,7 @@ class ConcertTicketProvider {
     return ConcertTicketProvider(
       ticketProvider: json['ticketProvider'],
       url: json['url'],
-      ticketingSchedules: scheduleList
-          .map((schedule) => ConcertTicketingSchedule.fromJson(schedule))
-          .toList(),
+      ticketingSchedules: scheduleList.map((schedule) => ConcertTicketingSchedule.fromJson(schedule)).toList(),
     );
   }
 
@@ -220,8 +203,7 @@ class ConcertTicketProvider {
     return {
       'ticketProvider': ticketProvider,
       'url': url,
-      'ticketingSchedule':
-      ticketingSchedules.map((v) => v.toJson()).toList(),
+      'ticketingSchedule': ticketingSchedules.map((v) => v.toJson()).toList(),
     };
   }
 }
@@ -250,6 +232,28 @@ class ConcertTicketingSchedule {
       'type': type,
       'date': date,
       'time': time,
+    };
+  }
+}
+
+//search
+class SearchTicketResponse {
+  OpeningNoticeResponse openingNotice;
+  OnSaleResponse onSale;
+
+  SearchTicketResponse({required this.openingNotice, required this.onSale});
+
+  factory SearchTicketResponse.fromJson(Map<String, dynamic> json) {
+    return SearchTicketResponse(
+      openingNotice: OpeningNoticeResponse.fromJson(json['openingNotice'] as Map<String, dynamic>),
+      onSale: OnSaleResponse.fromJson(json['onSale'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'openingNotice': openingNotice.toJson(),
+      'onSale': onSale.toJson(),
     };
   }
 }
