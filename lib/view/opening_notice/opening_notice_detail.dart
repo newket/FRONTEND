@@ -143,7 +143,7 @@ class _OpeningNoticeDetail extends State<OpeningNoticeDetail> {
                                   fontFamily: 'Pretendard',
                                   fontSize: 20,
                                   color: Colors.white,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),
