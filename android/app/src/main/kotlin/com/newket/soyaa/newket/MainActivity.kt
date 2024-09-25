@@ -1,4 +1,4 @@
-package com.newket.soyaa.newket
+package com.newket.soyaa
 
 import io.flutter.embedding.android.FlutterActivity
 
