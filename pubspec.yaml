@@ -10,7 +10,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.6
 
-  #  의존성 추가
+  #  카카오
   kakao_flutter_sdk: ^1.9.2
   get: ^4.6.6
   dio: ^5.5.0
@@ -25,6 +25,20 @@ dependencies:
 
   #url
   url_launcher: ^6.3.0
+
+  # 알림 동의
+  permission_handler: ^11.3.1
+
+  # 푸시 알림
+  flutter_local_notifications: ^17.2.2
+  workmanager: ^0.5.2
+
+  #fcm
+  firebase_messaging: ^15.1.2
+  googleapis_auth: ^1.6.0
+  firebase_core: ^3.5.0
+  firebase_analytics: ^11.3.2
+  firebase_remote_config: ^5.1.2
 
 dev_dependencies:
   flutter_test:
@@ -43,7 +57,9 @@ flutter:
     - images/on_sale/
     - images/ticket_detail/
     - images/search/
+    - images/logo/
     - .env
+    - assets/
   fonts:
     - family: Pretendard
       fonts:

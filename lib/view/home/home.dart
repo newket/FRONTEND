@@ -99,27 +99,20 @@ class _Home extends State<Home> {
                         FutureBuilder(
                             future: userRepository.getUserInfoApi(context),
                             builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
                                 return const Text("",
-                                    style: TextStyle(
-                                        fontFamily: 'Pretendard',
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700));
+                                    style:
+                                        TextStyle(fontFamily: 'Pretendard', fontSize: 20, fontWeight: FontWeight.w700));
                               } else if (snapshot.hasError) {
                                 //데이터 로딩 실패
                                 return const Text("",
-                                    style: TextStyle(
-                                        fontFamily: 'Pretendard',
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700));
+                                    style:
+                                        TextStyle(fontFamily: 'Pretendard', fontSize: 20, fontWeight: FontWeight.w700));
                               } else if (!snapshot.hasData) {
                                 //데이터 없음
                                 return const Text("",
-                                    style: TextStyle(
-                                        fontFamily: 'Pretendard',
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700));
+                                    style:
+                                        TextStyle(fontFamily: 'Pretendard', fontSize: 20, fontWeight: FontWeight.w700));
                               } else {
                                 final userInfo = snapshot.data!;
                                 return Text("${userInfo.name}님,",
@@ -134,17 +127,13 @@ class _Home extends State<Home> {
                         FutureBuilder(
                             future: ticketRepository.openingNoticeApi(context),
                             builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return const Center(child: CircularProgressIndicator());
                               } else if (snapshot.hasError) {
                                 //데이터 로딩 실패
                                 return Center(
                                     child: Row(children: [
-                                  Image.asset(
-                                      "images/opening_notice/opening_notice_logo.png",
-                                      height: 24),
+                                  Image.asset("images/opening_notice/opening_notice_logo.png", height: 24),
                                   Container(width: 8),
                                   const Text("오픈 예정 티켓",
                                       style: TextStyle(
@@ -157,17 +146,15 @@ class _Home extends State<Home> {
                                 //데이터 없음
                                 return Center(
                                     child: Row(children: [
-                                      Image.asset(
-                                          "images/opening_notice/opening_notice_logo.png",
-                                          height: 24),
-                                      Container(width: 8),
-                                      const Text("오픈 예정 티켓",
-                                          style: TextStyle(
-                                              fontFamily: 'Pretendard',
-                                              fontSize: 18,
-                                              color: b_100,
-                                              fontWeight: FontWeight.w700)),
-                                    ]));
+                                  Image.asset("images/opening_notice/opening_notice_logo.png", height: 24),
+                                  Container(width: 8),
+                                  const Text("오픈 예정 티켓",
+                                      style: TextStyle(
+                                          fontFamily: 'Pretendard',
+                                          fontSize: 18,
+                                          color: b_100,
+                                          fontWeight: FontWeight.w700)),
+                                ]));
                               } else {
                                 final openingResponse = snapshot.data!;
                                 return Column(
@@ -191,9 +178,7 @@ class _Home extends State<Home> {
                                     Container(height: 33),
                                     //로고 + 오픈 예정 티켓
                                     Row(children: [
-                                      Image.asset(
-                                          "images/opening_notice/opening_notice_logo.png",
-                                          height: 24),
+                                      Image.asset("images/opening_notice/opening_notice_logo.png", height: 24),
                                       Container(width: 8),
                                       const Text("오픈 예정 티켓",
                                           style: TextStyle(
@@ -215,11 +200,9 @@ class _Home extends State<Home> {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        OpeningNoticeDetail(
-                                                      concertId: openingResponse
-                                                          .concerts[index1]
-                                                          .concertId, // 상세 페이지에 데이터 전달
+                                                    builder: (context) => OpeningNoticeDetail(
+                                                      concertId:
+                                                          openingResponse.concerts[index1].concertId, // 상세 페이지에 데이터 전달
                                                     ),
                                                   ),
                                                 );
@@ -227,13 +210,9 @@ class _Home extends State<Home> {
                                               child: Row(
                                                 children: [
                                                   ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0),
+                                                    borderRadius: BorderRadius.circular(8.0),
                                                     child: Image.network(
-                                                      openingResponse
-                                                          .concerts[index1]
-                                                          .imageUrl,
+                                                      openingResponse.concerts[index1].imageUrl,
                                                       height: 110,
                                                       width: 83,
                                                       fit: BoxFit.fill,
@@ -247,15 +226,10 @@ class _Home extends State<Home> {
                                                           Container(height: 10),
                                                           //티켓 점선
                                                           DottedBorder(
-                                                            color: const Color(
-                                                                0xffffffff),
+                                                            color: const Color(0xffffffff),
                                                             strokeWidth: 1,
-                                                            dashPattern: const [
-                                                              4,
-                                                              4
-                                                            ],
-                                                            child:
-                                                                const SizedBox(
+                                                            dashPattern: const [4, 4],
+                                                            child: const SizedBox(
                                                               width: 0,
                                                               height: 86,
                                                             ),
@@ -264,103 +238,76 @@ class _Home extends State<Home> {
                                                       ),
                                                       //티켓 정보
                                                       Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width -
-                                                            123,
+                                                        width: MediaQuery.of(context).size.width - 123,
                                                         // 원하는 여백을 빼고 가로 크기 설정
                                                         height: 110,
-                                                        clipBehavior:
-                                                            Clip.antiAlias,
-                                                        decoration:
-                                                            ShapeDecoration(
+                                                        clipBehavior: Clip.antiAlias,
+                                                        decoration: ShapeDecoration(
                                                           color: b_900,
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        12),
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(12),
                                                           ),
                                                         ),
                                                         child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
+                                                          padding: const EdgeInsets.all(8.0),
                                                           // 여백 8씩 추가
                                                           child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
                                                             //왼쪽정렬
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                             children: [
                                                               //공연 제목
                                                               SizedBox(
                                                                   height: 34,
-                                                                  child:
-                                                                      RichText(
+                                                                  child: RichText(
                                                                     maxLines: 2,
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    text:
-                                                                        TextSpan(
-                                                                      text: openingResponse
-                                                                          .concerts[
-                                                                              index1]
-                                                                          .title,
-                                                                      style:
-                                                                          const TextStyle(
-                                                                        fontFamily:
-                                                                            'Pretendard',
-                                                                        fontSize:
-                                                                            16,
-                                                                        color: Color(
-                                                                            0xffffffff),
-                                                                        fontWeight:
-                                                                            FontWeight.w700,
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    text: TextSpan(
+                                                                      text: openingResponse.concerts[index1].title,
+                                                                      style: const TextStyle(
+                                                                        fontFamily: 'Pretendard',
+                                                                        fontSize: 16,
+                                                                        color: Color(0xffffffff),
+                                                                        fontWeight: FontWeight.w700,
                                                                       ),
                                                                     ),
                                                                   )),
                                                               // 티켓 오픈 정보
                                                               //일반예매 만
                                                               if (openingResponse
-                                                                      .concerts[
-                                                                          index1]
-                                                                      .ticketingSchedules
-                                                                      .length ==
+                                                                      .concerts[index1].ticketingSchedules.length ==
                                                                   1)
                                                                 Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceEvenly,
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                                     children: [
                                                                       Column(
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.center,
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.center,
+                                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                                        mainAxisAlignment: MainAxisAlignment.center,
                                                                         children: [
                                                                           Text(
                                                                             "${openingResponse.concerts[index1].ticketingSchedules[0].type} 오픈",
-                                                                            style:
-                                                                                const TextStyle(
+                                                                            style: const TextStyle(
                                                                               fontFamily: 'Pretendard',
                                                                               fontSize: 12,
                                                                               color: b_400,
                                                                               fontWeight: FontWeight.w400,
                                                                             ),
                                                                           ),
-                                                                          if (openingResponse.concerts[index1].ticketingSchedules[0].dday == 'D-3' ||
-                                                                              openingResponse.concerts[index1].ticketingSchedules[0].dday == 'D-2' ||
-                                                                              openingResponse.concerts[index1].ticketingSchedules[0].dday == 'D-1' ||
-                                                                              openingResponse.concerts[index1].ticketingSchedules[0].dday == 'D-Day')
+                                                                          if (openingResponse.concerts[index1]
+                                                                                      .ticketingSchedules[0].dday ==
+                                                                                  'D-3' ||
+                                                                              openingResponse.concerts[index1]
+                                                                                      .ticketingSchedules[0].dday ==
+                                                                                  'D-2' ||
+                                                                              openingResponse.concerts[index1]
+                                                                                      .ticketingSchedules[0].dday ==
+                                                                                  'D-1' ||
+                                                                              openingResponse.concerts[index1]
+                                                                                      .ticketingSchedules[0].dday ==
+                                                                                  'D-Day')
                                                                             Text(
-                                                                              openingResponse.concerts[index1].ticketingSchedules[0].dday,
+                                                                              openingResponse.concerts[index1]
+                                                                                  .ticketingSchedules[0].dday,
                                                                               style: const TextStyle(
                                                                                 fontFamily: 'Pretendard',
                                                                                 fontSize: 12,
@@ -370,7 +317,8 @@ class _Home extends State<Home> {
                                                                             )
                                                                           else
                                                                             Text(
-                                                                              openingResponse.concerts[index1].ticketingSchedules[0].dday,
+                                                                              openingResponse.concerts[index1]
+                                                                                  .ticketingSchedules[0].dday,
                                                                               style: const TextStyle(
                                                                                 fontFamily: 'Pretendard',
                                                                                 fontSize: 12,
@@ -384,43 +332,37 @@ class _Home extends State<Home> {
                                                               //선예매 , 일반예매
                                                               else
                                                                 Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceEvenly,
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                                   children: [
                                                                     Column(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .center,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
+                                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                                      mainAxisAlignment: MainAxisAlignment.center,
                                                                       children: [
                                                                         Text(
                                                                           "${openingResponse.concerts[index1].ticketingSchedules[0].type} 오픈",
-                                                                          style:
-                                                                              const TextStyle(
-                                                                            fontFamily:
-                                                                                'Pretendard',
-                                                                            fontSize:
-                                                                                12,
-                                                                            color:
-                                                                                b_400,
-                                                                            fontWeight:
-                                                                                FontWeight.w400,
+                                                                          style: const TextStyle(
+                                                                            fontFamily: 'Pretendard',
+                                                                            fontSize: 12,
+                                                                            color: b_400,
+                                                                            fontWeight: FontWeight.w400,
                                                                           ),
                                                                         ),
-                                                                        if (openingResponse.concerts[index1].ticketingSchedules[0].dday == 'D-3' ||
-                                                                            openingResponse.concerts[index1].ticketingSchedules[0].dday ==
+                                                                        if (openingResponse.concerts[index1]
+                                                                                    .ticketingSchedules[0].dday ==
+                                                                                'D-3' ||
+                                                                            openingResponse.concerts[index1]
+                                                                                    .ticketingSchedules[0].dday ==
                                                                                 'D-2' ||
-                                                                            openingResponse.concerts[index1].ticketingSchedules[0].dday ==
+                                                                            openingResponse.concerts[index1]
+                                                                                    .ticketingSchedules[0].dday ==
                                                                                 'D-1' ||
-                                                                            openingResponse.concerts[index1].ticketingSchedules[0].dday ==
+                                                                            openingResponse.concerts[index1]
+                                                                                    .ticketingSchedules[0].dday ==
                                                                                 'D-Day')
                                                                           Text(
-                                                                            openingResponse.concerts[index1].ticketingSchedules[0].dday,
-                                                                            style:
-                                                                                const TextStyle(
+                                                                            openingResponse.concerts[index1]
+                                                                                .ticketingSchedules[0].dday,
+                                                                            style: const TextStyle(
                                                                               fontFamily: 'Pretendard',
                                                                               fontSize: 12,
                                                                               color: Color(0xffFF5F5F),
@@ -429,9 +371,9 @@ class _Home extends State<Home> {
                                                                           )
                                                                         else
                                                                           Text(
-                                                                            openingResponse.concerts[index1].ticketingSchedules[0].dday,
-                                                                            style:
-                                                                                const TextStyle(
+                                                                            openingResponse.concerts[index1]
+                                                                                .ticketingSchedules[0].dday,
+                                                                            style: const TextStyle(
                                                                               fontFamily: 'Pretendard',
                                                                               fontSize: 12,
                                                                               color: Color(0xffffffff),
@@ -443,50 +385,42 @@ class _Home extends State<Home> {
                                                                     Container(
                                                                       width: 1,
                                                                       // 실선의 두께
-                                                                      height:
-                                                                          40,
+                                                                      height: 40,
                                                                       // 실선의 높이
-                                                                      color:
-                                                                          b_800,
+                                                                      color: b_800,
                                                                       // 실선 색상
-                                                                      margin: const EdgeInsets
-                                                                          .symmetric(
-                                                                          horizontal:
-                                                                              8), // 여백
+                                                                      margin: const EdgeInsets.symmetric(
+                                                                          horizontal: 8), // 여백
                                                                     ),
                                                                     Column(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .center,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
+                                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                                      mainAxisAlignment: MainAxisAlignment.center,
                                                                       children: [
                                                                         Text(
                                                                           "${openingResponse.concerts[index1].ticketingSchedules[1].type} 오픈",
-                                                                          style:
-                                                                              const TextStyle(
-                                                                            fontFamily:
-                                                                                'Pretendard',
-                                                                            fontSize:
-                                                                                12,
-                                                                            color:
-                                                                                b_400,
-                                                                            fontWeight:
-                                                                                FontWeight.w400,
+                                                                          style: const TextStyle(
+                                                                            fontFamily: 'Pretendard',
+                                                                            fontSize: 12,
+                                                                            color: b_400,
+                                                                            fontWeight: FontWeight.w400,
                                                                           ),
                                                                         ),
-                                                                        if (openingResponse.concerts[index1].ticketingSchedules[1].dday == 'D-3' ||
-                                                                            openingResponse.concerts[index1].ticketingSchedules[1].dday ==
+                                                                        if (openingResponse.concerts[index1]
+                                                                                    .ticketingSchedules[1].dday ==
+                                                                                'D-3' ||
+                                                                            openingResponse.concerts[index1]
+                                                                                    .ticketingSchedules[1].dday ==
                                                                                 'D-2' ||
-                                                                            openingResponse.concerts[index1].ticketingSchedules[1].dday ==
+                                                                            openingResponse.concerts[index1]
+                                                                                    .ticketingSchedules[1].dday ==
                                                                                 'D-1' ||
-                                                                            openingResponse.concerts[index1].ticketingSchedules[1].dday ==
+                                                                            openingResponse.concerts[index1]
+                                                                                    .ticketingSchedules[1].dday ==
                                                                                 'D-Day')
                                                                           Text(
-                                                                            openingResponse.concerts[index1].ticketingSchedules[1].dday,
-                                                                            style:
-                                                                                const TextStyle(
+                                                                            openingResponse.concerts[index1]
+                                                                                .ticketingSchedules[1].dday,
+                                                                            style: const TextStyle(
                                                                               fontFamily: 'Pretendard',
                                                                               fontSize: 12,
                                                                               color: Color(0xffFF5F5F),
@@ -495,9 +429,9 @@ class _Home extends State<Home> {
                                                                           )
                                                                         else
                                                                           Text(
-                                                                            openingResponse.concerts[index1].ticketingSchedules[1].dday,
-                                                                            style:
-                                                                                const TextStyle(
+                                                                            openingResponse.concerts[index1]
+                                                                                .ticketingSchedules[1].dday,
+                                                                            style: const TextStyle(
                                                                               fontFamily: 'Pretendard',
                                                                               fontSize: 12,
                                                                               color: Color(0xffffffff),
@@ -527,38 +461,29 @@ class _Home extends State<Home> {
                                       onTap: () {
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const OpeningNotice()),
+                                          MaterialPageRoute(builder: (context) => const OpeningNotice()),
                                         );
                                       },
                                       child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                40,
+                                        width: MediaQuery.of(context).size.width - 40,
                                         height: 44,
                                         decoration: ShapeDecoration(
                                           color: Colors.white.withOpacity(0.1),
                                           shape: RoundedRectangleBorder(
-                                            side: const BorderSide(
-                                                width: 1, color: b_600),
-                                            borderRadius:
-                                                BorderRadius.circular(12),
+                                            side: const BorderSide(width: 1, color: b_600),
+                                            borderRadius: BorderRadius.circular(12),
                                           ),
                                         ),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             const Text('오픈 예정 티겟 ',
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 14,
                                                     fontFamily: 'Pretendard',
-                                                    fontWeight:
-                                                        FontWeight.w500)),
+                                                    fontWeight: FontWeight.w500)),
                                             Text(
                                               '${openingResponse.totalNum}개',
                                               style: const TextStyle(
@@ -616,13 +541,11 @@ class _Home extends State<Home> {
                         top: 24,
                         right: 20,
                         child: Column(
-                            crossAxisAlignment:
-                                CrossAxisAlignment.start, //왼쪽 정렬
+                            crossAxisAlignment: CrossAxisAlignment.start, //왼쪽 정렬
                             children: [
                               //로고 + 예매 중인 티켓
                               Row(children: [
-                                Image.asset("images/on_sale/on_sale_logo.png",
-                                    height: 24),
+                                Image.asset("images/on_sale/on_sale_logo.png", height: 24),
                                 Container(width: 8),
                                 const Text("예매 중인 티켓",
                                     style: TextStyle(
@@ -636,260 +559,183 @@ class _Home extends State<Home> {
                               FutureBuilder(
                                   future: ticketRepository.onSaleApi(context),
                                   builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const Center(
-                                          child: CircularProgressIndicator());
+                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                      return const Center(child: CircularProgressIndicator());
                                     } else if (snapshot.hasError) {
                                       //데이터 로딩 실패
-                                      return const Center(
-                                          child: CircularProgressIndicator());
+                                      return const Center(child: CircularProgressIndicator());
                                     } else if (!snapshot.hasData) {
                                       //데이터 없음
-                                      return const Center(
-                                          child: CircularProgressIndicator());
+                                      return const Center(child: CircularProgressIndicator());
                                     } else {
                                       final onSaleResponse = snapshot.data!;
-                                      return Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Column(
-                                              children:
-                                                  List.generate(3, (index1) {
-                                                return Column(
-                                                  children: [
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        // 상세 페이지로 이동
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                OnSaleDetail(
-                                                              concertId:
-                                                                  onSaleResponse
-                                                                      .concerts[
-                                                                          index1]
-                                                                      .concertId, // 상세 페이지에 데이터 전달
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                      child: Row(
+                                      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                        Column(
+                                          children: List.generate(3, (index1) {
+                                            return Column(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    // 상세 페이지로 이동
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) => OnSaleDetail(
+                                                          concertId: onSaleResponse
+                                                              .concerts[index1].concertId, // 상세 페이지에 데이터 전달
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius: BorderRadius.circular(8.0),
+                                                        child: Image.network(
+                                                          onSaleResponse.concerts[index1].imageUrl,
+                                                          height: 110,
+                                                          width: 83,
+                                                          fit: BoxFit.fill,
+                                                        ),
+                                                      ),
+                                                      Stack(
                                                         children: [
-                                                          ClipRRect(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0),
-                                                            child:
-                                                                Image.network(
-                                                              onSaleResponse
-                                                                  .concerts[
-                                                                      index1]
-                                                                  .imageUrl,
-                                                              height: 110,
-                                                              width: 83,
-                                                              fit: BoxFit.fill,
-                                                            ),
-                                                          ),
-                                                          Stack(
+                                                          Column(
                                                             children: [
-                                                              Column(
+                                                              //점선 위 공간
+                                                              Container(height: 10),
+                                                              //티켓 점선
+                                                              DottedBorder(
+                                                                color: const Color(0xffffffff),
+                                                                strokeWidth: 1,
+                                                                dashPattern: const [4, 4],
+                                                                child: const SizedBox(
+                                                                  width: 0,
+                                                                  height: 86,
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          //티켓 정보
+                                                          Container(
+                                                            width: MediaQuery.of(context).size.width - 123,
+                                                            // 원하는 여백을 빼고 가로 크기 설정
+                                                            height: 110,
+                                                            clipBehavior: Clip.antiAlias,
+                                                            decoration: ShapeDecoration(
+                                                              color: b_900,
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(12),
+                                                              ),
+                                                            ),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.all(8.0),
+                                                              // 여백 8씩 추가
+                                                              child: Column(
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                //왼쪽정렬
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                 children: [
-                                                                  //점선 위 공간
-                                                                  Container(
-                                                                      height:
-                                                                          10),
-                                                                  //티켓 점선
-                                                                  DottedBorder(
-                                                                    color: const Color(
-                                                                        0xffffffff),
-                                                                    strokeWidth:
-                                                                        1,
-                                                                    dashPattern: const [
-                                                                      4,
-                                                                      4
+                                                                  //공연 제목
+                                                                  SizedBox(
+                                                                      height: 34,
+                                                                      child: RichText(
+                                                                        maxLines: 2,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        text: TextSpan(
+                                                                          text: onSaleResponse.concerts[index1].title,
+                                                                          style: const TextStyle(
+                                                                            fontFamily: 'Pretendard',
+                                                                            fontSize: 16,
+                                                                            color: Color(0xffffffff),
+                                                                            fontWeight: FontWeight.w700,
+                                                                          ),
+                                                                        ),
+                                                                      )),
+                                                                  // 티켓 공연 정보
+                                                                  Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    children: [
+                                                                      const Text("공연 일시",
+                                                                          style: TextStyle(
+                                                                            fontFamily: 'Pretendard',
+                                                                            fontSize: 12,
+                                                                            color: b_400,
+                                                                            fontWeight: FontWeight.w400,
+                                                                          )),
+                                                                      Text(
+                                                                        onSaleResponse.concerts[index1].date,
+                                                                        style: const TextStyle(
+                                                                          fontFamily: 'Pretendard',
+                                                                          fontSize: 12,
+                                                                          color: b_400,
+                                                                          fontWeight: FontWeight.w400,
+                                                                        ),
+                                                                      ),
                                                                     ],
-                                                                    child:
-                                                                        const SizedBox(
-                                                                      width: 0,
-                                                                      height:
-                                                                          86,
-                                                                    ),
                                                                   )
                                                                 ],
                                                               ),
-                                                              //티켓 정보
-                                                              Container(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width -
-                                                                    123,
-                                                                // 원하는 여백을 빼고 가로 크기 설정
-                                                                height: 110,
-                                                                clipBehavior: Clip
-                                                                    .antiAlias,
-                                                                decoration:
-                                                                    ShapeDecoration(
-                                                                  color: b_900,
-                                                                  shape:
-                                                                      RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            12),
-                                                                  ),
-                                                                ),
-                                                                child: Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          8.0),
-                                                                  // 여백 8씩 추가
-                                                                  child: Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    //왼쪽정렬
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      //공연 제목
-                                                                      SizedBox(
-                                                                          height:
-                                                                              34,
-                                                                          child:
-                                                                              RichText(
-                                                                            maxLines:
-                                                                                2,
-                                                                            overflow:
-                                                                                TextOverflow.ellipsis,
-                                                                            text:
-                                                                                TextSpan(
-                                                                              text: onSaleResponse.concerts[index1].title,
-                                                                              style: const TextStyle(
-                                                                                fontFamily: 'Pretendard',
-                                                                                fontSize: 16,
-                                                                                color: Color(0xffffffff),
-                                                                                fontWeight: FontWeight.w700,
-                                                                              ),
-                                                                            ),
-                                                                          )),
-                                                                      // 티켓 공연 정보
-                                                                      Column(
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.start,
-                                                                        children: [
-                                                                          const Text(
-                                                                              "공연 일시",
-                                                                              style: TextStyle(
-                                                                                fontFamily: 'Pretendard',
-                                                                                fontSize: 12,
-                                                                                color: b_400,
-                                                                                fontWeight: FontWeight.w400,
-                                                                              )),
-                                                                          Text(
-                                                                            onSaleResponse.concerts[index1].date,
-                                                                            style:
-                                                                                const TextStyle(
-                                                                              fontFamily: 'Pretendard',
-                                                                              fontSize: 12,
-                                                                              color: b_400,
-                                                                              fontWeight: FontWeight.w400,
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
+                                                            ),
                                                           ),
                                                         ],
                                                       ),
-                                                    ),
-                                                    Container(height: 12),
-                                                  ],
-                                                );
-                                              }),
-                                            ),
-                                            // 예매 중인 티켓 00개 모두 보기
-                                            GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const OnSale()),
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width -
-                                                      40,
-                                                  height: 44,
-                                                  decoration: ShapeDecoration(
-                                                    color: Colors.white
-                                                        .withOpacity(0.1),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      side: const BorderSide(
-                                                          width: 1,
-                                                          color: b_600),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              12),
-                                                    ),
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      const Text('예매 중인 티겟 ',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 14,
-                                                              fontFamily:
-                                                                  'Pretendard',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500)),
-                                                      Text(
-                                                        '${onSaleResponse.totalNum}개',
-                                                        style: const TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'Pretendard',
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w700),
-                                                      ),
-                                                      const Text(' 모두 보기',
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'Pretendard',
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ))
                                                     ],
                                                   ),
-                                                ))
-                                          ]);
+                                                ),
+                                                Container(height: 12),
+                                              ],
+                                            );
+                                          }),
+                                        ),
+                                        // 예매 중인 티켓 00개 모두 보기
+                                        GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => const OnSale()),
+                                              );
+                                            },
+                                            child: Container(
+                                              width: MediaQuery.of(context).size.width - 40,
+                                              height: 44,
+                                              decoration: ShapeDecoration(
+                                                color: Colors.white.withOpacity(0.1),
+                                                shape: RoundedRectangleBorder(
+                                                  side: const BorderSide(width: 1, color: b_600),
+                                                  borderRadius: BorderRadius.circular(12),
+                                                ),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  const Text('예매 중인 티겟 ',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 14,
+                                                          fontFamily: 'Pretendard',
+                                                          fontWeight: FontWeight.w500)),
+                                                  Text(
+                                                    '${onSaleResponse.totalNum}개',
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 14,
+                                                        fontFamily: 'Pretendard',
+                                                        fontWeight: FontWeight.w700),
+                                                  ),
+                                                  const Text(' 모두 보기',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 14,
+                                                        fontFamily: 'Pretendard',
+                                                        fontWeight: FontWeight.w500,
+                                                      ))
+                                                ],
+                                              ),
+                                            ))
+                                      ]);
                                     }
                                   })
                             ]))
