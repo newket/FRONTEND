@@ -24,23 +24,22 @@ class _Login extends State<Login> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: AssetImage("images/login/background.png"), // 배경 이미지
+            image: AssetImage("images/onboarding/background.png"), // 배경 이미지
           ),
         ),
         child: Scaffold(
             backgroundColor: Colors.transparent, // 배경색을 투명으로 설정,
-            appBar: AppBar(backgroundColor: Colors.transparent),
 
             //내용
             body: Center(
                 child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                const SizedBox(height: 0),
-
                 //타이틀
                 const Column(
                   children: [
+                    SizedBox(height: 92),
                     Text("원하는 티켓을 내손에!",
                         style: TextStyle(
                             fontFamily: 'Pretendard',
@@ -51,7 +50,7 @@ class _Login extends State<Login> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image(
-                          image: AssetImage("images/login/logo_title.png"),
+                          image: AssetImage("images/onboarding/logo_title.png"),
                           width: 50,
                         ),
                         SizedBox(width: 5),
@@ -65,17 +64,18 @@ class _Login extends State<Login> {
                     )
                   ],
                 ),
-                const SizedBox(height: 0),
+                Column(
+                  children: [
+                    //카카오 로그인
+                    IconButton(
+                        icon: Image.asset("images/onboarding/kakao_login_large_wide.png",width: 320),
+                        onPressed: () async {
+                          await authRepository.kakaoLoginApi();
+                        }),
 
-                //카카오 로그인
-                IconButton(
-                    icon: Image.asset("images/login/kakao_login_large_wide.png",width: 320),
-                    onPressed: () async {
-                      await authRepository.kakaoLoginApi();
-                    }),
-
-                const SizedBox(height: 0),
-
+                    const SizedBox(height: 60),
+                  ],
+                )
               ],
             ))));
   }
