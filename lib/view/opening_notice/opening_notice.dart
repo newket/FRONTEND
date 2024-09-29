@@ -56,7 +56,7 @@ class _OpeningNotice extends State<OpeningNotice> {
             onPressed: () {
               Navigator.pop(context); //뒤로가기
             },
-            color: Colors.white,
+            color: b_100,
             icon: const Icon(Icons.keyboard_arrow_left)),
         backgroundColor: b_950,
         centerTitle: true,
