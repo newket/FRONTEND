@@ -6,7 +6,8 @@ import 'package:newket/model/auth_model.dart';
 import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/repository/auth_repository.dart';
 import 'package:newket/theme/colors.dart';
-import 'package:newket/view/home/home.dart';
+import 'package:newket/view/favorite_artist/artist_request.dart';
+import 'package:newket/view/tapbar/tap_bar.dart';
 
 class FavoriteArtist extends StatefulWidget {
   const FavoriteArtist({super.key});
@@ -279,7 +280,7 @@ class _FavoriteArtist extends State<FavoriteArtist> {
                           //home 으로
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const Home()),
+                            MaterialPageRoute(builder: (context) => const TapBar()),
                           );
                         },
                         child: Column(
@@ -307,7 +308,6 @@ class _FavoriteArtist extends State<FavoriteArtist> {
                                     )
                                   ],
                                 )),
-                            const SizedBox(height: 44),
                           ],
                         ))),
                 if (artists.isNotEmpty)
@@ -396,6 +396,92 @@ class _FavoriteArtist extends State<FavoriteArtist> {
                               );
                             },
                           ),
+                        ),
+                      ))
+                else if(_searchController.text!='')
+                  Positioned(
+                      top: 186, // 검색 창 바로 아래에 위치
+                      left: 32,
+                      right: 32,
+                      child: Container(
+                        width: 296,
+                        height: 181,
+                        padding: const EdgeInsets.only(
+                          top: 24,
+                          left: 32,
+                          right: 32,
+                          bottom: 24,
+                        ),
+                        decoration: ShapeDecoration(
+                          color: b_900,
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(width: 1, color: pt_90),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
+                              '찾으시는 아티스트가 없나요?',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              '원하는 아티스트를 요청해주세요.\n새로운 아티스트로 등록되면 알림을 보내드릴게요!',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.5),
+                                fontSize: 12,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(height: 28),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const ArtistRequest()),
+                            );
+                          },
+                          child:
+                            Container(
+                              width: double.infinity,
+                              height: 40,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: ShapeDecoration(
+                                color: pt_30,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    '아티스트 등록 요청하러가기',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: p_600,
+                                      fontSize: 14,
+                                      fontFamily: 'Pretendard',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  SvgPicture.asset("images/favorite_artist/request.svg", height: 24, width: 24),
+                                ],
+                              ),
+                            ))
+                          ],
                         ),
                       ))
               ],

@@ -156,7 +156,7 @@ class _OnSale extends State<OnSale> {
                       color: b_900,
                       shape: RoundedRectangleBorder(
                         side: const BorderSide(
-                            width: 1, color: Color(0xE55A4EF6)),
+                            width: 1, color: pt_90),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(

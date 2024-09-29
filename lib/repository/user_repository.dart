@@ -16,8 +16,8 @@ class UserRepository {
   Future<NotificationAllow> getNotificationAllow(BuildContext context) async {
     var dio = Dio();
     dio.options.baseUrl = dotenv.get("BASE_URL");
-    final fcmToken = await FirebaseMessaging.instance.getToken();
-    final requestBody = UserDeviceToken(fcmToken!).toJson();
+    final deviceToken = await FirebaseMessaging.instance.getToken();
+    final requestBody = UserDeviceToken(deviceToken!).toJson();
 
     final response = await dio.get("/api/v1/users/notification", data: requestBody);
 
@@ -27,8 +27,8 @@ class UserRepository {
   Future<void> putNotificationAllow(BuildContext context, String isAllow, String target) async {
     var dio = Dio();
     dio.options.baseUrl = dotenv.get("BASE_URL");
-    final fcmToken = await FirebaseMessaging.instance.getToken();
-    final requestBody = UserDeviceToken(fcmToken!).toJson();
+    final deviceToken = await FirebaseMessaging.instance.getToken();
+    final requestBody = UserDeviceToken(deviceToken!).toJson();
 
     await dio.put("/api/v1/users/notification?isAllow=$isAllow&target=$target", data: requestBody);
   }

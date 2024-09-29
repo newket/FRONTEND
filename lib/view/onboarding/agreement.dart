@@ -97,208 +97,230 @@ class _Agreement extends State<Agreement> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                Column(
-                  children: [
-                    const Text(
-                      "약관에 동의해주세요",
-                      style: TextStyle(
-                        fontFamily: 'Pretendard',
-                        fontSize: 24,
-                        color: b_100,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      "뉴켓에서 티켓 오픈 소식을\n 전해드리고자 약관 동의를 받고 있어요!",
-                      style: TextStyle(
-                        fontFamily: 'Pretendard',
-                        fontSize: 14,
-                        color: b_400,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 34),
-                    SvgPicture.asset("images/onboarding/ticket_check.svg", height: 100, width: 100),
-                    const SizedBox(height: 96),
-                    Container(
-                      height: 60,
-                      padding: const EdgeInsets.all(16),
-                      decoration: ShapeDecoration(
-                        color: agreementColor,
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(width: 1, color: pt_30),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
                         children: [
-                          GestureDetector(
-                              onTap: _toggleAll,
-                              child: SvgPicture.asset(
-                                svgAll,
-                                width: 24,
-                                height: 24,
-                              )),
-                          const SizedBox(width: 16),
                           const Text(
-                            '약관 전체 동의',
+                            "약관에 동의해주세요",
                             style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
                               fontFamily: 'Pretendard',
+                              fontSize: 24,
+                              color: b_100,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            "뉴켓에서 티켓 오픈 소식을\n 전해드리고자 약관 동의를 받고 있어요!",
+                            style: TextStyle(
+                              fontFamily: 'Pretendard',
+                              fontSize: 14,
+                              color: b_400,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 34),
+                          SvgPicture.asset("images/onboarding/ticket_check.svg", height: 100, width: 100),
+                          const SizedBox(height: 96),
+                          Container(
+                            height: 60,
+                            padding: const EdgeInsets.all(16),
+                            decoration: ShapeDecoration(
+                              color: agreementColor,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(width: 1, color: pt_30),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                    onTap: _toggleAll,
+                                    child: SvgPicture.asset(
+                                      svgAll,
+                                      width: 24,
+                                      height: 24,
+                                    )),
+                                const SizedBox(width: 16),
+                                const Text(
+                                  '약관 전체 동의',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const TermsOfService()),
+                                );
+                              },
+                              child: Container(
+                                  height: 24,
+                                  padding: const EdgeInsets.only(left: 16),
+                                  child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            GestureDetector(
+                                                onTap: _toggle1,
+                                                child: SvgPicture.asset(
+                                                  svg1,
+                                                  width: 24,
+                                                  height: 24,
+                                                )),
+                                            const SizedBox(width: 16),
+                                            const Text(
+                                              '서비스 이용약관 동의',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontFamily: 'Pretendard',
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            const Text('필수',
+                                                style: TextStyle(
+                                                  color: p_500,
+                                                  fontSize: 12,
+                                                  fontFamily: 'Pretendard',
+                                                  fontWeight: FontWeight.w400,
+                                                  height: 0.11,
+                                                ))
+                                          ],
+                                        ),
+                                        const Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white),
+                                      ]))),
+                          const SizedBox(height: 24),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const PrivacyPolicy()),
+                                );
+                              },
+                              child: Container(
+                                  height: 24,
+                                  padding: const EdgeInsets.only(left: 16),
+                                  child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            GestureDetector(
+                                                onTap: _toggle2,
+                                                child: SvgPicture.asset(
+                                                  svg2,
+                                                  width: 24,
+                                                  height: 24,
+                                                )),
+                                            const SizedBox(width: 16),
+                                            const Text(
+                                              '개인정보 수집 및 이용 동의',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontFamily: 'Pretendard',
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            const Text('필수',
+                                                style: TextStyle(
+                                                  color: p_500,
+                                                  fontSize: 12,
+                                                  fontFamily: 'Pretendard',
+                                                  fontWeight: FontWeight.w400,
+                                                  height: 0.11,
+                                                ))
+                                          ],
+                                        ),
+                                        const Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white),
+                                      ]))),
                         ],
                       ),
-                    ),
-                    const SizedBox(height: 24),
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const TermsOfService()),
-                          );
-                        },
-                        child: Container(
-                            height: 24,
-                            padding: const EdgeInsets.only(left: 16),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      GestureDetector(
-                                          onTap: _toggle1,
-                                          child: SvgPicture.asset(
-                                            svg1,
-                                            width: 24,
-                                            height: 24,
-                                          )),
-                                      const SizedBox(width: 16),
-                                      const Text(
-                                        '서비스 이용약관 동의',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontFamily: 'Pretendard',
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      const Text('필수',
-                                          style: TextStyle(
-                                            color: p_500,
-                                            fontSize: 12,
-                                            fontFamily: 'Pretendard',
-                                            fontWeight: FontWeight.w400,
-                                            height: 0.11,
-                                          ))
-                                    ],
-                                  ),
-                                  const Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white),
-                                ]))),
-                    const SizedBox(height: 24),
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const PrivacyPolicy()),
-                          );
-                        },
-                        child: Container(
-                            height: 24,
-                            padding: const EdgeInsets.only(left: 16),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      GestureDetector(
-                                          onTap: _toggle2,
-                                          child: SvgPicture.asset(
-                                            svg2,
-                                            width: 24,
-                                            height: 24,
-                                          )),
-                                      const SizedBox(width: 16),
-                                      const Text(
-                                        '개인정보 수집 및 이용 동의',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontFamily: 'Pretendard',
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      const Text('필수',
-                                          style: TextStyle(
-                                            color: p_500,
-                                            fontSize: 12,
-                                            fontFamily: 'Pretendard',
-                                            fontWeight: FontWeight.w400,
-                                            height: 0.11,
-                                          ))
-                                    ],
-                                  ),
-                                  const Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white),
-                                ]))),
-                  ],
-                ),
-            GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const FavoriteArtist()),
-                  );
-                },
-                child: Column(
-                  children: [
-                    Container(
-                        padding: const EdgeInsets.all(12),
-                        height: 48,
-                      decoration: ShapeDecoration(
-                        color: nextColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Column(
                         children: [
-                          Text(
-                            '다음',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          )
+                          if (isAllSelected)
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const FavoriteArtist()),
+                                  );
+                                },
+                                child: Container(
+                                    padding: const EdgeInsets.all(12),
+                                    height: 48,
+                                    decoration: ShapeDecoration(
+                                      color: p_700,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                    child: const Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '다음',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontFamily: 'Pretendard',
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        )
+                                      ],
+                                    )))
+                          else
+                            Container(
+                                padding: const EdgeInsets.all(12),
+                                height: 48,
+                                decoration: ShapeDecoration(
+                                  color: pt_30,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '다음',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    )
+                                  ],
+                                )),
+                          const SizedBox(height: 44),
                         ],
                       )
-
-                    ),
-                    const SizedBox(height: 44),
-                  ],
-                ))
-              ])
-            )));
+                    ]))));
   }
 }
