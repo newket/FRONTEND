@@ -1,13 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import 'package:flutter/services.dart';
-import 'package:newket/model/auth_model.dart';
 import 'package:get/route_manager.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:newket/model/auth_model.dart';
 import 'package:newket/model/user_model.dart';
 import 'package:newket/view/onboarding/agreement.dart';
 import 'package:newket/view/onboarding/login.dart';
@@ -151,9 +150,9 @@ class AuthRepository {
 
   Future<void> putDeviceTokenApi(String accessToken) async {
     dio.options.headers['Authorization'] = 'Bearer $accessToken';
-    final fcmToken = await FirebaseMessaging.instance.getToken();
+    final deviceToken = await FirebaseMessaging.instance.getToken();
 
-    final requestBody = UserDeviceToken(fcmToken!).toJson();
+    final requestBody = UserDeviceToken(deviceToken!).toJson();
 
     await dio.put("/api/v1/users/device-token", data: requestBody);
   }

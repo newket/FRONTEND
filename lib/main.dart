@@ -66,13 +66,13 @@ void main() async {
       .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
-  // FCM 토큰 가져오기
-  final fcmToken = await FirebaseMessaging.instance.getToken();
+  // FCM 기기 토큰 가져오기
+  final deviceToken = await FirebaseMessaging.instance.getToken();
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
   await FirebaseMessaging.instance.setDeliveryMetricsExportToBigQuery(true);
 
 
-  print("토큰: $fcmToken");
+  print("디바이스 토큰: $deviceToken");
 
   // FCM 포어그라운드 메시지 리스너
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
