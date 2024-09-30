@@ -8,6 +8,7 @@ import 'package:get/route_manager.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/model/user_model.dart';
+import 'package:newket/secure/auth_dio.dart';
 import 'package:newket/view/onboarding/agreement.dart';
 import 'package:newket/view/onboarding/login.dart';
 import 'package:newket/view/tapbar/tap_bar.dart';
@@ -120,7 +121,7 @@ class AuthRepository {
           Get.offAll(const Login());
         }
       }
-      throw e;
+      rethrow;
     }
   }
 
@@ -144,7 +145,7 @@ class AuthRepository {
           Get.offAll(const Agreement());
         }
       }
-      throw e;
+      rethrow;
     }
   }
 
@@ -155,5 +156,11 @@ class AuthRepository {
     final requestBody = UserDeviceToken(deviceToken!).toJson();
 
     await dio.put("/api/v1/users/device-token", data: requestBody);
+  }
+
+  Future<void> withdraw(BuildContext context) async {
+    var dio = await authDio(context);
+
+    await dio.delete("/api/v1/auth");
   }
 }

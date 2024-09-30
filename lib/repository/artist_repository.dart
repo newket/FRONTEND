@@ -6,7 +6,7 @@ import 'package:newket/model/artist_model.dart';
 
 
 class ArtistRepository{
-  Future<SearchArtists> searchArtist(BuildContext context, String keyword) async {
+  Future<SearchArtists> searchArtist(String keyword) async {
     var dio = Dio();
     dio.options.baseUrl = dotenv.get("BASE_URL");
 
@@ -17,7 +17,7 @@ class ArtistRepository{
     return SearchArtists.fromJson(response.data);
   }
 
-  Future<void> requestArtist(BuildContext context, String artistName) async {
+  Future<void> requestArtist(String artistName) async {
     var dio = Dio();
     dio.options.baseUrl = dotenv.get("BASE_URL");
     final deviceToken =  await FirebaseMessaging.instance.getToken();

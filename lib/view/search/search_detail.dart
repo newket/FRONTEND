@@ -101,7 +101,7 @@ class _SearchDetail extends State<SearchDetail> {
                 child: SingleChildScrollView(
                     //스크롤 가능
                     child: FutureBuilder(
-                        future: ticketRepository.searchTicket(context, widget.keyword),
+                        future: ticketRepository.searchTicket(widget.keyword),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
                             return const Center(child: CircularProgressIndicator());

@@ -8,6 +8,7 @@ import 'package:newket/repository/auth_repository.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/favorite_artist/artist_request.dart';
 import 'package:newket/view/tapbar/tap_bar.dart';
+import 'package:get/route_manager.dart';
 
 class FavoriteArtist extends StatefulWidget {
   const FavoriteArtist({super.key});
@@ -24,7 +25,7 @@ class _FavoriteArtist extends State<FavoriteArtist> {
 
   Future<void> _searchArtists(String keyword) async {
     if (keyword.isNotEmpty) {
-      SearchArtists result = await artistRepository.searchArtist(context, keyword);
+      SearchArtists result = await artistRepository.searchArtist(keyword);
       setState(() {
         artists = result.artists;
       });
@@ -267,49 +268,42 @@ class _FavoriteArtist extends State<FavoriteArtist> {
                     bottom: 44, // 검색 창 바로 아래에 위치
                     left: 32,
                     right: 32,
-                    child: GestureDetector(
-                        onTap: () async {
-                          var storage = const FlutterSecureStorage();
-                          final accessToken = await storage.read(key: 'KAKAO_TOKEN');
-                          //signup
-                          await AuthRepository().signUpApi(
-                              SignUpRequest(accessToken!, myArtists.map((artist) => artist.artistId).toList()));
-                          //기기 토큰 저장
-                          final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-                          await AuthRepository().putDeviceTokenApi(serverToken!);
-                          //home 으로
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const TapBar()),
-                          );
-                        },
-                        child: Column(
-                          children: [
-                            Container(
-                                padding: const EdgeInsets.all(12),
-                                height: 48,
-                                decoration: ShapeDecoration(
-                                  color: p_700,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                child: const Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '다음',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontFamily: 'Pretendard',
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    )
-                                  ],
-                                )),
-                          ],
-                        ))),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        var storage = const FlutterSecureStorage();
+                        final accessToken = await storage.read(key: 'KAKAO_TOKEN');
+                        //signup
+                        await AuthRepository().signUpApi(
+                            SignUpRequest(accessToken!, myArtists.map((artist) => artist.artistId).toList()));
+                        //기기 토큰 저장
+                        final serverToken = await storage.read(key: 'ACCESS_TOKEN');
+                        await AuthRepository().putDeviceTokenApi(serverToken!);
+                        //home 으로
+                        Get.offAll(const TapBar());
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: p_700, // 버튼 색상
+                        padding: const EdgeInsets.all(12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        minimumSize: const Size(0, 48), // 버튼 높이 조정
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '다음',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
                 if (artists.isNotEmpty)
                   Positioned(
                       top: 186, // 검색 창 바로 아래에 위치

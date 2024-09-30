@@ -1,13 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:newket/model/ticket_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:newket/secure/auth_dio.dart';
+import 'package:newket/model/ticket_model.dart';
 
 class TicketRepository{
   //예매 오픈 임박 순
-  Future<OpeningNoticeResponse> openingNoticeApi(BuildContext context) async {
-    // var dio = await authDio(context);
+  Future<OpeningNoticeResponse> openingNoticeApi() async {
     var dio = Dio();
     dio.options.baseUrl = dotenv.get("BASE_URL");
 
@@ -19,8 +16,7 @@ class TicketRepository{
   }
 
   //최신 등록 순
-  Future<OpeningNoticeResponse> openingNoticeApiOrderById(BuildContext context) async {
-    // var dio = await authDio(context);
+  Future<OpeningNoticeResponse> openingNoticeApiOrderById() async {
     var dio = Dio();
     dio.options.baseUrl = dotenv.get("BASE_URL");
 
@@ -32,7 +28,7 @@ class TicketRepository{
   }
 
   //공연 날짜 임박 순
-  Future<OnSaleResponse> onSaleApi(BuildContext context) async {
+  Future<OnSaleResponse> onSaleApi() async {
     // var dio = await authDio(context);
     var dio = Dio();
     dio.options.baseUrl = dotenv.get("BASE_URL");
@@ -45,8 +41,7 @@ class TicketRepository{
   }
 
   //최신 등록 순
-  Future<OnSaleResponse> onSaleApiOrderById(BuildContext context) async {
-    // var dio = await authDio(context);
+  Future<OnSaleResponse> onSaleApiOrderById() async {
     var dio = Dio();
     dio.options.baseUrl = dotenv.get("BASE_URL");
 
@@ -58,8 +53,7 @@ class TicketRepository{
   }
 
   //티켓 상세 - 예매중
-  Future<TicketDetail> ticketDetail(BuildContext context, int concertId) async {
-    // var dio = await authDio(context);
+  Future<TicketDetail> ticketDetail(int concertId) async {
     var dio = Dio();
     dio.options.baseUrl = dotenv.get("BASE_URL");
 
@@ -71,7 +65,7 @@ class TicketRepository{
   }
 
   //티켓 검색
-  Future<SearchTicketResponse> searchTicket(BuildContext context, String keyword) async {
+  Future<SearchTicketResponse> searchTicket(String keyword) async {
     var dio = Dio();
     dio.options.baseUrl = dotenv.get("BASE_URL");
 

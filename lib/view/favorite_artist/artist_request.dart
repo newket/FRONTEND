@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:newket/model/artist_model.dart';
 import 'package:newket/repository/artist_repository.dart';
-import 'package:newket/repository/auth_repository.dart';
 import 'package:newket/theme/colors.dart';
 
 class ArtistRequest extends StatefulWidget {
@@ -26,6 +24,7 @@ class _ArtistRequest extends State<ArtistRequest> {
         child: Material(
           color: Colors.transparent,
           child: Container(
+            width: MediaQuery.of(context).size.width - 40,
             height: 64,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: ShapeDecoration(
@@ -91,9 +90,10 @@ class _ArtistRequest extends State<ArtistRequest> {
     });
   }
 
-  Future<void> _requestArtist(String keyword) async { //제출
+  Future<void> _requestArtist(String keyword) async {
+    //제출
     if (keyword.isNotEmpty) {
-      await artistRepository.requestArtist(context, keyword);
+      await artistRepository.requestArtist(keyword);
       setState(() {
         nextColor = pt_30;
       });
@@ -204,20 +204,8 @@ class _ArtistRequest extends State<ArtistRequest> {
                                                 fontFamily: 'Pretendard',
                                                 fontWeight: FontWeight.w400,
                                               ),
-                                              onChanged: (value) {
-                                                if (value.isNotEmpty) {
-                                                  setState(() {
-                                                    nextColor = p_700; //다음 선택 가능
-                                                  });
-                                                }
-                                                else {
-                                                  setState(() {
-                                                    nextColor = pt_20; //다음 선택 불가능
-                                                  });
-                                                }
-                                              },
                                               onSubmitted: (value) {
-                                                if(value.isNotEmpty){
+                                                if (value.isNotEmpty) {
                                                   _requestArtist(value);
                                                   _searchController.clear();
                                                   showToast(context);
@@ -236,7 +224,7 @@ class _ArtistRequest extends State<ArtistRequest> {
                   child: GestureDetector(
                       onTap: () async {
                         //요청 전송
-                        if(_searchController.value.text.isNotEmpty){
+                        if (_searchController.value.text.isNotEmpty) {
                           _requestArtist(_searchController.value.text);
                           _searchController.clear();
                           showToast(context);
@@ -244,29 +232,54 @@ class _ArtistRequest extends State<ArtistRequest> {
                       },
                       child: Column(
                         children: [
-                          Container(
-                              padding: const EdgeInsets.all(12),
-                              height: 48,
-                              decoration: ShapeDecoration(
-                                color: nextColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                          if (_searchController.value.text.isNotEmpty)
+                            Container(
+                                padding: const EdgeInsets.all(12),
+                                height: 48,
+                                decoration: ShapeDecoration(
+                                  color: p_700,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
                                 ),
-                              ),
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '뉴켓 팀에게 요청 보내기',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontFamily: 'Pretendard',
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  )
-                                ],
-                              )),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '뉴켓 팀에게 요청 보내기',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    )
+                                  ],
+                                ))
+                          else
+                            Container(
+                                padding: const EdgeInsets.all(12),
+                                height: 48,
+                                decoration: ShapeDecoration(
+                                  color: pt_30,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '뉴켓 팀에게 요청 보내기',
+                                      style: TextStyle(
+                                        color: Colors.white.withOpacity(0.3),
+                                        fontSize: 14,
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    )
+                                  ],
+                                ))
                         ],
                       )))
             ])));
