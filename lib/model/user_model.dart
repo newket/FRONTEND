@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 
 class UserInfoResponse {
   String provider;
@@ -34,4 +34,18 @@ class NotificationAllow {
   NotificationAllow.fromJson(Map<String, dynamic> json)
       : artistNotification = json['artistNotification'],
         ticketNotification = json['ticketNotification'];
+}
+
+class HelpRequest {
+  String title;
+  String content;
+
+  HelpRequest(this.title, this.content);
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic> {
+      "title":title,
+      "content":content
+    };
+  }
 }

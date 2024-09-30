@@ -125,7 +125,7 @@ class _Home extends State<Home> {
                             }),
                         //000의 티켓, 확인해 볼까요?
                         FutureBuilder(
-                            future: ticketRepository.openingNoticeApi(context),
+                            future: ticketRepository.openingNoticeApi(),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState == ConnectionState.waiting) {
                                 return const Center(child: CircularProgressIndicator());
@@ -557,7 +557,7 @@ class _Home extends State<Home> {
                               //빈공간 12
                               Container(height: 12),
                               FutureBuilder(
-                                  future: ticketRepository.onSaleApi(context),
+                                  future: ticketRepository.onSaleApi(),
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState == ConnectionState.waiting) {
                                       return const Center(child: CircularProgressIndicator());

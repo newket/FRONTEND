@@ -33,14 +33,14 @@ class _OpeningNotice extends State<OpeningNotice> {
     super.initState();
     userRepository = UserRepository();
     ticketRepository = TicketRepository();
-    repository = ticketRepository.openingNoticeApi(context);
+    repository = ticketRepository.openingNoticeApi();
   }
 
   void updateItemList(String option) {
     if (option == '예매 오픈 임박 순') {
-      repository = ticketRepository.openingNoticeApi(context);
+      repository = ticketRepository.openingNoticeApi();
     } else if (option == '최신 등록 순') {
-      repository = ticketRepository.openingNoticeApiOrderById(context);
+      repository = ticketRepository.openingNoticeApiOrderById();
     }
   }
 

@@ -40,7 +40,7 @@ class _OpeningNoticeDetail extends State<OpeningNoticeDetail> {
     return Scaffold(
         backgroundColor: b_950,
         body: FutureBuilder(
-            future: ticketRepository.ticketDetail(context, widget.concertId),
+            future: ticketRepository.ticketDetail(widget.concertId),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());

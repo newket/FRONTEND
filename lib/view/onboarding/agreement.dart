@@ -20,7 +20,6 @@ class _Agreement extends State<Agreement> {
   String svg1 = 'images/onboarding/checkbox_off.svg';
   String svg2 = 'images/onboarding/checkbox_off.svg';
   Color agreementColor = pt_10;
-  Color nextColor = pt_30;
 
   void _toggleAll() {
     setState(() {
@@ -31,7 +30,6 @@ class _Agreement extends State<Agreement> {
       svg1 = is1Selected ? 'images/onboarding/checkbox_on.svg' : 'images/onboarding/checkbox_off.svg';
       svg2 = is2Selected ? 'images/onboarding/checkbox_on.svg' : 'images/onboarding/checkbox_off.svg';
       agreementColor = isAllSelected ? pt_20 : pt_10;
-      nextColor = isAllSelected ? p_700 : pt_30;
     });
   }
 
@@ -44,7 +42,6 @@ class _Agreement extends State<Agreement> {
       svg1 = is1Selected ? 'images/onboarding/checkbox_on.svg' : 'images/onboarding/checkbox_off.svg';
       svg2 = is2Selected ? 'images/onboarding/checkbox_on.svg' : 'images/onboarding/checkbox_off.svg';
       agreementColor = isAllSelected ? pt_20 : pt_10;
-      nextColor = isAllSelected ? p_700 : pt_30;
     });
   }
 
@@ -57,7 +54,6 @@ class _Agreement extends State<Agreement> {
       svg1 = is1Selected ? 'images/onboarding/checkbox_on.svg' : 'images/onboarding/checkbox_off.svg';
       svg2 = is2Selected ? 'images/onboarding/checkbox_on.svg' : 'images/onboarding/checkbox_off.svg';
       agreementColor = isAllSelected ? pt_20 : pt_10;
-      nextColor = isAllSelected ? p_700 : pt_30;
     });
   }
 
@@ -264,53 +260,54 @@ class _Agreement extends State<Agreement> {
                       Column(
                         children: [
                           if (isAllSelected)
-                            GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const FavoriteArtist()),
-                                  );
-                                },
-                                child: Container(
-                                    padding: const EdgeInsets.all(12),
-                                    height: 48,
-                                    decoration: ShapeDecoration(
-                                      color: p_700,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    ),
-                                    child: const Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          '다음',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            fontFamily: 'Pretendard',
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        )
-                                      ],
-                                    )))
-                          else
-                            Container(
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const FavoriteArtist()),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: p_700, // 버튼 색상
                                 padding: const EdgeInsets.all(12),
-                                height: 48,
-                                decoration: ShapeDecoration(
-                                  color: pt_30,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                minimumSize: const Size(0, 48), // 버튼 높이 조정
+                              ),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '다음',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontFamily: 'Pretendard',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          else
+                            ElevatedButton(
+                                onPressed: () {},
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: pt_30,
+                                  padding: const EdgeInsets.all(12),
+                                  minimumSize: const Size(0, 48),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
-                                child: const Row(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
                                       '다음',
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: Colors.white.withOpacity(0.3),
                                         fontSize: 14,
                                         fontFamily: 'Pretendard',
                                         fontWeight: FontWeight.w700,

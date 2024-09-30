@@ -30,14 +30,14 @@ class _OnSale extends State<OnSale> {
   void initState() {
     super.initState();
     ticketRepository = TicketRepository();
-    repository = ticketRepository.onSaleApi(context);
+    repository = ticketRepository.onSaleApi();
   }
 
   void updateItemList(String option) {
     if (option == '공연 날짜 임박 순') {
-      repository = ticketRepository.onSaleApi(context);
+      repository = ticketRepository.onSaleApi();
     } else if (option == '최신 등록 순') {
-      repository = ticketRepository.onSaleApiOrderById(context);
+      repository = ticketRepository.onSaleApiOrderById();
     }
   }
 

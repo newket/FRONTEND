@@ -13,7 +13,7 @@ class UserRepository {
     return UserInfoResponse.fromJson(response.data);
   }
 
-  Future<NotificationAllow> getNotificationAllow(BuildContext context) async {
+  Future<NotificationAllow> getNotificationAllow() async {
     var dio = Dio();
     dio.options.baseUrl = dotenv.get("BASE_URL");
     final deviceToken = await FirebaseMessaging.instance.getToken();
@@ -24,12 +24,19 @@ class UserRepository {
     return NotificationAllow.fromJson(response.data);
   }
 
-  Future<void> putNotificationAllow(BuildContext context, String isAllow, String target) async {
+  Future<void> putNotificationAllow(String isAllow, String target) async {
     var dio = Dio();
     dio.options.baseUrl = dotenv.get("BASE_URL");
     final deviceToken = await FirebaseMessaging.instance.getToken();
     final requestBody = UserDeviceToken(deviceToken!).toJson();
 
     await dio.put("/api/v1/users/notification?isAllow=$isAllow&target=$target", data: requestBody);
+  }
+
+  Future<void> createHelp(BuildContext context, HelpRequest request) async {
+    var dio = await authDio(context);
+    final requestBody = request.toJson();
+
+    await dio.post("/api/v1/users/help", data: requestBody);
   }
 }
