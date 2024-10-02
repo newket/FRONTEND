@@ -6,12 +6,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:newket/firebase_options.dart';
+import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/view/onboarding/login.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print('back title : ${message.notification?.title}, body: ${message.notification?.body}');
+  await NotificationRepository().updateNotificationIsOpened(message.data['notificationId']);
 }
 
 AndroidNotificationChannel channel = const AndroidNotificationChannel(
@@ -35,10 +36,10 @@ void showFlutterNotification(RemoteMessage message) {
           channel.id,
           channel.name,
           importance: Importance.max,
-          priority: Priority.high,
-         // icon: 'logo'
+          priority: Priority.max,
         ),
       ),
+      payload: message.data['notificationId']
     );
   }
 }
@@ -59,8 +60,8 @@ void main() async {
 
   // AndroidNotificationChannel 설정
   // FlutterLocalNotificationsPlugin 설정
-  final androidInitializationSettings = AndroidInitializationSettings('logo');
-  final initializationSettings = InitializationSettings(android: androidInitializationSettings);
+  const androidInitializationSettings = AndroidInitializationSettings('logo');
+  const initializationSettings = InitializationSettings(android: androidInitializationSettings);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
@@ -77,11 +78,24 @@ void main() async {
   // FCM 포어그라운드 메시지 리스너
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     showFlutterNotification(message);
-    print('title : ${message.notification?.title}, body: ${message.notification?.body}');
   });
 
   // FCM 백그라운드 메시지 리스너
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  //종료시 메세지 리스너
+  RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+  if (initialMessage != null) {
+    await NotificationRepository().updateNotificationIsOpened(initialMessage.data['notificationId']);
+  }
+
+
+  // 선택된 알림 처리
+  flutterLocalNotificationsPlugin.initialize(initializationSettings,
+    onDidReceiveNotificationResponse: (NotificationResponse details) async {
+    await NotificationRepository().updateNotificationIsOpened(details.payload!);
+    },
+  );
 
   runApp(const MyApp());
 }
