@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/home/home.dart';
 import 'package:newket/view/mypage/my_page.dart';

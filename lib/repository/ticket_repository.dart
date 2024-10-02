@@ -84,6 +84,4 @@ class TicketRepository{
     final response = await dio.get("/api/v1/tickets/favorite");
     return FavoriteOpeningNotice.fromJson(response.data);
   }
-
-  //
 }
