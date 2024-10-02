@@ -35,7 +35,7 @@ Future authDio(BuildContext context) async {
       try {
         refreshDio.options.baseUrl = dotenv.get("BASE_URL");
         final requestBody = ReissueRequest(refreshToken!).toJson();
-        final response = await refreshDio.post(
+        final response = await refreshDio.put(
             "/api/v1/auth/reissue",
             data: requestBody
         );
