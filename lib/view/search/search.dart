@@ -22,6 +22,8 @@ class Search extends StatefulWidget {
 }
 
 class _Search extends State<Search> {
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,8 +115,16 @@ class _Search extends State<Search> {
                                     ),
                                   );
                                 }
-                              }),
-                        ),
+                              },
+                          controller: _searchController,
+                        )),
+                        GestureDetector(
+                            onTap: () => {
+                                  setState(() {
+                                    _searchController.clear();
+                                  })
+                                },
+                            child: SvgPicture.asset('images/favorite_artist/close-circle.svg', height: 16, width: 16)),
                       ],
                     ),
                   ),
