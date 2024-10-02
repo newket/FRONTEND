@@ -12,6 +12,7 @@ import 'package:newket/view/mypage/help.dart';
 import 'package:newket/view/mypage/notification_setting.dart';
 import 'package:newket/view/mypage/notification_ticket.dart';
 import 'package:newket/view/onboarding/login.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -354,7 +355,9 @@ class _MyPage extends State<MyPage> {
                                     )),
                                 const SizedBox(height: 24),
                                 GestureDetector(
-                                    onTap: () {
+                                    onTap: () async {
+                                      var storage = const FlutterSecureStorage();
+                                      await storage.delete(key: 'ACCESS_TOKEN');
                                       // 로그인 페이지로 이동
                                       Get.offAll(const Login());
                                     },
