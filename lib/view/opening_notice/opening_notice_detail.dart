@@ -1,9 +1,11 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/route_manager.dart';
+import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
-import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/Colors.dart';
+import 'package:newket/view/onboarding/login.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OpeningNoticeDetail extends StatefulWidget {
@@ -17,15 +19,114 @@ class OpeningNoticeDetail extends StatefulWidget {
 
 class _OpeningNoticeDetail extends State<OpeningNoticeDetail> {
   late TicketRepository ticketRepository;
+  late NotificationRepository notificationRepository;
+  bool isNotification = false;
+  bool isLoading = true; // 로딩 상태 추가
+
+  void showToast(BuildContext context) {
+    OverlayEntry overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        bottom: 88.0, // Toast 위치 조정
+        left: MediaQuery.of(context).size.width * 0.1, // 화면의 가운데 정렬
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            width: MediaQuery.of(context).size.width - 40,
+            height: 64,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: ShapeDecoration(
+              color: b_800,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 20,
+                  height: 20,
+                  padding: const EdgeInsets.all(4),
+                  decoration: const BoxDecoration(),
+                  child: const Icon(
+                    Icons.check,
+                    color: p_500,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                const Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '아티스트 등록 요청이 성공적으로 보내졌어요!',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(height: 2),
+                    Text(
+                      '등록이 완료되면 알려드릴게요',
+                      style: TextStyle(
+                        color: b_400,
+                        fontSize: 12,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    Overlay.of(context).insert(overlayEntry);
+
+    // 5초 후에 Toast를 자동으로 제거
+    Future.delayed(const Duration(seconds: 5), () {
+      overlayEntry.remove();
+    });
+  }
+
+  Future<void> _getIsNotification() async {
+    try {
+      final response = await notificationRepository.getIsTicketNotification(context, widget.concertId);
+      setState(() {
+        isNotification = response;
+        isLoading = false; // 로딩 완료 시 로딩 상태 해제
+      });
+    } catch (e) {
+      // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
+      Get.offAll(const Login());
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     ticketRepository = TicketRepository();
+    notificationRepository = NotificationRepository();
+    _getIsNotification();
   }
 
   @override
   Widget build(BuildContext context) {
+    // 로딩 중일 때 로딩 화면을 표시
+    if (isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(), // 로딩 인디케이터
+      );
+    }
+
     final double screenWidth = MediaQuery.of(context).size.width;
 
     void launchURL(String url) async {
@@ -39,17 +140,14 @@ class _OpeningNoticeDetail extends State<OpeningNoticeDetail> {
 
     return Scaffold(
         backgroundColor: b_950,
-        body: FutureBuilder(
+        body:Stack(children: [ FutureBuilder(
             future: ticketRepository.ticketDetail(widget.concertId),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
+              } else if (snapshot.hasError||!snapshot.hasData) {
                 // 데이터 로딩 실패
-                return const Center(child: CircularProgressIndicator());
-              } else if (!snapshot.hasData) {
-                // 데이터 없음
-                return const Center(child: CircularProgressIndicator());
+                return const Center();
               } else {
                 final ticketResponse = snapshot.data!;
                 return Container(
@@ -413,6 +511,98 @@ class _OpeningNoticeDetail extends State<OpeningNoticeDetail> {
                           ]))
                         ]));
               }
-            }));
+            }),
+          Positioned(
+              bottom: 44, // 검색 창 바로 아래에 위치
+              left: 32,
+              right: 32,
+              child: GestureDetector(
+                  onTap: () async {
+                    //요청 전송
+                    if(!isNotification) { //알림 안받은 상태에서
+                      await NotificationRepository().addTicketNotification(context, widget.concertId);
+                    } else { //알림 받은 상테에서
+                      await NotificationRepository().deleteTicketNotification(context, widget.concertId);
+                    }
+                    setState(() {
+                      isNotification= !isNotification;
+                    });
+                  },
+                  child: Column(
+                    children: [
+                      //알림 받기 신청 아직 안함
+                      if (!isNotification)
+                        Container(
+                          width: MediaQuery.of(context).size.width - 40,
+                          height: 48,
+                          padding: const EdgeInsets.symmetric(vertical: 13),
+                          clipBehavior: Clip.antiAlias,
+                          decoration: ShapeDecoration(
+                            color: p_700,
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(width: 1, color: p_400),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            shadows: const [
+                              BoxShadow(
+                                color: p_700,
+                                blurRadius: 28,
+                                offset: Offset(0, 5),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                '알림 신청하기',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w700
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                        //알림 받기 신청함
+                      else
+                        Container(
+                          width: MediaQuery.of(context).size.width - 40,
+                          height: 48,
+                          padding: const EdgeInsets.symmetric(horizontal: 75, vertical: 14),
+                          clipBehavior: Clip.antiAlias,
+                          decoration: ShapeDecoration(
+                            color: pt_30,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                '알림 신청 해제하기',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: p_600,
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w700
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                    ],
+                  )))
+        ]));
   }
 }
