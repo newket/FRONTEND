@@ -17,11 +17,14 @@ class SearchDetail extends StatefulWidget {
 
 class _SearchDetail extends State<SearchDetail> {
   late TicketRepository ticketRepository;
+  final TextEditingController _searchController = TextEditingController();
+  String keyword='';
 
   @override
   void initState() {
     super.initState();
     ticketRepository = TicketRepository();
+    keyword=widget.keyword;
   }
 
   @override
@@ -58,33 +61,40 @@ class _SearchDetail extends State<SearchDetail> {
                 const SizedBox(width: 12),
                 // 텍스트 필드 (예시 텍스트)
                 Expanded(
-                  child: TextField(
-                      decoration: const InputDecoration(
-                        border: InputBorder.none, // 입력 필드의 기본 테두리 제거
-                        hintText: "",
-                        hintStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w400,
-                      ),
-                      onSubmitted: (value) {
-                        // 검색어 제출 시 페이지 이동
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SearchDetail(keyword: value),
-                          ),
-                        );
-                      }),
-                ),
+                    child: TextField(
+                  decoration: const InputDecoration(
+                    border: InputBorder.none, // 입력 필드의 기본 테두리 제거
+                    hintText: "",
+                    hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                  ),
+                  onSubmitted: (value) {
+                    if (value != '') {
+                      // 검색어 제출 시 페이지 이동
+                      setState(() {
+                        keyword=value;
+                      });
+                    }
+                  },
+                  controller: _searchController,
+                )),
+                GestureDetector(
+                    onTap: () => {
+                          setState(() {
+                            _searchController.clear();
+                          })
+                        },
+                    child: SvgPicture.asset('images/favorite_artist/close-circle.svg', height: 16, width: 16)),
               ],
             ),
           ),
@@ -93,55 +103,15 @@ class _SearchDetail extends State<SearchDetail> {
         //내용
         body: GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(), // 키보드 외부를 탭하면 키보드 숨기기
-            child: RefreshIndicator(
-                //새로 고침
-                onRefresh: () async {
-                  setState(() {});
-                },
-                child: SingleChildScrollView(
+            child: SingleChildScrollView(
                     //스크롤 가능
                     child: FutureBuilder(
-                        future: ticketRepository.searchTicket(widget.keyword),
+                        future: ticketRepository.searchTicket(keyword),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
                             return const Center(child: CircularProgressIndicator());
-                          } else if (snapshot.hasError) {
+                          } else if (snapshot.hasError || !snapshot.hasData) {
                             // 데이터 로딩 실패
-                            return Center(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const SizedBox(height: 204),
-                                  SvgPicture.asset("images/search/ticket_null.svg", height: 92, width: 92),
-                                  const SizedBox(height: 20),
-                                  const Text(
-                                    '앗, 검색결과가 없어요.',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontFamily: 'Pretendard',
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  const SizedBox(
-                                    width: double.infinity,
-                                    child: Text('아직 공연 예매 일정이 나오지 않았어요.',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: b_400,
-                                          fontSize: 14,
-                                          fontFamily: 'Pretendard',
-                                          fontWeight: FontWeight.w400,
-                                        )),
-                                  ),
-                                ],
-                              ),
-                            );
-                          } else if (!snapshot.hasData) {
-                            // 데이터 없음
                             return Center(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -743,6 +713,6 @@ class _SearchDetail extends State<SearchDetail> {
                                   ],
                                 ));
                           }
-                        })))));
+                        }))));
   }
 }

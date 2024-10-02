@@ -3,15 +3,18 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:newket/firebase_options.dart';
+import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/view/onboarding/login.dart';
+import 'package:newket/view/tapbar/tap_bar.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print('back title : ${message.notification?.title}, body: ${message.notification?.body}');
+  await NotificationRepository().updateNotificationIsOpened(message.data['notificationId']);
 }
 
 AndroidNotificationChannel channel = const AndroidNotificationChannel(
@@ -35,10 +38,10 @@ void showFlutterNotification(RemoteMessage message) {
           channel.id,
           channel.name,
           importance: Importance.max,
-          priority: Priority.high,
-         // icon: 'logo'
+          priority: Priority.max,
         ),
       ),
+      payload: message.data['notificationId']
     );
   }
 }
@@ -59,8 +62,8 @@ void main() async {
 
   // AndroidNotificationChannel 설정
   // FlutterLocalNotificationsPlugin 설정
-  final androidInitializationSettings = AndroidInitializationSettings('logo');
-  final initializationSettings = InitializationSettings(android: androidInitializationSettings);
+  const androidInitializationSettings = AndroidInitializationSettings('logo');
+  const initializationSettings = InitializationSettings(android: androidInitializationSettings);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
@@ -77,13 +80,41 @@ void main() async {
   // FCM 포어그라운드 메시지 리스너
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     showFlutterNotification(message);
-    print('title : ${message.notification?.title}, body: ${message.notification?.body}');
   });
 
   // FCM 백그라운드 메시지 리스너
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  runApp(const MyApp());
+  //종료시 메세지 리스너
+  RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+  if (initialMessage != null) {
+    await NotificationRepository().updateNotificationIsOpened(initialMessage.data['notificationId']);
+  }
+
+
+  // 선택된 알림 처리
+  flutterLocalNotificationsPlugin.initialize(initializationSettings,
+    onDidReceiveNotificationResponse: (NotificationResponse details) async {
+    await NotificationRepository().updateNotificationIsOpened(details.payload!);
+    },
+  );
+
+  String? userInfo = ""; //user의 정보를 저장하기 위한 변수
+  const storage = FlutterSecureStorage();
+  asyncMethod() async {
+    //read 함수를 통하여 key값에 맞는 정보를 불러오게 됩니다. 이때 불러오는 결과의 타입은 String 타입임을 기억해야 합니다.
+    //(데이터가 없을때는 null을 반환을 합니다.)
+    userInfo = await storage.read(key: "ACCESS_TOKEN");
+
+    //user의 정보가 있다면 바로 홈으로 넝어가게 합니다.
+    if (userInfo != null) {
+      runApp(const MyApp2());
+    } else {
+      runApp(const MyApp());
+    }
+  }
+  asyncMethod();
+
 }
 
 class MyApp extends StatelessWidget {
@@ -94,6 +125,19 @@ class MyApp extends StatelessWidget {
     return const GetMaterialApp(
       home: Scaffold(
         body: Center(child: Login()),
+      ),
+    );
+  }
+}
+
+class MyApp2 extends StatelessWidget {
+  const MyApp2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const GetMaterialApp(
+      home: Scaffold(
+        body: Center(child: TapBar()),
       ),
     );
   }

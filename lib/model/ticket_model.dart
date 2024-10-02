@@ -257,3 +257,35 @@ class SearchTicketResponse {
     };
   }
 }
+
+//favoriteArtistOpeningNotice
+class FavoriteOpeningNotice {
+  int totalNum;
+  String artistName;
+  List<String> favoriteArtistNames;
+  List<Concert> concerts;
+
+  FavoriteOpeningNotice({required this.totalNum, required this.artistName, required this.favoriteArtistNames, required this.concerts});
+
+  factory FavoriteOpeningNotice.fromJson(Map<String, dynamic> json) {
+    var artistList = json['favoriteArtistNames'] as List;
+    var concertList = json['concerts'] as List;
+    List<Concert> concertItems = concertList.map((i) => Concert.fromJson(i)).toList();
+
+    return FavoriteOpeningNotice(
+      totalNum: json['totalNum'],
+      artistName: json['artistName'],
+      concerts: concertItems,
+      favoriteArtistNames: List<String>.from(artistList),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'totalNum': totalNum,
+      'artistName': artistName,
+      'favoriteArtistNames':favoriteArtistNames,
+      'concerts': concerts.map((v) => v.toJson()).toList(),
+    };
+  }
+}
