@@ -81,7 +81,7 @@ class _TapBar extends State<TapBar> with SingleTickerProviderStateMixin {
                 borderRadius: BorderRadius.circular(12),
                 // 탭바
                 child: Container(
-                  color: b_700,
+                  color: b_800,
                   height: 64,
                   child: Stack(
                     children: [
