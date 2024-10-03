@@ -108,6 +108,25 @@ class _Home extends State<Home> {
                       ),
                     ),
                   ),
+                  //배경에 원 뿌옇게
+                  Positioned(
+                    top: 77,
+                    right:0,
+                    child:Container(
+                      width: 118,
+                      height: 118,
+                      decoration:  const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: pt_30,
+                            blurRadius: 92.18,
+                            offset: Offset(0, 5),
+                            spreadRadius: 0,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                   //안내 멘트
                   Positioned(
                       left: 20,
@@ -179,7 +198,7 @@ class _Home extends State<Home> {
                                                 children: response.favoriteArtistNames.map((artist) {
                                                   return Container(
                                                     height: 25,
-                                                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                                                     clipBehavior: Clip.antiAlias,
                                                     decoration: ShapeDecoration(
                                                       color: pt_20,
@@ -200,7 +219,7 @@ class _Home extends State<Home> {
                                                     ),
                                                   );
                                                 }).toList()))),
-                                    const SizedBox(height: 12),
+                                    const SizedBox(height: 20),
                                     if (response.concerts.isNotEmpty)
                                       SizedBox(
                                         height: 322,
