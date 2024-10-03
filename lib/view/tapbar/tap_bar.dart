@@ -43,6 +43,7 @@ class _TapBar extends State<TapBar> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: b_950,
       resizeToAvoidBottomInset: false, //키보드가 올라 오지 않도록
       body: Stack(
         children: [

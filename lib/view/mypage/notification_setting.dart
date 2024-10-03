@@ -90,7 +90,7 @@ class _NotificationSetting extends State<NotificationSetting> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          '관심 아티스트의 티켓이 등록되면 알림을 보내드려요.',
+                          '관심 아티스트의 티켓이 등록되면 알려드려요.',
                           style: TextStyle(
                             fontFamily: 'Pretendard',
                             fontSize: 12,

@@ -161,134 +161,135 @@ class _MyPage extends State<MyPage> {
                   ),
                 ),
                 Container(
-                      height: MediaQuery.of(context).size.height-188,
-                        decoration: const ShapeDecoration(
-                          color: b_950,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(24),
-                              topRight: Radius.circular(24),
-                            ),
-                          ),
+                    height: MediaQuery.of(context).size.height - 188,
+                    decoration: const ShapeDecoration(
+                      color: b_950,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24),
                         ),
-                        child: Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const MyFavoriteArtist(),
-                                        ),
-                                      );
-                                    },
-                                    child: Container(
-                                      color: Colors.transparent,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      ),
+                    ),
+                    child: Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const MyFavoriteArtist(),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  color: Colors.transparent,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
                                         children: [
-                                          Row(
-                                            children: [
-                                              SvgPicture.asset("images/mypage/star.svg", height: 20, width: 20),
-                                              const SizedBox(width: 8),
-                                              const Text(
-                                                '나의 관심 아티스트',
-                                                style: TextStyle(
-                                                  fontFamily: 'Pretendard',
-                                                  fontSize: 16,
-                                                  color: b_100,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          const Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white)
+                                          SvgPicture.asset("images/mypage/star.svg", height: 20, width: 20),
+                                          const SizedBox(width: 8),
+                                          const Text(
+                                            '나의 관심 아티스트',
+                                            style: TextStyle(
+                                              fontFamily: 'Pretendard',
+                                              fontSize: 16,
+                                              color: b_100,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          )
                                         ],
                                       ),
-                                    )),
-                                const SizedBox(height: 24),
-                                GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const NotificationTicket(),
-                                        ),
-                                      );
-                                    },
-                                    child: Container(
-                                        color: Colors.transparent,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      const Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white)
+                                    ],
+                                  ),
+                                )),
+                            const SizedBox(height: 24),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const NotificationTicket(),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
                                           children: [
-                                            Row(
-                                              children: [
-                                                SvgPicture.asset("images/mypage/notification.svg",
-                                                    height: 20, width: 20),
-                                                const SizedBox(width: 8),
-                                                const Text(
-                                                  '알림 받기 신청한 티켓',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Pretendard',
-                                                    fontSize: 16,
-                                                    color: b_100,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            const Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white)
+                                            SvgPicture.asset("images/mypage/notification.svg", height: 20, width: 20),
+                                            const SizedBox(width: 8),
+                                            const Text(
+                                              '알림 받기 신청한 티켓',
+                                              style: TextStyle(
+                                                fontFamily: 'Pretendard',
+                                                fontSize: 16,
+                                                color: b_100,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            )
                                           ],
-                                        ))),
-                                const SizedBox(height: 24),
-                                GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const NotificationSetting(),
                                         ),
-                                      );
-                                    },
-                                    child: Container(
-                                        color: Colors.transparent,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        const Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white)
+                                      ],
+                                    ))),
+                            const SizedBox(height: 24),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const NotificationSetting(),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
                                           children: [
-                                            Row(
-                                              children: [
-                                                SvgPicture.asset("images/mypage/ticket.svg", height: 20, width: 20),
-                                                const SizedBox(width: 8),
-                                                const Text(
-                                                  '알림 설정',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Pretendard',
-                                                    fontSize: 16,
-                                                    color: b_100,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            const Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white)
+                                            SvgPicture.asset("images/mypage/ticket.svg", height: 20, width: 20),
+                                            const SizedBox(width: 8),
+                                            const Text(
+                                              '알림 설정',
+                                              style: TextStyle(
+                                                fontFamily: 'Pretendard',
+                                                fontSize: 16,
+                                                color: b_100,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            )
                                           ],
-                                        ))),
-                                const SizedBox(height: 24),
-                                //구분선
-                                Container(color: b_800, height: 2),
-                                const SizedBox(height: 24),
-                                GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const PrivacyPolicy(),
                                         ),
-                                      );
-                                    },
+                                        const Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white)
+                                      ],
+                                    ))),
+                            const SizedBox(height: 24),
+                            //구분선
+                            Container(color: b_800, height: 2),
+                            const SizedBox(height: 24),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const PrivacyPolicy(),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                    color: Colors.transparent,
                                     child: const Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -303,17 +304,19 @@ class _MyPage extends State<MyPage> {
                                         ),
                                         Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white)
                                       ],
-                                    )),
-                                const SizedBox(height: 24),
-                                GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const TermsOfService(),
-                                        ),
-                                      );
-                                    },
+                                    ))),
+                            const SizedBox(height: 24),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const TermsOfService(),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                    color: Colors.transparent,
                                     child: const Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -328,166 +331,170 @@ class _MyPage extends State<MyPage> {
                                         ),
                                         Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white)
                                       ],
-                                    )),
-                                const SizedBox(height: 24),
-                                GestureDetector(
-                                    onTap: () {
-                                      // 문의하기 페이지로 이동
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => const Help()),
-                                      );
-                                    },
-                                    child: const Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          '문의하기',
-                                          style: TextStyle(
-                                            fontFamily: 'Pretendard',
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w400,
+                                    ))),
+                            const SizedBox(height: 24),
+                            GestureDetector(
+                              onTap: () {
+                                // 문의하기 페이지로 이동
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const Help()),
+                                );
+                              },
+                              child: Container(
+                                  color: Colors.transparent,
+                                  child: const Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        '문의하기',
+                                        style: TextStyle(
+                                          fontFamily: 'Pretendard',
+                                          fontSize: 14,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white)
+                                    ],
+                                  )),
+                            ),
+                            const SizedBox(height: 24),
+                            GestureDetector(
+                                onTap: () async {
+                                  var storage = const FlutterSecureStorage();
+                                  await storage.deleteAll();
+                                  // 로그인 페이지로 이동
+                                  Get.offAll(const Login());
+                                },
+                                child: const Text(
+                                  '로그아웃',
+                                  style: TextStyle(
+                                    fontFamily: 'Pretendard',
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                )),
+                            const SizedBox(height: 24),
+                            //탈퇴하기
+                            GestureDetector(
+                              onTap: () async {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Dialog(
+                                      child: Container(
+                                        width: 320,
+                                        height: 264,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: ShapeDecoration(
+                                          color: b_800,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(12),
                                           ),
                                         ),
-                                        Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white)
-                                      ],
-                                    )),
-                                const SizedBox(height: 24),
-                                GestureDetector(
-                                    onTap: () async {
-                                      var storage = const FlutterSecureStorage();
-                                      await storage.delete(key: 'ACCESS_TOKEN');
-                                      // 로그인 페이지로 이동
-                                      Get.offAll(const Login());
-                                    },
-                                    child: const Text(
-                                      '로그아웃',
-                                      style: TextStyle(
-                                        fontFamily: 'Pretendard',
-                                        fontSize: 14,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    )),
-                                const SizedBox(height: 24),
-                                //탈퇴하기
-                                GestureDetector(
-                                  onTap: () async {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return Dialog(
-                                          child: Container(
-                                            width: 320,
-                                            height: 264,
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: ShapeDecoration(
-                                              color: b_800,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(12),
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            SvgPicture.asset("images/mypage/warning.svg", height: 32, width: 32),
+                                            const SizedBox(height: 12),
+                                            const Text(
+                                              '잠시만요!\n정말로 탈퇴하시겠어요?',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: b_100,
+                                                fontSize: 18,
+                                                fontFamily: 'Pretendard',
+                                                fontWeight: FontWeight.w700,
                                               ),
                                             ),
-                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                                            child: Column(
+                                            const SizedBox(height: 8),
+                                            const Text(
+                                              '탈퇴하시면 그동안 저장하신 관심 아티스트,\n티켓 오픈 알림 정보가 사라져요.',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: b_400,
+                                                fontSize: 14,
+                                                fontFamily: 'Pretendard',
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 24),
+                                            Row(
                                               mainAxisSize: MainAxisSize.min,
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
-                                                SvgPicture.asset("images/mypage/warning.svg", height: 32, width: 32),
-                                                const SizedBox(height: 12),
-                                                const Text(
-                                                  '잠시만요!\n정말로 탈퇴하시겠어요?',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    color: b_100,
-                                                    fontSize: 18,
-                                                    fontFamily: 'Pretendard',
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 8),
-                                                const Text(
-                                                  '탈퇴하시면 그동안 저장하신 관심 아티스트,\n티켓 오픈 알림 정보가 사라져요.',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    color: b_400,
-                                                    fontSize: 14,
-                                                    fontFamily: 'Pretendard',
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 24),
-                                                Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  children: [
-                                                    IconButton(
-                                                        onPressed: () {
-                                                          Navigator.of(context).pop();
-                                                        },
-                                                        icon: Container(
-                                                            height: 48,
-                                                            padding: const EdgeInsets.symmetric(
-                                                                horizontal: 28, vertical: 13),
-                                                            child: const Text(
-                                                              '아니오',
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(
-                                                                color: Colors.white,
-                                                                fontSize: 14,
-                                                                fontFamily: 'Pretendard',
-                                                                fontWeight: FontWeight.w400,
-                                                              ),
-                                                            ))),
-                                                    const SizedBox(width: 12),
-                                                    IconButton(
-                                                        onPressed: () async {
-                                                          await authRepository.withdraw(context);
-                                                          Get.offAll(const Login());
-                                                        },
-                                                        icon: Container(
-                                                          padding:
-                                                              const EdgeInsets.symmetric(horizontal: 28, vertical: 13),
-                                                          height: 48,
-                                                          clipBehavior: Clip.antiAlias,
-                                                          decoration: ShapeDecoration(
-                                                            color: p_700,
-                                                            shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.circular(12),
-                                                            ),
+                                                IconButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                    icon: Container(
+                                                        height: 48,
+                                                        padding:
+                                                            const EdgeInsets.symmetric(horizontal: 28, vertical: 13),
+                                                        child: const Text(
+                                                          '아니오',
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 14,
+                                                            fontFamily: 'Pretendard',
+                                                            fontWeight: FontWeight.w400,
                                                           ),
-                                                          child: const Text(
-                                                            '네, 탈퇴할게요',
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 14,
-                                                              fontFamily: 'Pretendard',
-                                                              fontWeight: FontWeight.w700,
-                                                            ),
-                                                          ),
-                                                        )),
-                                                  ],
-                                                ),
+                                                        ))),
+                                                const SizedBox(width: 12),
+                                                IconButton(
+                                                    onPressed: () async {
+                                                      await authRepository.withdraw(context);
+                                                      var storage = const FlutterSecureStorage();
+                                                      storage.deleteAll();
+                                                      Get.offAll(const Login());
+                                                    },
+                                                    icon: Container(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 13),
+                                                      height: 48,
+                                                      clipBehavior: Clip.antiAlias,
+                                                      decoration: ShapeDecoration(
+                                                        color: p_700,
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(12),
+                                                        ),
+                                                      ),
+                                                      child: const Text(
+                                                        '네, 탈퇴할게요',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 14,
+                                                          fontFamily: 'Pretendard',
+                                                          fontWeight: FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                    )),
                                               ],
                                             ),
-                                          ),
-                                        );
-                                      },
+                                          ],
+                                        ),
+                                      ),
                                     );
                                   },
-                                  child: const Text('회원 탈퇴',
-                                      style: TextStyle(
-                                        fontFamily: 'Pretendard',
-                                        fontSize: 14,
-                                        color: b_500,
-                                        fontWeight: FontWeight.w400,
-                                      )),
-                                )
-                              ],
-                            )))
+                                );
+                              },
+                              child: const Text('회원 탈퇴',
+                                  style: TextStyle(
+                                    fontFamily: 'Pretendard',
+                                    fontSize: 14,
+                                    color: b_500,
+                                    fontWeight: FontWeight.w400,
+                                  )),
+                            )
+                          ],
+                        )))
               ])
             ]));
   }

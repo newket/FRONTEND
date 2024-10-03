@@ -75,7 +75,7 @@ class _Notifications extends State<Notifications> {
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
+                                  const SizedBox(height: 6),
                                   Text(
                                     notification.content,
                                     style: const TextStyle(

@@ -105,8 +105,8 @@ class _OpeningNoticeDetail extends State<OpeningNoticeDetail> {
       final response2 = await ticketRepository.ticketDetail(widget.concertId);
       setState(() {
         isNotification = response;
-        isLoading = false; // 로딩 완료 시 로딩 상태 해제
         ticketResponse = response2;
+        isLoading = false; // 로딩 완료 시 로딩 상태 해제
       });
     } catch (e) {
       // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
@@ -438,7 +438,7 @@ class _OpeningNoticeDetail extends State<OpeningNoticeDetail> {
                                                       style: const TextStyle(
                                                         fontFamily: 'Pretendard',
                                                         fontSize: 12,
-                                                        color: b_500,
+                                                        color: b_400,
                                                         fontWeight: FontWeight.w400,
                                                       ),
                                                     ),
@@ -475,7 +475,7 @@ class _OpeningNoticeDetail extends State<OpeningNoticeDetail> {
                                                         style: const TextStyle(
                                                           fontFamily: 'Pretendard',
                                                           fontSize: 12,
-                                                          color: b_500,
+                                                          color: b_400,
                                                           fontWeight: FontWeight.w400,
                                                         ),
                                                       ),

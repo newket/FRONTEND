@@ -11,6 +11,7 @@ import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/view/onboarding/login.dart';
 import 'package:newket/view/tapbar/tap_bar.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -30,19 +31,20 @@ void showFlutterNotification(RemoteMessage message) {
   AndroidNotification? android = message.notification?.android;
   if (notification != null && android != null) {
     flutterLocalNotificationsPlugin.show(
-      notification.hashCode,
-      message.notification?.title,
-      message.notification?.body,
-      NotificationDetails(
-        android: AndroidNotificationDetails(
-          channel.id,
-          channel.name,
-          importance: Importance.max,
-          priority: Priority.max,
+        notification.hashCode,
+        message.notification?.title,
+        message.notification?.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            importance: Importance.max,
+            priority: Priority.max,
+            playSound: true, // 기본 사운드 재생 설정
+            fullScreenIntent: true, // 화면을 깨우도록 설정
+          ),
         ),
-      ),
-      payload: message.data['notificationId']
-    );
+        payload: message.data['notificationId']);
   }
 }
 
@@ -59,7 +61,6 @@ void main() async {
   // Firebase 초기화
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-
   // AndroidNotificationChannel 설정
   // FlutterLocalNotificationsPlugin 설정
   const androidInitializationSettings = AndroidInitializationSettings('logo');
@@ -73,7 +74,6 @@ void main() async {
   final deviceToken = await FirebaseMessaging.instance.getToken();
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
   await FirebaseMessaging.instance.setDeliveryMetricsExportToBigQuery(true);
-
 
   print("디바이스 토큰: $deviceToken");
 
@@ -91,11 +91,11 @@ void main() async {
     await NotificationRepository().updateNotificationIsOpened(initialMessage.data['notificationId']);
   }
 
-
   // 선택된 알림 처리
-  flutterLocalNotificationsPlugin.initialize(initializationSettings,
+  flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
     onDidReceiveNotificationResponse: (NotificationResponse details) async {
-    await NotificationRepository().updateNotificationIsOpened(details.payload!);
+      await NotificationRepository().updateNotificationIsOpened(details.payload!);
     },
   );
 
@@ -114,16 +114,19 @@ void main() async {
     }
   }
   asyncMethod();
-
 }
 
 class MyApp extends StatelessWidget {
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
-      home: Scaffold(
+    return GetMaterialApp(
+      navigatorObservers: <NavigatorObserver>[observer],
+      home: const Scaffold(
         body: Center(child: Login()),
       ),
     );
@@ -131,12 +134,16 @@ class MyApp extends StatelessWidget {
 }
 
 class MyApp2 extends StatelessWidget {
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+
   const MyApp2({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
-      home: Scaffold(
+    return GetMaterialApp(
+      navigatorObservers: <NavigatorObserver>[observer],
+      home: const Scaffold(
         body: Center(child: TapBar()),
       ),
     );

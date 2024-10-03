@@ -35,6 +35,8 @@ class _Home extends State<Home> {
   String name = '';
   String artist = '';
   List<String> favoriteArtists = [];
+  bool isLoading = true; // 로딩 상태 추가
+
 
   Future<void> _getUserInfoApi(BuildContext context) async {
     try {
@@ -49,6 +51,7 @@ class _Home extends State<Home> {
         } else {
           artist = normal.artistName;
         }
+        isLoading = false; // 로딩 완료 시 로딩 상태 해제
       });
     } catch (e) {}
   }
@@ -63,6 +66,10 @@ class _Home extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    // 로딩 중일 때 로딩 화면을 표시
+    if (isLoading) {
+      return Container();
+    }
     return Scaffold(
       //배경
       backgroundColor: b_950,
@@ -540,7 +547,7 @@ class _Home extends State<Home> {
                                       Container(height: 12),
                                       //티켓
                                       Column(
-                                        children: List.generate(3, (index1) {
+                                        children: List.generate(openingResponse.totalNum<3? openingResponse.totalNum: 3, (index1) {
                                           return Column(
                                             children: [
                                               GestureDetector(
@@ -905,7 +912,7 @@ class _Home extends State<Home> {
                                       final onSaleResponse = snapshot.data!;
                                       return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                         Column(
-                                          children: List.generate(3, (index1) {
+                                          children: List.generate(onSaleResponse.totalNum<3? onSaleResponse.totalNum: 3, (index1) {
                                             return Column(
                                               children: [
                                                 GestureDetector(
