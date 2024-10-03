@@ -57,8 +57,8 @@ class _TapBar extends State<TapBar> with SingleTickerProviderStateMixin {
               height: 99,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment(-0.00, 1.00),
-                  end: Alignment(0, -1),
+                  begin: const Alignment(-0.00, 1.00),
+                  end: const Alignment(0, -1),
                   colors: [
                     Colors.black,
                     Colors.black.withOpacity(0.2),

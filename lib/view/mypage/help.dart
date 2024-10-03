@@ -18,6 +18,8 @@ class _Help extends State<Help> {
   final TextEditingController _contentController = TextEditingController();
   int _titleCharacters = 0;
   int _contentCharacters = 0;
+  Color _titleBackgroundColor = b_900;
+  Color _contentBackgroundColor = b_900;
 
   @override
   void initState() {
@@ -177,10 +179,17 @@ class _Help extends State<Help> {
                               )
                           ]),
                           const SizedBox(height: 8),
+                        Focus(
+                            onFocusChange: (hasFocus) {
+                              setState(() {
+                                _titleBackgroundColor = hasFocus ? pt_20 : b_900;
+                              });
+                            },
+                            child:
                           Container(
                               height: 44,
                               decoration: ShapeDecoration(
-                                color: b_900, // 내부 배경색
+                                color: _titleBackgroundColor, // 내부 배경색
                                 shape: RoundedRectangleBorder(
                                   side: const BorderSide(width: 1, color: pt_50), // 테두리 색상 및 두께
                                   borderRadius: BorderRadius.circular(12),
@@ -216,7 +225,7 @@ class _Help extends State<Help> {
                                             inputFormatters: [
                                           LengthLimitingTextInputFormatter(20), // 최대 글자 수를 20자로 제한
                                         ])),
-                                  ])),
+                                  ]))),
                           const SizedBox(height: 24),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -256,10 +265,17 @@ class _Help extends State<Help> {
                             ],
                           ),
                           const SizedBox(height: 8),
+                        Focus(
+                            onFocusChange: (hasFocus) {
+                              setState(() {
+                                _contentBackgroundColor = hasFocus ? pt_20 : b_900;
+                              });
+                            },
+                            child:
                           Container(
                               height: 303,
                               decoration: ShapeDecoration(
-                                color: b_900, // 내부 배경색
+                                color: _contentBackgroundColor, // 내부 배경색
                                 shape: RoundedRectangleBorder(
                                   side: const BorderSide(width: 1, color: pt_50), // 테두리 색상 및 두께
                                   borderRadius: BorderRadius.circular(12),
@@ -297,7 +313,7 @@ class _Help extends State<Help> {
                                             inputFormatters: [
                                           LengthLimitingTextInputFormatter(300), // 최대 글자 수를 300자로 제한
                                         ]))
-                                  ]))
+                                  ])))
                         ]))),
                 Positioned(
                     bottom: 44,

@@ -5,6 +5,7 @@ import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/favorite_artist/my_favorite_aritst.dart';
+import 'package:newket/view/home/notifications.dart';
 import 'package:newket/view/on_sale/on_sale.dart';
 import 'package:newket/view/on_sale/on_sale_detail.dart';
 import 'package:newket/view/opening_notice/opening_notice.dart';
@@ -73,7 +74,17 @@ class _Home extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Image.asset("images/appbar/appbar_ticket.png", height: 28),
-            Image.asset("images/appbar/appbar_alarm.png", height: 28),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Notifications(),
+                  ),
+                );
+              },
+              child: Image.asset("images/appbar/appbar_alarm.png", height: 28),
+            )
           ],
         ),
       ),
@@ -105,6 +116,25 @@ class _Home extends State<Home> {
                           bottomLeft: Radius.circular(24),
                           bottomRight: Radius.circular(24),
                         ),
+                      ),
+                    ),
+                  ),
+                  //배경에 원 뿌옇게
+                  Positioned(
+                    top: 77,
+                    right: 0,
+                    child: Container(
+                      width: 118,
+                      height: 118,
+                      decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: pt_30,
+                            blurRadius: 92.18,
+                            offset: Offset(0, 5),
+                            spreadRadius: 0,
+                          )
+                        ],
                       ),
                     ),
                   ),
@@ -167,7 +197,7 @@ class _Home extends State<Home> {
                                     SizedBox(
                                         height: 25,
                                         child: SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
+                                            scrollDirection: Axis.horizontal,
                                             child: Wrap(
                                                 alignment: WrapAlignment.start,
                                                 //왼쪽 부터 시작
@@ -179,7 +209,7 @@ class _Home extends State<Home> {
                                                 children: response.favoriteArtistNames.map((artist) {
                                                   return Container(
                                                     height: 25,
-                                                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                                                     clipBehavior: Clip.antiAlias,
                                                     decoration: ShapeDecoration(
                                                       color: pt_20,
@@ -188,7 +218,7 @@ class _Home extends State<Home> {
                                                         borderRadius: BorderRadius.circular(8),
                                                       ),
                                                     ),
-                                                    child:Text(
+                                                    child: Text(
                                                       artist,
                                                       textAlign: TextAlign.center,
                                                       style: const TextStyle(
@@ -200,7 +230,7 @@ class _Home extends State<Home> {
                                                     ),
                                                   );
                                                 }).toList()))),
-                                    const SizedBox(height: 12),
+                                    const SizedBox(height: 20),
                                     if (response.concerts.isNotEmpty)
                                       SizedBox(
                                         height: 322,
@@ -252,7 +282,7 @@ class _Home extends State<Home> {
                                                             fontFamily: 'Pretendard',
                                                             fontSize: 14,
                                                             color: Colors.white,
-                                                            fontWeight: FontWeight.w700,
+                                                            fontWeight: FontWeight.w500,
                                                           ),
                                                         ),
                                                       ),
@@ -317,48 +347,46 @@ class _Home extends State<Home> {
                                       )
                                     else if (response.favoriteArtistNames.isNotEmpty)
                                       Container(
-                                        width: MediaQuery.of(context).size.width - 40,
-                                        height: 337,
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: ShapeDecoration(
-                                          gradient: const LinearGradient(
-                                            begin: Alignment(0.00, -1.00),
-                                            end: Alignment(0, 1),
-                                            colors: [b_950, Color(0xFF090C2B), Color(0xFF201D65)],
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(16),
-                                          ),
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            const SizedBox(height: 63),
-                                            SvgPicture.asset("images/search/ticket_null.svg", height: 92, width: 92),
-                                            const SizedBox(height: 20),
-                                            const Text(
-                                              '아직 관심 아티스트의\n티켓이 뜨지 않았어요!',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontFamily: 'Pretendard',
-                                                fontWeight: FontWeight.w700,
-                                              ),
+                                          width: MediaQuery.of(context).size.width - 40,
+                                          height: 337,
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: ShapeDecoration(
+                                            gradient: const LinearGradient(
+                                              begin: Alignment(0.00, -1.00),
+                                              end: Alignment(0, 1),
+                                              colors: [b_950, Color(0xFF090C2B), Color(0xFF201D65)],
                                             ),
-                                            const SizedBox(height: 4),
-                                            const Text(
-                                              '관심 아티스트의 티켓이\n뜨면 바로 알려드릴게요!',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: b_400,
-                                                fontSize: 14,
-                                                fontFamily: 'Pretendard',
-                                                fontWeight: FontWeight.w400
-                                              ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(16),
                                             ),
-                                          ],
-                                        )
-                                      )
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              const SizedBox(height: 63),
+                                              SvgPicture.asset("images/search/ticket_null.svg", height: 92, width: 92),
+                                              const SizedBox(height: 20),
+                                              const Text(
+                                                '아직 관심 아티스트의\n티켓이 뜨지 않았어요!',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                  fontFamily: 'Pretendard',
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              const Text(
+                                                '관심 아티스트의 티켓이\n뜨면 바로 알려드릴게요!',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: b_400,
+                                                    fontSize: 14,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w400),
+                                              ),
+                                            ],
+                                          ))
                                     else
                                       Container(
                                           width: MediaQuery.of(context).size.width - 40,
@@ -391,57 +419,55 @@ class _Home extends State<Home> {
                                               ),
                                               const SizedBox(height: 16),
                                               GestureDetector(
-                                                //아티스트 검색으로
-                                                onTap: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) => const MyFavoriteArtist(),
-                                                    ),
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: 184,
-                                                  height: 40,
-                                                  clipBehavior: Clip.antiAlias,
-                                                  decoration: ShapeDecoration(
-                                                    color: p_700,
-                                                    shape: RoundedRectangleBorder(
-                                                      side: const BorderSide(width: 1, color: p_400),
-                                                      borderRadius: BorderRadius.circular(12),
-                                                    ),
-                                                    shadows: const [
-                                                      BoxShadow(
-                                                        color: p_700,
-                                                        blurRadius: 28,
-                                                        offset: Offset(0, 5),
-                                                        spreadRadius: 0,
-                                                      )
-                                                    ],
-                                                  ),
-                                                  child: const Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: [
-                                                      Icon(Icons.add, size: 24, color: Colors.white),
-                                                      SizedBox(width: 10),
-                                                      Text(
-                                                        '관심 아티스트 추가하기',
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 14,
-                                                          fontFamily: 'Pretendard',
-                                                          fontWeight: FontWeight.w700,
-                                                        ),
+                                                  //아티스트 검색으로
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) => const MyFavoriteArtist(),
                                                       ),
-                                                    ],
-                                                  ),
-                                                )
-                                              )
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    width: 184,
+                                                    height: 40,
+                                                    clipBehavior: Clip.antiAlias,
+                                                    decoration: ShapeDecoration(
+                                                      color: p_700,
+                                                      shape: RoundedRectangleBorder(
+                                                        side: const BorderSide(width: 1, color: p_400),
+                                                        borderRadius: BorderRadius.circular(12),
+                                                      ),
+                                                      shadows: const [
+                                                        BoxShadow(
+                                                          color: p_700,
+                                                          blurRadius: 28,
+                                                          offset: Offset(0, 5),
+                                                          spreadRadius: 0,
+                                                        )
+                                                      ],
+                                                    ),
+                                                    child: const Row(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: [
+                                                        Icon(Icons.add, size: 24, color: Colors.white),
+                                                        SizedBox(width: 10),
+                                                        Text(
+                                                          '관심 아티스트 추가하기',
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 14,
+                                                            fontFamily: 'Pretendard',
+                                                            fontWeight: FontWeight.w700,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ))
                                             ],
-                                          )
-                                      )
+                                          ))
                                   ]);
                             }
                           }))
@@ -543,22 +569,6 @@ class _Home extends State<Home> {
                                                     ),
                                                     Stack(
                                                       children: [
-                                                        Column(
-                                                          children: [
-                                                            //점선 위 공간
-                                                            Container(height: 10),
-                                                            //티켓 점선
-                                                            DottedBorder(
-                                                              color: const Color(0xffffffff),
-                                                              strokeWidth: 1,
-                                                              dashPattern: const [4, 4],
-                                                              child: const SizedBox(
-                                                                width: 0,
-                                                                height: 86,
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
                                                         //티켓 정보
                                                         Container(
                                                           width: MediaQuery.of(context).size.width - 123,
@@ -572,8 +582,8 @@ class _Home extends State<Home> {
                                                             ),
                                                           ),
                                                           child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            // 여백 8씩 추가
+                                                            padding: const EdgeInsets.all(12.0),
+                                                            // 여백 12씩 추가
                                                             child: Column(
                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                               //왼쪽정렬
@@ -589,9 +599,9 @@ class _Home extends State<Home> {
                                                                         text: openingResponse.concerts[index1].title,
                                                                         style: const TextStyle(
                                                                           fontFamily: 'Pretendard',
-                                                                          fontSize: 16,
-                                                                          color: Color(0xffffffff),
-                                                                          fontWeight: FontWeight.w700,
+                                                                          fontSize: 14,
+                                                                          color: Colors.white,
+                                                                          fontWeight: FontWeight.w500,
                                                                         ),
                                                                       ),
                                                                     )),
@@ -601,11 +611,11 @@ class _Home extends State<Home> {
                                                                         .concerts[index1].ticketingSchedules.length ==
                                                                     1)
                                                                   Row(
-                                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                      mainAxisAlignment: MainAxisAlignment.start,
                                                                       children: [
                                                                         Column(
-                                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
                                                                           children: [
                                                                             Text(
                                                                               "${openingResponse.concerts[index1].ticketingSchedules[0].type} 오픈",
@@ -645,7 +655,7 @@ class _Home extends State<Home> {
                                                                                 style: const TextStyle(
                                                                                   fontFamily: 'Pretendard',
                                                                                   fontSize: 12,
-                                                                                  color: Color(0xffffffff),
+                                                                                  color: Colors.white,
                                                                                   fontWeight: FontWeight.w700,
                                                                                 ),
                                                                               ),
@@ -655,11 +665,11 @@ class _Home extends State<Home> {
                                                                 //선예매 , 일반예매
                                                                 else
                                                                   Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
                                                                     children: [
                                                                       Column(
-                                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                        mainAxisAlignment: MainAxisAlignment.start,
                                                                         children: [
                                                                           Text(
                                                                             "${openingResponse.concerts[index1].ticketingSchedules[0].type} 오픈",
@@ -699,7 +709,7 @@ class _Home extends State<Home> {
                                                                               style: const TextStyle(
                                                                                 fontFamily: 'Pretendard',
                                                                                 fontSize: 12,
-                                                                                color: Color(0xffffffff),
+                                                                                color: Colors.white,
                                                                                 fontWeight: FontWeight.w700,
                                                                               ),
                                                                             ),
@@ -713,11 +723,11 @@ class _Home extends State<Home> {
                                                                         color: b_800,
                                                                         // 실선 색상
                                                                         margin: const EdgeInsets.symmetric(
-                                                                            horizontal: 8), // 여백
+                                                                            horizontal: 12), // 여백
                                                                       ),
                                                                       Column(
-                                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                        mainAxisAlignment: MainAxisAlignment.start,
                                                                         children: [
                                                                           Text(
                                                                             "${openingResponse.concerts[index1].ticketingSchedules[1].type} 오픈",
@@ -757,7 +767,7 @@ class _Home extends State<Home> {
                                                                               style: const TextStyle(
                                                                                 fontFamily: 'Pretendard',
                                                                                 fontSize: 12,
-                                                                                color: Color(0xffffffff),
+                                                                                color: Colors.white,
                                                                                 fontWeight: FontWeight.w700,
                                                                               ),
                                                                             ),
@@ -924,22 +934,6 @@ class _Home extends State<Home> {
                                                       ),
                                                       Stack(
                                                         children: [
-                                                          Column(
-                                                            children: [
-                                                              //점선 위 공간
-                                                              Container(height: 10),
-                                                              //티켓 점선
-                                                              DottedBorder(
-                                                                color: const Color(0xffffffff),
-                                                                strokeWidth: 1,
-                                                                dashPattern: const [4, 4],
-                                                                child: const SizedBox(
-                                                                  width: 0,
-                                                                  height: 86,
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
                                                           //티켓 정보
                                                           Container(
                                                             width: MediaQuery.of(context).size.width - 123,
@@ -953,8 +947,8 @@ class _Home extends State<Home> {
                                                               ),
                                                             ),
                                                             child: Padding(
-                                                              padding: const EdgeInsets.all(8.0),
-                                                              // 여백 8씩 추가
+                                                              padding: const EdgeInsets.all(12.0),
+                                                              // 여백 12씩 추가
                                                               child: Column(
                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                 //왼쪽정렬
@@ -970,9 +964,9 @@ class _Home extends State<Home> {
                                                                           text: onSaleResponse.concerts[index1].title,
                                                                           style: const TextStyle(
                                                                             fontFamily: 'Pretendard',
-                                                                            fontSize: 16,
-                                                                            color: Color(0xffffffff),
-                                                                            fontWeight: FontWeight.w700,
+                                                                            fontSize: 14,
+                                                                            color: Colors.white,
+                                                                            fontWeight: FontWeight.w500,
                                                                           ),
                                                                         ),
                                                                       )),

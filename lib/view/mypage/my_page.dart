@@ -161,7 +161,7 @@ class _MyPage extends State<MyPage> {
                   ),
                 ),
                 Container(
-                      height: MediaQuery.of(context).size.height-170,
+                      height: MediaQuery.of(context).size.height-188,
                         decoration: const ShapeDecoration(
                           color: b_950,
                           shape: RoundedRectangleBorder(

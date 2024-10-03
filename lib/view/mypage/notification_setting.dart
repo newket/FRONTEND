@@ -16,9 +16,6 @@ class _NotificationSetting extends State<NotificationSetting> {
   late UserRepository userRepository;
   bool artistNotification = true;
   bool ticketNotification = true;
-  Color artistBackground = pt_20;
-  Color ticketBackground = pt_20;
-  String email = '';
 
   @override
   void initState() {
@@ -33,9 +30,7 @@ class _NotificationSetting extends State<NotificationSetting> {
       // 알림 설정 값 상태에 반영
       setState(() {
         artistNotification = response.artistNotification;
-        artistBackground = artistNotification ? pt_20 : b_900;
         ticketNotification = response.ticketNotification;
-        ticketBackground = ticketNotification ? pt_20 : b_900;
       });
     } catch (e) {
       // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
@@ -76,7 +71,6 @@ class _NotificationSetting extends State<NotificationSetting> {
                 width: double.infinity,
                 height: 66,
                 decoration: BoxDecoration(
-                  color: artistBackground,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
@@ -113,7 +107,6 @@ class _NotificationSetting extends State<NotificationSetting> {
                         // UI 상태 업데이트
                         setState(() {
                           artistNotification = value;
-                          artistBackground = artistNotification ? pt_20 : b_900;
                         });
                         String isAllow = value ? 'on' : 'off';
                         await userRepository.putNotificationAllow(isAllow, "artist");
@@ -128,7 +121,6 @@ class _NotificationSetting extends State<NotificationSetting> {
                 width: double.infinity,
                 height: 66,
                 decoration: BoxDecoration(
-                  color: ticketBackground,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
@@ -165,7 +157,6 @@ class _NotificationSetting extends State<NotificationSetting> {
                         // UI 상태 업데이트
                         setState(() {
                           ticketNotification = value;
-                          ticketBackground = ticketNotification ? pt_20 : b_900;
                         });
                         String isAllow = value ? 'on' : 'off';
                         await userRepository.putNotificationAllow(isAllow, "ticket");

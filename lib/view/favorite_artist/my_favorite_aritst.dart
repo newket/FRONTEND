@@ -114,6 +114,7 @@ class _MyFavoriteArtist extends State<MyFavoriteArtist> {
 
   @override
   Widget build(BuildContext context) {
+    bool isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
         resizeToAvoidBottomInset: false, //키보드가 올라 오지 않도록
 
@@ -164,7 +165,7 @@ class _MyFavoriteArtist extends State<MyFavoriteArtist> {
                               Container(
                                 height: 40,
                                 decoration: ShapeDecoration(
-                                  color: b_900, // 내부 배경색
+                                  color: isKeyboardVisible ? pt_20 : b_900, // 내부 배경색
                                   shape: RoundedRectangleBorder(
                                     side: const BorderSide(width: 1, color: pt_50), // 테두리 색상 및 두께
                                     borderRadius: BorderRadius.circular(42),
