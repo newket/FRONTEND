@@ -20,7 +20,7 @@ class _ArtistRequest extends State<ArtistRequest> {
     OverlayEntry overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
         bottom: 116.0, // Toast 위치 조정
-        left: MediaQuery.of(context).size.width * 0.1, // 화면의 가운데 정렬
+        left: 20, // 화면의 가운데 정렬
         child: Material(
           color: Colors.transparent,
           child: Container(
@@ -108,6 +108,8 @@ class _ArtistRequest extends State<ArtistRequest> {
 
   @override
   Widget build(BuildContext context) {
+    bool isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
+
     return Scaffold(
         resizeToAvoidBottomInset: false, //키보드가 올라 오지 않도록
         //배경
@@ -175,7 +177,7 @@ class _ArtistRequest extends State<ArtistRequest> {
                             Container(
                                 height: 44,
                                 decoration: ShapeDecoration(
-                                  color: b_900, // 내부 배경색
+                                  color: isKeyboardVisible ? pt_20 : b_900, // 내부 배경색
                                   shape: RoundedRectangleBorder(
                                     side: const BorderSide(width: 1, color: pt_50), // 테두리 색상 및 두께
                                     borderRadius: BorderRadius.circular(12),

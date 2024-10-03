@@ -26,7 +26,10 @@ class _Search extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
+    bool isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
+        resizeToAvoidBottomInset: false, //키보드가 올라 오지 않도록
+
         //배경
         backgroundColor: b_950,
 
@@ -41,6 +44,7 @@ class _Search extends State<Search> {
         body: GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(), // 키보드 외부를 탭하면 키보드 숨기기
             child: Container(
+              color: Colors.transparent,
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -72,7 +76,7 @@ class _Search extends State<Search> {
                   Container(
                     height: 40,
                     decoration: ShapeDecoration(
-                      color: b_900, // 내부 배경색
+                      color: isKeyboardVisible ? pt_20 : b_900, // 내부 배경색
                       shape: RoundedRectangleBorder(
                         side: const BorderSide(width: 1, color: pt_50), // 테두리 색상 및 두께
                         borderRadius: BorderRadius.circular(42),

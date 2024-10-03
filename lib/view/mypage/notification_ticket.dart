@@ -196,22 +196,6 @@ class _NotificationTicket extends State<NotificationTicket> {
                                   ),
                                   Stack(
                                     children: [
-                                      Column(
-                                        children: [
-                                          //점선 위 공간
-                                          Container(height: 10),
-                                          //티켓 점선
-                                          DottedBorder(
-                                            color: Colors.white,
-                                            strokeWidth: 1,
-                                            dashPattern: const [4, 4],
-                                            child: const SizedBox(
-                                              width: 0,
-                                              height: 86,
-                                            ),
-                                          )
-                                        ],
-                                      ),
                                       //티켓 정보
                                       Container(
                                         width: MediaQuery.of(context).size.width - 123,
@@ -225,8 +209,8 @@ class _NotificationTicket extends State<NotificationTicket> {
                                           ),
                                         ),
                                         child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          // 여백 8씩 추가
+                                          padding: const EdgeInsets.all(12.0),
+                                          // 여백 12씩 추가
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             //왼쪽정렬
@@ -242,19 +226,19 @@ class _NotificationTicket extends State<NotificationTicket> {
                                                       text: openingResponse.concerts[index1].title,
                                                       style: const TextStyle(
                                                         fontFamily: 'Pretendard',
-                                                        fontSize: 16,
-                                                        color: Color(0xffffffff),
-                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 14,
+                                                        color: Colors.white,
+                                                        fontWeight: FontWeight.w500,
                                                       ),
                                                     ),
                                                   )),
                                               // 티켓 오픈 정보
                                               //일반예매 만
                                               if (openingResponse.concerts[index1].ticketingSchedules.length == 1)
-                                                Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                                                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                                                   Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.start,
                                                     children: [
                                                       Text(
                                                         "${openingResponse.concerts[index1].ticketingSchedules[0].type} 오픈",
@@ -290,7 +274,7 @@ class _NotificationTicket extends State<NotificationTicket> {
                                                           style: const TextStyle(
                                                             fontFamily: 'Pretendard',
                                                             fontSize: 12,
-                                                            color: Color(0xffffffff),
+                                                            color: Colors.white,
                                                             fontWeight: FontWeight.w700,
                                                           ),
                                                         ),
@@ -300,11 +284,11 @@ class _NotificationTicket extends State<NotificationTicket> {
                                               //선예매 , 일반예매
                                               else
                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
                                                   children: [
                                                     Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment: MainAxisAlignment.start,
                                                       children: [
                                                         Text(
                                                           "${openingResponse.concerts[index1].ticketingSchedules[0].type} 오픈",
@@ -342,7 +326,7 @@ class _NotificationTicket extends State<NotificationTicket> {
                                                             style: const TextStyle(
                                                               fontFamily: 'Pretendard',
                                                               fontSize: 12,
-                                                              color: Color(0xffffffff),
+                                                              color: Colors.white,
                                                               fontWeight: FontWeight.w700,
                                                             ),
                                                           ),
@@ -355,11 +339,11 @@ class _NotificationTicket extends State<NotificationTicket> {
                                                       // 실선의 높이
                                                       color: b_800,
                                                       // 실선 색상
-                                                      margin: const EdgeInsets.symmetric(horizontal: 8), // 여백
+                                                      margin: const EdgeInsets.symmetric(horizontal: 12), // 여백
                                                     ),
                                                     Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment: MainAxisAlignment.start,
                                                       children: [
                                                         Text(
                                                           "${openingResponse.concerts[index1].ticketingSchedules[1].type} 오픈",
@@ -397,7 +381,7 @@ class _NotificationTicket extends State<NotificationTicket> {
                                                             style: const TextStyle(
                                                               fontFamily: 'Pretendard',
                                                               fontSize: 12,
-                                                              color: Color(0xffffffff),
+                                                              color: Colors.white,
                                                               fontWeight: FontWeight.w700,
                                                             ),
                                                           ),

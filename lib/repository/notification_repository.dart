@@ -40,4 +40,11 @@ class NotificationRepository{
     dio.options.baseUrl = dotenv.get("BASE_URL");
     await dio.post("/api/v1/notifications/opened?notificationId=$notificationId");
   }
+
+  Future<Notifications> getAllNotifications(BuildContext context) async {
+    var dio = await authDio(context);
+    final response = await dio.get("/api/v1/notifications");
+
+    return Notifications.fromJson(response.data);
+  }
 }
