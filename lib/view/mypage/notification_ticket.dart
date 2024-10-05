@@ -1,5 +1,5 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/notification_model.dart';
 import 'package:newket/model/ticket_model.dart';
@@ -7,7 +7,6 @@ import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/theme/Colors.dart';
 import 'package:newket/view/onboarding/login.dart';
 import 'package:newket/view/opening_notice/opening_notice_detail.dart';
-import 'package:get/route_manager.dart';
 
 class NotificationTicket extends StatefulWidget {
   const NotificationTicket({super.key});
