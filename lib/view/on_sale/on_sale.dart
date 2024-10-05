@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/on_sale/on_sale_detail.dart';
@@ -51,6 +52,7 @@ class _OnSale extends State<OnSale> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
+              AmplitudeConfig.amplitude.logEvent('Back');
               Navigator.pop(context); //뒤로가기
             },
             color: b_100,

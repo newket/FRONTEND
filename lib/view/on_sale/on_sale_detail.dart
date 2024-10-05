@@ -1,8 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
-import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/Colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -131,6 +131,7 @@ class _OnSaleDetail extends State<OnSaleDetail> {
                             AppBar(
                               leading: IconButton(
                                   onPressed: () {
+                                    AmplitudeConfig.amplitude.logEvent('Back');
                                     Navigator.pop(context); //뒤로가기
                                   },
                                   color: b_100,
@@ -172,8 +173,8 @@ class _OnSaleDetail extends State<OnSaleDetail> {
                                 ),
                               ),
                             ),
-                              //스크롤 가능
-                              SingleChildScrollView(
+                            //스크롤 가능
+                            SingleChildScrollView(
                                 padding: const EdgeInsets.only(left: 20, right: 20),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,12 +1,12 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/notification_model.dart';
 import 'package:newket/model/ticket_model.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/theme/Colors.dart';
 import 'package:newket/view/onboarding/login.dart';
 import 'package:newket/view/opening_notice/opening_notice_detail.dart';
-import 'package:get/route_manager.dart';
 
 class NotificationTicket extends StatefulWidget {
   const NotificationTicket({super.key});
@@ -57,6 +57,7 @@ class _NotificationTicket extends State<NotificationTicket> {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
+                AmplitudeConfig.amplitude.logEvent('Back');
                 Navigator.pop(context); //뒤로가기
               },
               color: b_100,
@@ -172,6 +173,7 @@ class _NotificationTicket extends State<NotificationTicket> {
                             left: isDeleteMode ? -54 : 0, // 삭제 모드 시 왼쪽으로 이동
                             child: GestureDetector(
                               onTap: () {
+                                AmplitudeConfig.amplitude.logEvent('OpeningNoticeDetail(id:${openingResponse.concerts[index1].concertId})');
                                 // 상세 페이지로 이동
                                 Navigator.push(
                                   context,

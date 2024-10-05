@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/repository/artist_repository.dart';
@@ -56,6 +57,7 @@ class _FavoriteArtist extends State<FavoriteArtist> {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
+                AmplitudeConfig.amplitude.logEvent('Back');
                 Navigator.pop(context); //뒤로가기
               },
               color: b_100,
@@ -135,7 +137,8 @@ class _FavoriteArtist extends State<FavoriteArtist> {
                                         child: TextField(
                                       decoration: const InputDecoration(
                                         border: InputBorder.none, // 입력 필드의 기본 테두리 제거
-                                        hintText: '관심 있는 아티스트을 검색해보세요!                                                            ',
+                                        hintText:
+                                            '관심 있는 아티스트을 검색해보세요!                                                            ',
                                         hintStyle: TextStyle(
                                           color: b_500, // 텍스트 색상
                                           fontSize: 12,
@@ -155,9 +158,12 @@ class _FavoriteArtist extends State<FavoriteArtist> {
                                       controller: _searchController,
                                     )),
                                     GestureDetector(
-                                        onTap: () => {setState(() {_searchController.clear();
-                                        artists=[];
-                                        })},
+                                        onTap: () => {
+                                              setState(() {
+                                                _searchController.clear();
+                                                artists = [];
+                                              })
+                                            },
                                         child: SvgPicture.asset('images/favorite_artist/close-circle.svg',
                                             height: 16, width: 16))
                                   ],
@@ -399,7 +405,7 @@ class _FavoriteArtist extends State<FavoriteArtist> {
                           ),
                         ),
                       ))
-                else if(_searchController.text!='')
+                else if (_searchController.text != '')
                   Positioned(
                       top: 186, // 검색 창 바로 아래에 위치
                       left: 32,
@@ -446,42 +452,41 @@ class _FavoriteArtist extends State<FavoriteArtist> {
                               ),
                             ),
                             const SizedBox(height: 28),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const ArtistRequest()),
-                            );
-                          },
-                          child:
-                            Container(
-                              width: double.infinity,
-                              height: 40,
-                              clipBehavior: Clip.antiAlias,
-                              decoration: ShapeDecoration(
-                                color: pt_30,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    '아티스트 등록 요청하러가기',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: p_600,
-                                      fontSize: 14,
-                                      fontFamily: 'Pretendard',
-                                      fontWeight: FontWeight.w700,
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const ArtistRequest()),
+                                  );
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 40,
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: ShapeDecoration(
+                                    color: pt_30,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
-                                  SvgPicture.asset("images/favorite_artist/request.svg", height: 24, width: 24),
-                                ],
-                              ),
-                            ))
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        '아티스트 등록 요청하러가기',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: p_600,
+                                          fontSize: 14,
+                                          fontFamily: 'Pretendard',
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      SvgPicture.asset("images/favorite_artist/request.svg", height: 24, width: 24),
+                                    ],
+                                  ),
+                                ))
                           ],
                         ),
                       ))

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/search/search_detail.dart';
 
@@ -112,6 +113,7 @@ class _Search extends State<Search> {
                               onSubmitted: (value) {
                                 //빈 값이 아닐 때 검색어 제출 시 페이지 이동
                                 if (value != '') {
+                                  AmplitudeConfig.amplitude.logEvent('SearchDetail(keyword: $value)');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

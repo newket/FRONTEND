@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/colors.dart';
@@ -83,6 +84,7 @@ class _Home extends State<Home> {
             Image.asset("images/appbar/appbar_ticket.png", height: 28),
             GestureDetector(
               onTap: () {
+                AmplitudeConfig.amplitude.logEvent('Notifications');
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -247,6 +249,7 @@ class _Home extends State<Home> {
                                           itemBuilder: (context, index) {
                                             return GestureDetector(
                                               onTap: () {
+                                                AmplitudeConfig.amplitude.logEvent('OpeningNoticeDetail(id:${response.concerts[index].concertId})');
                                                 // 상세 페이지로 이동
                                                 Navigator.push(
                                                   context,
@@ -428,6 +431,7 @@ class _Home extends State<Home> {
                                               GestureDetector(
                                                   //아티스트 검색으로
                                                   onTap: () {
+                                                    AmplitudeConfig.amplitude.logEvent('MyFavoriteArtist');
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
@@ -552,6 +556,7 @@ class _Home extends State<Home> {
                                             children: [
                                               GestureDetector(
                                                 onTap: () {
+                                                  AmplitudeConfig.amplitude.logEvent('OpeningNoticeDetail(id:${openingResponse.concerts[index1].concertId})');
                                                   // 상세 페이지로 이동
                                                   Navigator.push(
                                                     context,
@@ -799,6 +804,7 @@ class _Home extends State<Home> {
                                       //오픈 예정 티켓 00개 모두 보기
                                       GestureDetector(
                                         onTap: () {
+                                          AmplitudeConfig.amplitude.logEvent('OpeningNotice');
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(builder: (context) => const OpeningNotice()),

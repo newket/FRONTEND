@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/ticket_model.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
@@ -224,6 +225,7 @@ class _OpeningNoticeDetail extends State<OpeningNoticeDetail> {
                       AppBar(
                         leading: IconButton(
                             onPressed: () {
+                              AmplitudeConfig.amplitude.logEvent('Back');
                               Navigator.pop(context); //뒤로가기
                             },
                             color: b_100,
