@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/route_manager.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/model/user_model.dart';
 import 'package:newket/secure/auth_dio.dart';
@@ -46,11 +47,11 @@ class AuthRepository {
           final serverToken = await storage.read(key: 'ACCESS_TOKEN');
           await putDeviceTokenApi(serverToken!);
 
-          print('카카오톡으로 로그인 성공');
-          print("kakao 토큰: $accessToken");
+          AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 성공');
+
           Get.offAll(const TapBar());
         } catch (error) {
-          print('카카오톡으로 로그인 실패 $error');
+          AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 실패 $error');
 
           // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
           // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
@@ -66,8 +67,7 @@ class AuthRepository {
             final serverToken = await storage.read(key: 'ACCESS_TOKEN');
             await putDeviceTokenApi(serverToken!);
 
-            print('카카오계정으로 로그인 성공');
-            print("kakao 토큰: $accessToken");
+            AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
 
             Get.offAll(const TapBar());
           } catch (error) {
@@ -84,16 +84,15 @@ class AuthRepository {
           final serverToken = await storage.read(key: 'ACCESS_TOKEN');
           await putDeviceTokenApi(serverToken!);
 
-          print('카카오계정으로 로그인 성공');
-          print("kakao 토큰: $accessToken");
+          AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
 
           Get.offAll(const TapBar());
         } catch (error) {
-          print('카카오계정으로 로그인 실패 $error');
+          AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
         }
       }
     } catch (error){
-      print('카카오계정으로 로그인 실패 $error');
+      AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
     } finally {
       if (Get.isDialogOpen!) {
         Get.back(); // 로딩 화면을 닫음
@@ -118,6 +117,7 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {
           // 로그인 페이지로 이동
+          AmplitudeConfig.amplitude.logEvent('Login');
           Get.offAll(const Login());
         }
       }
@@ -142,6 +142,7 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400) {
           // 온보딩 페이지로 이동
+          AmplitudeConfig.amplitude.logEvent('Agreement');
           Get.offAll(const Agreement());
         }
       }

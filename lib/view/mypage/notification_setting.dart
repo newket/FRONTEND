@@ -167,7 +167,6 @@ class _NotificationSetting extends State<NotificationSetting> {
               ),
             ],
           ),
-        )
-        );
+        ));
   }
 }

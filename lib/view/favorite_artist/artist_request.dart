@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/theme/colors.dart';
 
@@ -119,6 +120,7 @@ class _ArtistRequest extends State<ArtistRequest> {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
+                AmplitudeConfig.amplitude.logEvent('Back');
                 Navigator.pop(context); //뒤로가기
               },
               color: b_100,

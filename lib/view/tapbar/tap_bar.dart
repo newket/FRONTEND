@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/home/home.dart';
 import 'package:newket/view/mypage/my_page.dart';
@@ -24,14 +25,34 @@ class TapBar extends StatefulWidget {
 
 class _TapBar extends State<TapBar> with SingleTickerProviderStateMixin {
   late TabController controller;
+  int lastIndex = -1;
 
   @override
   void initState() {
     super.initState();
     controller = TabController(length: 3, vsync: this);
     controller.addListener(() {
+      // 탭이 변경될 때마다 Amplitude 로그 기록
+      if (controller.index != lastIndex) { // 인덱스가 변경되었을 때만 실행
+        lastIndex = controller.index; // 현재 인덱스를 마지막 인덱스로 저장
+        switch (controller.index) {
+          case 0:
+            AmplitudeConfig.amplitude.logEvent('Home');
+            break;
+          case 1:
+            AmplitudeConfig.amplitude.logEvent('Search');
+            break;
+          case 2:
+            AmplitudeConfig.amplitude.logEvent('MyPage');
+            break;
+          default:
+            break;
+        }
+      }
       setState(() {}); // 탭 변경 시 상태 업데이트
-    });
+    }
+
+    );
   }
 
   @override
@@ -60,11 +81,7 @@ class _TapBar extends State<TapBar> with SingleTickerProviderStateMixin {
                 gradient: LinearGradient(
                   begin: const Alignment(-0.00, 1.00),
                   end: const Alignment(0, -1),
-                  colors: [
-                    Colors.black,
-                    Colors.black.withOpacity(0.2),
-                    Colors.black.withOpacity(0)
-                  ],
+                  colors: [Colors.black, Colors.black.withOpacity(0.2), Colors.black.withOpacity(0)],
                 ),
               ),
             ),
@@ -206,8 +223,7 @@ class _TapBar extends State<TapBar> with SingleTickerProviderStateMixin {
                         //divider 내리기
                         dividerColor: Colors.transparent,
                         // 흰 줄 제거
-                        indicatorPadding:
-                            const EdgeInsets.all(-10), // indicator 위치 내리기
+                        indicatorPadding: const EdgeInsets.all(-10), // indicator 위치 내리기
                       ),
                     ],
                   ),

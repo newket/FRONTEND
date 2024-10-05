@@ -1,3 +1,4 @@
+import 'package:amplitude_flutter/amplitude.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -6,12 +7,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/firebase_options.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/view/onboarding/login.dart';
 import 'package:newket/view/tapbar/tap_bar.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -99,6 +100,11 @@ void main() async {
     },
   );
 
+  //Amplitude 시작
+  AmplitudeConfig().init();
+  AmplitudeConfig.amplitude.setUserId('$deviceToken');
+
+
   String? userInfo = ""; //user의 정보를 저장하기 위한 변수
   const storage = FlutterSecureStorage();
   asyncMethod() async {
@@ -106,27 +112,26 @@ void main() async {
     //(데이터가 없을때는 null을 반환을 합니다.)
     userInfo = await storage.read(key: "ACCESS_TOKEN");
 
-    //user의 정보가 있다면 바로 홈으로 넝어가게 합니다.
+    //user의 정보가 있다면 바로 홈으로 넘어가게 합니다.
     if (userInfo != null) {
       runApp(const MyApp2());
+      AmplitudeConfig.amplitude.logEvent('Start Home');
     } else {
       runApp(const MyApp());
+      AmplitudeConfig.amplitude.logEvent('Start');
     }
   }
   asyncMethod();
 }
 
 class MyApp extends StatelessWidget {
-  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      navigatorObservers: <NavigatorObserver>[observer],
-      home: const Scaffold(
+    return const GetMaterialApp(
+      home: Scaffold(
         body: Center(child: Login()),
       ),
     );
@@ -134,16 +139,12 @@ class MyApp extends StatelessWidget {
 }
 
 class MyApp2 extends StatelessWidget {
-  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
-
   const MyApp2({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      navigatorObservers: <NavigatorObserver>[observer],
-      home: const Scaffold(
+    return const GetMaterialApp(
+      home: Scaffold(
         body: Center(child: TapBar()),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/auth_repository.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/Colors.dart';
@@ -178,6 +179,7 @@ class _MyPage extends State<MyPage> {
                           children: [
                             GestureDetector(
                                 onTap: () {
+                                  AmplitudeConfig.amplitude.logEvent('MyFavoriteArtist');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -212,6 +214,7 @@ class _MyPage extends State<MyPage> {
                             const SizedBox(height: 24),
                             GestureDetector(
                                 onTap: () {
+                                  AmplitudeConfig.amplitude.logEvent('NotificationTicket');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -245,6 +248,7 @@ class _MyPage extends State<MyPage> {
                             const SizedBox(height: 24),
                             GestureDetector(
                                 onTap: () {
+                                  AmplitudeConfig.amplitude.logEvent('NotificationSetting');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -281,6 +285,7 @@ class _MyPage extends State<MyPage> {
                             const SizedBox(height: 24),
                             GestureDetector(
                                 onTap: () {
+                                  AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -308,6 +313,7 @@ class _MyPage extends State<MyPage> {
                             const SizedBox(height: 24),
                             GestureDetector(
                                 onTap: () {
+                                  AmplitudeConfig.amplitude.logEvent('TermsOfService');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -335,6 +341,7 @@ class _MyPage extends State<MyPage> {
                             const SizedBox(height: 24),
                             GestureDetector(
                               onTap: () {
+                                AmplitudeConfig.amplitude.logEvent('Help');
                                 // 문의하기 페이지로 이동
                                 Navigator.push(
                                   context,
@@ -365,6 +372,7 @@ class _MyPage extends State<MyPage> {
                                   var storage = const FlutterSecureStorage();
                                   await storage.deleteAll();
                                   // 로그인 페이지로 이동
+                                  AmplitudeConfig.amplitude.logEvent('Logout');
                                   Get.offAll(const Login());
                                 },
                                 child: const Text(
@@ -453,6 +461,7 @@ class _MyPage extends State<MyPage> {
                                                       await authRepository.withdraw(context);
                                                       var storage = const FlutterSecureStorage();
                                                       storage.deleteAll();
+                                                      AmplitudeConfig.amplitude.logEvent('Withdraw');
                                                       Get.offAll(const Login());
                                                     },
                                                     icon: Container(

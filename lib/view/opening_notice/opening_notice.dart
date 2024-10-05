@@ -1,19 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/opening_notice/opening_notice_detail.dart';
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: OpeningNotice(),
-    );
-  }
-}
 
 class OpeningNotice extends StatefulWidget {
   const OpeningNotice({super.key});
@@ -54,6 +44,7 @@ class _OpeningNotice extends State<OpeningNotice> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
+              AmplitudeConfig.amplitude.logEvent('Back');
               Navigator.pop(context); //뒤로가기
             },
             color: b_100,
@@ -205,6 +196,8 @@ class _OpeningNotice extends State<OpeningNotice> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                             onTap: () {
+                              AmplitudeConfig.amplitude
+                                  .logEvent('OpeningNoticeDetail(id:${openingResponse.concerts[index].concertId})');
                               // 상세 페이지로 이동
                               Navigator.push(
                                 context,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/user_model.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/Colors.dart';
@@ -24,7 +25,7 @@ class _Help extends State<Help> {
   @override
   void initState() {
     super.initState();
-    userRepository=UserRepository();
+    userRepository = UserRepository();
     _titleController.addListener(_updateCharacterCount);
     _contentController.addListener(_updateCharacterCount); // 글자 수 변동 리스너 추가
   }
@@ -66,7 +67,7 @@ class _Help extends State<Help> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SvgPicture.asset('images/mypage/checkbox.svg',height:24,width: 24),
+                SvgPicture.asset('images/mypage/checkbox.svg', height: 24, width: 24),
                 const SizedBox(width: 12),
                 const Column(
                   mainAxisSize: MainAxisSize.min,
@@ -116,6 +117,7 @@ class _Help extends State<Help> {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
+                AmplitudeConfig.amplitude.logEvent('Back');
                 Navigator.pop(context); //뒤로가기
               },
               color: b_100,
@@ -142,90 +144,87 @@ class _Help extends State<Help> {
                         padding: const EdgeInsets.only(top: 12, left: 20, right: 20),
                         color: Colors.transparent, //페이지 전체 탭하면 키보드 닫히도록
                         child: Column(children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Row(
-                                children: [
-                                  Text(
-                                    '문의 제목',
-                                    style: TextStyle(
-                                      color: b_100,
-                                      fontSize: 16,
-                                      fontFamily: 'Pretendard',
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                            const Row(
+                              children: [
+                                Text(
+                                  '문의 제목',
+                                  style: TextStyle(
+                                    color: b_100,
+                                    fontSize: 16,
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w700,
                                   ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    '필수',
-                                    style: TextStyle(
-                                      color: p_500,
-                                      fontSize: 12,
-                                      fontFamily: 'Pretendard',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Text(
-                                '$_titleCharacters/20자',
-                                style: const TextStyle(
-                                  color: b_500,
-                                  fontSize: 12,
-                                  fontFamily: 'Pretendard',
-                                  fontWeight: FontWeight.w400,
                                 ),
-                              )
+                                SizedBox(width: 8),
+                                Text(
+                                  '필수',
+                                  style: TextStyle(
+                                    color: p_500,
+                                    fontSize: 12,
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                )
+                              ],
+                            ),
+                            Text(
+                              '$_titleCharacters/20자',
+                              style: const TextStyle(
+                                color: b_500,
+                                fontSize: 12,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            )
                           ]),
                           const SizedBox(height: 8),
-                        Focus(
-                            onFocusChange: (hasFocus) {
-                              setState(() {
-                                _titleBackgroundColor = hasFocus ? pt_20 : b_900;
-                              });
-                            },
-                            child:
-                          Container(
-                              height: 44,
-                              decoration: ShapeDecoration(
-                                color: _titleBackgroundColor, // 내부 배경색
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(width: 1, color: pt_50), // 테두리 색상 및 두께
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                              child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                        child: TextField(
-                                            decoration: const InputDecoration(
-                                              hintText: '문의하고자 하는 사항의 제목을 입력해주세요.',
-                                              border: InputBorder.none, // 입력 필드의 기본 테두리 제거
-                                              hintStyle: TextStyle(
-                                                color: b_500, // 텍스트 색상
-                                                fontSize: 12,
-                                                fontFamily: 'Pretendard',
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                              fontFamily: 'Pretendard',
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                            onChanged: (value) {
-                                              _updateCharacterCount();
-                                            },
-                                            controller: _titleController,
-                                            inputFormatters: [
-                                          LengthLimitingTextInputFormatter(20), // 최대 글자 수를 20자로 제한
-                                        ])),
-                                  ]))),
+                          Focus(
+                              onFocusChange: (hasFocus) {
+                                setState(() {
+                                  _titleBackgroundColor = hasFocus ? pt_20 : b_900;
+                                });
+                              },
+                              child: Container(
+                                  height: 44,
+                                  decoration: ShapeDecoration(
+                                    color: _titleBackgroundColor, // 내부 배경색
+                                    shape: RoundedRectangleBorder(
+                                      side: const BorderSide(width: 1, color: pt_50), // 테두리 색상 및 두께
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                                  child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                            child: TextField(
+                                                decoration: const InputDecoration(
+                                                  hintText: '문의하고자 하는 사항의 제목을 입력해주세요.',
+                                                  border: InputBorder.none, // 입력 필드의 기본 테두리 제거
+                                                  hintStyle: TextStyle(
+                                                    color: b_500, // 텍스트 색상
+                                                    fontSize: 12,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                  fontFamily: 'Pretendard',
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                                onChanged: (value) {
+                                                  _updateCharacterCount();
+                                                },
+                                                controller: _titleController,
+                                                inputFormatters: [
+                                              LengthLimitingTextInputFormatter(20), // 최대 글자 수를 20자로 제한
+                                            ])),
+                                      ]))),
                           const SizedBox(height: 24),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -265,55 +264,56 @@ class _Help extends State<Help> {
                             ],
                           ),
                           const SizedBox(height: 8),
-                        Focus(
-                            onFocusChange: (hasFocus) {
-                              setState(() {
-                                _contentBackgroundColor = hasFocus ? pt_20 : b_900;
-                              });
-                            },
-                            child:
-                          Container(
-                              height: 303,
-                              decoration: ShapeDecoration(
-                                color: _contentBackgroundColor, // 내부 배경색
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(width: 1, color: pt_50), // 테두리 색상 및 두께
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                              child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                        child: TextField(
-                                            decoration: const InputDecoration(
-                                              hintText: '자세한 내용을 입력해주세요.\n\n\n\n\n\n\n\n\n\n\n\n\n\n',
-                                              border: InputBorder.none, // 입력 필드의 기본 테두리 제거
-                                              hintStyle: TextStyle(
-                                                color: b_500, // 텍스트 색상
-                                                fontSize: 12,
-                                                fontFamily: 'Pretendard',
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                            maxLines: null, // 줄바꿈 허용
-                                            keyboardType: TextInputType.multiline, // 여러 줄 입력 가능
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                              fontFamily: 'Pretendard',
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                            onChanged: (value) {
-                                              _updateCharacterCount();
-                                            },
-                                            controller: _contentController,
-                                            inputFormatters: [
-                                          LengthLimitingTextInputFormatter(300), // 최대 글자 수를 300자로 제한
-                                        ]))
-                                  ])))
+                          Focus(
+                              onFocusChange: (hasFocus) {
+                                setState(() {
+                                  _contentBackgroundColor = hasFocus ? pt_20 : b_900;
+                                });
+                              },
+                              child: Container(
+                                  height: 303,
+                                  decoration: ShapeDecoration(
+                                    color: _contentBackgroundColor, // 내부 배경색
+                                    shape: RoundedRectangleBorder(
+                                      side: const BorderSide(width: 1, color: pt_50), // 테두리 색상 및 두께
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                  child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                            child: TextField(
+                                                decoration: const InputDecoration(
+                                                  hintText: '자세한 내용을 입력해주세요.\n\n\n\n\n\n\n\n\n\n\n\n\n\n',
+                                                  border: InputBorder.none, // 입력 필드의 기본 테두리 제거
+                                                  hintStyle: TextStyle(
+                                                    color: b_500, // 텍스트 색상
+                                                    fontSize: 12,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                maxLines: null,
+                                                // 줄바꿈 허용
+                                                keyboardType: TextInputType.multiline,
+                                                // 여러 줄 입력 가능
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                  fontFamily: 'Pretendard',
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                                onChanged: (value) {
+                                                  _updateCharacterCount();
+                                                },
+                                                controller: _contentController,
+                                                inputFormatters: [
+                                              LengthLimitingTextInputFormatter(300), // 최대 글자 수를 300자로 제한
+                                            ]))
+                                      ])))
                         ]))),
                 Positioned(
                     bottom: 44,
@@ -336,10 +336,12 @@ class _Help extends State<Help> {
                         if (_titleController.value.text.isNotEmpty && _contentController.value.text.isNotEmpty)
                           ElevatedButton(
                             onPressed: () async {
-                              await userRepository.createHelp(context, HelpRequest(_titleController.value.text, _contentController.value.text));
+                              await userRepository.createHelp(
+                                  context, HelpRequest(_titleController.value.text, _contentController.value.text));
                               _titleController.clear();
                               _contentController.clear();
                               showToast(context);
+                              AmplitudeConfig.amplitude.logEvent('Back');
                               Navigator.pop(context); //뒤로가기
                             },
                             style: ElevatedButton.styleFrom(
@@ -362,7 +364,6 @@ class _Help extends State<Help> {
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
-
                               ],
                             ),
                           )

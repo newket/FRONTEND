@@ -1,6 +1,6 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/on_sale/on_sale_detail.dart';
@@ -38,6 +38,7 @@ class _SearchDetail extends State<SearchDetail> {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
+                AmplitudeConfig.amplitude.logEvent('Back');
                 Navigator.pop(context); //뒤로가기
               },
               color: Colors.white,
@@ -225,6 +226,7 @@ class _SearchDetail extends State<SearchDetail> {
                                                 children: [
                                                   GestureDetector(
                                                     onTap: () {
+                                                      AmplitudeConfig.amplitude.logEvent('OpeningNoticeDetail(id:${ticketResponse.openingNotice.concerts[index1].concertId})');
                                                       // 상세 페이지로 이동
                                                       Navigator.push(
                                                         context,

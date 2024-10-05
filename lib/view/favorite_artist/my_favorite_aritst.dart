@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/theme/colors.dart';
@@ -36,7 +37,6 @@ class _MyFavoriteArtist extends State<MyFavoriteArtist> {
     });
   }
 
-
   void showToast(BuildContext context) {
     OverlayEntry overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -59,7 +59,7 @@ class _MyFavoriteArtist extends State<MyFavoriteArtist> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SvgPicture.asset('images/mypage/checkbox.svg',height:24,width: 24),
+                SvgPicture.asset('images/mypage/checkbox.svg', height: 24, width: 24),
                 const SizedBox(width: 12),
                 const Column(
                   mainAxisSize: MainAxisSize.min,
@@ -125,6 +125,7 @@ class _MyFavoriteArtist extends State<MyFavoriteArtist> {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
+                AmplitudeConfig.amplitude.logEvent('Back');
                 Navigator.pop(context); //뒤로가기
               },
               color: b_100,
@@ -332,6 +333,7 @@ class _MyFavoriteArtist extends State<MyFavoriteArtist> {
                       onPressed: () async {
                         await ArtistRepository().putFavoriteArtists(
                             context, FavoriteArtists(myArtists.map((artist) => artist.artistId).toList()));
+                        AmplitudeConfig.amplitude.logEvent('Back');
                         Navigator.pop(context); //뒤로가기
                         showToast(context);
                       },
@@ -495,6 +497,7 @@ class _MyFavoriteArtist extends State<MyFavoriteArtist> {
                             const SizedBox(height: 28),
                             GestureDetector(
                                 onTap: () {
+                                  AmplitudeConfig.amplitude.logEvent('ArtistRequest');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(builder: (context) => const ArtistRequest()),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/theme/Colors.dart';
 
 class PrivacyPolicy extends StatefulWidget {
@@ -36,6 +37,7 @@ class _PrivacyPolicy extends State<PrivacyPolicy> {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
+                AmplitudeConfig.amplitude.logEvent('Back');
                 Navigator.pop(context); //뒤로가기
               },
               color: Colors.white,

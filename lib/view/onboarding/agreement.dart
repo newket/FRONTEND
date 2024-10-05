@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/agreement/privacy_policy.dart';
 import 'package:newket/view/agreement/terms_of_service.dart';
@@ -68,6 +69,7 @@ class _Agreement extends State<Agreement> {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
+                AmplitudeConfig.amplitude.logEvent('Back');
                 Navigator.pop(context); //뒤로가기
               },
               color: b_100,
@@ -160,6 +162,7 @@ class _Agreement extends State<Agreement> {
                           const SizedBox(height: 24),
                           GestureDetector(
                               onTap: () {
+                                AmplitudeConfig.amplitude.logEvent('TermsOfService');
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => const TermsOfService()),
@@ -209,6 +212,7 @@ class _Agreement extends State<Agreement> {
                           const SizedBox(height: 24),
                           GestureDetector(
                               onTap: () {
+                                AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => const PrivacyPolicy()),
@@ -262,6 +266,7 @@ class _Agreement extends State<Agreement> {
                           if (isAllSelected)
                             ElevatedButton(
                               onPressed: () {
+                                AmplitudeConfig.amplitude.logEvent('FavoriteArtist');
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => const FavoriteArtist()),

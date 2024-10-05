@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/theme/Colors.dart';
 
@@ -26,6 +27,7 @@ class _Notifications extends State<Notifications> {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
+                AmplitudeConfig.amplitude.logEvent('Back');
                 Navigator.pop(context); //뒤로가기
               },
               color: Colors.white,
