@@ -150,7 +150,7 @@ class _Home extends State<Home> {
                   //안내 멘트
                   Positioned(
                       left: 20,
-                      top: 20,
+                      top: 12,
                       right: 20,
                       child: FutureBuilder(
                           future: ticketRepository.getFavoriteOpeningNotice(context),
@@ -342,7 +342,7 @@ class _Home extends State<Home> {
                                                                   ],
                                                                 ),
                                                               ),
-                                                              const SizedBox(height: 8),
+                                                              const SizedBox(height: 4),
                                                             ],
                                                           );
                                                         },
