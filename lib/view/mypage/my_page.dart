@@ -229,7 +229,7 @@ class _MyPage extends State<MyPage> {
                                       children: [
                                         Row(
                                           children: [
-                                            SvgPicture.asset("images/mypage/notification.svg", height: 20, width: 20),
+                                            SvgPicture.asset("images/mypage/ticket.svg", height: 20, width: 20),
                                             const SizedBox(width: 8),
                                             const Text(
                                               '알림 받기 신청한 티켓',
@@ -263,7 +263,7 @@ class _MyPage extends State<MyPage> {
                                       children: [
                                         Row(
                                           children: [
-                                            SvgPicture.asset("images/mypage/ticket.svg", height: 20, width: 20),
+                                            SvgPicture.asset("images/mypage/notification.svg", height: 20, width: 20),
                                             const SizedBox(width: 8),
                                             const Text(
                                               '알림 설정',
