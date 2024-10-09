@@ -12,6 +12,7 @@ dependencies:
 
   #  카카오
   kakao_flutter_sdk: ^1.9.2
+
   get: ^4.6.6
   dio: ^5.5.0
   flutter_dotenv: ^5.1.0
@@ -45,6 +46,9 @@ dependencies:
 
   #amplitude
   amplitude_flutter: ^3.13.0
+
+  #shared_preferences
+  shared_preferences: ^2.0.0
 
 dev_dependencies:
   flutter_test:

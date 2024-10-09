@@ -12,6 +12,7 @@ import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/view/onboarding/login.dart';
 import 'package:newket/view/tapbar/tap_bar.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -51,15 +52,32 @@ void showFlutterNotification(RemoteMessage message) {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+  //Amplitude 시작
+  AmplitudeConfig().init();
+  AmplitudeConfig.amplitude.logEvent('install');
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  const storage = FlutterSecureStorage();
+
+  // 설치 여부 확인 및 데이터 삭제
+  bool isFirstRun = prefs.getBool('isFirstRun') ?? true; // 초기값을 true로 설정
+  if (isFirstRun) {
+    await prefs.clear(); // 모든 데이터 삭제
+    await storage.deleteAll(); // 모든 데이터 삭제
+    await prefs.setBool('isFirstRun', false); // 다음 실행부터는 false로 설정
+  }
+
   await [Permission.notification].request();
+
+  // Firebase 초기화
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  AmplitudeConfig.amplitude.logEvent('firebase init');
 
   // Kakao SDK 초기화
   KakaoSdk.init(
     nativeAppKey: dotenv.get("NATIVE_APP_KEY"),
   );
-
-  // Firebase 초기화
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  AmplitudeConfig.amplitude.logEvent('kakao init');
 
   // AndroidNotificationChannel 설정
   // FlutterLocalNotificationsPlugin 설정
@@ -72,10 +90,10 @@ void main() async {
 
   // FCM 기기 토큰 가져오기
   final deviceToken = await FirebaseMessaging.instance.getToken();
+  AmplitudeConfig.amplitude.setUserId('$deviceToken');
+
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
   await FirebaseMessaging.instance.setDeliveryMetricsExportToBigQuery(true);
-
-  print("디바이스 토큰: $deviceToken");
 
   // FCM 포어그라운드 메시지 리스너
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -99,13 +117,9 @@ void main() async {
     },
   );
 
-  //Amplitude 시작
-  AmplitudeConfig().init();
-  AmplitudeConfig.amplitude.setUserId('$deviceToken');
 
 
   String? userInfo = ""; //user의 정보를 저장하기 위한 변수
-  const storage = FlutterSecureStorage();
   asyncMethod() async {
     //read 함수를 통하여 key값에 맞는 정보를 불러오게 됩니다. 이때 불러오는 결과의 타입은 String 타입임을 기억해야 합니다.
     //(데이터가 없을때는 null을 반환을 합니다.)

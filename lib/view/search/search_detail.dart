@@ -111,7 +111,8 @@ class _SearchDetail extends State<SearchDetail> {
                     future: ticketRepository.searchTicket(keyword),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(
+                            child: Column(children: [SizedBox(height: 20), CircularProgressIndicator()]));
                       } else if (snapshot.hasError || !snapshot.hasData) {
                         // 데이터 로딩 실패
                         return Center(
@@ -226,7 +227,8 @@ class _SearchDetail extends State<SearchDetail> {
                                                 children: [
                                                   GestureDetector(
                                                     onTap: () {
-                                                      AmplitudeConfig.amplitude.logEvent('OpeningNoticeDetail(id:${ticketResponse.openingNotice.concerts[index1].concertId})');
+                                                      AmplitudeConfig.amplitude.logEvent(
+                                                          'OpeningNoticeDetail(id:${ticketResponse.openingNotice.concerts[index1].concertId})');
                                                       // 상세 페이지로 이동
                                                       Navigator.push(
                                                         context,
@@ -368,8 +370,7 @@ class _SearchDetail extends State<SearchDetail> {
                                                                     //선예매 , 일반예매
                                                                     else
                                                                       Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.start,
+                                                                        mainAxisAlignment: MainAxisAlignment.start,
                                                                         children: [
                                                                           Column(
                                                                             crossAxisAlignment:
@@ -526,7 +527,7 @@ class _SearchDetail extends State<SearchDetail> {
                                                       ],
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 30),
+                                                  const SizedBox(height: 12),
                                                 ],
                                               );
                                             }),

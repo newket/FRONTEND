@@ -151,6 +151,7 @@ class _MyPage extends State<MyPage> {
                         ])),
               ]),
               // 점선
+              Expanded(child:
               Stack(children: [
                 DottedBorder(
                   color: p_700,
@@ -162,7 +163,7 @@ class _MyPage extends State<MyPage> {
                   ),
                 ),
                 Container(
-                    height: MediaQuery.of(context).size.height - 188,
+                    width: double.infinity,
                     decoration: const ShapeDecoration(
                       color: b_950,
                       shape: RoundedRectangleBorder(
@@ -444,7 +445,7 @@ class _MyPage extends State<MyPage> {
                                                     icon: Container(
                                                         height: 48,
                                                         padding:
-                                                            const EdgeInsets.symmetric(horizontal: 28, vertical: 13),
+                                                        const EdgeInsets.symmetric(horizontal: 28, vertical: 13),
                                                         child: const Text(
                                                           '아니오',
                                                           textAlign: TextAlign.center,
@@ -504,7 +505,7 @@ class _MyPage extends State<MyPage> {
                             )
                           ],
                         )))
-              ])
+              ]))
             ]));
   }
 }
