@@ -6,13 +6,13 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/auth_repository.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/Colors.dart';
-import 'package:newket/view/agreement/privacy_policy.dart';
-import 'package:newket/view/agreement/terms_of_service.dart';
-import 'package:newket/view/favorite_artist/my_favorite_aritst.dart';
-import 'package:newket/view/mypage/help.dart';
-import 'package:newket/view/mypage/notification_setting.dart';
-import 'package:newket/view/mypage/notification_ticket.dart';
-import 'package:newket/view/onboarding/login.dart';
+import 'package:newket/view/v100/agreement/privacy_policy.dart';
+import 'package:newket/view/v100/agreement/terms_of_service.dart';
+import 'package:newket/view/v100/favorite_artist/my_favorite_aritst.dart';
+import 'package:newket/view/v100/mypage/help.dart';
+import 'package:newket/view/v100/mypage/notification_setting.dart';
+import 'package:newket/view/v100/mypage/notification_ticket.dart';
+import 'package:newket/view/v100/onboarding/login.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class MyApp extends StatelessWidget {
@@ -21,19 +21,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: MyPage(),
+      home: MyPageV1(),
     );
   }
 }
 
-class MyPage extends StatefulWidget {
-  const MyPage({super.key});
+class MyPageV1 extends StatefulWidget {
+  const MyPageV1({super.key});
 
   @override
-  State<StatefulWidget> createState() => _MyPage();
+  State<StatefulWidget> createState() => _MyPageV1();
 }
 
-class _MyPage extends State<MyPage> {
+class _MyPageV1 extends State<MyPageV1> {
   late UserRepository userRepository;
   late AuthRepository authRepository;
   bool artistNotification = true;
@@ -180,11 +180,11 @@ class _MyPage extends State<MyPage> {
                           children: [
                             GestureDetector(
                                 onTap: () {
-                                  AmplitudeConfig.amplitude.logEvent('MyFavoriteArtist');
+                                  AmplitudeConfig.amplitude.logEvent('MyFavoriteArtistV1');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const MyFavoriteArtist(),
+                                      builder: (context) => const MyFavoriteArtistV1(),
                                     ),
                                   );
                                 },
@@ -215,11 +215,11 @@ class _MyPage extends State<MyPage> {
                             const SizedBox(height: 24),
                             GestureDetector(
                                 onTap: () {
-                                  AmplitudeConfig.amplitude.logEvent('NotificationTicket');
+                                  AmplitudeConfig.amplitude.logEvent('NotificationTicketV1');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const NotificationTicket(),
+                                      builder: (context) => const NotificationTicketV1(),
                                     ),
                                   );
                                 },
@@ -253,7 +253,7 @@ class _MyPage extends State<MyPage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const NotificationSetting(),
+                                      builder: (context) => const NotificationSettingV1(),
                                     ),
                                   );
                                 },
@@ -286,11 +286,11 @@ class _MyPage extends State<MyPage> {
                             const SizedBox(height: 24),
                             GestureDetector(
                                 onTap: () {
-                                  AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
+                                  AmplitudeConfig.amplitude.logEvent('PrivacyPolicyV1');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const PrivacyPolicy(),
+                                      builder: (context) => const PrivacyPolicyV1(),
                                     ),
                                   );
                                 },
@@ -314,11 +314,11 @@ class _MyPage extends State<MyPage> {
                             const SizedBox(height: 24),
                             GestureDetector(
                                 onTap: () {
-                                  AmplitudeConfig.amplitude.logEvent('TermsOfService');
+                                  AmplitudeConfig.amplitude.logEvent('TermsOfServiceV1');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const TermsOfService(),
+                                      builder: (context) => const TermsOfServiceV1(),
                                     ),
                                   );
                                 },
@@ -346,7 +346,7 @@ class _MyPage extends State<MyPage> {
                                 // 문의하기 페이지로 이동
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const Help()),
+                                  MaterialPageRoute(builder: (context) => const  HelpV1()),
                                 );
                               },
                               child: Container(

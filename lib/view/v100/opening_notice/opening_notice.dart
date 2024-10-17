@@ -3,7 +3,7 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/colors.dart';
-import 'package:newket/view/opening_notice/opening_notice_detail.dart';
+import 'package:newket/view/v100/opening_notice/opening_notice_detail.dart';
 
 class OpeningNotice extends StatefulWidget {
   const OpeningNotice({super.key});

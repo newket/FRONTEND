@@ -7,7 +7,7 @@ import 'package:newket/model/ticket_model.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/theme/Colors.dart';
-import 'package:newket/view/onboarding/login.dart';
+import 'package:newket/view/v100/onboarding/login.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OpeningNoticeDetail extends StatefulWidget {

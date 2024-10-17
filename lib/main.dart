@@ -9,8 +9,8 @@ import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/firebase_options.dart';
 import 'package:newket/repository/notification_repository.dart';
-import 'package:newket/view/onboarding/login.dart';
-import 'package:newket/view/tapbar/tap_bar.dart';
+import 'package:newket/view/v100/onboarding/login.dart';
+import 'package:newket/view/v100/tapbar/tap_bar.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,6 +44,11 @@ void showFlutterNotification(RemoteMessage message) {
             playSound: true, // 기본 사운드 재생 설정
             fullScreenIntent: true, // 화면을 깨우도록 설정
           ),
+          iOS: const DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true
+          )
         ),
         payload: message.data['notificationId']);
   }
@@ -67,22 +72,34 @@ void main() async {
     await prefs.setBool('isFirstRun', false); // 다음 실행부터는 false로 설정
   }
 
-  await [Permission.notification].request();
-
-  // Firebase 초기화
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  AmplitudeConfig.amplitude.logEvent('firebase init');
-
   // Kakao SDK 초기화
   KakaoSdk.init(
     nativeAppKey: dotenv.get("NATIVE_APP_KEY"),
   );
-  AmplitudeConfig.amplitude.logEvent('kakao init');
+
+  await [Permission.notification].request();
+
+  // Firebase 초기화
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  //ios 메세지 수신 권한 요청
+  await FirebaseMessaging.instance.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
 
   // AndroidNotificationChannel 설정
   // FlutterLocalNotificationsPlugin 설정
   const androidInitializationSettings = AndroidInitializationSettings('logo');
-  const initializationSettings = InitializationSettings(android: androidInitializationSettings);
+  const iosInitializationSettings = DarwinInitializationSettings(
+      requestAlertPermission: true, requestBadgePermission: true, requestSoundPermission: true);
+  const initializationSettings =
+      InitializationSettings(android: androidInitializationSettings, iOS: iosInitializationSettings);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
@@ -117,8 +134,6 @@ void main() async {
     },
   );
 
-
-
   String? userInfo = ""; //user의 정보를 저장하기 위한 변수
   asyncMethod() async {
     //read 함수를 통하여 key값에 맞는 정보를 불러오게 됩니다. 이때 불러오는 결과의 타입은 String 타입임을 기억해야 합니다.
@@ -134,11 +149,11 @@ void main() async {
       AmplitudeConfig.amplitude.logEvent('Start');
     }
   }
+
   asyncMethod();
 }
 
 class MyApp extends StatelessWidget {
-
   const MyApp({super.key});
 
   @override
@@ -158,7 +173,7 @@ class MyApp2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
       home: Scaffold(
-        body: Center(child: TapBar()),
+        body: Center(child: TapBarV1()),
       ),
     );
   }

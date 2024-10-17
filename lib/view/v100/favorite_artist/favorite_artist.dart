@@ -8,17 +8,17 @@ import 'package:newket/model/auth_model.dart';
 import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/repository/auth_repository.dart';
 import 'package:newket/theme/colors.dart';
-import 'package:newket/view/favorite_artist/artist_request.dart';
-import 'package:newket/view/tapbar/tap_bar.dart';
+import 'package:newket/view/v100/favorite_artist/artist_request.dart';
+import 'package:newket/view/v100/tapbar/tap_bar.dart';
 
-class FavoriteArtist extends StatefulWidget {
-  const FavoriteArtist({super.key});
+class FavoriteArtistV1 extends StatefulWidget {
+  const FavoriteArtistV1({super.key});
 
   @override
-  State<StatefulWidget> createState() => _FavoriteArtist();
+  State<StatefulWidget> createState() => _FavoriteArtistV1();
 }
 
-class _FavoriteArtist extends State<FavoriteArtist> {
+class _FavoriteArtistV1 extends State<FavoriteArtistV1> {
   late ArtistRepository artistRepository;
   final TextEditingController _searchController = TextEditingController();
   List<Artist> artists = []; // 검색 결과를 담을 리스트
@@ -292,7 +292,7 @@ class _FavoriteArtist extends State<FavoriteArtist> {
                         final serverToken = await storage.read(key: 'ACCESS_TOKEN');
                         await AuthRepository().putDeviceTokenApi(serverToken!);
                         //home 으로
-                        Get.offAll(const TapBar());
+                        Get.offAll(const TapBarV1());
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: p_700, // 버튼 색상
@@ -456,7 +456,7 @@ class _FavoriteArtist extends State<FavoriteArtist> {
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const ArtistRequest()),
+                                    MaterialPageRoute(builder: (context) => const ArtistRequestV1()),
                                   );
                                 },
                                 child: Container(

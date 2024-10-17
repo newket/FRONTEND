@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/theme/colors.dart';
-import 'package:newket/view/on_sale/on_sale_detail.dart';
+import 'package:newket/view/v100/on_sale/on_sale_detail.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -10,19 +10,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: OnSale(),
+      home: OnSaleV1(),
     );
   }
 }
 
-class OnSale extends StatefulWidget {
-  const OnSale({super.key});
+class OnSaleV1 extends StatefulWidget {
+  const OnSaleV1({super.key});
 
   @override
-  State<StatefulWidget> createState() => _OnSale();
+  State<StatefulWidget> createState() => _OnSaleV1();
 }
 
-class _OnSale extends State<OnSale> {
+class _OnSaleV1 extends State<OnSaleV1> {
   late TicketRepository ticketRepository;
   String selectedOption = '공연 날짜 임박 순';
   late Future repository; // Future 타입으로 초기화
@@ -211,7 +211,7 @@ class _OnSale extends State<OnSale> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => OnSaleDetail(
+                                  builder: (context) => OnSaleDetailV1(
                                     concertId: onSaleResponse.concerts[index]
                                         .concertId, // 상세 페이지에 데이터 전달
                                   ),

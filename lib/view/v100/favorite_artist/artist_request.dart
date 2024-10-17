@@ -4,14 +4,14 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/theme/colors.dart';
 
-class ArtistRequest extends StatefulWidget {
-  const ArtistRequest({super.key});
+class ArtistRequestV1 extends StatefulWidget {
+  const ArtistRequestV1({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ArtistRequest();
+  State<StatefulWidget> createState() => _ArtistRequestV1();
 }
 
-class _ArtistRequest extends State<ArtistRequest> {
+class _ArtistRequestV1 extends State<ArtistRequestV1> {
   late ArtistRepository artistRepository;
   String artist = '';
   final TextEditingController _searchController = TextEditingController();

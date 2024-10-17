@@ -23,16 +23,16 @@ class ArtistRepository {
     await dio.post("/api/v1/artists/request?artistName=$artistName&deviceToken=$deviceToken");
   }
 
-  Future<SearchArtists> getFavoriteArtists(BuildContext context) async {
+  Future<SearchArtists> getFavoriteArtistV1s(BuildContext context) async {
     var dio = await authDio(context);
     final response = await dio.get("/api/v1/artists/favorite");
 
     return SearchArtists.fromJson(response.data);
   }
 
-  Future<void> putFavoriteArtists(BuildContext context, FavoriteArtists favoriteArtists) async {
+  Future<void> putFavoriteArtistV1s(BuildContext context, FavoriteArtistV1s FavoriteArtistV1s) async {
     var dio = await authDio(context);
-    final requestBody = favoriteArtists.toJson();
+    final requestBody = FavoriteArtistV1s.toJson();
     await dio.put("/api/v1/artists/favorite", data: requestBody);
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/theme/colors.dart';
-import 'package:newket/view/home/home.dart';
-import 'package:newket/view/mypage/my_page.dart';
-import 'package:newket/view/search/search.dart';
+import 'package:newket/view/v100/home/home.dart';
+import 'package:newket/view/v100/mypage/my_page.dart';
+import 'package:newket/view/v100/search/search.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -11,19 +11,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: TapBar(),
+      home: TapBarV1(),
     );
   }
 }
 
-class TapBar extends StatefulWidget {
-  const TapBar({super.key});
+class TapBarV1 extends StatefulWidget {
+  const TapBarV1({super.key});
 
   @override
-  State<StatefulWidget> createState() => _TapBar();
+  State<StatefulWidget> createState() => _TapBarV1();
 }
 
-class _TapBar extends State<TapBar> with SingleTickerProviderStateMixin {
+class _TapBarV1 extends State<TapBarV1> with SingleTickerProviderStateMixin {
   late TabController controller;
   int lastIndex = -1;
   bool isKeyboardVisible = false;
@@ -78,11 +78,11 @@ class _TapBar extends State<TapBar> with SingleTickerProviderStateMixin {
                       ? TabBarView(
                           controller: controller,
                           physics: const NeverScrollableScrollPhysics(),
-                          children: const <Widget>[Home(), Search(), MyPage()],
+                          children: const <Widget>[HomeV1(), Search(),  MyPageV1()],
                         )
                       : TabBarView(
                           controller: controller,
-                          children: const <Widget>[Home(), Search(), MyPage()],
+                          children: const <Widget>[HomeV1(), Search(),  MyPageV1()],
                         ),
                 ),
                 Positioned(

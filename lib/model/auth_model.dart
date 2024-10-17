@@ -42,11 +42,11 @@ class ReissueResponse {
 
 class SignUpRequest {
   String accessToken;
-  List<int> favoriteArtistIds;
+  List<int> FavoriteArtistV1Ids;
 
-  SignUpRequest(this.accessToken, this.favoriteArtistIds);
+  SignUpRequest(this.accessToken, this.FavoriteArtistV1Ids);
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{"accessToken": accessToken, "favoriteArtistIds": favoriteArtistIds};
+    return <String, dynamic>{"accessToken": accessToken, "FavoriteArtistV1Ids": FavoriteArtistV1Ids};
   }
 }

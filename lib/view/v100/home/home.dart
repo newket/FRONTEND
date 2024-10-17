@@ -5,12 +5,12 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/colors.dart';
-import 'package:newket/view/favorite_artist/my_favorite_aritst.dart';
-import 'package:newket/view/home/notifications.dart';
-import 'package:newket/view/on_sale/on_sale.dart';
-import 'package:newket/view/on_sale/on_sale_detail.dart';
-import 'package:newket/view/opening_notice/opening_notice.dart';
-import 'package:newket/view/opening_notice/opening_notice_detail.dart';
+import 'package:newket/view/v100/favorite_artist/my_favorite_aritst.dart';
+import 'package:newket/view/v100/home/notifications.dart';
+import 'package:newket/view/v100/on_sale/on_sale.dart';
+import 'package:newket/view/v100/on_sale/on_sale_detail.dart';
+import 'package:newket/view/v100/opening_notice/opening_notice.dart';
+import 'package:newket/view/v100/opening_notice/opening_notice_detail.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -18,24 +18,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Home(),
+      home: HomeV1(),
     );
   }
 }
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomeV1 extends StatefulWidget {
+  const HomeV1({super.key});
 
   @override
-  State<StatefulWidget> createState() => _Home();
+  State<StatefulWidget> createState() => _HomeV1();
 }
 
-class _Home extends State<Home> {
+class _HomeV1 extends State<HomeV1> {
   late UserRepository userRepository;
   late TicketRepository ticketRepository;
   String name = '';
   String artist = '';
-  List<String> favoriteArtists = [];
+  List<String> FavoriteArtistV1s = [];
   bool isLoading = true; // 로딩 상태 추가
 
 
@@ -88,7 +88,7 @@ class _Home extends State<Home> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Notifications(),
+                    builder: (context) => const NotificationsV1(),
                   ),
                 );
               },
@@ -215,7 +215,7 @@ class _Home extends State<Home> {
                                                 // 각 아이템 간 간격
                                                 runSpacing: 8.0,
                                                 // 줄 바꿈 시 간격
-                                                children: response.favoriteArtistNames.map((artist) {
+                                                children: response.FavoriteArtistV1Names.map((artist) {
                                                   return Container(
                                                     height: 25,
                                                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -355,7 +355,7 @@ class _Home extends State<Home> {
                                           },
                                         ),
                                       )
-                                    else if (response.favoriteArtistNames.isNotEmpty)
+                                    else if (response.FavoriteArtistV1Names.isNotEmpty)
                                       Container(
                                           width: MediaQuery.of(context).size.width - 40,
                                           height: 337,
@@ -431,11 +431,11 @@ class _Home extends State<Home> {
                                               GestureDetector(
                                                   //아티스트 검색으로
                                                   onTap: () {
-                                                    AmplitudeConfig.amplitude.logEvent('MyFavoriteArtist');
+                                                    AmplitudeConfig.amplitude.logEvent('MyFavoriteArtistV1');
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                        builder: (context) => const MyFavoriteArtist(),
+                                                        builder: (context) => const MyFavoriteArtistV1(),
                                                       ),
                                                     );
                                                   },
@@ -927,7 +927,7 @@ class _Home extends State<Home> {
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                        builder: (context) => OnSaleDetail(
+                                                        builder: (context) => OnSaleDetailV1(
                                                           concertId: onSaleResponse
                                                               .concerts[index1].concertId, // 상세 페이지에 데이터 전달
                                                         ),
@@ -1025,7 +1025,7 @@ class _Home extends State<Home> {
                                             onTap: () {
                                               Navigator.push(
                                                 context,
-                                                MaterialPageRoute(builder: (context) => const OnSale()),
+                                                MaterialPageRoute(builder: (context) => const OnSaleV1()),
                                               );
                                             },
                                             child: Container(

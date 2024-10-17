@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/theme/Colors.dart';
 
-class TermsOfService extends StatefulWidget {
-  const TermsOfService({super.key});
+class TermsOfServiceV1 extends StatefulWidget {
+  const TermsOfServiceV1({super.key});
 
   @override
-  State<StatefulWidget> createState() => _TermsOfService();
+  State<StatefulWidget> createState() => _TermsOfServiceV1();
 }
 
-class _TermsOfService extends State<TermsOfService> {
+class _TermsOfServiceV1 extends State<TermsOfServiceV1> {
   @override
   void initState() {
     super.initState();

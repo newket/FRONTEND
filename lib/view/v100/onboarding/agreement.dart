@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/theme/colors.dart';
-import 'package:newket/view/agreement/privacy_policy.dart';
-import 'package:newket/view/agreement/terms_of_service.dart';
-import 'package:newket/view/favorite_artist/favorite_artist.dart';
+import 'package:newket/view/v100/agreement/privacy_policy.dart';
+import 'package:newket/view/v100/agreement/terms_of_service.dart';
+import 'package:newket/view/v100/favorite_artist/favorite_artist.dart';
 
-class Agreement extends StatefulWidget {
-  const Agreement({super.key});
+class AgreementV1 extends StatefulWidget {
+  const AgreementV1({super.key});
 
   @override
-  State<StatefulWidget> createState() => _Agreement();
+  State<StatefulWidget> createState() => _AgreementV1();
 }
 
-class _Agreement extends State<Agreement> {
+class _AgreementV1 extends State<AgreementV1> {
   bool isAllSelected = false; // 전체 동의 체크 상태
   bool is1Selected = false; // 첫 번째 개별 동의 체크 상태
   bool is2Selected = false; // 두 번째 개별 동의 체크 상태
@@ -162,10 +162,10 @@ class _Agreement extends State<Agreement> {
                           const SizedBox(height: 24),
                           GestureDetector(
                               onTap: () {
-                                AmplitudeConfig.amplitude.logEvent('TermsOfService');
+                                AmplitudeConfig.amplitude.logEvent('TermsOfServiceV1');
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const TermsOfService()),
+                                  MaterialPageRoute(builder: (context) => const TermsOfServiceV1()),
                                 );
                               },
                               child: Container(
@@ -212,10 +212,10 @@ class _Agreement extends State<Agreement> {
                           const SizedBox(height: 24),
                           GestureDetector(
                               onTap: () {
-                                AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
+                                AmplitudeConfig.amplitude.logEvent('PrivacyPolicyV1');
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const PrivacyPolicy()),
+                                  MaterialPageRoute(builder: (context) => const PrivacyPolicyV1()),
                                 );
                               },
                               child: Container(
@@ -266,10 +266,10 @@ class _Agreement extends State<Agreement> {
                           if (isAllSelected)
                             ElevatedButton(
                               onPressed: () {
-                                AmplitudeConfig.amplitude.logEvent('FavoriteArtist');
+                                AmplitudeConfig.amplitude.logEvent('FavoriteArtistV1');
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const FavoriteArtist()),
+                                  MaterialPageRoute(builder: (context) => const FavoriteArtistV1()),
                                 );
                               },
                               style: ElevatedButton.styleFrom(

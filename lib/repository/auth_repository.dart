@@ -10,9 +10,9 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/model/user_model.dart';
 import 'package:newket/secure/auth_dio.dart';
-import 'package:newket/view/onboarding/agreement.dart';
-import 'package:newket/view/onboarding/login.dart';
-import 'package:newket/view/tapbar/tap_bar.dart';
+import 'package:newket/view/v100/onboarding/agreement.dart';
+import 'package:newket/view/v100/onboarding/login.dart';
+import 'package:newket/view/v100/tapbar/tap_bar.dart';
 
 enum LoginPlatform {
   KAKAO,
@@ -49,7 +49,7 @@ class AuthRepository {
 
           AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 성공');
 
-          Get.offAll(const TapBar());
+          Get.offAll(const TapBarV1());
         } catch (error) {
           AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 실패 $error');
 
@@ -69,7 +69,7 @@ class AuthRepository {
 
             AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
 
-            Get.offAll(const TapBar());
+            Get.offAll(const TapBarV1());
           } catch (error) {
             print('카카오계정으로 로그인 실패 $error');
           }
@@ -86,7 +86,7 @@ class AuthRepository {
 
           AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
 
-          Get.offAll(const TapBar());
+          Get.offAll(const TapBarV1());
         } catch (error) {
           AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
         }
@@ -142,8 +142,8 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400) {
           // 온보딩 페이지로 이동
-          AmplitudeConfig.amplitude.logEvent('Agreement');
-          Get.offAll(const Agreement());
+          AmplitudeConfig.amplitude.logEvent('AgreementV1');
+          Get.offAll(const AgreementV1());
         }
       }
       rethrow;

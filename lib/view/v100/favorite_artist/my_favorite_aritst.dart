@@ -4,16 +4,16 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/theme/colors.dart';
-import 'package:newket/view/favorite_artist/artist_request.dart';
+import 'package:newket/view/v100/favorite_artist/artist_request.dart';
 
-class MyFavoriteArtist extends StatefulWidget {
-  const MyFavoriteArtist({super.key});
+class MyFavoriteArtistV1 extends StatefulWidget {
+  const MyFavoriteArtistV1({super.key});
 
   @override
-  State<StatefulWidget> createState() => _MyFavoriteArtist();
+  State<StatefulWidget> createState() => _MyFavoriteArtistV1();
 }
 
-class _MyFavoriteArtist extends State<MyFavoriteArtist> {
+class _MyFavoriteArtistV1 extends State<MyFavoriteArtistV1> {
   late ArtistRepository artistRepository;
   final TextEditingController _searchController = TextEditingController();
   List<Artist> artists = []; // 검색 결과를 담을 리스트
@@ -30,8 +30,8 @@ class _MyFavoriteArtist extends State<MyFavoriteArtist> {
     }
   }
 
-  Future<void> _getFavoriteArtists(BuildContext context) async {
-    final artists = await artistRepository.getFavoriteArtists(context);
+  Future<void> _getFavoriteArtistV1s(BuildContext context) async {
+    final artists = await artistRepository.getFavoriteArtistV1s(context);
     setState(() {
       myArtists = artists.artists;
     });
@@ -106,7 +106,7 @@ class _MyFavoriteArtist extends State<MyFavoriteArtist> {
   void initState() {
     super.initState();
     artistRepository = ArtistRepository();
-    _getFavoriteArtists(context);
+    _getFavoriteArtistV1s(context);
     _searchController.addListener(() {
       _searchArtists(_searchController.text);
     });
@@ -331,8 +331,8 @@ class _MyFavoriteArtist extends State<MyFavoriteArtist> {
                     right: 32,
                     child: ElevatedButton(
                       onPressed: () async {
-                        await ArtistRepository().putFavoriteArtists(
-                            context, FavoriteArtists(myArtists.map((artist) => artist.artistId).toList()));
+                        await ArtistRepository().putFavoriteArtistV1s(
+                            context, FavoriteArtistV1s(myArtists.map((artist) => artist.artistId).toList()));
                         AmplitudeConfig.amplitude.logEvent('Back');
                         Navigator.pop(context); //뒤로가기
                         showToast(context);
@@ -497,10 +497,10 @@ class _MyFavoriteArtist extends State<MyFavoriteArtist> {
                             const SizedBox(height: 28),
                             GestureDetector(
                                 onTap: () {
-                                  AmplitudeConfig.amplitude.logEvent('ArtistRequest');
+                                  AmplitudeConfig.amplitude.logEvent('ArtistRequestV1');
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const ArtistRequest()),
+                                    MaterialPageRoute(builder: (context) => const ArtistRequestV1()),
                                   );
                                 },
                                 child: Container(

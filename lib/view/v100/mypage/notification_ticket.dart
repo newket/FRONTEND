@@ -5,17 +5,17 @@ import 'package:newket/model/notification_model.dart';
 import 'package:newket/model/ticket_model.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/theme/Colors.dart';
-import 'package:newket/view/onboarding/login.dart';
-import 'package:newket/view/opening_notice/opening_notice_detail.dart';
+import 'package:newket/view/v100/onboarding/login.dart';
+import 'package:newket/view/v100/opening_notice/opening_notice_detail.dart';
 
-class NotificationTicket extends StatefulWidget {
-  const NotificationTicket({super.key});
+class NotificationTicketV1 extends StatefulWidget {
+  const NotificationTicketV1({super.key});
 
   @override
-  State<StatefulWidget> createState() => _NotificationTicket();
+  State<StatefulWidget> createState() => _NotificationTicketV1();
 }
 
-class _NotificationTicket extends State<NotificationTicket> {
+class _NotificationTicketV1 extends State<NotificationTicketV1> {
   late NotificationRepository notificationRepository;
   bool isDeleteMode = false;
   late List<bool> isSelectedList;

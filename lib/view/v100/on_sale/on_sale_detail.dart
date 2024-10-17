@@ -6,16 +6,16 @@ import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/theme/Colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class OnSaleDetail extends StatefulWidget {
-  const OnSaleDetail({super.key, required this.concertId});
+class OnSaleDetailV1 extends StatefulWidget {
+  const OnSaleDetailV1({super.key, required this.concertId});
 
   final int concertId;
 
   @override
-  State<StatefulWidget> createState() => _OnSaleDetail();
+  State<StatefulWidget> createState() => _OnSaleDetailV1();
 }
 
-class _OnSaleDetail extends State<OnSaleDetail> {
+class _OnSaleDetailV1 extends State<OnSaleDetailV1> {
   late TicketRepository ticketRepository;
 
   @override

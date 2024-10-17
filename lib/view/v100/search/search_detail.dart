@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/theme/colors.dart';
-import 'package:newket/view/on_sale/on_sale_detail.dart';
-import 'package:newket/view/opening_notice/opening_notice_detail.dart';
+import 'package:newket/view/v100/on_sale/on_sale_detail.dart';
+import 'package:newket/view/v100/opening_notice/opening_notice_detail.dart';
 
 class SearchDetail extends StatefulWidget {
   const SearchDetail({super.key, required this.keyword});
@@ -577,7 +577,7 @@ class _SearchDetail extends State<SearchDetail> {
                                                       Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                          builder: (context) => OnSaleDetail(
+                                                          builder: (context) => OnSaleDetailV1(
                                                             concertId: ticketResponse
                                                                 .onSale.concerts[index1].concertId, // 상세 페이지에 데이터 전달
                                                           ),

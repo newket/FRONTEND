@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/auth_model.dart';
-import 'package:newket/view/onboarding/login.dart';
+import 'package:newket/view/v100/onboarding/login.dart';
 
 Future authDio(BuildContext context) async {
   var dio = Dio();

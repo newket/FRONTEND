@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/theme/colors.dart';
-import 'package:newket/view/search/search_detail.dart';
+import 'package:newket/view/v100/search/search_detail.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

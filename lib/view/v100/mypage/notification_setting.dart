@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/Colors.dart';
 import 'package:get/route_manager.dart';
-import 'package:newket/view/onboarding/login.dart';
+import 'package:newket/view/v100/onboarding/login.dart';
 
-class NotificationSetting extends StatefulWidget {
-  const NotificationSetting({super.key});
+class NotificationSettingV1 extends StatefulWidget {
+  const NotificationSettingV1({super.key});
 
   @override
-  State<StatefulWidget> createState() => _NotificationSetting();
+  State<StatefulWidget> createState() => _NotificationSettingV1();
 }
 
-class _NotificationSetting extends State<NotificationSetting> {
+class _NotificationSettingV1 extends State<NotificationSettingV1> {
   late UserRepository userRepository;
   bool artistNotification = true;
   bool ticketNotification = true;

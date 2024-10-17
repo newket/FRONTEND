@@ -4,14 +4,14 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/theme/Colors.dart';
 
-class Notifications extends StatefulWidget {
-  const Notifications({super.key});
+class NotificationsV1 extends StatefulWidget {
+  const NotificationsV1({super.key});
 
   @override
-  State<StatefulWidget> createState() => _Notifications();
+  State<StatefulWidget> createState() => _NotificationsV1();
 }
 
-class _Notifications extends State<Notifications> {
+class _NotificationsV1 extends State<NotificationsV1> {
   @override
   void initState() {
     super.initState();

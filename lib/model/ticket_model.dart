@@ -258,17 +258,17 @@ class SearchTicketResponse {
   }
 }
 
-//favoriteArtistOpeningNotice
+//FavoriteArtistV1OpeningNotice
 class FavoriteOpeningNotice {
   int totalNum;
   String artistName;
-  List<String> favoriteArtistNames;
+  List<String> FavoriteArtistV1Names;
   List<Concert> concerts;
 
-  FavoriteOpeningNotice({required this.totalNum, required this.artistName, required this.favoriteArtistNames, required this.concerts});
+  FavoriteOpeningNotice({required this.totalNum, required this.artistName, required this.FavoriteArtistV1Names, required this.concerts});
 
   factory FavoriteOpeningNotice.fromJson(Map<String, dynamic> json) {
-    var artistList = json['favoriteArtistNames'] as List;
+    var artistList = json['FavoriteArtistV1Names'] as List;
     var concertList = json['concerts'] as List;
     List<Concert> concertItems = concertList.map((i) => Concert.fromJson(i)).toList();
 
@@ -276,7 +276,7 @@ class FavoriteOpeningNotice {
       totalNum: json['totalNum'],
       artistName: json['artistName'],
       concerts: concertItems,
-      favoriteArtistNames: List<String>.from(artistList),
+      FavoriteArtistV1Names: List<String>.from(artistList),
     );
   }
 
@@ -284,7 +284,7 @@ class FavoriteOpeningNotice {
     return {
       'totalNum': totalNum,
       'artistName': artistName,
-      'favoriteArtistNames':favoriteArtistNames,
+      'FavoriteArtistV1Names':FavoriteArtistV1Names,
       'concerts': concerts.map((v) => v.toJson()).toList(),
     };
   }
