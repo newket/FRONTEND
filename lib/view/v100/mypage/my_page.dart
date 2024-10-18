@@ -5,7 +5,7 @@ import 'package:get/route_manager.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/auth_repository.dart';
 import 'package:newket/repository/user_repository.dart';
-import 'package:newket/theme/Colors.dart';
+import 'package:newket/theme/colors.dart';
 import 'package:newket/view/v100/agreement/privacy_policy.dart';
 import 'package:newket/view/v100/agreement/terms_of_service.dart';
 import 'package:newket/view/v100/favorite_artist/my_favorite_aritst.dart';
@@ -57,9 +57,9 @@ class _MyPageV1 extends State<MyPageV1> {
       // 알림 설정 값 상태에 반영
       setState(() {
         artistNotification = response.artistNotification;
-        artistBackground = artistNotification ? pt_20 : b_900;
+        artistBackground = artistNotification ? v1pt_20 : b_900;
         ticketNotification = response.ticketNotification;
-        ticketBackground = ticketNotification ? pt_20 : b_900;
+        ticketBackground = ticketNotification ? v1pt_20 : b_900;
       });
     } catch (e) {
       // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
@@ -135,7 +135,7 @@ class _MyPageV1 extends State<MyPageV1> {
                           Row(children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
-                              child: Image.asset("images/mypage/kakao.png", width: 20),
+                              child: Image.asset("images/v1/mypage/kakao.png", width: 20),
                             ),
                             const SizedBox(width: 8),
                             Text(
@@ -195,7 +195,7 @@ class _MyPageV1 extends State<MyPageV1> {
                                     children: [
                                       Row(
                                         children: [
-                                          SvgPicture.asset("images/mypage/star.svg", height: 20, width: 20),
+                                          SvgPicture.asset("images/v1/mypage/star.svg", height: 20, width: 20),
                                           const SizedBox(width: 8),
                                           const Text(
                                             '나의 관심 아티스트',
@@ -230,7 +230,7 @@ class _MyPageV1 extends State<MyPageV1> {
                                       children: [
                                         Row(
                                           children: [
-                                            SvgPicture.asset("images/mypage/ticket.svg", height: 20, width: 20),
+                                            SvgPicture.asset("images/v1/mypage/ticket.svg", height: 20, width: 20),
                                             const SizedBox(width: 8),
                                             const Text(
                                               '알림 받기 신청한 티켓',
@@ -264,7 +264,7 @@ class _MyPageV1 extends State<MyPageV1> {
                                       children: [
                                         Row(
                                           children: [
-                                            SvgPicture.asset("images/mypage/notification.svg", height: 20, width: 20),
+                                            SvgPicture.asset("images/v1/mypage/notification.svg", height: 20, width: 20),
                                             const SizedBox(width: 8),
                                             const Text(
                                               '알림 설정',
@@ -409,7 +409,7 @@ class _MyPageV1 extends State<MyPageV1> {
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
-                                            SvgPicture.asset("images/mypage/warning.svg", height: 32, width: 32),
+                                            SvgPicture.asset("images/v1/mypage/warning.svg", height: 32, width: 32),
                                             const SizedBox(height: 12),
                                             const Text(
                                               '잠시만요!\n정말로 탈퇴하시겠어요?',

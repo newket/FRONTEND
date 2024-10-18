@@ -9,8 +9,8 @@ import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/firebase_options.dart';
 import 'package:newket/repository/notification_repository.dart';
-import 'package:newket/view/v100/onboarding/login.dart';
-import 'package:newket/view/v100/tapbar/tap_bar.dart';
+import 'package:newket/view/v200/login/login.dart';
+import 'package:newket/view/v200/tapbar/tab_bar.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -143,10 +143,10 @@ void main() async {
     //user의 정보가 있다면 바로 홈으로 넘어가게 합니다.
     if (userInfo != null) {
       runApp(const MyApp2());
-      AmplitudeConfig.amplitude.logEvent('Start Home');
+      AmplitudeConfig.amplitude.logEvent('HomeV2');
     } else {
       runApp(const MyApp());
-      AmplitudeConfig.amplitude.logEvent('Start');
+      AmplitudeConfig.amplitude.logEvent('LoginV2');
     }
   }
 
@@ -160,7 +160,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
       home: Scaffold(
-        body: Center(child: Login()),
+        body: Center(child: LoginV2()),
       ),
     );
   }
@@ -173,7 +173,7 @@ class MyApp2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
       home: Scaffold(
-        body: Center(child: TapBarV1()),
+        body: Center(child: TabBarV2()),
       ),
     );
   }

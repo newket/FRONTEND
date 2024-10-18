@@ -12,11 +12,11 @@ const p_800 = Color(0xff473CDC);
 const p_900 = Color(0xff392EC5);
 
 //transparent
-const pt_10 = Color(0x195A4EF6);
-const pt_20 = Color(0x335A4EF6);
-const pt_30 = Color(0x4C5A4EF6);
-const pt_50 = Color(0x7F5A4EF6);
-const pt_90 = Color(0xE55A4EF6);
+const v1pt_10 = Color(0x195A4EF6);
+const v1pt_20 = Color(0x335A4EF6);
+const v1pt_30 = Color(0x4C5A4EF6);
+const v1pt_50 = Color(0x7F5A4EF6);
+const v1pt_90 = Color(0xE55A4EF6);
 
 //black
 const b_50 = Color(0xffF8FAFC);
@@ -30,3 +30,24 @@ const b_700 = Color(0xff272A45);
 const b_800 = Color(0xff1E233B);
 const b_900 = Color(0xff121530);
 const b_950 = Color(0xff020617);
+
+//v2
+//foundation
+const f_10 = Color(0xFFF1F1F1);
+const f_30 = Color(0xFFBBBBBE);
+const f_40 = Color(0xFFA3A3A8);
+const f_60 = Color(0xFF76767C);
+const f_90 = Color(0xFF31313B);
+const f_100 = Color(0xFF1A1A25);
+
+//non transparent
+const np_05 = Color(0xFFF8F8FF);
+const np_10 = Color(0xFFF2F1FF);
+const np_20 = Color(0xFFE4E2FF);
+const np_100 = Color(0xFF796FFF);
+
+//transparent
+const pt_10 = Color(0x197A6FFF);
+const pt_20 = Color(0x337A6FFF);
+const pt_30 = Color(0x4C7A6FFF);
+const pt_50 = Color(0x7F7A6FFF);

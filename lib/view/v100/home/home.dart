@@ -81,7 +81,7 @@ class _HomeV1 extends State<HomeV1> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Image.asset("images/appbar/appbar_ticket.png", height: 28),
+            Image.asset("images/v1/appbar/appbar_ticket.png", height: 28),
             GestureDetector(
               onTap: () {
                 AmplitudeConfig.amplitude.logEvent('Notifications');
@@ -92,7 +92,7 @@ class _HomeV1 extends State<HomeV1> {
                   ),
                 );
               },
-              child: Image.asset("images/appbar/appbar_alarm.png", height: 28),
+              child: Image.asset("images/v1/appbar/appbar_alarm.png", height: 28),
             )
           ],
         ),
@@ -138,7 +138,7 @@ class _HomeV1 extends State<HomeV1> {
                       decoration: const BoxDecoration(
                         boxShadow: [
                           BoxShadow(
-                            color: pt_30,
+                            color: v1pt_30,
                             blurRadius: 92.18,
                             offset: Offset(0, 5),
                             spreadRadius: 0,
@@ -192,7 +192,7 @@ class _HomeV1 extends State<HomeV1> {
                                     const SizedBox(height: 32),
                                     // 관심 아티스트의 오픈 예정 티켓
                                     Row(children: [
-                                      SvgPicture.asset("images/favorite_artist/star.svg", height: 20),
+                                      SvgPicture.asset("images/v1/favorite_artist/star.svg", height: 20),
                                       Container(width: 8),
                                       const Text("관심 아티스트의 오픈 예정 티켓",
                                           style: TextStyle(
@@ -221,9 +221,9 @@ class _HomeV1 extends State<HomeV1> {
                                                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                                                     clipBehavior: Clip.antiAlias,
                                                     decoration: ShapeDecoration(
-                                                      color: pt_20,
+                                                      color: v1pt_20,
                                                       shape: RoundedRectangleBorder(
-                                                        side: const BorderSide(width: 1, color: pt_30),
+                                                        side: const BorderSide(width: 1, color: v1pt_30),
                                                         borderRadius: BorderRadius.circular(8),
                                                       ),
                                                     ),
@@ -373,7 +373,7 @@ class _HomeV1 extends State<HomeV1> {
                                           child: Column(
                                             children: [
                                               const SizedBox(height: 63),
-                                              SvgPicture.asset("images/search/ticket_null.svg", height: 92, width: 92),
+                                              SvgPicture.asset("images/v1/search/ticket_null.svg", height: 92, width: 92),
                                               const SizedBox(height: 20),
                                               const Text(
                                                 '아직 관심 아티스트의\n티켓이 뜨지 않았어요!',
@@ -415,7 +415,7 @@ class _HomeV1 extends State<HomeV1> {
                                           child: Column(
                                             children: [
                                               const SizedBox(height: 63),
-                                              SvgPicture.asset("images/search/ticket_null.svg", height: 92, width: 92),
+                                              SvgPicture.asset("images/v1/search/ticket_null.svg", height: 92, width: 92),
                                               const SizedBox(height: 20),
                                               const Text(
                                                 '아직 관심 아티스트를\n등록하지 않았어요!',
@@ -522,7 +522,7 @@ class _HomeV1 extends State<HomeV1> {
                                   //데이터 로딩 실패
                                   return Center(
                                       child: Row(children: [
-                                    Image.asset("images/opening_notice/opening_notice_logo.png", height: 24),
+                                    Image.asset("images/v1/opening_notice/opening_notice_logo.png", height: 24),
                                     Container(width: 8),
                                     const Text("오픈 예정 티켓",
                                         style: TextStyle(
@@ -538,7 +538,7 @@ class _HomeV1 extends State<HomeV1> {
                                     children: [
                                       //로고 + 오픈 예정 티켓
                                       Row(children: [
-                                        Image.asset("images/opening_notice/opening_notice_logo.png", height: 24),
+                                        Image.asset("images/v1/opening_notice/opening_notice_logo.png", height: 24),
                                         Container(width: 8),
                                         const Text("오픈 예정 티켓",
                                             style: TextStyle(
@@ -892,7 +892,7 @@ class _HomeV1 extends State<HomeV1> {
                             children: [
                               //로고 + 예매 중인 티켓
                               Row(children: [
-                                Image.asset("images/on_sale/on_sale_logo.png", height: 24),
+                                Image.asset("images/v1/on_sale/on_sale_logo.png", height: 24),
                                 Container(width: 8),
                                 const Text("예매 중인 티켓",
                                     style: TextStyle(

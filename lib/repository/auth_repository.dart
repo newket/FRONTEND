@@ -10,9 +10,10 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/model/user_model.dart';
 import 'package:newket/secure/auth_dio.dart';
-import 'package:newket/view/v100/onboarding/agreement.dart';
-import 'package:newket/view/v100/onboarding/login.dart';
-import 'package:newket/view/v100/tapbar/tap_bar.dart';
+import 'package:newket/view/v200/login/agreement.dart';
+import 'package:newket/view/v200/login/login.dart';
+import 'package:newket/view/v200/tapbar/tab_bar.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 enum LoginPlatform {
   KAKAO,
@@ -49,7 +50,7 @@ class AuthRepository {
 
           AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 성공');
 
-          Get.offAll(const TapBarV1());
+          Get.offAll(const TabBarV2());
         } catch (error) {
           AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 실패 $error');
 
@@ -69,7 +70,7 @@ class AuthRepository {
 
             AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
 
-            Get.offAll(const TapBarV1());
+            Get.offAll(const TabBarV2());
           } catch (error) {
             print('카카오계정으로 로그인 실패 $error');
           }
@@ -86,13 +87,61 @@ class AuthRepository {
 
           AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
 
-          Get.offAll(const TapBarV1());
+          Get.offAll(const TabBarV2());
         } catch (error) {
           AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
         }
       }
-    } catch (error){
+    } catch (error) {
       AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
+    } finally {
+      if (Get.isDialogOpen!) {
+        Get.back(); // 로딩 화면을 닫음
+      }
+    }
+  }
+
+  Future<void> appleLoginApi() async {
+    Get.dialog(
+      const Center(
+        child: CircularProgressIndicator(),
+      ),
+      barrierDismissible: false, // 화면을 터치해도 닫히지 않도록 설정
+    );
+    // 애플 로그인
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+      final newUserIdentifier = credential.userIdentifier.toString();
+      final savedUserIdentifier = await storage.read(key: 'APPLE_SOCIAL_ID');
+
+      if(credential.familyName!=null || savedUserIdentifier != newUserIdentifier){
+        final name = "${credential.familyName.toString()}${credential.givenName.toString()}";
+        storage.write(key: 'APPLE_NAME', value: name);
+        storage.write(key: 'APPLE_EMAIL', value: credential.email.toString());
+        storage.write(key: 'APPLE_SOCIAL_ID', value: credential.userIdentifier.toString());
+      }
+      print(credential.toString());
+      print(credential.identityToken);
+      print(credential.authorizationCode);
+
+      await socialLoginAppleApi(SocialLoginAppleRequest(credential.userIdentifier.toString()));
+
+      final serverToken = await storage.read(key: 'ACCESS_TOKEN');
+      await putDeviceTokenApi(serverToken!);
+
+      AmplitudeConfig.amplitude.logEvent('애플 계정으로 로그인 성공');
+
+      Get.offAll(const TabBarV2());
+
+      // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
+      // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+    } catch (error) {
+      AmplitudeConfig.amplitude.logEvent('애플로 로그인 실패 $error');
     } finally {
       if (Get.isDialogOpen!) {
         Get.back(); // 로딩 화면을 닫음
@@ -117,8 +166,33 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {
           // 로그인 페이지로 이동
-          AmplitudeConfig.amplitude.logEvent('Login');
-          Get.offAll(const Login());
+          AmplitudeConfig.amplitude.logEvent('LoginV2');
+          Get.offAll(const LoginV2());
+        }
+      }
+      rethrow;
+    }
+  }
+
+  Future<SocialLoginResponse> signUpAppleApi(SignUpAppleRequest signUpAppleRequest) async {
+    try {
+      final requestBody = signUpAppleRequest.toJson();
+
+      final response = await dio.post("/api/v1/auth/signup/APPLE", data: requestBody);
+
+      final responseBody = SocialLoginResponse.fromJson(response.data);
+
+      await Future.wait([
+        storage.write(key: 'ACCESS_TOKEN', value: responseBody.accessToken),
+        storage.write(key: 'REFRESH_TOKEN', value: responseBody.refreshToken)
+      ]);
+      return responseBody;
+    } catch (e) {
+      if (e is DioException) {
+        if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {
+          // 로그인 페이지로 이동
+          AmplitudeConfig.amplitude.logEvent('LoginV2');
+          Get.offAll(const LoginV2());
         }
       }
       rethrow;
@@ -142,8 +216,33 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400) {
           // 온보딩 페이지로 이동
-          AmplitudeConfig.amplitude.logEvent('AgreementV1');
-          Get.offAll(const AgreementV1());
+          AmplitudeConfig.amplitude.logEvent('AgreementV2');
+          Get.offAll(() => const AgreementV2());
+        }
+      }
+      rethrow;
+    }
+  }
+
+  Future<SocialLoginResponse> socialLoginAppleApi(SocialLoginAppleRequest socialLoginAppleRequest) async {
+    try {
+      final requestBody = socialLoginAppleRequest.toJson();
+
+      final response = await dio.post("/api/v1/auth/login/APPLE", data: requestBody);
+
+      final responseBody = SocialLoginResponse.fromJson(response.data);
+
+      await Future.wait([
+        storage.write(key: 'ACCESS_TOKEN', value: responseBody.accessToken),
+        storage.write(key: 'REFRESH_TOKEN', value: responseBody.refreshToken)
+      ]);
+      return responseBody;
+    } catch (e) {
+      if (e is DioException) {
+        if (e.response?.statusCode == 400) {
+          // 온보딩 페이지로 이동
+          AmplitudeConfig.amplitude.logEvent('AgreementV2');
+          Get.offAll(() => const AgreementV2());
         }
       }
       rethrow;

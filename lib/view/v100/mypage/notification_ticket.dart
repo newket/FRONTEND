@@ -4,7 +4,7 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/notification_model.dart';
 import 'package:newket/model/ticket_model.dart';
 import 'package:newket/repository/notification_repository.dart';
-import 'package:newket/theme/Colors.dart';
+import 'package:newket/theme/colors.dart';
 import 'package:newket/view/v100/onboarding/login.dart';
 import 'package:newket/view/v100/opening_notice/opening_notice_detail.dart';
 
@@ -134,11 +134,11 @@ class _NotificationTicketV1 extends State<NotificationTicketV1> {
                             },
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(55, 94), // 버튼 높이 조정
-                                backgroundColor: pt_10, // 버튼 색상
+                                backgroundColor: v1pt_10, // 버튼 색상
                                 padding: const EdgeInsets.symmetric(vertical: 38),
                                 shape: RoundedRectangleBorder(
                                   side:
-                                      BorderSide(width: 1, color: isSelectedList[index1] ? pt_50 : Colors.transparent),
+                                      BorderSide(width: 1, color: isSelectedList[index1] ? v1pt_50 : Colors.transparent),
                                   borderRadius: const BorderRadius.only(
                                       topRight: Radius.circular(12), bottomRight: Radius.circular(12)),
                                 )),

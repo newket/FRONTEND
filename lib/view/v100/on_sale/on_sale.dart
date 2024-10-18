@@ -117,7 +117,7 @@ class _OnSaleV1 extends State<OnSaleV1> {
                       color: b_900,
                       shape: RoundedRectangleBorder(
                         side: const BorderSide(
-                            width: 1, color: pt_50),
+                            width: 1, color: v1pt_50),
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
@@ -158,7 +158,7 @@ class _OnSaleV1 extends State<OnSaleV1> {
                       color: b_900,
                       shape: RoundedRectangleBorder(
                         side: const BorderSide(
-                            width: 1, color: pt_90),
+                            width: 1, color: v1pt_90),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/config/amplitude_config.dart';
@@ -17,20 +18,20 @@ class _AgreementV1 extends State<AgreementV1> {
   bool isAllSelected = false; // 전체 동의 체크 상태
   bool is1Selected = false; // 첫 번째 개별 동의 체크 상태
   bool is2Selected = false; // 두 번째 개별 동의 체크 상태
-  String svgAll = 'images/onboarding/checkbox_off.svg';
-  String svg1 = 'images/onboarding/checkbox_off.svg';
-  String svg2 = 'images/onboarding/checkbox_off.svg';
-  Color agreementColor = pt_10;
+  String svgAll = 'images/v2/login/checkbox_off.svg';
+  String svg1 = 'images/v2/login/checkbox_off.svg';
+  String svg2 = 'images/v2/login/checkbox_off.svg';
+  Color agreementColor = v1pt_10;
 
   void _toggleAll() {
     setState(() {
       isAllSelected = !isAllSelected;
       is1Selected = isAllSelected; // 전체 동의 시 첫 번째 개별 동의도 같이 변경
       is2Selected = isAllSelected; // 전체 동의 시 두 번째 개별 동의도 같이 변경
-      svgAll = isAllSelected ? 'images/onboarding/checkbox_on.svg' : 'images/onboarding/checkbox_off.svg';
-      svg1 = is1Selected ? 'images/onboarding/checkbox_on.svg' : 'images/onboarding/checkbox_off.svg';
-      svg2 = is2Selected ? 'images/onboarding/checkbox_on.svg' : 'images/onboarding/checkbox_off.svg';
-      agreementColor = isAllSelected ? pt_20 : pt_10;
+      svgAll = isAllSelected ? 'images/v2/login/checkbox_off.svg' : 'images/v2/login/checkbox_off.svg';
+      svg1 = is1Selected ? 'images/v2/login/checkbox_off.svg' : 'images/v2/login/checkbox_off.svg';
+      svg2 = is2Selected ? 'images/v2/login/checkbox_off.svg' : 'images/v2/login/checkbox_off.svg';
+      agreementColor = isAllSelected ? v1pt_20 : v1pt_10;
     });
   }
 
@@ -39,10 +40,10 @@ class _AgreementV1 extends State<AgreementV1> {
       is1Selected = !is1Selected;
       // 전체 동의 체크박스 상태 업데이트
       isAllSelected = is1Selected && is2Selected;
-      svgAll = isAllSelected ? 'images/onboarding/checkbox_on.svg' : 'images/onboarding/checkbox_off.svg';
-      svg1 = is1Selected ? 'images/onboarding/checkbox_on.svg' : 'images/onboarding/checkbox_off.svg';
-      svg2 = is2Selected ? 'images/onboarding/checkbox_on.svg' : 'images/onboarding/checkbox_off.svg';
-      agreementColor = isAllSelected ? pt_20 : pt_10;
+      svgAll = isAllSelected ? 'images/v2/login/checkbox_off.svg' : 'images/v2/login/checkbox_off.svg';
+      svg1 = is1Selected ? 'images/v2/login/checkbox_off.svg' : 'images/v2/login/checkbox_off.svg';
+      svg2 = is2Selected ? 'images/v2/login/checkbox_off.svg' : 'images/v2/login/checkbox_off.svg';
+      agreementColor = isAllSelected ? v1pt_20 : v1pt_10;
     });
   }
 
@@ -51,10 +52,10 @@ class _AgreementV1 extends State<AgreementV1> {
       is2Selected = !is2Selected;
       // 전체 동의 체크박스 상태 업데이트
       isAllSelected = is1Selected && is2Selected;
-      svgAll = isAllSelected ? 'images/onboarding/checkbox_on.svg' : 'images/onboarding/checkbox_off.svg';
-      svg1 = is1Selected ? 'images/onboarding/checkbox_on.svg' : 'images/onboarding/checkbox_off.svg';
-      svg2 = is2Selected ? 'images/onboarding/checkbox_on.svg' : 'images/onboarding/checkbox_off.svg';
-      agreementColor = isAllSelected ? pt_20 : pt_10;
+      svgAll = isAllSelected ? 'images/v2/login/checkbox_off.svg' : 'images/v2/login/checkbox_off.svg';
+      svg1 = is1Selected ? 'images/v2/login/checkbox_off.svg' : 'images/v2/login/checkbox_off.svg';
+      svg2 = is2Selected ? 'images/v2/login/checkbox_off.svg' : 'images/v2/login/checkbox_off.svg';
+      agreementColor = isAllSelected ? v1pt_20 : v1pt_10;
     });
   }
 
@@ -123,7 +124,7 @@ class _AgreementV1 extends State<AgreementV1> {
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 34),
-                          SvgPicture.asset("images/onboarding/ticket_check.svg", height: 100, width: 100),
+                          Image.asset("images/v2/login/ticket_check.png", height: 100, width: 100),
                           const SizedBox(height: 96),
                           Container(
                             height: 60,
@@ -131,7 +132,7 @@ class _AgreementV1 extends State<AgreementV1> {
                             decoration: ShapeDecoration(
                               color: agreementColor,
                               shape: RoundedRectangleBorder(
-                                side: const BorderSide(width: 1, color: pt_30),
+                                side: const BorderSide(width: 1, color: v1pt_30),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
@@ -150,7 +151,7 @@ class _AgreementV1 extends State<AgreementV1> {
                                 const Text(
                                   '약관 전체 동의',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: f_100,
                                     fontSize: 18,
                                     fontFamily: 'Pretendard',
                                     fontWeight: FontWeight.w700,
@@ -190,7 +191,7 @@ class _AgreementV1 extends State<AgreementV1> {
                                             const Text(
                                               '서비스 이용약관 동의',
                                               style: TextStyle(
-                                                color: Colors.white,
+                                                color: f_90,
                                                 fontSize: 18,
                                                 fontFamily: 'Pretendard',
                                                 fontWeight: FontWeight.w700,
@@ -199,7 +200,7 @@ class _AgreementV1 extends State<AgreementV1> {
                                             const SizedBox(width: 8),
                                             const Text('필수',
                                                 style: TextStyle(
-                                                  color: p_500,
+                                                  color: np_100,
                                                   fontSize: 12,
                                                   fontFamily: 'Pretendard',
                                                   fontWeight: FontWeight.w400,
@@ -240,7 +241,7 @@ class _AgreementV1 extends State<AgreementV1> {
                                             const Text(
                                               '개인정보 수집 및 이용 동의',
                                               style: TextStyle(
-                                                color: Colors.white,
+                                                color: f_90,
                                                 fontSize: 18,
                                                 fontFamily: 'Pretendard',
                                                 fontWeight: FontWeight.w700,
@@ -249,7 +250,7 @@ class _AgreementV1 extends State<AgreementV1> {
                                             const SizedBox(width: 8),
                                             const Text('필수',
                                                 style: TextStyle(
-                                                  color: p_500,
+                                                  color: np_100,
                                                   fontSize: 12,
                                                   fontFamily: 'Pretendard',
                                                   fontWeight: FontWeight.w400,
@@ -299,7 +300,7 @@ class _AgreementV1 extends State<AgreementV1> {
                             ElevatedButton(
                                 onPressed: () {},
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: pt_30,
+                                  backgroundColor: v1pt_30,
                                   padding: const EdgeInsets.all(12),
                                   minimumSize: const Size(0, 48),
                                   shape: RoundedRectangleBorder(

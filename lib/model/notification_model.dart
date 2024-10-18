@@ -11,13 +11,13 @@ class ConcertIds{
 class Notifications{
   List<Notification> notifications;
 
-  NotificationsV1({required this.notifications});
+  Notifications({required this.notifications});
 
   factory Notifications.fromJson(Map<String, dynamic> json) {
     var notificationList = json['notifications'] as List;
     List<Notification> notificationItems = notificationList.map((i) => Notification.fromJson(i)).toList();
 
-    return NotificationsV1(
+    return Notifications(
       notifications: notificationItems,
     );
   }

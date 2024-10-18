@@ -15,7 +15,7 @@ class _ArtistRequestV1 extends State<ArtistRequestV1> {
   late ArtistRepository artistRepository;
   String artist = '';
   final TextEditingController _searchController = TextEditingController();
-  Color nextColor = pt_30;
+  Color nextColor = v1pt_30;
 
   void showToast(BuildContext context) {
     OverlayEntry overlayEntry = OverlayEntry(
@@ -96,7 +96,7 @@ class _ArtistRequestV1 extends State<ArtistRequestV1> {
     if (keyword.isNotEmpty) {
       await artistRepository.requestArtist(keyword);
       setState(() {
-        nextColor = pt_30;
+        nextColor = v1pt_30;
       });
     }
   }
@@ -179,9 +179,9 @@ class _ArtistRequestV1 extends State<ArtistRequestV1> {
                             Container(
                                 height: 44,
                                 decoration: ShapeDecoration(
-                                  color: isKeyboardVisible ? pt_20 : b_900, // 내부 배경색
+                                  color: isKeyboardVisible ? v1pt_20 : b_900, // 내부 배경색
                                   shape: RoundedRectangleBorder(
-                                    side: const BorderSide(width: 1, color: pt_50), // 테두리 색상 및 두께
+                                    side: const BorderSide(width: 1, color: v1pt_50), // 테두리 색상 및 두께
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
@@ -265,7 +265,7 @@ class _ArtistRequestV1 extends State<ArtistRequestV1> {
                                 padding: const EdgeInsets.all(12),
                                 height: 48,
                                 decoration: ShapeDecoration(
-                                  color: pt_30,
+                                  color: v1pt_30,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),

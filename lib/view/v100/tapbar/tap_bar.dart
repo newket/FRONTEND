@@ -140,8 +140,8 @@ class _TapBarV1 extends State<TapBarV1> with SingleTickerProviderStateMixin {
                                             : null,
                                         child: Image.asset(
                                           controller.index == 0
-                                              ? 'images/navigator/home_on.png'
-                                              : 'images/navigator/home_off.png',
+                                              ? 'images/v1/navigator/home_on.png'
+                                              : 'images/v1/navigator/home_off.png',
                                         ),
                                       ),
                                       const Text("홈",
@@ -175,8 +175,8 @@ class _TapBarV1 extends State<TapBarV1> with SingleTickerProviderStateMixin {
                                             : null,
                                         child: Image.asset(
                                           controller.index == 1
-                                              ? 'images/navigator/search_on.png'
-                                              : 'images/navigator/search_off.png',
+                                              ? 'images/v1/navigator/search_on.png'
+                                              : 'images/v1/navigator/search_off.png',
                                         ),
                                       ),
                                       Container(height: 4),
@@ -211,8 +211,8 @@ class _TapBarV1 extends State<TapBarV1> with SingleTickerProviderStateMixin {
                                             : null,
                                         child: Image.asset(
                                           controller.index == 2
-                                              ? 'images/navigator/mypage_on.png'
-                                              : 'images/navigator/mypage_off.png',
+                                              ? 'images/v1/navigator/mypage_on.png'
+                                              : 'images/v1/navigator/mypage_off.png',
                                         ),
                                       ),
                                       Container(height: 4),

@@ -108,7 +108,7 @@ class _OpeningNotice extends State<OpeningNotice> {
                     decoration: ShapeDecoration(
                       color: b_900,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(width: 1, color: pt_50),
+                        side: const BorderSide(width: 1, color: v1pt_50),
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
@@ -148,7 +148,7 @@ class _OpeningNotice extends State<OpeningNotice> {
                       offset: const Offset(-8, 40),
                       color: b_900,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(width: 1, color: pt_90),
+                        side: const BorderSide(width: 1, color: v1pt_90),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(

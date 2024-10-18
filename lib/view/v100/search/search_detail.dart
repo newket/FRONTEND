@@ -47,9 +47,9 @@ class _SearchDetail extends State<SearchDetail> {
           title: Container(
             height: 40,
             decoration: ShapeDecoration(
-              color: isKeyboardVisible ? pt_20 : b_900, // 내부 배경색
+              color: isKeyboardVisible ? v1pt_20 : b_900, // 내부 배경색
               shape: RoundedRectangleBorder(
-                side: const BorderSide(width: 1, color: pt_50), // 테두리 색상 및 두께
+                side: const BorderSide(width: 1, color: v1pt_50), // 테두리 색상 및 두께
                 borderRadius: BorderRadius.circular(42),
               ),
             ),
@@ -59,7 +59,7 @@ class _SearchDetail extends State<SearchDetail> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // 검색 아이콘
-                Image.asset('images/navigator/search_on.png', height: 20, width: 20),
+                Image.asset('images/v1/navigator/search_on.png', height: 20, width: 20),
                 const SizedBox(width: 12),
                 // 텍스트 필드 (예시 텍스트)
                 Expanded(
@@ -96,7 +96,7 @@ class _SearchDetail extends State<SearchDetail> {
                             _searchController.clear();
                           })
                         },
-                    child: SvgPicture.asset('images/favorite_artist/close-circle.svg', height: 16, width: 16)),
+                    child: SvgPicture.asset('images/v1/favorite_artist/close-circle.svg', height: 16, width: 16)),
               ],
             ),
           ),
@@ -121,7 +121,7 @@ class _SearchDetail extends State<SearchDetail> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const SizedBox(height: 204),
-                              SvgPicture.asset("images/search/ticket_null.svg", height: 92, width: 92),
+                              SvgPicture.asset("images/v1/search/ticket_null.svg", height: 92, width: 92),
                               const SizedBox(height: 20),
                               const Text(
                                 '앗, 검색결과가 없어요.',
@@ -157,7 +157,7 @@ class _SearchDetail extends State<SearchDetail> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const SizedBox(height: 204),
-                                SvgPicture.asset("images/search/ticket_null.svg", height: 92, width: 92),
+                                SvgPicture.asset("images/v1/search/ticket_null.svg", height: 92, width: 92),
                                 const SizedBox(height: 20),
                                 const Text(
                                   '앗, 검색결과가 없어요.',
@@ -206,7 +206,7 @@ class _SearchDetail extends State<SearchDetail> {
                                                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                                                 clipBehavior: Clip.antiAlias,
                                                 decoration: ShapeDecoration(
-                                                  color: pt_20,
+                                                  color: v1pt_20,
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius: BorderRadius.circular(12),
                                                   ),
@@ -552,7 +552,7 @@ class _SearchDetail extends State<SearchDetail> {
                                                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                                                 clipBehavior: Clip.antiAlias,
                                                 decoration: ShapeDecoration(
-                                                  color: pt_20,
+                                                  color: v1pt_20,
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius: BorderRadius.circular(12),
                                                   ),

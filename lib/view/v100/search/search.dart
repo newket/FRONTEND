@@ -67,7 +67,7 @@ class _Search extends State<Search> {
                             )
                           ],
                         ),
-                        child: SvgPicture.asset("images/search/search_ticket.svg", height: 69, width: 67)),
+                        child: SvgPicture.asset("images/v1/search/search_ticket.svg", height: 69, width: 67)),
                   ),
                   const Text("아티스트 또는 공연명으로\n티켓을 검색해 보세요!",
                       style:
@@ -77,9 +77,9 @@ class _Search extends State<Search> {
                   Container(
                     height: 40,
                     decoration: ShapeDecoration(
-                      color: isKeyboardVisible ? pt_20 : b_900, // 내부 배경색
+                      color: isKeyboardVisible ? v1pt_20 : b_900, // 내부 배경색
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(width: 1, color: pt_50), // 테두리 색상 및 두께
+                        side: const BorderSide(width: 1, color: v1pt_50), // 테두리 색상 및 두께
                         borderRadius: BorderRadius.circular(42),
                       ),
                     ),
@@ -89,7 +89,7 @@ class _Search extends State<Search> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // 검색 아이콘
-                        Image.asset('images/navigator/search_on.png', height: 20, width: 20),
+                        Image.asset('images/v1/navigator/search_on.png', height: 20, width: 20),
                         const SizedBox(width: 12),
                         // 텍스트 필드 (예시 텍스트)
                         Expanded(
@@ -130,7 +130,7 @@ class _Search extends State<Search> {
                                     _searchController.clear();
                                   })
                                 },
-                            child: SvgPicture.asset('images/favorite_artist/close-circle.svg', height: 16, width: 16)),
+                            child: SvgPicture.asset('images/v1/favorite_artist/close-circle.svg', height: 16, width: 16)),
                       ],
                     ),
                   ),

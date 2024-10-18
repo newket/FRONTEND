@@ -118,9 +118,9 @@ class _FavoriteArtistV1 extends State<FavoriteArtistV1> {
                               Container(
                                 height: 40,
                                 decoration: ShapeDecoration(
-                                  color: isKeyboardVisible ? pt_20 : b_900, // 내부 배경색
+                                  color: isKeyboardVisible ? v1pt_20 : b_900, // 내부 배경색
                                   shape: RoundedRectangleBorder(
-                                    side: const BorderSide(width: 1, color: pt_50), // 테두리 색상 및 두께
+                                    side: const BorderSide(width: 1, color: v1pt_50), // 테두리 색상 및 두께
                                     borderRadius: BorderRadius.circular(42),
                                   ),
                                 ),
@@ -130,7 +130,7 @@ class _FavoriteArtistV1 extends State<FavoriteArtistV1> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     // 검색 아이콘
-                                    Image.asset('images/navigator/search_on.png', height: 20, width: 20),
+                                    Image.asset('images/v1/navigator/search_on.png', height: 20, width: 20),
                                     const SizedBox(width: 12),
                                     // 텍스트 필드 (예시 텍스트)
                                     Expanded(
@@ -164,7 +164,7 @@ class _FavoriteArtistV1 extends State<FavoriteArtistV1> {
                                                 artists = [];
                                               })
                                             },
-                                        child: SvgPicture.asset('images/favorite_artist/close-circle.svg',
+                                        child: SvgPicture.asset('images/v1/favorite_artist/close-circle.svg',
                                             height: 16, width: 16))
                                   ],
                                 ),
@@ -179,7 +179,7 @@ class _FavoriteArtistV1 extends State<FavoriteArtistV1> {
                       //선택한 아티스트 아이콘
                       Row(
                         children: [
-                          SvgPicture.asset("images/favorite_artist/star.svg", height: 20, width: 20),
+                          SvgPicture.asset("images/v1/favorite_artist/star.svg", height: 20, width: 20),
                           const SizedBox(width: 8),
                           const Text(
                             '선택한 아티스트',
@@ -211,9 +211,9 @@ class _FavoriteArtistV1 extends State<FavoriteArtistV1> {
                                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                         clipBehavior: Clip.antiAlias,
                                         decoration: ShapeDecoration(
-                                          color: pt_20,
+                                          color: v1pt_20,
                                           shape: RoundedRectangleBorder(
-                                            side: const BorderSide(width: 1, color: pt_30),
+                                            side: const BorderSide(width: 1, color: v1pt_30),
                                             borderRadius: BorderRadius.circular(12),
                                           ),
                                         ),
@@ -286,8 +286,7 @@ class _FavoriteArtistV1 extends State<FavoriteArtistV1> {
                         var storage = const FlutterSecureStorage();
                         final accessToken = await storage.read(key: 'KAKAO_TOKEN');
                         //signup
-                        await AuthRepository().signUpApi(
-                            SignUpRequest(accessToken!, myArtists.map((artist) => artist.artistId).toList()));
+                        //await AuthRepository().signUpApi(SignUpRequest(accessToken!, myArtists.map((artist) => artist.artistId).toList()));
                         //기기 토큰 저장
                         final serverToken = await storage.read(key: 'ACCESS_TOKEN');
                         await AuthRepository().putDeviceTokenApi(serverToken!);
@@ -329,7 +328,7 @@ class _FavoriteArtistV1 extends State<FavoriteArtistV1> {
                           decoration: ShapeDecoration(
                             color: b_900,
                             shape: RoundedRectangleBorder(
-                              side: const BorderSide(width: 1, color: pt_90),
+                              side: const BorderSide(width: 1, color: v1pt_90),
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
@@ -422,7 +421,7 @@ class _FavoriteArtistV1 extends State<FavoriteArtistV1> {
                         decoration: ShapeDecoration(
                           color: b_900,
                           shape: RoundedRectangleBorder(
-                            side: const BorderSide(width: 1, color: pt_90),
+                            side: const BorderSide(width: 1, color: v1pt_90),
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
@@ -464,7 +463,7 @@ class _FavoriteArtistV1 extends State<FavoriteArtistV1> {
                                   height: 40,
                                   clipBehavior: Clip.antiAlias,
                                   decoration: ShapeDecoration(
-                                    color: pt_30,
+                                    color: v1pt_30,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     ),
@@ -483,7 +482,7 @@ class _FavoriteArtistV1 extends State<FavoriteArtistV1> {
                                         ),
                                       ),
                                       const SizedBox(width: 8),
-                                      SvgPicture.asset("images/favorite_artist/request.svg", height: 24, width: 24),
+                                      SvgPicture.asset("images/v1/favorite_artist/request.svg", height: 24, width: 24),
                                     ],
                                   ),
                                 ))

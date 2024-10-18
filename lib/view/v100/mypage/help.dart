@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/user_model.dart';
 import 'package:newket/repository/user_repository.dart';
-import 'package:newket/theme/Colors.dart';
+import 'package:newket/theme/colors.dart';
 
 class HelpV1 extends StatefulWidget {
   const  HelpV1({super.key});
@@ -67,7 +67,7 @@ class _HelpV1 extends State<HelpV1> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SvgPicture.asset('images/mypage/checkbox.svg', height: 24, width: 24),
+                SvgPicture.asset('images/v1/mypage/checkbox.svg', height: 24, width: 24),
                 const SizedBox(width: 12),
                 const Column(
                   mainAxisSize: MainAxisSize.min,
@@ -182,7 +182,7 @@ class _HelpV1 extends State<HelpV1> {
                           Focus(
                               onFocusChange: (hasFocus) {
                                 setState(() {
-                                  _titleBackgroundColor = hasFocus ? pt_20 : b_900;
+                                  _titleBackgroundColor = hasFocus ? v1pt_20 : b_900;
                                 });
                               },
                               child: Container(
@@ -190,7 +190,7 @@ class _HelpV1 extends State<HelpV1> {
                                   decoration: ShapeDecoration(
                                     color: _titleBackgroundColor, // 내부 배경색
                                     shape: RoundedRectangleBorder(
-                                      side: const BorderSide(width: 1, color: pt_50), // 테두리 색상 및 두께
+                                      side: const BorderSide(width: 1, color: v1pt_50), // 테두리 색상 및 두께
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                   ),
@@ -267,7 +267,7 @@ class _HelpV1 extends State<HelpV1> {
                           Focus(
                               onFocusChange: (hasFocus) {
                                 setState(() {
-                                  _contentBackgroundColor = hasFocus ? pt_20 : b_900;
+                                  _contentBackgroundColor = hasFocus ? v1pt_20 : b_900;
                                 });
                               },
                               child: Container(
@@ -275,7 +275,7 @@ class _HelpV1 extends State<HelpV1> {
                                   decoration: ShapeDecoration(
                                     color: _contentBackgroundColor, // 내부 배경색
                                     shape: RoundedRectangleBorder(
-                                      side: const BorderSide(width: 1, color: pt_50), // 테두리 색상 및 두께
+                                      side: const BorderSide(width: 1, color: v1pt_50), // 테두리 색상 및 두께
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                   ),
@@ -371,7 +371,7 @@ class _HelpV1 extends State<HelpV1> {
                           ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: pt_30, // 버튼 색상
+                              backgroundColor: v1pt_30, // 버튼 색상
                               padding: const EdgeInsets.all(12),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),

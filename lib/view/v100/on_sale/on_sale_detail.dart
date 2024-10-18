@@ -183,7 +183,7 @@ class _OnSaleDetailV1 extends State<OnSaleDetailV1> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        SvgPicture.asset("images/ticket_detail/location.svg", height: 20, width: 20),
+                                        SvgPicture.asset("images/v1/ticket_detail/location.svg", height: 20, width: 20),
                                         const SizedBox(width: 8),
                                         const Text("공연 장소",
                                             style: TextStyle(
@@ -218,7 +218,7 @@ class _OnSaleDetailV1 extends State<OnSaleDetailV1> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        SvgPicture.asset("images/ticket_detail/calendar.svg", height: 20, width: 20),
+                                        SvgPicture.asset("images/v1/ticket_detail/calendar.svg", height: 20, width: 20),
                                         const SizedBox(width: 8),
                                         const Text("공연 일시",
                                             style: TextStyle(
@@ -301,10 +301,10 @@ class _OnSaleDetailV1 extends State<OnSaleDetailV1> {
                                                           Image.asset(
                                                             switch (
                                                                 ticketResponse.ticketProviders[index].ticketProvider) {
-                                                              'INTERPARK' => "images/ticket_detail/interpark.png",
-                                                              'MELON' => "images/ticket_detail/melon.png",
-                                                              'YES24' => "images/ticket_detail/yes24.png",
-                                                              'TICKETLINK' => "images/ticket_detail/ticketlink.png",
+                                                              'INTERPARK' => "images/v1/ticket_detail/interpark.png",
+                                                              'MELON' => "images/v1/ticket_detail/melon.png",
+                                                              'YES24' => "images/v1/ticket_detail/yes24.png",
+                                                              'TICKETLINK' => "images/v1/ticket_detail/ticketlink.png",
                                                               _ => "",
                                                             },
                                                             height: 32,

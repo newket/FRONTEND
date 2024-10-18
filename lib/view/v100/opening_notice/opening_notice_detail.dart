@@ -6,7 +6,7 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/ticket_model.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
-import 'package:newket/theme/Colors.dart';
+import 'package:newket/theme/colors.dart';
 import 'package:newket/view/v100/onboarding/login.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -277,7 +277,7 @@ class _OpeningNoticeDetail extends State<OpeningNoticeDetail> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  SvgPicture.asset("images/ticket_detail/location.svg", height: 20, width: 20),
+                                  SvgPicture.asset("images/v1/ticket_detail/location.svg", height: 20, width: 20),
                                   const SizedBox(width: 8),
                                   const Text("공연 장소",
                                       style: TextStyle(
@@ -312,7 +312,7 @@ class _OpeningNoticeDetail extends State<OpeningNoticeDetail> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  SvgPicture.asset("images/ticket_detail/calendar.svg", height: 20, width: 20),
+                                  SvgPicture.asset("images/v1/ticket_detail/calendar.svg", height: 20, width: 20),
                                   const SizedBox(width: 8),
                                   const Text("공연 일시",
                                       style: TextStyle(
@@ -394,10 +394,10 @@ class _OpeningNoticeDetail extends State<OpeningNoticeDetail> {
                                                   children: [
                                                     Image.asset(
                                                       switch (ticketResponse.ticketProviders[index].ticketProvider) {
-                                                        'INTERPARK' => "images/ticket_detail/interpark.png",
-                                                        'MELON' => "images/ticket_detail/melon.png",
-                                                        'YES24' => "images/ticket_detail/yes24.png",
-                                                        'TICKETLINK' => "images/ticket_detail/ticketlink.png",
+                                                        'INTERPARK' => "images/v1/ticket_detail/interpark.png",
+                                                        'MELON' => "images/v1/ticket_detail/melon.png",
+                                                        'YES24' => "images/v1/ticket_detail/yes24.png",
+                                                        'TICKETLINK' => "images/v1/ticket_detail/ticketlink.png",
                                                         _ => "",
                                                       },
                                                       height: 32,
@@ -529,7 +529,7 @@ class _OpeningNoticeDetail extends State<OpeningNoticeDetail> {
                       });
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: isNotification ? pt_30 : p_700, // 버튼 배경색
+                      backgroundColor: isNotification ? v1pt_30 : p_700, // 버튼 배경색
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
                           width: 1,

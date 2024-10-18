@@ -26,7 +26,7 @@ class _Login extends State<Login> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: AssetImage("images/onboarding/background.png"), // 배경 이미지
+            image: AssetImage("images/v2/login/background.png"), // 배경 이미지
           ),
         ),
         child: Scaffold(
@@ -52,7 +52,7 @@ class _Login extends State<Login> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image(
-                          image: AssetImage("images/onboarding/logo_title.png"),
+                          image: AssetImage("images/v2/login/logo_title.png"),
                           width: 50,
                         ),
                         SizedBox(width: 5),
@@ -70,7 +70,7 @@ class _Login extends State<Login> {
                   children: [
                     //카카오 로그인
                     IconButton(
-                        icon: Image.asset("images/onboarding/kakao_login_large_wide.png",width: 320),
+                        icon: Image.asset("images/v2/login/kakao_login_large_wide.png",width: 320),
                         onPressed: () async {
                           await authRepository.kakaoLoginApi();
                         }),
