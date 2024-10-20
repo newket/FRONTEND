@@ -16,6 +16,8 @@ class _MyTicketV2 extends State<MyTicketV2> {
   @override
   Widget build(BuildContext context) {
     // 로딩 중일 때 로딩 화면을 표시
-    return Scaffold();
+    return Scaffold(
+      resizeToAvoidBottomInset: false, //키보드가 올라 오지 않도록
+    );
   }
 }

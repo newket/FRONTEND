@@ -75,6 +75,8 @@ flutter:
     - images/v1/favorite_artist/
     - images/v2/login/
     - images/v2/tab_bar/
+    - images/v2/home/
+    - images/v2/opening_notice/
     - .env
     - assets/
   fonts:

@@ -5,14 +5,14 @@ import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/v100/opening_notice/opening_notice_detail.dart';
 
-class OpeningNotice extends StatefulWidget {
-  const OpeningNotice({super.key});
+class OpeningNoticeV1 extends StatefulWidget {
+  const OpeningNoticeV1({super.key});
 
   @override
-  State<StatefulWidget> createState() => _OpeningNotice();
+  State<StatefulWidget> createState() => _OpeningNoticeV1();
 }
 
-class _OpeningNotice extends State<OpeningNotice> {
+class _OpeningNoticeV1 extends State<OpeningNoticeV1> {
   late UserRepository userRepository;
   late TicketRepository ticketRepository;
   String selectedOption = '예매 오픈 임박 순';

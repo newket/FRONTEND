@@ -807,7 +807,7 @@ class _HomeV1 extends State<HomeV1> {
                                           AmplitudeConfig.amplitude.logEvent('OpeningNotice');
                                           Navigator.push(
                                             context,
-                                            MaterialPageRoute(builder: (context) => const OpeningNotice()),
+                                            MaterialPageRoute(builder: (context) => const OpeningNoticeV1()),
                                           );
                                         },
                                         child: Container(
