@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/repository/auth_repository.dart';
+import 'package:newket/theme/Colors.dart';
+import 'package:get/get.dart';
+import 'package:newket/view/v200/tapbar/tab_bar.dart';
+
 
 class LoginV2 extends StatefulWidget {
   const LoginV2({super.key});
@@ -65,6 +68,21 @@ class _LoginV2 extends State<LoginV2> {
                       icon: Image.asset("images/v1/onboarding/kakao_login_large_wide.png", width: 320),
                       onPressed: () async {
                         await authRepository.kakaoLoginApi();
+                      }),
+                  IconButton(
+                      icon: const Text(
+                        '로그인 없이 둘러볼래요',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: f_70,
+                          fontSize: 14,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                      onPressed: () async {
+                        Get.offAll(const TabBarV2());
                       }),
                   const SizedBox(height: 60),
                 ],
