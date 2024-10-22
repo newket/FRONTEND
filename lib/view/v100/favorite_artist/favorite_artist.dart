@@ -7,6 +7,7 @@ import 'package:newket/model/artist_model.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/repository/auth_repository.dart';
+import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/v100/favorite_artist/artist_request.dart';
 import 'package:newket/view/v100/tapbar/tap_bar.dart';
@@ -289,7 +290,7 @@ class _FavoriteArtistV1 extends State<FavoriteArtistV1> {
                         //await AuthRepository().signUpApi(SignUpRequest(accessToken!, myArtists.map((artist) => artist.artistId).toList()));
                         //기기 토큰 저장
                         final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-                        await AuthRepository().putDeviceTokenApi(serverToken!);
+                        await UserRepository().putDeviceTokenApi(serverToken!);
                         //home 으로
                         Get.offAll(const TapBarV1());
                       },

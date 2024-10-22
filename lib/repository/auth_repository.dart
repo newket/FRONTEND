@@ -9,6 +9,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/model/user_model.dart';
+import 'package:newket/repository/user_repository.dart';
 import 'package:newket/secure/auth_dio.dart';
 import 'package:newket/view/v200/login/agreement.dart';
 import 'package:newket/view/v200/login/login.dart';
@@ -46,7 +47,7 @@ class AuthRepository {
           await socialLoginApi(SocialLoginRequest(accessToken));
 
           final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-          await putDeviceTokenApi(serverToken!);
+          await UserRepository().putDeviceTokenApi(serverToken!);
 
           AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 성공');
 
@@ -66,7 +67,7 @@ class AuthRepository {
             await socialLoginApi(SocialLoginRequest(accessToken));
 
             final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-            await putDeviceTokenApi(serverToken!);
+            await UserRepository().putDeviceTokenApi(serverToken!);
 
             AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
 
@@ -83,7 +84,7 @@ class AuthRepository {
           await socialLoginApi(SocialLoginRequest(accessToken));
 
           final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-          await putDeviceTokenApi(serverToken!);
+          await UserRepository().putDeviceTokenApi(serverToken!);
 
           AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
 
@@ -132,7 +133,7 @@ class AuthRepository {
       await socialLoginAppleApi(SocialLoginAppleRequest(credential.userIdentifier.toString()));
 
       final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-      await putDeviceTokenApi(serverToken!);
+      await UserRepository().putDeviceTokenApi(serverToken!);
 
       AmplitudeConfig.amplitude.logEvent('애플 계정으로 로그인 성공');
 
@@ -247,15 +248,6 @@ class AuthRepository {
       }
       rethrow;
     }
-  }
-
-  Future<void> putDeviceTokenApi(String accessToken) async {
-    dio.options.headers['Authorization'] = 'Bearer $accessToken';
-    final deviceToken = await FirebaseMessaging.instance.getToken();
-
-    final requestBody = UserDeviceToken(deviceToken!).toJson();
-
-    await dio.put("/api/v1/users/device-token", data: requestBody);
   }
 
   Future<void> withdraw(BuildContext context) async {

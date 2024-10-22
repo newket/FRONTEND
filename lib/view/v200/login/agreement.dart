@@ -5,6 +5,7 @@ import 'package:get/route_manager.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/repository/auth_repository.dart';
+import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/v200/agreement/privacy_policy.dart';
 import 'package:newket/view/v200/agreement/terms_of_service.dart';
@@ -279,7 +280,7 @@ class _AgreementV2 extends State<AgreementV2> {
                                     SignUpAppleRequest(name: name!, email: email!, socialId: socialId!));
                                 //기기 토큰 저장
                                 final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-                                await AuthRepository().putDeviceTokenApi(serverToken!);
+                                await UserRepository().putDeviceTokenApi(serverToken!);
                                 AmplitudeConfig.amplitude.logEvent('HomeV2');
                                 Get.offAll(() => const TabBarV2());
                               },

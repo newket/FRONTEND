@@ -39,4 +39,26 @@ class UserRepository {
 
     await dio.post("/api/v1/users/help", data: requestBody);
   }
+
+
+  Future<void> putDeviceTokenApi(String accessToken) async {
+    var dio = Dio();
+    dio.options.baseUrl = dotenv.get("BASE_URL");
+    dio.options.headers['Authorization'] = 'Bearer $accessToken';
+    final deviceToken = await FirebaseMessaging.instance.getToken();
+
+    final requestBody = UserDeviceToken(deviceToken!).toJson();
+
+    await dio.put("/api/v1/users/device-token", data: requestBody);
+  }
+
+
+  Future<void> deleteDeviceToken() async {
+    var dio = Dio();
+    dio.options.baseUrl = dotenv.get("BASE_URL");
+    final deviceToken = await FirebaseMessaging.instance.getToken();
+    final requestBody = UserDeviceToken(deviceToken!).toJson();
+
+    await dio.delete("/api/v1/users/device-token", data: requestBody);
+  }
 }
