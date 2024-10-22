@@ -59,7 +59,7 @@ class TicketRepository{
     dio.options.baseUrl = dotenv.get("BASE_URL");
 
     final response = await dio.get(
-        "/api/v1/tickets/$concertId"
+        "/api/v2/tickets/$concertId"
     );
 
     return TicketDetail.fromJson(response.data);

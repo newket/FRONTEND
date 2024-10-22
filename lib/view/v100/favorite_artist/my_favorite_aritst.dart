@@ -30,8 +30,8 @@ class _MyFavoriteArtistV1 extends State<MyFavoriteArtistV1> {
     }
   }
 
-  Future<void> _getFavoriteArtistV1s(BuildContext context) async {
-    final artists = await artistRepository.getFavoriteArtistV1s(context);
+  Future<void> _getFavoriteArtists(BuildContext context) async {
+    final artists = await artistRepository.getFavoriteArtists(context);
     setState(() {
       myArtists = artists.artists;
     });
@@ -106,7 +106,7 @@ class _MyFavoriteArtistV1 extends State<MyFavoriteArtistV1> {
   void initState() {
     super.initState();
     artistRepository = ArtistRepository();
-    _getFavoriteArtistV1s(context);
+    _getFavoriteArtists(context);
     _searchController.addListener(() {
       _searchArtists(_searchController.text);
     });
@@ -331,8 +331,8 @@ class _MyFavoriteArtistV1 extends State<MyFavoriteArtistV1> {
                     right: 32,
                     child: ElevatedButton(
                       onPressed: () async {
-                        await ArtistRepository().putFavoriteArtistV1s(
-                            context, FavoriteArtistV1s(myArtists.map((artist) => artist.artistId).toList()));
+                        await ArtistRepository().putFavoriteArtists(
+                            context, FavoriteArtists(myArtists.map((artist) => artist.artistId).toList()));
                         AmplitudeConfig.amplitude.logEvent('Back');
                         Navigator.pop(context); //뒤로가기
                         showToast(context);

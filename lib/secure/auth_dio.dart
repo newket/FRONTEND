@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:newket/config/amplitude_config.dart';
-import 'package:newket/model/auth_model.dart';
-import 'package:newket/view/v100/onboarding/login.dart';
+import 'package:newket/view/v200/login/login.dart';
 
 Future authDio(BuildContext context) async {
   var dio = Dio();
@@ -75,7 +74,7 @@ Future authDio(BuildContext context) async {
           AmplitudeConfig.amplitude.logEvent('Reissue Fail');
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => const Login()),
+            MaterialPageRoute(builder: (context) => const LoginV2()),
                 (route) => false,
           );
         }

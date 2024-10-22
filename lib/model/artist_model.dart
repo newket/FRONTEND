@@ -47,10 +47,10 @@ class Artist {
 
 }
 
-class FavoriteArtistV1s {
+class FavoriteArtists {
   List<int> artistIds;
 
-  FavoriteArtistV1s(this.artistIds);
+  FavoriteArtists(this.artistIds);
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{"artistIds": artistIds};

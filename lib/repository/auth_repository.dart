@@ -153,7 +153,7 @@ class AuthRepository {
     try {
       final requestBody = signUpRequest.toJson();
 
-      final response = await dio.post("/api/v1/auth/signup/KAKAO", data: requestBody);
+      final response = await dio.post("/api/v2/auth/signup/KAKAO", data: requestBody);
 
       final responseBody = SocialLoginResponse.fromJson(response.data);
 

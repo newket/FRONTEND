@@ -215,7 +215,7 @@ class _HomeV1 extends State<HomeV1> {
                                                 // 각 아이템 간 간격
                                                 runSpacing: 8.0,
                                                 // 줄 바꿈 시 간격
-                                                children: response.FavoriteArtistV1Names.map((artist) {
+                                                children: response.favoriteArtistNames.map((artist) {
                                                   return Container(
                                                     height: 25,
                                                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -355,7 +355,7 @@ class _HomeV1 extends State<HomeV1> {
                                           },
                                         ),
                                       )
-                                    else if (response.FavoriteArtistV1Names.isNotEmpty)
+                                    else if (response.favoriteArtistNames.isNotEmpty)
                                       Container(
                                           width: MediaQuery.of(context).size.width - 40,
                                           height: 337,
