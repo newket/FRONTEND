@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/theme/colors.dart';
+import 'package:newket/view/v200/login/before_login.dart';
+import 'package:newket/view/v200/mypage/mypage.dart';
 import 'package:newket/view/v200/on_sale/on_sale.dart';
 import 'package:newket/view/v200/opening_notice/opening_notice.dart';
 
@@ -64,10 +67,31 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                SvgPicture.asset(
-                  'images/v2/home/mypage.svg',
-                  width: 28,
-                  height: 28,
+                GestureDetector(
+                  child: SvgPicture.asset(
+                    'images/v2/home/mypage.svg',
+                    width: 28,
+                    height: 28,
+                  ),
+                  onTap: () async {
+                    const storage = FlutterSecureStorage();
+                    final accessToken = await storage.read(key: 'ACCESS_TOKEN');
+                    if (accessToken==null || accessToken.isEmpty) {
+                      AmplitudeConfig.amplitude.logEvent('BeforeLogin');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const BeforeLogin(),
+                        ),
+                      );
+                    } else{
+                      AmplitudeConfig.amplitude.logEvent('MyPage');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MyPageV2()),
+                      );
+                    }
+                  },
                 )
               ],
             ),
@@ -134,8 +158,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                     _searchController.clear();
                                   })
                                 },
-                            child:
-                                SvgPicture.asset('images/v2/home/close-circle.svg', height: 24, width: 24)),
+                            child: SvgPicture.asset('images/v2/home/close-circle.svg', height: 24, width: 24)),
                       ],
                     ),
                   )),
@@ -148,31 +171,35 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                   tabs: <Tab>[
                     Tab(
                       icon: SizedBox(
-                          width: MediaQuery.of(context).size.width/2,
-                          height: 44,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children:[Text("오픈 예정 티켓",
-                              style: TextStyle(
-                                  fontFamily: 'Pretendard',
-                                  fontSize: 16,
-                                  color: controller.index == 0 ? np_100 : f_40,
-                                  fontWeight: FontWeight.w600))])),
-                    ),
-                    Tab(
-                      icon: SizedBox(
-                          width: MediaQuery.of(context).size.width/2,
+                          width: MediaQuery.of(context).size.width / 2,
                           height: 44,
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              children:[Text("예매 중인 티켓",
-                              style: TextStyle(
-                                  fontFamily: 'Pretendard',
-                                  fontSize: 16,
-                                  color: controller.index == 1 ? np_100 : f_40,
-                                  fontWeight: FontWeight.w600))])),
+                              children: [
+                                Text("오픈 예정 티켓",
+                                    style: TextStyle(
+                                        fontFamily: 'Pretendard',
+                                        fontSize: 16,
+                                        color: controller.index == 0 ? np_100 : f_40,
+                                        fontWeight: FontWeight.w600))
+                              ])),
+                    ),
+                    Tab(
+                      icon: SizedBox(
+                          width: MediaQuery.of(context).size.width / 2,
+                          height: 44,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text("예매 중인 티켓",
+                                    style: TextStyle(
+                                        fontFamily: 'Pretendard',
+                                        fontSize: 16,
+                                        color: controller.index == 1 ? np_100 : f_40,
+                                        fontWeight: FontWeight.w600))
+                              ])),
                     ),
                   ],
                   controller: controller,
