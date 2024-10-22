@@ -77,6 +77,7 @@ flutter:
     - images/v2/tab_bar/
     - images/v2/home/
     - images/v2/opening_notice/
+    - images/v2/mypage/
     - .env
     - assets/
   fonts:
