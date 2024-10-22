@@ -133,7 +133,7 @@ class _MyPageV2 extends State<MyPageV2> {
                                         case 'APPLE':
                                           return 'images/v2/mypage/apple.png';
                                         default:
-                                          return 'images/v2/mypage/kakao.png';
+                                          return 'images/v2/mypage/sns_null.png';
                                       }
                                     })(),
                                     width: 20,
@@ -199,24 +199,18 @@ class _MyPageV2 extends State<MyPageV2> {
                   Container(
                       color: Colors.transparent,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset("images/v1/mypage/notification.svg", height: 20, width: 20, color: f_70),
-                              const SizedBox(width: 8),
-                              const Text(
-                                '알림 설정',
-                                style: TextStyle(
-                                  fontFamily: 'Pretendard',
-                                  fontSize: 18,
-                                  color: f_100,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            ],
-                          ),
-                          const Icon(Icons.keyboard_arrow_right_rounded, color: f_70)
+                          SvgPicture.asset("images/v1/mypage/notification.svg", height: 20, width: 20, color: f_70),
+                          const SizedBox(width: 8),
+                          const Text(
+                            '알림 설정',
+                            style: TextStyle(
+                              fontFamily: 'Pretendard',
+                              fontSize: 18,
+                              color: f_100,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )
                         ],
                       )),
                   const SizedBox(height: 24),
@@ -404,6 +398,7 @@ class _MyPageV2 extends State<MyPageV2> {
                       onTap: () async {
                         var storage = const FlutterSecureStorage();
                         await storage.deleteAll();
+                        await userRepository.deleteDeviceToken();
                         // 로그인 페이지로 이동
                         AmplitudeConfig.amplitude.logEvent('Logout');
                         Get.offAll(const LoginV2());
@@ -493,6 +488,7 @@ class _MyPageV2 extends State<MyPageV2> {
                                             await authRepository.withdraw(context);
                                             var storage = const FlutterSecureStorage();
                                             await storage.deleteAll();
+                                            await userRepository.deleteDeviceToken();
                                             AmplitudeConfig.amplitude.logEvent('Withdraw');
                                             Get.offAll(const LoginV2());
                                           },
