@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/theme/colors.dart';
-import 'package:newket/view/v200/on_sale/on_sale_detail.dart';
+import 'package:newket/view/v200/ticket_detail/ticket_detail.dart';
 
 class OnSaleV2 extends StatefulWidget {
   const OnSaleV2({super.key});
@@ -188,7 +188,7 @@ class _OnSaleV2 extends State<OnSaleV2> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => OnSaleDetailV2(
+                                              builder: (context) => TicketDetailV2(
                                                 concertId: onSaleResponse.concerts[index].concertId, // 상세 페이지에 데이터 전달
                                               ),
                                             ),
