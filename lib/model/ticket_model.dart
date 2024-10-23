@@ -1,4 +1,6 @@
 // OpeningNoticeResponse
+import 'package:newket/model/artist_model.dart';
+
 class OpeningNoticeResponse {
   int totalNum;
   String artistName;
@@ -142,7 +144,7 @@ class TicketDetail {
   String placeUrl;
   List<String> date;
   List<ConcertTicketProvider> ticketProviders;
-  List<Artist> artists;
+  List<TicketArtist> artists;
   bool isAvailableNotification;
 
   TicketDetail(
@@ -167,7 +169,7 @@ class TicketDetail {
         placeUrl: json['placeUrl'],
         date: List<String>.from(dateList),
         ticketProviders: providerList.map((provider) => ConcertTicketProvider.fromJson(provider)).toList(),
-        artists: artistList.map((artist) => Artist.fromJson(artist)).toList(),
+        artists: artistList.map((artist) => TicketArtist.fromJson(artist)).toList(),
         isAvailableNotification: json['isAvailableNotification']);
   }
 
@@ -183,19 +185,19 @@ class TicketDetail {
   }
 }
 
-class Artist {
+class TicketArtist {
   String name;
   String? nicknames;
   int artistId;
 
-  Artist({
+  TicketArtist({
     required this.name,
     required this.nicknames,
     required this.artistId,
   });
 
-  factory Artist.fromJson(Map<String, dynamic> json) {
-    return Artist(
+  factory TicketArtist.fromJson(Map<String, dynamic> json) {
+    return TicketArtist(
       name: json['name'],
       nicknames: json['nicknames'],
       artistId: json['artistId'],
@@ -309,6 +311,32 @@ class FavoriteOpeningNotice {
       'artistName': artistName,
       'FavoriteArtistV1Names': favoriteArtistNames,
       'concerts': concerts.map((v) => v.toJson()).toList(),
+    };
+  }
+}
+
+class SearchResponse {
+  List<Artist> artists;
+  OpeningNoticeResponse openingNotice;
+  OnSaleResponse onSale;
+
+  SearchResponse({required this.artists ,required this.openingNotice, required this.onSale});
+
+  factory SearchResponse.fromJson(Map<String, dynamic> json) {
+    var artistList = json['artists'] as List;
+    List<Artist> artistItems = artistList.map((i) => Artist.fromJson(i)).toList();
+    return SearchResponse(
+      artists: artistItems,
+      openingNotice: OpeningNoticeResponse.fromJson(json['openingNotice'] as Map<String, dynamic>),
+      onSale: OnSaleResponse.fromJson(json['onSale'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'artists': artists.map((v) => v.toJson()).toList(),
+      'openingNotice': openingNotice.toJson(),
+      'onSale': onSale.toJson(),
     };
   }
 }
