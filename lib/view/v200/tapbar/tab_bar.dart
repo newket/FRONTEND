@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/v200/home/home.dart';
+import 'package:newket/view/v200/login/before_login.dart';
 import 'package:newket/view/v200/my_ticket/my_ticket.dart';
+import 'package:newket/view/v200/mypage/mypage.dart';
 
 class TabBarV2 extends StatefulWidget {
   const TabBarV2({super.key});
@@ -15,6 +18,8 @@ class TabBarV2 extends StatefulWidget {
 class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   late TabController controller;
   int lastIndex = -1;
+  bool isKeyboardVisible = false;
+
 
   @override
   void initState() {
@@ -39,17 +44,71 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
 
   @override
   Widget build(BuildContext context) {
+    isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
+
     return Scaffold(
         resizeToAvoidBottomInset: false, //키보드가 올라 오지 않도록
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'NEWKET',
+                  style: TextStyle(
+                    color: np_100,
+                    fontSize: 24,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                GestureDetector(
+                  child: SvgPicture.asset(
+                    'images/v2/home/mypage.svg',
+                    width: 28,
+                    height: 28,
+                  ),
+                  onTap: () async {
+                    const storage = FlutterSecureStorage();
+                    final accessToken = await storage.read(key: 'ACCESS_TOKEN');
+                    if (accessToken == null || accessToken.isEmpty) {
+                      AmplitudeConfig.amplitude.logEvent('BeforeLogin');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const BeforeLogin(),
+                        ),
+                      );
+                    } else {
+                      AmplitudeConfig.amplitude.logEvent('MyPage');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MyPageV2()),
+                      );
+                    }
+                  },
+                )
+              ],
+            ),
+          ),
+        ),
+        backgroundColor: Colors.white,
         body: Stack(
           children: [
             SizedBox(
-                height: MediaQuery.of(context).size.height, // 화면 전체 높이 사용
-                child: TabBarView(
-                  controller: controller,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: const <Widget>[HomeV2(), MyTicketV2()],
-                )),
+              height: MediaQuery.of(context).size.height, // 화면 전체 높이 사용
+              child:  isKeyboardVisible
+                  ? TabBarView(
+                controller: controller,
+                physics: const NeverScrollableScrollPhysics(),
+                children: const <Widget>[HomeV2(), MyTicketV2()],
+              )
+                  : TabBarView(
+                controller: controller,
+                children: const <Widget>[HomeV2(), MyTicketV2()],
+              ),),
               Positioned(
                 left: MediaQuery.of(context).size.width / 2 - 122, // 중앙 정렬을 위한 계산 (244 / 2)
                 bottom: 50,
