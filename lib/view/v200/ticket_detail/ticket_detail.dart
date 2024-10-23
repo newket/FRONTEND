@@ -31,16 +31,16 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
   void showToast(BuildContext context) {
     OverlayEntry overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        bottom: 88.0, // Toast 위치 조정
+        bottom: 130, // Toast 위치 조정
         left: 20, // 화면의 가운데 정렬
         child: Material(
           color: Colors.transparent,
           child: Container(
             width: MediaQuery.of(context).size.width - 40,
-            height: 64,
+            height: 78,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: ShapeDecoration(
-              color: b_800,
+              color: f_80,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -51,13 +51,20 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  width: 20,
-                  height: 20,
-                  padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(),
+                  width: 24,
+                  height: 24,
+                  padding: const EdgeInsets.all(4.80),
+                  clipBehavior: Clip.antiAlias,
+                  decoration: ShapeDecoration(
+                    color: Color(0xFF8397FF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(9.60),
+                    ),
+                  ),
                   child: const Icon(
                     Icons.check,
-                    color: p_500,
+                    color: Colors.white,
+                    size: 14.4,
                   ),
                 ),
                 const SizedBox(width: 12),
