@@ -94,7 +94,7 @@ class _ArtistRequestV1 extends State<ArtistRequestV1> {
   Future<void> _requestArtist(String keyword) async {
     //제출
     if (keyword.isNotEmpty) {
-      await artistRepository.requestArtist(keyword);
+      //await artistRepository.requestArtist(keyword);
       setState(() {
         nextColor = v1pt_30;
       });

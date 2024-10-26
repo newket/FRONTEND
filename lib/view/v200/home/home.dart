@@ -10,6 +10,8 @@ import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/v200/on_sale/on_sale.dart';
 import 'package:newket/view/v200/opening_notice/opening_notice.dart';
+import 'package:newket/view/v200/search/search.dart';
+import 'package:newket/view/v200/ticket_detail/ticket_detail.dart';
 
 class HomeV2 extends StatefulWidget {
   const HomeV2({super.key});
@@ -24,10 +26,10 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
   late TabController controller;
   int lastIndex = -1;
   List<Artist> artists = []; // 검색 결과를 담을 리스트
-  late List<Concert> openingNoticeResponse;
-  late List<ConcertOnSale> onSaleResponse;
+  List<Concert> openingNoticeResponse = [];
+  List<ConcertOnSale> onSaleResponse = [];
 
-  Future<void> _searchArtists(String keyword) async {
+  Future<void> _search(String keyword) async {
     if (keyword.isNotEmpty) {
       SearchResponse result = await ticketRepository.searchArtistsAndTickets(keyword);
       setState(() {
@@ -50,10 +52,10 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
         lastIndex = controller.index; // 현재 인덱스를 마지막 인덱스로 저장
         switch (controller.index) {
           case 0:
-            AmplitudeConfig.amplitude.logEvent('HomeV2');
+            AmplitudeConfig.amplitude.logEvent('OpeningNoticeV2');
             break;
           case 1:
-            AmplitudeConfig.amplitude.logEvent('MyTicketV2');
+            AmplitudeConfig.amplitude.logEvent('OnSaleV2');
             break;
           default:
             break;
@@ -63,14 +65,18 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
     });
   }
 
+  //로고 누르면 초기
+  void resetState() {
+    setState(() {
+      artists = []; // 아티스트 리스트 초기화
+      _searchController.clear(); // 텍스트 필드 초기화
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool isKeyboardVisible = MediaQuery
-        .of(context)
-        .viewInsets
-        .bottom != 0;
-    Timer? _debounce;
-    String previousValue = ''; // 이전 값 저장
+    bool isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
+    Timer? debounce;
 
     return Scaffold(
         resizeToAvoidBottomInset: false, //키보드가 올라 오지 않도록
@@ -84,155 +90,145 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
               children: [
                 Positioned.fill(
                     child: Column(children: [
-                      Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                          child: Container(
-                            height: 44,
-                            decoration: ShapeDecoration(
-                              color: isKeyboardVisible ? np_10 : Colors.white, // 내부 배경색
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(width: 1, color: isKeyboardVisible ? pt_40 : pt_60), // 테두리 색상 및 두께
-                                borderRadius: BorderRadius.circular(42),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      child: Container(
+                        height: 44,
+                        decoration: ShapeDecoration(
+                          color: isKeyboardVisible ? np_10 : Colors.white, // 내부 배경색
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 1, color: isKeyboardVisible ? pt_40 : pt_60), // 테두리 색상 및 두께
+                            borderRadius: BorderRadius.circular(42),
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // 검색 아이콘
+                            SvgPicture.asset('images/v2/home/search.svg', height: 20, width: 20),
+                            const SizedBox(width: 12),
+                            // 텍스트 필드 (예시 텍스트)
+                            Expanded(
+                                child: TextField(
+                              maxLength: 20,
+                              maxLines: 1,
+                              // 최대 1줄로 설정
+                              decoration: const InputDecoration(
+                                counterText: '', // 글자 수 표시를 비활성화
+                                border: InputBorder.none, // 입력 필드의 기본 테두리 제거
+                                hintText: '아티스트 또는 공연 이름을 검색해보세요!',
+                                hintStyle: TextStyle(
+                                  color: f_50, // 텍스트 색상
+                                  fontSize: 14,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // 검색 아이콘
-                                SvgPicture.asset('images/v2/home/search.svg', height: 20, width: 20),
-                                const SizedBox(width: 12),
-                                // 텍스트 필드 (예시 텍스트)
-                                Expanded(
-                                    child: TextField(
-                                      maxLength: 20,
-                                      maxLines: 1, // 최대 1줄로 설정
-                                      decoration: const InputDecoration(
-                                        counterText: '', // 글자 수 표시를 비활성화
-                                        border: InputBorder.none, // 입력 필드의 기본 테두리 제거
-                                        hintText: '아티스트 또는 공연 이름을 검색해보세요!',
-                                        hintStyle: TextStyle(
-                                          color: f_50, // 텍스트 색상
-                                          fontSize: 14,
-                                          fontFamily: 'Pretendard',
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      style: const TextStyle(
-                                        color: f_80,
-                                        fontSize: 14,
-                                        fontFamily: 'Pretendard',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      onSubmitted: (value) {
-                                        //빈 값이 아닐 때 검색어 제출 시 페이지 이동
-                                        if (value != '') {
-                                          AmplitudeConfig.amplitude.logEvent('SearchDetail(keyword: $value)');
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //     builder: (context) => SearchDetail(keyword: value),
-                                          //   ),
-                                          // );
-                                        }
-                                      },
-                                      onChanged: (value) {
-                                        // 이전 타이머가 존재하면 취소
-                                        if (_debounce?.isActive ?? false) _debounce!.cancel();
-                                        // 새로운 타이머 설정 (3초 후에 실행)
-                                        _debounce = Timer(const Duration(microseconds: 300), () {
-                                          _searchArtists(value); // 마지막 입력값으로 검색 실행
-                                        });
-                                      },
-                                      controller: _searchController,
-                                    )),
-                                GestureDetector(
-                                    onTap: () =>
-                                    {
+                              style: const TextStyle(
+                                color: f_80,
+                                fontSize: 14,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w400,
+                              ),
+                              onSubmitted: (value) {
+                                //빈 값이 아닐 때 검색어 제출 시 페이지 이동
+                                if (value != '') {
+                                  AmplitudeConfig.amplitude.logEvent('SearchDetail(keyword: $value)');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SearchV2(keyword: value),
+                                    ),
+                                  );
+                                }
+                              },
+                              onChanged: (value) {
+                                // 이전 타이머가 존재하면 취소
+                                if (debounce?.isActive ?? false) debounce!.cancel();
+                                // 새로운 타이머 설정 (3초 후에 실행)
+                                debounce = Timer(const Duration(microseconds: 300), () {
+                                  _search(value); // 마지막 입력값으로 검색 실행
+                                });
+                              },
+                              controller: _searchController,
+                            )),
+                            GestureDetector(
+                                onTap: () => {
                                       setState(() {
                                         _searchController.clear();
                                       })
                                     },
-                                    child: SvgPicture.asset('images/v2/home/close-circle.svg', height: 24, width: 24)),
-                              ],
-                            ),
-                          )),
-                      // 네비게이션 바
-                      Container(
-                        color: Colors.white,
-                        height: 44,
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: TabBar(
-                          tabs: <Tab>[
-                            Tab(
-                              icon: SizedBox(
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 2,
-                                  height: 44,
-                                  child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Text("오픈 예정 티켓",
-                                            style: TextStyle(
-                                                fontFamily: 'Pretendard',
-                                                fontSize: 16,
-                                                color: controller.index == 0 ? np_100 : f_40,
-                                                fontWeight: FontWeight.w600))
-                                      ])),
-                            ),
-                            Tab(
-                              icon: SizedBox(
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 2,
-                                  height: 44,
-                                  child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Text("예매 중인 티켓",
-                                            style: TextStyle(
-                                                fontFamily: 'Pretendard',
-                                                fontSize: 16,
-                                                color: controller.index == 1 ? np_100 : f_40,
-                                                fontWeight: FontWeight.w600))
-                                      ])),
-                            ),
+                                child: SvgPicture.asset('images/v2/home/close-circle.svg', height: 24, width: 24)),
                           ],
-                          controller: controller,
-                          dividerColor: Colors.transparent,
-                          // 흰 줄 제거
-                          indicatorColor: const Color(0xFF796FFF),
-                          indicatorWeight: 2,
-                          indicatorPadding: const EdgeInsets.all(-11),
-                          // indicator 위치 내리기
-                          labelPadding: EdgeInsets.zero, //탭 크기가 안 작아지게
                         ),
-                      ),
-                      Expanded(
-                          child: TabBarView(
-                            controller: controller,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: const <Widget>[OpeningNoticeV2(), OnSaleV2()],
-                          ))
-                    ])),
+                      )),
+                  // 네비게이션 바
+                  Container(
+                    color: Colors.white,
+                    height: 44,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: TabBar(
+                      tabs: <Tab>[
+                        Tab(
+                          icon: SizedBox(
+                              width: MediaQuery.of(context).size.width / 2,
+                              height: 44,
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text("오픈 예정 티켓",
+                                        style: TextStyle(
+                                            fontFamily: 'Pretendard',
+                                            fontSize: 16,
+                                            color: controller.index == 0 ? np_100 : f_40,
+                                            fontWeight: FontWeight.w600))
+                                  ])),
+                        ),
+                        Tab(
+                          icon: SizedBox(
+                              width: MediaQuery.of(context).size.width / 2,
+                              height: 44,
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text("예매 중인 티켓",
+                                        style: TextStyle(
+                                            fontFamily: 'Pretendard',
+                                            fontSize: 16,
+                                            color: controller.index == 1 ? np_100 : f_40,
+                                            fontWeight: FontWeight.w600))
+                                  ])),
+                        ),
+                      ],
+                      controller: controller,
+                      dividerColor: Colors.transparent,
+                      // 흰 줄 제거
+                      indicatorColor: const Color(0xFF796FFF),
+                      indicatorWeight: 2,
+                      indicatorPadding: const EdgeInsets.all(-11),
+                      // indicator 위치 내리기
+                      labelPadding: EdgeInsets.zero, //탭 크기가 안 작아지게
+                    ),
+                  ),
+                  Expanded(
+                      child: TabBarView(
+                    controller: controller,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: const <Widget>[OpeningNoticeV2(), OnSaleV2()],
+                  ))
+                ])),
                 if (_searchController.text != '')
                   Positioned(
                     top: 68, // 검색 창 바로 아래에 위치
                     bottom: 250, //키보드 높이
                     child: Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
+                      width: MediaQuery.of(context).size.width,
                       height: 300,
                       padding: const EdgeInsets.only(
-                        top: 12,
                         left: 20,
                         right: 20,
                       ),
@@ -241,24 +237,27 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                         child: Column(
                           children: [
                             // 아티스트 항목
-                            ...artists.map((artist) =>
-                                GestureDetector(
+                            ...artists.map((artist) => GestureDetector(
                                   onTap: () {
                                     setState(() {
                                       artists = [];
                                       openingNoticeResponse = [];
                                       onSaleResponse = [];
                                       _searchController.clear(); // 텍스트 필드 값을 빈 문자열로 리셋
+                                      AmplitudeConfig.amplitude.logEvent('SearchDetail(artist: ${artist.name})');
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SearchV2(keyword: artist.name),
+                                        ),
+                                      );
                                     });
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(bottom: 8),
                                     // 아래쪽 간격 설정
                                     color: Colors.transparent,
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width - 40,
+                                    width: MediaQuery.of(context).size.width - 40,
                                     height: 48,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
@@ -296,14 +295,20 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                     ),
                                   ),
                                 )),
-                            ...openingNoticeResponse.map((concert) =>
-                                GestureDetector(
+                            ...openingNoticeResponse.map((concert) => GestureDetector(
                                   onTap: () {
                                     setState(() {
                                       artists = [];
                                       openingNoticeResponse = [];
                                       onSaleResponse = [];
                                       _searchController.clear(); // 텍스트 필드 값을 빈 문자열로 리셋
+                                      AmplitudeConfig.amplitude.logEvent('SearchDetail(concertName: ${concert.title})');
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => TicketDetailV2(concertId: concert.concertId),
+                                        ),
+                                      );
                                     });
                                   },
                                   child: Container(
@@ -316,10 +321,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                         SvgPicture.asset('images/v2/home/search_ticket.svg', width: 20, height: 20),
                                         const SizedBox(width: 8),
                                         SizedBox(
-                                          width: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width - 72,
+                                          width: MediaQuery.of(context).size.width - 72,
                                           child: RichText(
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis, // 1줄 이상은 ...
@@ -338,22 +340,25 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                     ),
                                   ),
                                 )),
-                            ...onSaleResponse.map((concert) =>
-                                GestureDetector(
+                            ...onSaleResponse.map((concert) => GestureDetector(
                                   onTap: () {
                                     setState(() {
                                       artists = [];
                                       openingNoticeResponse = [];
                                       onSaleResponse = [];
                                       _searchController.clear(); // 텍스트 필드 값을 빈 문자열로 리셋
+                                      AmplitudeConfig.amplitude.logEvent('SearchDetail(concertName: ${concert.title})');
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => TicketDetailV2(concertId: concert.concertId),
+                                        ),
+                                      );
                                     });
                                   },
                                   child: Container(
                                     color: Colors.transparent,
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width - 40,
+                                    width: MediaQuery.of(context).size.width - 40,
                                     margin: const EdgeInsets.only(bottom: 8),
                                     // 아래쪽 간격 설정
                                     height: 48,
@@ -363,10 +368,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                         SvgPicture.asset('images/v2/home/search_ticket.svg', width: 20, height: 20),
                                         const SizedBox(width: 8),
                                         SizedBox(
-                                          width: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width - 72,
+                                          width: MediaQuery.of(context).size.width - 72,
                                           child: RichText(
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis, // 1줄 이상은 ...

@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/secure/auth_dio.dart';
@@ -18,12 +16,11 @@ class ArtistRepository {
     return SearchArtists.fromJson(response.data);
   }
 
-  Future<void> requestArtist(String artistName) async {
+  Future<void> requestArtist(ArtistRequest artistRequest) async {
     var dio = Dio();
     dio.options.baseUrl = dotenv.get("BASE_URL");
-    final deviceToken = await FirebaseMessaging.instance.getToken();
-
-    await dio.post("/api/v1/artists/request?artistName=$artistName&deviceToken=$deviceToken");
+    final requestBody = artistRequest.toJson();
+    await dio.post("/api/v2/artists/request", data: requestBody);
   }
 
   Future<SearchArtists> getFavoriteArtists(BuildContext context) async {
@@ -39,25 +36,24 @@ class ArtistRepository {
     await dio.put("/api/v1/artists/favorite", data: requestBody);
   }
 
-  Future<bool> getIsFavoriteArtist(int favoriteArtistId) async {
-    var dio = Dio();
-    const storage = FlutterSecureStorage();
-    final accessToken = await storage.read(key: 'ACCESS_TOKEN');
-    if (accessToken == null|| accessToken.isEmpty) {
-      return false;
-    } else {
-      dio.options.baseUrl = dotenv.get("BASE_URL");
-      dio.options.headers['Authorization'] = 'Bearer $accessToken';
+
+  Future<bool> getIsFavoriteArtist(int favoriteArtistId, BuildContext context) async {
+    try{
+      var dio = await authDio(context);
       final response = await dio.get("/api/v1/artists/favorite/$favoriteArtistId");
       return response.data as bool;
+    }  on DioException {
+      return false;
     }
   }
 
-  Future<void> addFavoriteArtist(int artistId, BuildContext context) async {
-    var dio = Dio();
-    const storage = FlutterSecureStorage();
-    final accessToken = await storage.read(key: 'ACCESS_TOKEN');
-    if (accessToken==null || accessToken.isEmpty) {
+
+  Future<bool> addFavoriteArtist(int artistId, BuildContext context) async {
+    try{
+      var dio = await authDio(context);
+      await dio.put("/api/v1/artists/favorite/$artistId");
+      return true;
+    }  on DioException {
       AmplitudeConfig.amplitude.logEvent('BeforeLogin');
       Navigator.push(
         context,
@@ -65,10 +61,7 @@ class ArtistRepository {
           builder: (context) => const BeforeLogin(),
         ),
       );
-    } else {
-      dio.options.baseUrl = dotenv.get("BASE_URL");
-      dio.options.headers['Authorization'] = 'Bearer $accessToken';
-      await dio.put("/api/v1/artists/favorite/$artistId");
+      return false;
     }
   }
 
