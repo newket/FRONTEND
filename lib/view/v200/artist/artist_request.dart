@@ -23,7 +23,6 @@ class _ArtistRequestV2 extends State<ArtistRequestV2> {
   final FocusNode _artistNode = FocusNode();
   final FocusNode _artistInfoNode = FocusNode();
 
-
   void showToast(BuildContext context) {
     OverlayEntry overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -102,11 +101,8 @@ class _ArtistRequestV2 extends State<ArtistRequestV2> {
     final deviceToken = await FirebaseMessaging.instance.getToken();
 
     if (artistName.isNotEmpty) {
-      await artistRepository.requestArtist(ArtistRequest(
-          artistName: artistName,
-          artistInfo: artistInfo,
-          deviceToken: deviceToken!
-      ));
+      await artistRepository
+          .requestArtist(ArtistRequest(artistName: artistName, artistInfo: artistInfo, deviceToken: deviceToken!));
       setState(() {
         nextColor = v1pt_30;
       });
@@ -125,7 +121,6 @@ class _ArtistRequestV2 extends State<ArtistRequestV2> {
     });
   }
 
-
   @override
   void dispose() {
     _artistController.dispose();
@@ -140,7 +135,8 @@ class _ArtistRequestV2 extends State<ArtistRequestV2> {
     bool isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
 
     return Scaffold(
-        resizeToAvoidBottomInset: false, //키보드가 올라 오지 않도록
+        resizeToAvoidBottomInset: false,
+        //키보드가 올라 오지 않도록
         backgroundColor: Colors.white,
 
         //앱바
@@ -171,9 +167,7 @@ class _ArtistRequestV2 extends State<ArtistRequestV2> {
           child: Container(
               color: Colors.transparent,
               padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 const Row(children: [
                   Text(
                     '아티스트 이름',
@@ -196,14 +190,14 @@ class _ArtistRequestV2 extends State<ArtistRequestV2> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                    padding: const EdgeInsets.only(bottom: 10, left: 12, right: 12),
                     child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
                               child: TextField(
-                                focusNode: _artistNode,
+                                  focusNode: _artistNode,
                                   decoration: const InputDecoration(
                                     hintText: '등록되었으면 하는 아티스트의 이름 또는 예명을 입력해주세요.',
                                     border: InputBorder.none, // 입력 필드의 기본 테두리 제거
@@ -222,7 +216,7 @@ class _ArtistRequestV2 extends State<ArtistRequestV2> {
                                   ),
                                   controller: _artistController,
                                   inputFormatters: [
-                                LengthLimitingTextInputFormatter(28), // 최대 글자 수를 30자로 제한
+                                LengthLimitingTextInputFormatter(50), // 최대 글자 수를 50자로 제한
                               ])),
                         ])),
                 const SizedBox(height: 24),
@@ -240,14 +234,14 @@ class _ArtistRequestV2 extends State<ArtistRequestV2> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                    padding: const EdgeInsets.only(bottom: 10, left: 12, right: 12),
                     child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
                               child: TextField(
-                                focusNode: _artistInfoNode,
+                                  focusNode: _artistInfoNode,
                                   decoration: const InputDecoration(
                                     hintText: '해당 아티스트에 대한 추가적인 정보가 있다면 입력해주세요.',
                                     border: InputBorder.none, // 입력 필드의 기본 테두리 제거
@@ -266,9 +260,8 @@ class _ArtistRequestV2 extends State<ArtistRequestV2> {
                                   ),
                                   controller: _artistInfoController,
                                   inputFormatters: [
-                                LengthLimitingTextInputFormatter(28), // 최대 글자 수를 30자로 제한
+                                LengthLimitingTextInputFormatter(50), // 최대 글자 수를 50자로 제한
                               ])),
-
                         ]))
               ])),
         ),
@@ -281,7 +274,7 @@ class _ArtistRequestV2 extends State<ArtistRequestV2> {
               onPressed: () async {
                 // 요청 전송
                 if (_artistController.value.text.isNotEmpty) {
-                  _requestArtist(_artistController.value.text,_artistInfoController.value.text);
+                  _requestArtist(_artistController.value.text, _artistInfoController.value.text);
                   _artistController.clear();
                   _artistInfoController.clear();
                   //showToast(context);

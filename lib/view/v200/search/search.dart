@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
@@ -98,7 +99,7 @@ class _SearchV2 extends State<SearchV2> {
                 borderRadius: BorderRadius.circular(42),
               ),
             ),
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+            padding: const EdgeInsets.only(top:4,bottom: 4, left: 12, right: 12),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -109,51 +110,48 @@ class _SearchV2 extends State<SearchV2> {
                 // 텍스트 필드 (예시 텍스트)
                 Expanded(
                     child: TextField(
-                  maxLength: 20,
-                  maxLines: 1,
-                  // 최대 1줄로 설정
-                  decoration: const InputDecoration(
-                    counterText: '', // 글자 수 표시를 비활성화
-                    border: InputBorder.none, // 입력 필드의 기본 테두리 제거
-                    hintText: '아티스트 또는 공연 이름을 검색해보세요!',
-                    hintStyle: TextStyle(
-                      color: f_50, // 텍스트 색상
-                      fontSize: 14,
-                      fontFamily: 'Pretendard',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  style: const TextStyle(
-                    color: f_80,
-                    fontSize: 14,
-                    fontFamily: 'Pretendard',
-                    fontWeight: FontWeight.w400,
-                  ),
-                  onSubmitted: (value) {
-                    //빈 값이 아닐 때 검색어 제출 시 페이지 이동
-                    if (value != '') {
-                      AmplitudeConfig.amplitude.logEvent('SearchDetail(keyword: $value)');
-                      setState(() {
-                        artists = [];
-                        openingNoticeResponse = [];
-                        onSaleResponse = [];
-                        keyword = value;
-                      });
-                      _initializeSearchAndFavorites(keyword);
-                    }
-                  },
-                  onChanged: (value) {
-                    if (value != widget.keyword) {
-                      // 이전 타이머가 존재하면 취소
-                      if (debounce?.isActive ?? false) debounce!.cancel();
-                      // 새로운 타이머 설정 (3초 후에 실행)
-                      debounce = Timer(const Duration(microseconds: 300), () {
-                        _search(value); // 마지막 입력값으로 검색 실행
-                      });
-                    }
-                  },
-                  controller: _searchController,
-                )),
+                      decoration: const InputDecoration(
+                        border: InputBorder.none, // 입력 필드의 기본 테두리 제거
+                        hintText: '아티스트 또는 공연 이름을 검색해보세요!',
+                        hintStyle: TextStyle(
+                          color: f_50, // 텍스트 색상
+                          fontSize: 14,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                        ),
+                        contentPadding: EdgeInsets.symmetric(vertical: 9), // 텍스트 높이 조정
+                      ),
+                      style: const TextStyle(
+                        color: f_80,
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                      ),
+                      maxLines: 1, // 한 줄로 제한
+                      scrollPhysics: const BouncingScrollPhysics(),
+                      inputFormatters: [LengthLimitingTextInputFormatter(50)], // 최대 글자 수를 50자로 제한
+                      onSubmitted: (value) {
+                        //빈 값이 아닐 때 검색어 제출 시 페이지 이동
+                        if (value != '') {
+                          AmplitudeConfig.amplitude.logEvent('SearchDetail(keyword: $value)');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SearchV2(keyword: value),
+                            ),
+                          );
+                        }
+                      },
+                      onChanged: (value) {
+                        // 이전 타이머가 존재하면 취소
+                        if (debounce?.isActive ?? false) debounce!.cancel();
+                        // 새로운 타이머 설정 (3초 후에 실행)
+                        debounce = Timer(const Duration(microseconds: 300), () {
+                          _search(value); // 마지막 입력값으로 검색 실행
+                        });
+                      },
+                      controller: _searchController,
+                    )),
                 GestureDetector(
                     onTap: () => {
                           setState(() {
