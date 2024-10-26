@@ -71,3 +71,13 @@ class SignUpAppleRequest {
     return <String, dynamic>{"name": name, "email": email, "socialId": socialId};
   }
 }
+
+class WithDrawApple {
+  String authorizationCode;
+
+  WithDrawApple(this.authorizationCode);
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{"authorizationCode": authorizationCode};
+  }
+}

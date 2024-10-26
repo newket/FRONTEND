@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
 import 'package:newket/config/amplitude_config.dart';
@@ -123,8 +124,10 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
       });
     } catch (e) {
       // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
-      print(e);
-      Get.offAll(const LoginV2());
+      AmplitudeConfig.amplitude.logEvent('error->LoginV2');
+      Get.offAll(() => const LoginV2());
+      var storage = const FlutterSecureStorage();
+      await storage.deleteAll();
     }
   }
 

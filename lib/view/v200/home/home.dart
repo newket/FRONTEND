@@ -66,14 +66,6 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
     });
   }
 
-  //로고 누르면 초기
-  void resetState() {
-    setState(() {
-      artists = []; // 아티스트 리스트 초기화
-      _searchController.clear(); // 텍스트 필드 초기화
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     bool isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
@@ -102,7 +94,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                             borderRadius: BorderRadius.circular(42),
                           ),
                         ),
-                        padding: const EdgeInsets.only(top:4,bottom: 4, left: 12, right: 12),
+                        padding: const EdgeInsets.only(top: 4, bottom: 4, left: 12, right: 12),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -130,9 +122,11 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                 fontFamily: 'Pretendard',
                                 fontWeight: FontWeight.w400,
                               ),
-                              maxLines: 1, // 한 줄로 제한
+                              maxLines: 1,
+                              // 한 줄로 제한
                               scrollPhysics: const BouncingScrollPhysics(),
-                              inputFormatters: [LengthLimitingTextInputFormatter(50)], // 최대 글자 수를 50자로 제한
+                              inputFormatters: [LengthLimitingTextInputFormatter(50)],
+                              // 최대 글자 수를 50자로 제한
                               onSubmitted: (value) {
                                 //빈 값이 아닐 때 검색어 제출 시 페이지 이동
                                 if (value != '') {
@@ -225,172 +219,176 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                 if (_searchController.text != '')
                   Positioned(
                     top: 68, // 검색 창 바로 아래에 위치
-                    bottom: 250, //키보드 높이
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      height: 300,
                       padding: const EdgeInsets.only(
                         left: 20,
                         right: 20,
                       ),
                       color: Colors.white,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            // 아티스트 항목
-                            ...artists.map((artist) => GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      artists = [];
-                                      openingNoticeResponse = [];
-                                      onSaleResponse = [];
-                                      _searchController.clear(); // 텍스트 필드 값을 빈 문자열로 리셋
-                                      AmplitudeConfig.amplitude.logEvent('SearchDetail(artist: ${artist.name})');
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => SearchV2(keyword: artist.name),
-                                        ),
-                                      );
-                                    });
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(bottom: 8),
-                                    // 아래쪽 간격 설정
-                                    color: Colors.transparent,
-                                    width: MediaQuery.of(context).size.width - 40,
-                                    height: 48,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        SvgPicture.asset('images/v2/home/mypage.svg', width: 20, height: 20),
-                                        const SizedBox(width: 8),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              artist.name,
-                                              style: const TextStyle(
-                                                color: f_100,
-                                                fontSize: 16,
-                                                fontFamily: 'Pretendard',
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                              textAlign: TextAlign.center,
+                      child: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxHeight: 300, // 최대 높이를 300으로 제한
+                          ),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                // 아티스트 항목
+                                ...artists.map((artist) => GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          artists = [];
+                                          openingNoticeResponse = [];
+                                          onSaleResponse = [];
+                                          _searchController.clear(); // 텍스트 필드 값을 빈 문자열로 리셋
+                                          AmplitudeConfig.amplitude.logEvent('SearchDetail(artist: ${artist.name})');
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => SearchV2(keyword: artist.name),
                                             ),
-                                            if (artist.nicknames != null)
-                                              Text(
-                                                artist.nicknames ?? '',
-                                                style: const TextStyle(
-                                                  color: f_50,
-                                                  fontSize: 14,
-                                                  fontFamily: 'Pretendard',
-                                                  fontWeight: FontWeight.w400,
+                                          );
+                                        });
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.only(bottom: 8),
+                                        // 아래쪽 간격 설정
+                                        color: Colors.transparent,
+                                        width: MediaQuery.of(context).size.width - 40,
+                                        height: 48,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            SvgPicture.asset('images/v2/home/mypage.svg', width: 20, height: 20),
+                                            const SizedBox(width: 8),
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  artist.name,
+                                                  style: const TextStyle(
+                                                    color: f_100,
+                                                    fontSize: 16,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  textAlign: TextAlign.center,
                                                 ),
-                                                textAlign: TextAlign.center,
-                                              ),
+                                                if (artist.nicknames != null)
+                                                  Text(
+                                                    artist.nicknames ?? '',
+                                                    style: const TextStyle(
+                                                      color: f_50,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Pretendard',
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                              ],
+                                            ),
                                           ],
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                )),
-                            ...openingNoticeResponse.map((concert) => GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      artists = [];
-                                      openingNoticeResponse = [];
-                                      onSaleResponse = [];
-                                      _searchController.clear(); // 텍스트 필드 값을 빈 문자열로 리셋
-                                      AmplitudeConfig.amplitude.logEvent('SearchDetail(concertName: ${concert.title})');
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => TicketDetailV2(concertId: concert.concertId),
-                                        ),
-                                      );
-                                    });
-                                  },
-                                  child: Container(
-                                    color: Colors.transparent,
-                                    margin: const EdgeInsets.only(bottom: 8), // 아래쪽 간격 설정
-                                    height: 48,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        SvgPicture.asset('images/v2/home/search_ticket.svg', width: 20, height: 20),
-                                        const SizedBox(width: 8),
-                                        SizedBox(
-                                          width: MediaQuery.of(context).size.width - 72,
-                                          child: RichText(
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis, // 1줄 이상은 ...
-                                            text: TextSpan(
-                                              text: concert.title,
-                                              style: const TextStyle(
-                                                color: f_100,
-                                                fontSize: 16,
-                                                fontFamily: 'Pretendard',
-                                                fontWeight: FontWeight.w500,
+                                      ),
+                                    )),
+                                ...openingNoticeResponse.map((concert) => GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          artists = [];
+                                          openingNoticeResponse = [];
+                                          onSaleResponse = [];
+                                          _searchController.clear(); // 텍스트 필드 값을 빈 문자열로 리셋
+                                          AmplitudeConfig.amplitude
+                                              .logEvent('SearchDetail(concertName: ${concert.title})');
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => TicketDetailV2(concertId: concert.concertId),
+                                            ),
+                                          );
+                                        });
+                                      },
+                                      child: Container(
+                                        color: Colors.transparent,
+                                        margin: const EdgeInsets.only(bottom: 8), // 아래쪽 간격 설정
+                                        height: 48,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            SvgPicture.asset('images/v2/home/search_ticket.svg', width: 20, height: 20),
+                                            const SizedBox(width: 8),
+                                            SizedBox(
+                                              width: MediaQuery.of(context).size.width - 72,
+                                              child: RichText(
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis, // 1줄 이상은 ...
+                                                text: TextSpan(
+                                                  text: concert.title,
+                                                  style: const TextStyle(
+                                                    color: f_100,
+                                                    fontSize: 16,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                )),
-                            ...onSaleResponse.map((concert) => GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      artists = [];
-                                      openingNoticeResponse = [];
-                                      onSaleResponse = [];
-                                      _searchController.clear(); // 텍스트 필드 값을 빈 문자열로 리셋
-                                      AmplitudeConfig.amplitude.logEvent('SearchDetail(concertName: ${concert.title})');
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => TicketDetailV2(concertId: concert.concertId),
-                                        ),
-                                      );
-                                    });
-                                  },
-                                  child: Container(
-                                    color: Colors.transparent,
-                                    width: MediaQuery.of(context).size.width - 40,
-                                    margin: const EdgeInsets.only(bottom: 8),
-                                    // 아래쪽 간격 설정
-                                    height: 48,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        SvgPicture.asset('images/v2/home/search_ticket.svg', width: 20, height: 20),
-                                        const SizedBox(width: 8),
-                                        SizedBox(
-                                          width: MediaQuery.of(context).size.width - 72,
-                                          child: RichText(
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis, // 1줄 이상은 ...
-                                            text: TextSpan(
-                                              text: concert.title,
-                                              style: const TextStyle(
-                                                color: f_100,
-                                                fontSize: 16,
-                                                fontFamily: 'Pretendard',
-                                                fontWeight: FontWeight.w500,
+                                      ),
+                                    )),
+                                ...onSaleResponse.map((concert) => GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          artists = [];
+                                          openingNoticeResponse = [];
+                                          onSaleResponse = [];
+                                          _searchController.clear(); // 텍스트 필드 값을 빈 문자열로 리셋
+                                          AmplitudeConfig.amplitude
+                                              .logEvent('SearchDetail(concertName: ${concert.title})');
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => TicketDetailV2(concertId: concert.concertId),
+                                            ),
+                                          );
+                                        });
+                                      },
+                                      child: Container(
+                                        color: Colors.transparent,
+                                        width: MediaQuery.of(context).size.width - 40,
+                                        margin: const EdgeInsets.only(bottom: 8),
+                                        // 아래쪽 간격 설정
+                                        height: 48,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            SvgPicture.asset('images/v2/home/search_ticket.svg', width: 20, height: 20),
+                                            const SizedBox(width: 8),
+                                            SizedBox(
+                                              width: MediaQuery.of(context).size.width - 72,
+                                              child: RichText(
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis, // 1줄 이상은 ...
+                                                text: TextSpan(
+                                                  text: concert.title,
+                                                  style: const TextStyle(
+                                                    color: f_100,
+                                                    fontSize: 16,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                )),
-                          ],
-                        ),
-                      ),
+                                      ),
+                                    )),
+                              ],
+                            ),
+                          )),
                     ),
                   )
               ],

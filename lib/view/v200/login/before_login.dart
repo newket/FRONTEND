@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:get/route_manager.dart';
 import 'package:newket/theme/colors.dart';
@@ -60,7 +61,9 @@ class _BeforeLogin extends State<BeforeLogin> {
         child: ElevatedButton(
             onPressed: () async {
               AmplitudeConfig.amplitude.logEvent('BeforeLogin->Login');
-              Get.offAll(const LoginV2());
+              Get.offAll(() => const LoginV2());
+              var storage = const FlutterSecureStorage();
+              await storage.deleteAll();
             },
             style: ElevatedButton.styleFrom(
               elevation: 0, // 그림자 제거

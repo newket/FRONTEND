@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/v200/home/home.dart';
@@ -19,33 +20,48 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
   late TabController controller;
   int lastIndex = -1;
   bool isKeyboardVisible = false;
+  bool isLoading = true;
 
 
   @override
   void initState() {
     super.initState();
     controller = TabController(length: 2, vsync: this);
-    controller.addListener(() {
+    controller.addListener(() async {
+      // 인덱스가 변경되었을 때만 실행
       if (controller.index != lastIndex) {
-        // 인덱스가 변경되었을 때만 실행
-        lastIndex = controller.index; // 현재 인덱스를 마지막 인덱스로 저장
-        switch (controller.index) {
-          case 0:
-            AmplitudeConfig.amplitude.logEvent('HomeV2');
-            break;
-          case 1:
-            AmplitudeConfig.amplitude.logEvent('MyTicketV2');
-            break;
+        const storage = FlutterSecureStorage();
+        final accessToken = await storage.read(key: 'ACCESS_TOKEN');
+        if (accessToken == null || accessToken.isEmpty) {
+          controller.index = 0; // 이전 인덱스으로 다시 설정
+          lastIndex = 0;
+          AmplitudeConfig.amplitude.logEvent('BeforeLogin');
+          Get.to(() => const BeforeLogin());
+        } else {
+          lastIndex = controller.index; // 현재 인덱스를 마지막 인덱스로 저장
+          switch (controller.index) {
+            case 0:
+              AmplitudeConfig.amplitude.logEvent('HomeV2');
+              break;
+            case 1:
+              AmplitudeConfig.amplitude.logEvent('MyTicketV2');
+              break;
+          }
         }
       }
-      setState(() {}); // 탭 변경 시 상태 업데이트
     });
+    setState(() {
+      isLoading=false;
+    }); // 탭 변경 시 상태 업데이트
   }
 
   @override
   Widget build(BuildContext context) {
     isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
 
+    if (isLoading) {
+      return const Center(); // 로딩 인디케이터 표시
+    }
     return Scaffold(
         resizeToAvoidBottomInset: false, //키보드가 올라 오지 않도록
         appBar: AppBar(

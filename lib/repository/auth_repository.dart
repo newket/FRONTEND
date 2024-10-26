@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -8,18 +7,12 @@ import 'package:get/route_manager.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/auth_model.dart';
-import 'package:newket/model/user_model.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/secure/auth_dio.dart';
 import 'package:newket/view/v200/login/agreement.dart';
 import 'package:newket/view/v200/login/login.dart';
 import 'package:newket/view/v200/tapbar/tab_bar.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-
-enum LoginPlatform {
-  KAKAO,
-  none, // logout
-}
 
 class AuthRepository {
   final Dio dio = Dio();
@@ -73,7 +66,7 @@ class AuthRepository {
 
             Get.offAll(const TabBarV2());
           } catch (error) {
-            print('카카오계정으로 로그인 실패 $error');
+            AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
           }
         }
       } else {
@@ -126,9 +119,6 @@ class AuthRepository {
         storage.write(key: 'APPLE_EMAIL', value: credential.email.toString());
         storage.write(key: 'APPLE_SOCIAL_ID', value: credential.userIdentifier.toString());
       }
-      print(credential.toString());
-      print(credential.identityToken);
-      print(credential.authorizationCode);
 
       await socialLoginAppleApi(SocialLoginAppleRequest(credential.userIdentifier.toString()));
 
@@ -167,8 +157,10 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {
           // 로그인 페이지로 이동
-          AmplitudeConfig.amplitude.logEvent('LoginV2');
-          Get.offAll(const LoginV2());
+          AmplitudeConfig.amplitude.logEvent('error->LoginV2');
+          Get.offAll(() => const LoginV2());
+          var storage = const FlutterSecureStorage();
+          await storage.deleteAll();
         }
       }
       rethrow;
@@ -193,7 +185,8 @@ class AuthRepository {
         if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {
           // 로그인 페이지로 이동
           AmplitudeConfig.amplitude.logEvent('LoginV2');
-          Get.offAll(const LoginV2());
+          var storage = const FlutterSecureStorage();
+                                  await storage.deleteAll();
         }
       }
       rethrow;
@@ -251,8 +244,27 @@ class AuthRepository {
   }
 
   Future<void> withdraw(BuildContext context) async {
+    Get.dialog(
+      const Center(
+        child: CircularProgressIndicator(),
+      ),
+      barrierDismissible: false, // 화면을 터치해도 닫히지 않도록 설정
+    );
     var dio = await authDio(context);
 
     await dio.delete("/api/v1/auth");
+  }
+
+  Future<void> withdrawApple(BuildContext context, String authorizationCode) async {
+    Get.dialog(
+      const Center(
+        child: CircularProgressIndicator(),
+      ),
+      barrierDismissible: false, // 화면을 터치해도 닫히지 않도록 설정
+    );
+    var dio = await authDio(context);
+    final requestBody = WithDrawApple(authorizationCode).toJson();
+
+    await dio.delete("/api/v1/auth/APPLE", data: requestBody);
   }
 }

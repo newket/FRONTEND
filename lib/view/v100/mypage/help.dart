@@ -336,8 +336,8 @@ class _HelpV1 extends State<HelpV1> {
                         if (_titleController.value.text.isNotEmpty && _contentController.value.text.isNotEmpty)
                           ElevatedButton(
                             onPressed: () async {
-                              await userRepository.createHelp(
-                                  context, HelpRequest(_titleController.value.text, _contentController.value.text));
+                              // await userRepository.createHelp(
+                              //     context, HelpRequest(_titleController.value.text, _contentController.value.text,));
                               _titleController.clear();
                               _contentController.clear();
                               showToast(context);

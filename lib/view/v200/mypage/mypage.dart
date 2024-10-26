@@ -12,6 +12,7 @@ import 'package:newket/view/v200/agreement/terms_of_service.dart';
 import 'package:newket/view/v200/login/login.dart';
 import 'package:newket/view/v200/mypage/help.dart';
 import 'package:newket/view/v200/mypage/my_favorite_artist.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class MyPageV2 extends StatefulWidget {
   const MyPageV2({super.key});
@@ -51,7 +52,10 @@ class _MyPageV2 extends State<MyPageV2> {
       });
     } catch (e) {
       // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
-      Get.offAll(const LoginV2());
+      AmplitudeConfig.amplitude.logEvent('error->LoginV2');
+      Get.offAll(() => const LoginV2());
+      var storage = const FlutterSecureStorage();
+      await storage.deleteAll();
     }
   }
 
@@ -65,7 +69,10 @@ class _MyPageV2 extends State<MyPageV2> {
       });
     } catch (e) {
       // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
-      Get.offAll(const LoginV2());
+      AmplitudeConfig.amplitude.logEvent('error->LoginV2');
+      Get.offAll(() => const LoginV2());
+      var storage = const FlutterSecureStorage();
+      await storage.deleteAll();
     }
   }
 
@@ -401,7 +408,7 @@ class _MyPageV2 extends State<MyPageV2> {
                         await userRepository.deleteDeviceToken();
                         // 로그인 페이지로 이동
                         AmplitudeConfig.amplitude.logEvent('Logout');
-                        Get.offAll(const LoginV2());
+                        Get.offAll(() => const LoginV2());
                       },
                       child: const Text(
                         '로그아웃',
@@ -425,7 +432,7 @@ class _MyPageV2 extends State<MyPageV2> {
                               height: 264,
                               clipBehavior: Clip.antiAlias,
                               decoration: ShapeDecoration(
-                                color: b_800,
+                                color: Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -436,16 +443,16 @@ class _MyPageV2 extends State<MyPageV2> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  SvgPicture.asset("images/v1/mypage/warning.svg", height: 32, width: 32),
+                                  SvgPicture.asset("images/v2/mypage/warning.svg", height: 32, width: 32),
                                   const SizedBox(height: 12),
                                   const Text(
                                     '잠시만요!\n정말로 탈퇴하시겠어요?',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: b_100,
+                                      color: f_100,
                                       fontSize: 18,
                                       fontFamily: 'Pretendard',
-                                      fontWeight: FontWeight.w700,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                   const SizedBox(height: 8),
@@ -453,7 +460,7 @@ class _MyPageV2 extends State<MyPageV2> {
                                     '탈퇴하시면 그동안 저장하신 관심 아티스트,\n티켓 오픈 알림 정보가 사라져요.',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: b_400,
+                                      color: f_60,
                                       fontSize: 14,
                                       fontFamily: 'Pretendard',
                                       fontWeight: FontWeight.w400,
@@ -476,7 +483,7 @@ class _MyPageV2 extends State<MyPageV2> {
                                                 '아니오',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                  color: Colors.white,
+                                                  color: f_60,
                                                   fontSize: 14,
                                                   fontFamily: 'Pretendard',
                                                   fontWeight: FontWeight.w400,
@@ -485,19 +492,30 @@ class _MyPageV2 extends State<MyPageV2> {
                                       const SizedBox(width: 12),
                                       IconButton(
                                           onPressed: () async {
-                                            await authRepository.withdraw(context);
+                                            await userRepository.deleteDeviceToken();
+                                            if(provider=='APPLE'){
+                                              final credential = await SignInWithApple.getAppleIDCredential(
+                                                scopes: [
+                                                  AppleIDAuthorizationScopes.email,
+                                                  AppleIDAuthorizationScopes.fullName,
+                                                ],
+                                              );
+                                              final authorizationCode = credential.authorizationCode.toString();
+                                              await authRepository.withdrawApple(context, authorizationCode);
+                                            }else{
+                                              await authRepository.withdraw(context);
+                                            }
                                             var storage = const FlutterSecureStorage();
                                             await storage.deleteAll();
-                                            await userRepository.deleteDeviceToken();
                                             AmplitudeConfig.amplitude.logEvent('Withdraw');
-                                            Get.offAll(const LoginV2());
+                                            Get.offAll(() => const LoginV2());
                                           },
                                           icon: Container(
                                             padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 13),
                                             height: 48,
                                             clipBehavior: Clip.antiAlias,
                                             decoration: ShapeDecoration(
-                                              color: p_700,
+                                              color: pn_100,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.circular(12),
                                               ),
