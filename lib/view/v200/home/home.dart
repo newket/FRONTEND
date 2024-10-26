@@ -95,7 +95,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                       child: Container(
                         height: 44,
                         decoration: ShapeDecoration(
-                          color: isKeyboardVisible ? np_10 : Colors.white, // 내부 배경색
+                          color: isKeyboardVisible ? pn_10 : Colors.white, // 내부 배경색
                           shape: RoundedRectangleBorder(
                             side: BorderSide(width: 1, color: isKeyboardVisible ? pt_40 : pt_60), // 테두리 색상 및 두께
                             borderRadius: BorderRadius.circular(42),
@@ -183,7 +183,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                         style: TextStyle(
                                             fontFamily: 'Pretendard',
                                             fontSize: 16,
-                                            color: controller.index == 0 ? np_100 : f_40,
+                                            color: controller.index == 0 ? pn_100 : f_40,
                                             fontWeight: FontWeight.w600))
                                   ])),
                         ),
@@ -199,7 +199,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                         style: TextStyle(
                                             fontFamily: 'Pretendard',
                                             fontSize: 16,
-                                            color: controller.index == 1 ? np_100 : f_40,
+                                            color: controller.index == 1 ? pn_100 : f_40,
                                             fontWeight: FontWeight.w600))
                                   ])),
                         ),

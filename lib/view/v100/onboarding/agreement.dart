@@ -200,7 +200,7 @@ class _AgreementV1 extends State<AgreementV1> {
                                             const SizedBox(width: 8),
                                             const Text('필수',
                                                 style: TextStyle(
-                                                  color: np_100,
+                                                  color: pn_100,
                                                   fontSize: 12,
                                                   fontFamily: 'Pretendard',
                                                   fontWeight: FontWeight.w400,
@@ -250,7 +250,7 @@ class _AgreementV1 extends State<AgreementV1> {
                                             const SizedBox(width: 8),
                                             const Text('필수',
                                                 style: TextStyle(
-                                                  color: np_100,
+                                                  color: pn_100,
                                                   fontSize: 12,
                                                   fontFamily: 'Pretendard',
                                                   fontWeight: FontWeight.w400,

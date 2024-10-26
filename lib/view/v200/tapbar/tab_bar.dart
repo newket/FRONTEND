@@ -59,7 +59,7 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                   child: const Text(
                     'NEWKET',
                     style: TextStyle(
-                      color: np_100,
+                      color: pn_100,
                       fontSize: 24,
                       fontFamily: 'Pretendard',
                       fontWeight: FontWeight.w800,
@@ -157,7 +157,7 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                                               style: TextStyle(
                                                   fontFamily: 'Pretendard',
                                                   fontSize: 11,
-                                                  color: controller.index == 0 ? np_100 : f_40,
+                                                  color: controller.index == 0 ? pn_100 : f_40,
                                                   fontWeight: FontWeight.w500)),
                                         ],
                                       )),
@@ -181,7 +181,7 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                                               style: TextStyle(
                                                   fontFamily: 'Pretendard',
                                                   fontSize: 11,
-                                                  color: controller.index == 1 ? np_100 : f_40,
+                                                  color: controller.index == 1 ? pn_100 : f_40,
                                                   fontWeight: FontWeight.w500)),
                                         ],
                                       )),

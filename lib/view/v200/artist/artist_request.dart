@@ -183,7 +183,7 @@ class _ArtistRequestV2 extends State<ArtistRequestV2> {
                   Text(
                     '필수',
                     style:
-                        TextStyle(color: np_100, fontSize: 12, fontFamily: 'Pretendard', fontWeight: FontWeight.w400),
+                        TextStyle(color: pn_100, fontSize: 12, fontFamily: 'Pretendard', fontWeight: FontWeight.w400),
                   )
                 ]),
                 const SizedBox(height: 8),
@@ -289,7 +289,7 @@ class _ArtistRequestV2 extends State<ArtistRequestV2> {
               },
               style: ElevatedButton.styleFrom(
                 elevation: 0, // 그림자 제거
-                backgroundColor: _artistController.value.text.isNotEmpty ? np_100 : f_10, // 버튼 배경색
+                backgroundColor: _artistController.value.text.isNotEmpty ? pn_100 : f_10, // 버튼 배경색
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),

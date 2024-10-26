@@ -56,7 +56,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                   padding: const EdgeInsets.all(4.80),
                   clipBehavior: Clip.antiAlias,
                   decoration: ShapeDecoration(
-                    color: Color(0xFF8397FF),
+                    color: const Color(0xFF8397FF),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(9.60),
                     ),
@@ -114,7 +114,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
       final response = await notificationRepository.getIsTicketNotification(context, widget.concertId);
       final response2 = await ticketRepository.ticketDetail(widget.concertId);
       final response3 =
-          await Future.wait(response2.artists.map((i) => artistRepository.getIsFavoriteArtist(i.artistId)));
+          await Future.wait(response2.artists.map((i) => artistRepository.getIsFavoriteArtist(i.artistId, context)));
       setState(() {
         isNotification = response;
         ticketResponse = response2;
@@ -547,11 +547,12 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                           children: List.generate(ticketResponse.artists.length, (index) {
                             return Column(
                               children: [
-                                Row(
+                                SizedBox(height: 48,child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             ticketResponse.artists[index].name,
@@ -562,7 +563,8 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
-                                          if (ticketResponse.artists[index].nicknames != null)
+                                          if (ticketResponse.artists[index].nicknames !=
+                                              null)
                                             Text(
                                               ticketResponse.artists[index].nicknames!,
                                               style: const TextStyle(
@@ -587,9 +589,11 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                                               ),
                                             ),
                                             onTap: () async {
-                                              await artistRepository.deleteFavoriteArtist(ticketResponse.artists[index].artistId,context);
+                                              await artistRepository.deleteFavoriteArtist(
+                                                  ticketResponse.artists[index].artistId,
+                                                  context);
                                               setState(() {
-                                                isFavoriteArtist[index]=false;
+                                                isFavoriteArtist[index] = false;
                                               });
                                             })
                                       else //관심 아티스트
@@ -597,35 +601,45 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                                             child: Container(
                                                 width: 111,
                                                 height: 36,
-                                                padding: const EdgeInsets.only(left: 12, top: 8,bottom:8),
+                                                padding: const EdgeInsets.only(
+                                                    left: 12, top: 8, bottom: 8),
                                                 clipBehavior: Clip.antiAlias,
                                                 decoration: ShapeDecoration(
                                                   color: pt_10,
                                                   shape: RoundedRectangleBorder(
-                                                    side: const BorderSide(width: 1, color: pt_20),
-                                                    borderRadius: BorderRadius.circular(8),
+                                                    side: const BorderSide(
+                                                        width: 1, color: pt_20),
+                                                    borderRadius:
+                                                    BorderRadius.circular(8),
                                                   ),
                                                 ),
-                                                child: Row(
-                                                children:[const Text(
-                                                  "관심 아티스트",
-                                                  style: TextStyle(
-                                                    fontFamily: 'Pretendard',
-                                                    fontSize: 12,
-                                                    color: np_100,
-                                                    fontWeight: FontWeight.w600,
+                                                child: Row(children: [
+                                                  const Text(
+                                                    "관심 아티스트",
+                                                    style: TextStyle(
+                                                      fontFamily: 'Pretendard',
+                                                      fontSize: 12,
+                                                      color: pn_100,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
                                                   ),
-                                                ),
-                                                const SizedBox(width: 4),
-                                                SvgPicture.asset('images/v2/opening_notice/add.svg', width: 20,height: 20)]
-                                                )),
+                                                  const SizedBox(width: 4),
+                                                  SvgPicture.asset(
+                                                      'images/v2/opening_notice/add.svg',
+                                                      width: 20,
+                                                      height: 20)
+                                                ])),
                                             onTap: () async {
-                                              await artistRepository.addFavoriteArtist(ticketResponse.artists[index].artistId,context);
-                                              setState(() {
-                                                isFavoriteArtist[index]=true;
-                                              });
+                                              final isSuccess = await artistRepository.addFavoriteArtist(
+                                                  ticketResponse.artists[index].artistId,
+                                                  context);
+                                              if(isSuccess){
+                                                setState(() {
+                                                  isFavoriteArtist[index] = true;
+                                                });
+                                              }
                                             })
-                                    ]),
+                                    ])),
                                 const SizedBox(height: 12),
                               ],
                             );
@@ -664,7 +678,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 0, // 그림자 제거
-                      backgroundColor: isNotification ? pt_20 : np_100, // 버튼 배경색
+                      backgroundColor: isNotification ? pt_20 : pn_100, // 버튼 배경색
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -685,7 +699,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                               fontSize: 16,
                               fontFamily: 'Pretendard',
                               fontWeight: FontWeight.w600,
-                              color: isNotification ? np_100 : Colors.white),
+                              color: isNotification ? pn_100 : Colors.white),
                         )
                       ],
                     ),

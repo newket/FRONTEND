@@ -27,8 +27,8 @@ class _AgreementV2 extends State<AgreementV2> {
   String svgAll = 'images/v2/login/checkbox_off.svg';
   String svg1 = 'images/v2/login/checkbox_off.svg';
   String svg2 = 'images/v2/login/checkbox_off.svg';
-  Color agreementColor = np_05;
-  Color agreementStrokeColor = np_10;
+  Color agreementColor = pn_05;
+  Color agreementStrokeColor = pn_10;
 
   void _toggleAll() {
     setState(() {
@@ -38,8 +38,8 @@ class _AgreementV2 extends State<AgreementV2> {
       svgAll = isAllSelected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
       svg1 = is1Selected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
       svg2 = is2Selected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
-      agreementColor = isAllSelected ? pt_10 : np_05;
-      agreementStrokeColor = isAllSelected ? np_20 : np_10;
+      agreementColor = isAllSelected ? pt_10 : pn_05;
+      agreementStrokeColor = isAllSelected ? pn_20 : pn_10;
     });
   }
 
@@ -51,8 +51,8 @@ class _AgreementV2 extends State<AgreementV2> {
       svgAll = isAllSelected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
       svg1 = is1Selected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
       svg2 = is2Selected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
-      agreementColor = isAllSelected ? pt_10 : np_05;
-      agreementStrokeColor = isAllSelected ? np_20 : np_10;
+      agreementColor = isAllSelected ? pt_10 : pn_05;
+      agreementStrokeColor = isAllSelected ? pn_20 : pn_10;
     });
   }
 
@@ -64,8 +64,8 @@ class _AgreementV2 extends State<AgreementV2> {
       svgAll = isAllSelected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
       svg1 = is1Selected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
       svg2 = is2Selected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
-      agreementColor = isAllSelected ? pt_10 : np_05;
-      agreementStrokeColor = isAllSelected ? np_20 : np_10;
+      agreementColor = isAllSelected ? pt_10 : pn_05;
+      agreementStrokeColor = isAllSelected ? pn_20 : pn_10;
     });
   }
 
@@ -204,7 +204,7 @@ class _AgreementV2 extends State<AgreementV2> {
                                             const SizedBox(width: 8),
                                             const Text('필수',
                                                 style: TextStyle(
-                                                  color: np_100,
+                                                  color: pn_100,
                                                   fontSize: 12,
                                                   fontFamily: 'Pretendard',
                                                   fontWeight: FontWeight.w400,
@@ -254,7 +254,7 @@ class _AgreementV2 extends State<AgreementV2> {
                                             const SizedBox(width: 8),
                                             const Text('필수',
                                                 style: TextStyle(
-                                                  color: np_100,
+                                                  color: pn_100,
                                                   fontSize: 12,
                                                   fontFamily: 'Pretendard',
                                                   fontWeight: FontWeight.w400,
@@ -285,7 +285,7 @@ class _AgreementV2 extends State<AgreementV2> {
                                 Get.offAll(() => const TabBarV2());
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: np_100, // 버튼 색상
+                                backgroundColor: pn_100, // 버튼 색상
                                 padding: const EdgeInsets.all(12),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),

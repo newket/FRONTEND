@@ -92,7 +92,7 @@ class _SearchV2 extends State<SearchV2> {
           title: Container(
             height: 44,
             decoration: ShapeDecoration(
-              color: isKeyboardVisible ? np_10 : Colors.white, // 내부 배경색
+              color: isKeyboardVisible ? pn_10 : Colors.white, // 내부 배경색
               shape: RoundedRectangleBorder(
                 side: BorderSide(width: 1, color: isKeyboardVisible ? pt_40 : pt_60), // 테두리 색상 및 두께
                 borderRadius: BorderRadius.circular(42),
@@ -263,7 +263,7 @@ class _SearchV2 extends State<SearchV2> {
                                                               style: TextStyle(
                                                                 fontFamily: 'Pretendard',
                                                                 fontSize: 12,
-                                                                color: np_100,
+                                                                color: pn_100,
                                                                 fontWeight: FontWeight.w600,
                                                               ),
                                                             ),
@@ -383,7 +383,7 @@ class _SearchV2 extends State<SearchV2> {
                                               style: const TextStyle(
                                                   fontFamily: 'Pretendard',
                                                   fontSize: 16,
-                                                  color: np_100,
+                                                  color: pn_100,
                                                   fontWeight: FontWeight.w600))
                                         ],
                                       ),
@@ -653,7 +653,7 @@ class _SearchV2 extends State<SearchV2> {
                                             style: const TextStyle(
                                                 fontFamily: 'Pretendard',
                                                 fontSize: 16,
-                                                color: np_100,
+                                                color: pn_100,
                                                 fontWeight: FontWeight.w600))
                                       ],
                                     ),

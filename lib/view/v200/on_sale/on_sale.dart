@@ -67,7 +67,7 @@ class _OnSaleV2 extends State<OnSaleV2> {
                                     style: const TextStyle(
                                       fontFamily: 'Pretendard',
                                       fontSize: 18,
-                                      color: np_100,
+                                      color: pn_100,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),

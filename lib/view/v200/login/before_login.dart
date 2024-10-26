@@ -64,7 +64,7 @@ class _BeforeLogin extends State<BeforeLogin> {
             },
             style: ElevatedButton.styleFrom(
               elevation: 0, // 그림자 제거
-              backgroundColor: np_100, // 버튼 배경색
+              backgroundColor: pn_100, // 버튼 배경색
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),

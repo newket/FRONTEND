@@ -247,7 +247,7 @@ class _MyPageV2 extends State<MyPageV2> {
                         ),
                         CupertinoSwitch(
                           value: artistNotification,
-                          activeColor: np_100,
+                          activeColor: pn_100,
                           onChanged: (bool value) async {
                             // UI 상태 업데이트
                             setState(() {
@@ -294,7 +294,7 @@ class _MyPageV2 extends State<MyPageV2> {
                         ),
                         CupertinoSwitch(
                           value: ticketNotification,
-                          activeColor: np_100,
+                          activeColor: pn_100,
                           onChanged: (bool value) async {
                             // UI 상태 업데이트
                             setState(() {
