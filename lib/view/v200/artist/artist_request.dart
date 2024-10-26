@@ -284,7 +284,7 @@ class _ArtistRequestV2 extends State<ArtistRequestV2> {
                   _requestArtist(_artistController.value.text,_artistInfoController.value.text);
                   _artistController.clear();
                   _artistInfoController.clear();
-                  showToast(context);
+                  //showToast(context);
                 }
               },
               style: ElevatedButton.styleFrom(

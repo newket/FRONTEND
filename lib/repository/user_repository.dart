@@ -37,7 +37,7 @@ class UserRepository {
     var dio = await authDio(context);
     final requestBody = request.toJson();
 
-    await dio.post("/api/v1/users/help", data: requestBody);
+    await dio.post("/api/v2/users/help", data: requestBody);
   }
 
 

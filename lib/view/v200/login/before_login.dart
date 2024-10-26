@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:get/route_manager.dart';
-import 'package:newket/theme/Colors.dart';
+import 'package:newket/theme/colors.dart';
 import 'package:newket/view/v200/login/login.dart';
 
 class BeforeLogin extends StatefulWidget {
@@ -64,7 +64,7 @@ class _BeforeLogin extends State<BeforeLogin> {
             },
             style: ElevatedButton.styleFrom(
               elevation: 0, // 그림자 제거
-              backgroundColor: np_100, // 버튼 배경색
+              backgroundColor: pn_100, // 버튼 배경색
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
