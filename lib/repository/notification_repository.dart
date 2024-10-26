@@ -11,10 +11,11 @@ import 'package:newket/view/v200/login/before_login.dart';
 
 class NotificationRepository{
   Future<bool> addTicketNotification(BuildContext context, int concertId) async {
-    var dio = Dio();
-    const storage = FlutterSecureStorage();
-    final accessToken = await storage.read(key: 'ACCESS_TOKEN');
-    if (accessToken==null || accessToken.isEmpty) {
+    try {
+      var dio = await authDio(context);
+      await dio.post("/api/v1/notifications/ticket-open?concertId=$concertId");
+      return true;
+    } on DioException {
       AmplitudeConfig.amplitude.logEvent('BeforeLogin');
       Navigator.push(
         context,
@@ -23,25 +24,16 @@ class NotificationRepository{
         ),
       );
       return false;
-    } else {
-      dio.options.baseUrl = dotenv.get("BASE_URL");
-      dio.options.headers['Authorization'] = 'Bearer $accessToken';
-      await dio.post("/api/v1/notifications/ticket-open?concertId=$concertId");
-      return true;
     }
   }
 
   Future<bool> getIsTicketNotification(BuildContext context, int concertId) async {
-    var dio = Dio();
-    const storage = FlutterSecureStorage();
-    final accessToken = await storage.read(key: 'ACCESS_TOKEN');
-    if (accessToken==null || accessToken.isEmpty) {
-      return false;
-    } else {
-      dio.options.baseUrl = dotenv.get("BASE_URL");
-      dio.options.headers['Authorization'] = 'Bearer $accessToken';
+    try {
+      var dio = await authDio(context);
       final response = await dio.get("/api/v1/notifications/ticket-open?concertId=$concertId");
       return response.data as bool;
+    } on DioException {
+      return false;
     }
   }
 

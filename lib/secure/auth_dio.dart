@@ -16,6 +16,20 @@ Future authDio(BuildContext context) async {
     // 기기에 저장된 AccessToken 로드
     final accessToken = await storage.read(key: 'ACCESS_TOKEN');
 
+    if (accessToken == null || accessToken.isEmpty) {
+      // AccessToken이 없을 경우 false 반환
+      return handler.reject(
+        DioException(
+          requestOptions: options,
+          response: Response(
+            requestOptions: options,
+            statusCode: 401,
+            data: 'AccessToken is missing', // 에러 메시지
+          ),
+        ),
+      );
+    }
+
     // 매 요청마다 헤더에 AccessToken을 포함
     options.baseUrl = dotenv.get("BASE_URL");
     options.headers['Authorization'] = 'Bearer $accessToken';
