@@ -22,7 +22,6 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
   bool isKeyboardVisible = false;
   bool isLoading = true;
 
-
   @override
   void initState() {
     super.initState();
@@ -48,10 +47,11 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
               break;
           }
         }
+        setState(() {});
       }
     });
     setState(() {
-      isLoading=false;
+      isLoading = false;
     }); // 탭 변경 시 상태 업데이트
   }
 
@@ -84,7 +84,7 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                   onTap: () {
                     FocusScope.of(context).unfocus();
                     FocusManager.instance.primaryFocus?.unfocus();
-                    controller.index=0;
+                    controller.index = 0;
                   },
                 ),
                 GestureDetector(
@@ -124,105 +124,106 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height, // 화면 전체 높이 사용
-              child:  isKeyboardVisible
+              child: isKeyboardVisible
                   ? TabBarView(
-                controller: controller,
-                physics: const NeverScrollableScrollPhysics(),
-                children: const <Widget>[HomeV2(), MyTicketV2()],
-              )
+                      controller: controller,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: const <Widget>[HomeV2(), MyTicketV2()],
+                    )
                   : TabBarView(
-                controller: controller,
-                children: const <Widget>[HomeV2(), MyTicketV2()],
-              ),),
-              Positioned(
-                left: MediaQuery.of(context).size.width / 2 - 122, // 중앙 정렬을 위한 계산 (244 / 2)
-                bottom: 50,
-                child: Container(
-                  color: Colors.transparent,
-                  width: 244,
-                  height: 60,
-                  // 둥글게
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    // 탭바
-                    child: Container(
-                      color: Colors.white,
-                      width: 244,
-                      height: 60,
-                      child: Stack(
-                        children: [
-                          // 탭바 내용
-                          TabBar(
-                              tabs: <Tab>[
-                                Tab(
-                                  icon: SizedBox(
-                                      width: 120,
-                                      height: 52,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                            controller.index == 0
-                                                ? 'images/v2/tab_bar/home_on.svg'
-                                                : 'images/v2/tab_bar/home_off.svg',
-                                            width: 20,
-                                            height: 20,
-                                          ),
-                                          Container(width: 4),
-                                          Text("홈",
-                                              style: TextStyle(
-                                                  fontFamily: 'Pretendard',
-                                                  fontSize: 11,
-                                                  color: controller.index == 0 ? pn_100 : f_40,
-                                                  fontWeight: FontWeight.w500)),
-                                        ],
-                                      )),
-                                ),
-                                Tab(
-                                  icon: SizedBox(
-                                      width: 150,
-                                      height: 52,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                            controller.index == 1
-                                                ? 'images/v2/tab_bar/my_ticket_on.svg'
-                                                : 'images/v2/tab_bar/my_ticket_off.svg',
-                                            width: 20,
-                                            height: 20,
-                                          ),
-                                          Container(width: 4),
-                                          Text("내 티켓",
-                                              style: TextStyle(
-                                                  fontFamily: 'Pretendard',
-                                                  fontSize: 11,
-                                                  color: controller.index == 1 ? pn_100 : f_40,
-                                                  fontWeight: FontWeight.w500)),
-                                        ],
-                                      )),
-                                ),
-                              ],
-                              controller: controller,
-                              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                              //divider 내리기
-                              dividerColor: Colors.transparent,
-                              // 흰 줄 제거
-                              indicatorPadding: EdgeInsets.zero,
-                              // indicator 위치 내리기
-                              labelPadding: EdgeInsets.zero,
-                              //탭 크기가 안 작아지게
-                              indicator: BoxDecoration(
-                                color: pt_10,
-                                shape: BoxShape.rectangle,
-                                borderRadius: BorderRadius.circular(50),
-                              )),
-                        ],
-                      ),
+                      controller: controller,
+                      children: const <Widget>[HomeV2(), MyTicketV2()],
+                    ),
+            ),
+            Positioned(
+              left: MediaQuery.of(context).size.width / 2 - 122, // 중앙 정렬을 위한 계산 (244 / 2)
+              bottom: 50,
+              child: Container(
+                color: Colors.transparent,
+                width: 244,
+                height: 60,
+                // 둥글게
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  // 탭바
+                  child: Container(
+                    color: Colors.white,
+                    width: 244,
+                    height: 60,
+                    child: Stack(
+                      children: [
+                        // 탭바 내용
+                        TabBar(
+                            tabs: <Tab>[
+                              Tab(
+                                icon: SizedBox(
+                                    width: 120,
+                                    height: 52,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          controller.index == 0
+                                              ? 'images/v2/tab_bar/home_on.svg'
+                                              : 'images/v2/tab_bar/home_off.svg',
+                                          width: 20,
+                                          height: 20,
+                                        ),
+                                        Container(width: 4),
+                                        Text("홈",
+                                            style: TextStyle(
+                                                fontFamily: 'Pretendard',
+                                                fontSize: 11,
+                                                color: controller.index == 0 ? pn_100 : f_40,
+                                                fontWeight: FontWeight.w500)),
+                                      ],
+                                    )),
+                              ),
+                              Tab(
+                                icon: SizedBox(
+                                    width: 150,
+                                    height: 52,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          controller.index == 1
+                                              ? 'images/v2/tab_bar/my_ticket_on.svg'
+                                              : 'images/v2/tab_bar/my_ticket_off.svg',
+                                          width: 20,
+                                          height: 20,
+                                        ),
+                                        Container(width: 4),
+                                        Text("내 티켓",
+                                            style: TextStyle(
+                                                fontFamily: 'Pretendard',
+                                                fontSize: 11,
+                                                color: controller.index == 1 ? pn_100 : f_40,
+                                                fontWeight: FontWeight.w500)),
+                                      ],
+                                    )),
+                              ),
+                            ],
+                            controller: controller,
+                            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                            //divider 내리기
+                            dividerColor: Colors.transparent,
+                            // 흰 줄 제거
+                            indicatorPadding: EdgeInsets.zero,
+                            // indicator 위치 내리기
+                            labelPadding: EdgeInsets.zero,
+                            //탭 크기가 안 작아지게
+                            indicator: BoxDecoration(
+                              color: pt_10,
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(50),
+                            )),
+                      ],
                     ),
                   ),
                 ),
               ),
+            ),
           ],
         ));
   }
