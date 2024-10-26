@@ -55,14 +55,21 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'NEWKET',
-                  style: TextStyle(
-                    color: np_100,
-                    fontSize: 24,
-                    fontFamily: 'Pretendard',
-                    fontWeight: FontWeight.w800,
+                GestureDetector(
+                  child: const Text(
+                    'NEWKET',
+                    style: TextStyle(
+                      color: np_100,
+                      fontSize: 24,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    controller.index=0;
+                  },
                 ),
                 GestureDetector(
                   child: SvgPicture.asset(
@@ -71,6 +78,8 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                     height: 28,
                   ),
                   onTap: () async {
+                    FocusScope.of(context).unfocus();
+                    FocusManager.instance.primaryFocus?.unfocus();
                     const storage = FlutterSecureStorage();
                     final accessToken = await storage.read(key: 'ACCESS_TOKEN');
                     if (accessToken == null || accessToken.isEmpty) {
