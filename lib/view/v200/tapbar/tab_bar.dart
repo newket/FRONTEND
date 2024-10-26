@@ -34,9 +34,9 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
         final accessToken = await storage.read(key: 'ACCESS_TOKEN');
         if (accessToken == null || accessToken.isEmpty) {
           controller.index = 0; // 이전 인덱스으로 다시 설정
-          lastIndex = 0;
           AmplitudeConfig.amplitude.logEvent('BeforeLogin');
           Get.to(() => const BeforeLogin());
+          lastIndex = 0;
         } else {
           lastIndex = controller.index; // 현재 인덱스를 마지막 인덱스로 저장
           switch (controller.index) {

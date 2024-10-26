@@ -79,6 +79,7 @@ flutter:
     - images/v2/opening_notice/
     - images/v2/mypage/
     - images/v2/search/
+    - images/v2/my_ticket/
     - .env
     - assets/
   fonts:
