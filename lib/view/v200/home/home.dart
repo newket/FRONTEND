@@ -228,7 +228,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                       color: Colors.white,
                       child: ConstrainedBox(
                           constraints: const BoxConstraints(
-                            maxHeight: 300, // 최대 높이를 300으로 제한
+                            maxHeight: 288, // 최대 높이를 28*6으로 제한
                           ),
                           child: SingleChildScrollView(
                             child: Column(
