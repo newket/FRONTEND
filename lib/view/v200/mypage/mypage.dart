@@ -28,8 +28,10 @@ class _MyPageV2 extends State<MyPageV2> {
   bool ticketNotification = true;
   Color artistBackground = b_900;
   Color ticketBackground = b_900;
+  String userName = '';
   String email = '';
   String provider = '';
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -49,10 +51,11 @@ class _MyPageV2 extends State<MyPageV2> {
         artistBackground = artistNotification ? v1pt_20 : b_900;
         ticketNotification = response.ticketNotification;
         ticketBackground = ticketNotification ? v1pt_20 : b_900;
+        isLoading = false;
       });
     } catch (e) {
       // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
-      AmplitudeConfig.amplitude.logEvent('error->LoginV2');
+      AmplitudeConfig.amplitude.logEvent('error->LoginV2 $e');
       Get.offAll(() => const LoginV2());
       var storage = const FlutterSecureStorage();
       await storage.deleteAll();
@@ -64,12 +67,13 @@ class _MyPageV2 extends State<MyPageV2> {
       final response = await userRepository.getUserInfoApi(context);
       // 이메일 정보를 상태에 한 번만 저장
       setState(() {
+        userName = response.name;
         email = response.email;
         provider = response.provider;
       });
     } catch (e) {
       // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
-      AmplitudeConfig.amplitude.logEvent('error->LoginV2');
+      AmplitudeConfig.amplitude.logEvent('error->LoginV2 $e');
       Get.offAll(() => const LoginV2());
       var storage = const FlutterSecureStorage();
       await storage.deleteAll();
@@ -78,6 +82,10 @@ class _MyPageV2 extends State<MyPageV2> {
 
   @override
   Widget build(BuildContext context) {
+    // 로딩 중일 때 로딩 화면을 표시
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -119,9 +127,9 @@ class _MyPageV2 extends State<MyPageV2> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              const Text(
-                                "사용자 계정",
-                                style: TextStyle(
+                              Text(
+                                userName,
+                                style: const TextStyle(
                                   fontFamily: 'Pretendard',
                                   fontSize: 20,
                                   color: f_100,
@@ -267,7 +275,7 @@ class _MyPageV2 extends State<MyPageV2> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -336,7 +344,7 @@ class _MyPageV2 extends State<MyPageV2> {
                                 '개인정보처리 방침',
                                 style: TextStyle(
                                   fontFamily: 'Pretendard',
-                                  fontSize: 14,
+                                  fontSize: 16,
                                   color: f_90,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -344,7 +352,7 @@ class _MyPageV2 extends State<MyPageV2> {
                               Icon(Icons.keyboard_arrow_right_rounded, color: f_90)
                             ],
                           ))),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
                   GestureDetector(
                       onTap: () {
                         AmplitudeConfig.amplitude.logEvent('TermsOfServiceV2');
@@ -364,7 +372,7 @@ class _MyPageV2 extends State<MyPageV2> {
                                 '서비스 이용약관',
                                 style: TextStyle(
                                   fontFamily: 'Pretendard',
-                                  fontSize: 14,
+                                  fontSize: 16,
                                   color: f_90,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -372,7 +380,7 @@ class _MyPageV2 extends State<MyPageV2> {
                               Icon(Icons.keyboard_arrow_right_rounded, color: f_90)
                             ],
                           ))),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
                   GestureDetector(
                     onTap: () {
                       AmplitudeConfig.amplitude.logEvent('HelpV2');
@@ -391,7 +399,7 @@ class _MyPageV2 extends State<MyPageV2> {
                               '문의하기',
                               style: TextStyle(
                                 fontFamily: 'Pretendard',
-                                fontSize: 14,
+                                fontSize: 16,
                                 color: f_90,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -400,7 +408,7 @@ class _MyPageV2 extends State<MyPageV2> {
                           ],
                         )),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
                   GestureDetector(
                       onTap: () async {
                         var storage = const FlutterSecureStorage();
@@ -414,12 +422,12 @@ class _MyPageV2 extends State<MyPageV2> {
                         '로그아웃',
                         style: TextStyle(
                           fontFamily: 'Pretendard',
-                          fontSize: 14,
+                          fontSize: 16,
                           color: f_90,
                           fontWeight: FontWeight.w500,
                         ),
                       )),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
                   //탈퇴하기
                   GestureDetector(
                     onTap: () async {
@@ -543,7 +551,7 @@ class _MyPageV2 extends State<MyPageV2> {
                     child: const Text('회원 탈퇴',
                         style: TextStyle(
                           fontFamily: 'Pretendard',
-                          fontSize: 14,
+                          fontSize: 16,
                           color: b_500,
                           fontWeight: FontWeight.w400,
                         )),
