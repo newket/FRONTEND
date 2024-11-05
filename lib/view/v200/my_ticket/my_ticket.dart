@@ -429,13 +429,8 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                             GestureDetector(
                                                 //아티스트 검색으로
                                                 onTap: () {
-                                                  AmplitudeConfig.amplitude.logEvent('MyFavoriteArtistV1');
-                                                  // Navigator.push(
-                                                  //   context,
-                                                  //   MaterialPageRoute(
-                                                  //     builder: (context) => const MyFavoriteArtistV1(),
-                                                  //   ),
-                                                  // );
+                                                  AmplitudeConfig.amplitude.logEvent('MyTicket->AddFavoriteArtist');
+                                                  tabController.index=0;
                                                 },
                                                 child: Container(
                                                   width: 184,
