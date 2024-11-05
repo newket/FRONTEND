@@ -80,6 +80,7 @@ flutter:
     - images/v2/mypage/
     - images/v2/search/
     - images/v2/my_ticket/
+    - images/v2/splash/
     - .env
     - assets/
   fonts:
