@@ -26,7 +26,7 @@ class _LoginV2 extends State<LoginV2> {
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
-      Image.asset("images/v2/login/login.png", fit: BoxFit.cover),
+      Image.asset("images/v2/login/login.png", width: double.infinity, height: double.infinity, fit: BoxFit.cover),
       // 다른 위젯들
       Scaffold(
           backgroundColor: Colors.transparent, // 배경색을 투명으로 설정,
@@ -58,11 +58,11 @@ class _LoginV2 extends State<LoginV2> {
               Column(
                 children: [
                   //애플 로그인
-                  IconButton(
-                      icon: Image.asset("images/v2/login/applelogin.png", width: 320),
-                      onPressed: () async {
-                        await authRepository.appleLoginApi();
-                      }),
+                  // IconButton(
+                  //     icon: Image.asset("images/v2/login/applelogin.png", width: 320),
+                  //     onPressed: () async {
+                  //       await authRepository.appleLoginApi();
+                  //     }),
                   //카카오 로그인
                   IconButton(
                       icon: Image.asset("images/v1/onboarding/kakao_login_large_wide.png", width: 320),
