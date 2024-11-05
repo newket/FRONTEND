@@ -124,7 +124,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
       });
     } catch (e) {
       // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
-      AmplitudeConfig.amplitude.logEvent('error->LoginV2');
+      AmplitudeConfig.amplitude.logEvent('error->LoginV2 $e');
       Get.offAll(() => const LoginV2());
       var storage = const FlutterSecureStorage();
       await storage.deleteAll();
@@ -376,10 +376,10 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SvgPicture.asset('images/v2/opening_notice/circle_info.svg'),
-                      const SizedBox(width: 2),
+                      const SizedBox(width: 8),
                       const Expanded(
                           child: Text(
-                        "티켓오픈일정은 티켓판매처 또는 기획사의 사정에 사전 예고 없이 변경 또는 취소 될 수 있습니다.",
+                        "티켓 오픈 일정은 티켓판매처 또는 기획사의 사정에 사전 예고 없이 변경 또는 취소 될 수 있습니다.",
                         style: TextStyle(
                           fontFamily: 'Pretendard',
                           fontSize: 12,
@@ -505,7 +505,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                                   color: f_15,
                                   borderRadius: BorderRadius.circular(6),
                                 ),
-                                padding: const EdgeInsets.symmetric(vertical: 4),
+                                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 11),
                                 child: Text(
                                   ticketResponse.date[index],
                                   textAlign: TextAlign.center,
@@ -513,6 +513,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                                     fontFamily: 'Pretendard',
                                     fontSize: 14,
                                     color: f_90,
+                                    letterSpacing: -0.42,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
