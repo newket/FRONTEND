@@ -1,15 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
+import 'package:newket/component/opening_notice_card.dart';
 import 'package:newket/config/amplitude_config.dart';
-import 'package:newket/model/ticket_model.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/v200/login/login.dart';
+import 'package:newket/view/v200/tapbar/tab_bar.dart';
 import 'package:newket/view/v200/ticket_detail/ticket_detail.dart';
 
 class MyTicketV2 extends StatefulWidget {
@@ -47,7 +47,7 @@ class _MyTicketV2 extends State<MyTicketV2> {
     } catch (e) {
       print("Error in _getUserInfoApi: $e"); // 에러 내용을 출력
       // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
-      AmplitudeConfig.amplitude.logEvent('error->LoginV2');
+      AmplitudeConfig.amplitude.logEvent('error->LoginV2 $e');
       Get.offAll(() => const LoginV2());
       var storage = const FlutterSecureStorage();
       await storage.deleteAll();
@@ -255,6 +255,23 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                                           width: 169,
                                                           height: 225,
                                                           fit: BoxFit.fill,
+                                                          loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                                            if (loadingProgress == null) {
+                                                              return child; // 로딩이 완료되었을 때의 이미지
+                                                            }
+                                                            return Container(
+                                                              width: 169,
+                                                              height: 225,
+                                                              color: f_100, // 로딩 중일 때의 배경색
+                                                            );
+                                                          },
+                                                          errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                                            return Container(
+                                                              width: 169,
+                                                              height: 225,
+                                                              color: f_100, // 로딩 실패 시의 배경색
+                                                            );
+                                                          },
                                                         ),
                                                       ),
                                                       Container(
@@ -530,181 +547,7 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                               ),
                                             );
                                           },
-                                          child: Row(
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius: const BorderRadius.only(
-                                                    topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
-                                                child: Image.network(
-                                                  openingResponse.concerts[index].imageUrl,
-                                                  height: 122,
-                                                  width: 91,
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
-                                              Stack(
-                                                children: [
-                                                  //티켓 정보
-                                                  Container(
-                                                    width: MediaQuery.of(context).size.width - 91 - 40,
-                                                    // 원하는 여백을 빼고 가로 크기 설정
-                                                    height: 122,
-                                                    clipBehavior: Clip.antiAlias,
-                                                    decoration: const ShapeDecoration(
-                                                      color: Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.only(
-                                                            topRight: Radius.circular(8), bottomRight: Radius.circular(8)),
-                                                      ),
-                                                    ),
-                                                    child: Column(
-                                                      //왼쪽 정렬
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      children: [
-                                                        //공연 제목
-                                                        Padding(
-                                                            padding:
-                                                            const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                                                            // 여백 12씩 추가
-                                                            child: SizedBox(
-                                                                height: 44,
-                                                                child: RichText(
-                                                                  maxLines: 2,
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  text: TextSpan(
-                                                                    text: openingResponse.concerts[index].title,
-                                                                    style: const TextStyle(
-                                                                      fontFamily: 'Pretendard',
-                                                                      fontSize: 14,
-                                                                      color: f_100,
-                                                                      fontWeight: FontWeight.w500,
-                                                                    ),
-                                                                  ),
-                                                                ))),
-                                                        //실선
-                                                        Container(color: f_15, height: 1),
-                                                        // 티켓 오픈 정보
-                                                        Row(
-                                                          children: [
-                                                            SizedBox(
-                                                                width: (MediaQuery.of(context).size.width - 91 - 40) / 2,
-                                                                height: 45,
-                                                                child: Row(
-                                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                  children: [
-                                                                    const SizedBox(width: 12),
-                                                                    Text(
-                                                                      "${openingResponse.concerts[index].ticketingSchedules[0].type} 오픈 ",
-                                                                      style: const TextStyle(
-                                                                        fontFamily: 'Pretendard',
-                                                                        fontSize: 12,
-                                                                        color: f_60,
-                                                                        fontWeight: FontWeight.w400,
-                                                                      ),
-                                                                    ),
-                                                                    const SizedBox(width: 4),
-                                                                    if (openingResponse.concerts[index]
-                                                                        .ticketingSchedules[0].dday ==
-                                                                        'D-3' ||
-                                                                        openingResponse.concerts[index]
-                                                                            .ticketingSchedules[0].dday ==
-                                                                            'D-2' ||
-                                                                        openingResponse.concerts[index]
-                                                                            .ticketingSchedules[0].dday ==
-                                                                            'D-1' ||
-                                                                        openingResponse.concerts[index]
-                                                                            .ticketingSchedules[0].dday ==
-                                                                            'D-Day')
-                                                                      Text(
-                                                                        openingResponse
-                                                                            .concerts[index].ticketingSchedules[0].dday,
-                                                                        style: const TextStyle(
-                                                                          fontFamily: 'Pretendard',
-                                                                          fontSize: 14,
-                                                                          color: p_normal,
-                                                                          fontWeight: FontWeight.w500,
-                                                                        ),
-                                                                      )
-                                                                    else
-                                                                      Text(
-                                                                        openingResponse
-                                                                            .concerts[index].ticketingSchedules[0].dday,
-                                                                        style: const TextStyle(
-                                                                          fontFamily: 'Pretendard',
-                                                                          fontSize: 14,
-                                                                          color: f_80,
-                                                                          fontWeight: FontWeight.w500,
-                                                                        ),
-                                                                      )
-                                                                  ],
-                                                                )),
-                                                            if (openingResponse.concerts[index].ticketingSchedules.length >
-                                                                1)
-                                                              SizedBox(
-                                                                  width: (MediaQuery.of(context).size.width - 91 - 40) / 2,
-                                                                  height: 45,
-                                                                  child: Row(
-                                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                                    children: [
-                                                                      Container(color: f_15, width: 1, height: 16),
-                                                                      const SizedBox(width: 12),
-                                                                      Text(
-                                                                        "${openingResponse.concerts[index].ticketingSchedules[0].type} 오픈 ",
-                                                                        style: const TextStyle(
-                                                                          fontFamily: 'Pretendard',
-                                                                          fontSize: 12,
-                                                                          color: f_60,
-                                                                          fontWeight: FontWeight.w400,
-                                                                        ),
-                                                                      ),
-                                                                      const SizedBox(width: 4),
-                                                                      if (openingResponse.concerts[index]
-                                                                          .ticketingSchedules[1].dday ==
-                                                                          'D-3' ||
-                                                                          openingResponse.concerts[index]
-                                                                              .ticketingSchedules[1].dday ==
-                                                                              'D-2' ||
-                                                                          openingResponse.concerts[index]
-                                                                              .ticketingSchedules[1].dday ==
-                                                                              'D-1' ||
-                                                                          openingResponse.concerts[index]
-                                                                              .ticketingSchedules[1].dday ==
-                                                                              'D-Day')
-                                                                        Text(
-                                                                          openingResponse
-                                                                              .concerts[index].ticketingSchedules[1].dday,
-                                                                          style: const TextStyle(
-                                                                            fontFamily: 'Pretendard',
-                                                                            fontSize: 14,
-                                                                            color: p_normal,
-                                                                            fontWeight: FontWeight.w500,
-                                                                          ),
-                                                                        )
-                                                                      else
-                                                                        Text(
-                                                                          openingResponse
-                                                                              .concerts[index].ticketingSchedules[1].dday,
-                                                                          style: const TextStyle(
-                                                                            fontFamily: 'Pretendard',
-                                                                            fontSize: 14,
-                                                                            color: f_80,
-                                                                            fontWeight: FontWeight.w500,
-                                                                          ),
-                                                                        )
-                                                                    ],
-                                                                  ))
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
+                                          child: OpeningNoticeCard(openingResponse: openingResponse, index: index),
                                         ),
                                         const SizedBox(height: 12)
                                       ]);
