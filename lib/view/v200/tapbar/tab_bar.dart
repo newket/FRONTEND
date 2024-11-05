@@ -16,8 +16,9 @@ class TabBarV2 extends StatefulWidget {
   State<StatefulWidget> createState() => _TabBarV2();
 }
 
+late TabController tabController;
+
 class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
-  late TabController controller;
   int lastIndex = -1;
   bool isKeyboardVisible = false;
   bool isLoading = true;
@@ -25,20 +26,20 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 2, vsync: this);
-    controller.addListener(() async {
+    tabController = TabController(length: 2, vsync: this);
+    tabController.addListener(() async {
       // 인덱스가 변경되었을 때만 실행
-      if (controller.index != lastIndex) {
+      if (tabController.index != lastIndex) {
         const storage = FlutterSecureStorage();
         final accessToken = await storage.read(key: 'ACCESS_TOKEN');
         if (accessToken == null || accessToken.isEmpty) {
-          controller.index = 0; // 이전 인덱스으로 다시 설정
+          tabController.index = 0; // 이전 인덱스으로 다시 설정
           AmplitudeConfig.amplitude.logEvent('BeforeLogin');
           Get.to(() => const BeforeLogin());
           lastIndex = 0;
         } else {
-          lastIndex = controller.index; // 현재 인덱스를 마지막 인덱스로 저장
-          switch (controller.index) {
+          lastIndex = tabController.index; // 현재 인덱스를 마지막 인덱스로 저장
+          switch (tabController.index) {
             case 0:
               AmplitudeConfig.amplitude.logEvent('HomeV2');
               break;
@@ -84,7 +85,7 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                   onTap: () {
                     FocusScope.of(context).unfocus();
                     FocusManager.instance.primaryFocus?.unfocus();
-                    controller.index = 0;
+                    tabController.index = 0;
                   },
                 ),
                 GestureDetector(
@@ -126,12 +127,12 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
               height: MediaQuery.of(context).size.height, // 화면 전체 높이 사용
               child: isKeyboardVisible
                   ? TabBarView(
-                      controller: controller,
+                      controller: tabController,
                       physics: const NeverScrollableScrollPhysics(),
                       children: const <Widget>[HomeV2(), MyTicketV2()],
                     )
                   : TabBarView(
-                      controller: controller,
+                      controller: tabController,
                       children: const <Widget>[HomeV2(), MyTicketV2()],
                     ),
             ),
@@ -142,14 +143,26 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                 color: Colors.transparent,
                 width: 244,
                 height: 60,
-                // 둥글게
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
                   // 탭바
                   child: Container(
-                    color: Colors.white,
                     width: 244,
                     height: 60,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      shadows: const [
+                        BoxShadow(
+                          color: Color(0x231A1A25),
+                          blurRadius: 52,
+                          offset: Offset(0, 6),
+                          spreadRadius: 0,
+                        )
+                      ],
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 2),
                     child: Stack(
                       children: [
                         // 탭바 내용
@@ -163,7 +176,7 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         SvgPicture.asset(
-                                          controller.index == 0
+                                          tabController.index == 0
                                               ? 'images/v2/tab_bar/home_on.svg'
                                               : 'images/v2/tab_bar/home_off.svg',
                                           width: 20,
@@ -174,7 +187,7 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                                             style: TextStyle(
                                                 fontFamily: 'Pretendard',
                                                 fontSize: 11,
-                                                color: controller.index == 0 ? pn_100 : f_40,
+                                                color: tabController.index == 0 ? pn_100 : f_40,
                                                 fontWeight: FontWeight.w500)),
                                       ],
                                     )),
@@ -187,7 +200,7 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         SvgPicture.asset(
-                                          controller.index == 1
+                                          tabController.index == 1
                                               ? 'images/v2/tab_bar/my_ticket_on.svg'
                                               : 'images/v2/tab_bar/my_ticket_off.svg',
                                           width: 20,
@@ -198,13 +211,13 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                                             style: TextStyle(
                                                 fontFamily: 'Pretendard',
                                                 fontSize: 11,
-                                                color: controller.index == 1 ? pn_100 : f_40,
+                                                color: tabController.index == 1 ? pn_100 : f_40,
                                                 fontWeight: FontWeight.w500)),
                                       ],
                                     )),
                               ),
                             ],
-                            controller: controller,
+                            controller: tabController,
                             padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                             //divider 내리기
                             dividerColor: Colors.transparent,
@@ -221,7 +234,6 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                       ],
                     ),
                   ),
-                ),
               ),
             ),
           ],
