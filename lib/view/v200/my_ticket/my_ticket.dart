@@ -47,7 +47,7 @@ class _MyTicketV2 extends State<MyTicketV2> {
     } catch (e) {
       print("Error in _getUserInfoApi: $e"); // 에러 내용을 출력
       // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
-      AmplitudeConfig.amplitude.logEvent('error->LoginV2 $e');
+      AmplitudeConfig.amplitude.logEvent('MyTicket error->LoginV2 $e');
       Get.offAll(() => const LoginV2());
       var storage = const FlutterSecureStorage();
       await storage.deleteAll();
