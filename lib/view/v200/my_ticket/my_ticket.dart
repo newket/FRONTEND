@@ -178,41 +178,41 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                   const SizedBox(height: 8),
                                   //아티스트 칩
                                   if (response.favoriteArtistNames.isNotEmpty)
-                                  SizedBox(
-                                      height: 25,
-                                      child: SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Wrap(
-                                              alignment: WrapAlignment.start,
-                                              //왼쪽 부터 시작
-                                              direction: Axis.horizontal,
-                                              spacing: 8.0,
-                                              // 각 아이템 간 간격
-                                              runSpacing: 8.0,
-                                              // 줄 바꿈 시 간격
-                                              children: response.favoriteArtistNames.map((artist) {
-                                                return Container(
-                                                  height: 25,
-                                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                                                  clipBehavior: Clip.antiAlias,
-                                                  decoration: ShapeDecoration(
-                                                    color: Colors.white.withOpacity(0.15),
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(8),
+                                    SizedBox(
+                                        height: 25,
+                                        child: SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Wrap(
+                                                alignment: WrapAlignment.start,
+                                                //왼쪽 부터 시작
+                                                direction: Axis.horizontal,
+                                                spacing: 8.0,
+                                                // 각 아이템 간 간격
+                                                runSpacing: 8.0,
+                                                // 줄 바꿈 시 간격
+                                                children: response.favoriteArtistNames.map((artist) {
+                                                  return Container(
+                                                    height: 25,
+                                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                                    clipBehavior: Clip.antiAlias,
+                                                    decoration: ShapeDecoration(
+                                                      color: Colors.white.withOpacity(0.15),
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(8),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  child: Text(
-                                                    artist,
-                                                    textAlign: TextAlign.center,
-                                                    style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12,
-                                                      fontFamily: 'Pretendard',
-                                                      fontWeight: FontWeight.w400,
+                                                    child: Text(
+                                                      artist,
+                                                      textAlign: TextAlign.center,
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontFamily: 'Pretendard',
+                                                        fontWeight: FontWeight.w400,
+                                                      ),
                                                     ),
-                                                  ),
-                                                );
-                                              }).toList()))),
+                                                  );
+                                                }).toList()))),
                                   const SizedBox(height: 12),
                                   if (response.concerts.isNotEmpty)
                                     SizedBox(
@@ -255,7 +255,8 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                                           width: 169,
                                                           height: 225,
                                                           fit: BoxFit.fill,
-                                                          loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                                          loadingBuilder: (BuildContext context, Widget child,
+                                                              ImageChunkEvent? loadingProgress) {
                                                             if (loadingProgress == null) {
                                                               return child; // 로딩이 완료되었을 때의 이미지
                                                             }
@@ -265,7 +266,8 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                                               color: f_100, // 로딩 중일 때의 배경색
                                                             );
                                                           },
-                                                          errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                                          errorBuilder: (BuildContext context, Object error,
+                                                              StackTrace? stackTrace) {
                                                             return Container(
                                                               width: 169,
                                                               height: 225,
@@ -320,54 +322,61 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                                     height: 70,
                                                     decoration: ShapeDecoration(
                                                       color: f_100,
-                                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(8)),
                                                     ),
                                                     child: Column(
                                                       children: [
-                                                      Container(color: f_80,width: 89,height: 1),
-                                                      Padding(padding: const EdgeInsets.all(12),child: Column(
-                                                        children: List.generate(
-                                                          //최대 2개
-                                                          response.concerts[index].ticketingSchedules.length > 2
-                                                              ? 2
-                                                              : response.concerts[index].ticketingSchedules.length,
-                                                              (index1) {
-                                                            return Column(
-                                                              children: [
-                                                                Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                  children: [
-                                                                    Text(
-                                                                      "${response.concerts[index].ticketingSchedules[index1].type} 오픈",
-                                                                      style: const TextStyle(
-                                                                        fontFamily: 'Pretendard',
-                                                                        fontSize: 12,
-                                                                        color: b_400,
-                                                                        fontWeight: FontWeight.w400,
+                                                        Container(color: f_80, width: 89, height: 1),
+                                                        Padding(
+                                                            padding: const EdgeInsets.all(12),
+                                                            child: Column(
+                                                              children: List.generate(
+                                                                //최대 2개
+                                                                response.concerts[index].ticketingSchedules.length > 2
+                                                                    ? 2
+                                                                    : response
+                                                                        .concerts[index].ticketingSchedules.length,
+                                                                (index1) {
+                                                                  return Column(
+                                                                    children: [
+                                                                      Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          Text(
+                                                                            "${response.concerts[index].ticketingSchedules[index1].type} 오픈",
+                                                                            style: const TextStyle(
+                                                                              fontFamily: 'Pretendard',
+                                                                              fontSize: 12,
+                                                                              color: b_400,
+                                                                              fontWeight: FontWeight.w400,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            response.concerts[index]
+                                                                                .ticketingSchedules[index1].dday,
+                                                                            style: TextStyle(
+                                                                              fontFamily: 'Pretendard',
+                                                                              fontSize: 12,
+                                                                              color: response.concerts[index]
+                                                                                      .ticketingSchedules[index1].dday
+                                                                                      .contains("D-")
+                                                                                  ? const Color(0xffFF5F5F)
+                                                                                  : Colors.white,
+                                                                              fontWeight: FontWeight.w700,
+                                                                            ),
+                                                                          ),
+                                                                        ],
                                                                       ),
-                                                                    ),
-                                                                    Text(
-                                                                      response.concerts[index].ticketingSchedules[index1].dday,
-                                                                      style: TextStyle(
-                                                                        fontFamily: 'Pretendard',
-                                                                        fontSize: 12,
-                                                                        color: response.concerts[index]
-                                                                            .ticketingSchedules[index1].dday
-                                                                            .contains("D-")
-                                                                            ? const Color(0xffFF5F5F)
-                                                                            : Colors.white,
-                                                                        fontWeight: FontWeight.w700,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                const SizedBox(height: 4),
-                                                              ],
-                                                            );
-                                                          },
-                                                        ),
-                                                      ))
-                                                    ],),
+                                                                      const SizedBox(height: 4),
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              ),
+                                                            ))
+                                                      ],
+                                                    ),
                                                   )
                                                 ],
                                               ),
@@ -430,7 +439,8 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                         child: Column(
                                           children: [
                                             const SizedBox(height: 27),
-                                            Image.asset("images/v2/my_ticket/favorite_artist_null.png", height: 160, width: 160),
+                                            Image.asset("images/v2/my_ticket/favorite_artist_null.png",
+                                                height: 160, width: 160),
                                             const SizedBox(height: 20),
                                             const Text(
                                               '아직 관심 아티스트를\n등록하지 않았어요!',
@@ -447,7 +457,7 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                                 //아티스트 검색으로
                                                 onTap: () {
                                                   AmplitudeConfig.amplitude.logEvent('MyTicket->AddFavoriteArtist');
-                                                  tabController.index=0;
+                                                  tabController.index = 0;
                                                 },
                                                 child: Container(
                                                   width: 184,
@@ -456,7 +466,8 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                                   clipBehavior: Clip.antiAlias,
                                                   decoration: ShapeDecoration(
                                                     color: p_normal,
-                                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                                    shape:
+                                                        RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                                   ),
                                                   child: const Row(
                                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -498,64 +509,115 @@ class _MyTicketV2 extends State<MyTicketV2> {
                       final openingResponse = snapshot.data!;
                       return Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Column(children: [
+                            Container(height: 20),
+                            Row(
                               children: [
-                                Container(height: 20),
-                                Row(
-                                  children: [
+                                const Text(
+                                  "알림 받기한 티켓",
+                                  style: TextStyle(
+                                    color: f_100,
+                                    fontSize: 18,
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '${openingResponse.totalNum}개',
+                                  style: const TextStyle(
+                                    color: p_normal,
+                                    fontSize: 16,
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            (openingResponse.concerts.isEmpty)
+                                ? Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                                    const SizedBox(height: 44),
+                                    Image.asset('images/v2/my_ticket/ticket_null.png', width: 160, height: 160),
+                                    const SizedBox(height: 8),
                                     const Text(
-                                      "알림 받기한 티켓",
+                                      '아직 알림 받기 한 티켓이 없어요',
+                                      textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        color: f_100,
+                                        color: f_90,
                                         fontSize: 18,
                                         fontFamily: 'Pretendard',
                                         fontWeight: FontWeight.w600,
+                                        letterSpacing: -0.54,
                                       ),
                                     ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      '${openingResponse.totalNum}개',
-                                      style: const TextStyle(
-                                        color: p_normal,
-                                        fontSize: 16,
-                                        fontFamily: 'Pretendard',
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(height: 8),
-                                const SizedBox(height: 20), // 드롭다운과 리스트 사이의 간격
-                                Column(
-                                  children: List.generate(
-                                    openingResponse.concerts.length,
-                                        (index) {
-                                      return Column(children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            AmplitudeConfig.amplitude.logEvent(
-                                                'OpeningNoticeDetail(id:${openingResponse.concerts[index].concertId})');
-                                            // 상세 페이지로 이동
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => TicketDetailV2(
-                                                  concertId: openingResponse.concerts[index].concertId, // 상세 페이지에 데이터 전달
+                                    const SizedBox(height: 12),
+                                    GestureDetector(
+                                        //아티스트 검색으로
+                                        onTap: () {
+                                          AmplitudeConfig.amplitude.logEvent('MyTicket->AddFavoriteArtist');
+                                          tabController.index = 0;
+                                        },
+                                        child: Container(
+                                          width: 134,
+                                          height: 46,
+                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: ShapeDecoration(
+                                            color: p_normal,
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                          ),
+                                          child: const Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                '티켓 찾아보기',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                  letterSpacing: -0.42,
+                                                  fontFamily: 'Pretendard',
+                                                  fontWeight: FontWeight.w600,
                                                 ),
                                               ),
-                                            );
-                                          },
-                                          child: OpeningNoticeCard(openingResponse: openingResponse, index: index),
-                                        ),
-                                        const SizedBox(height: 12)
-                                      ]);
-                                    },
+                                              SizedBox(width: 8),
+                                              Icon(Icons.search, size: 20, color: Colors.white),
+                                            ],
+                                          ),
+                                        )),
+                                    const SizedBox(height: 45)
+                                  ])
+                                : Column(
+                                    children: List.generate(
+                                      openingResponse.concerts.length,
+                                      (index) {
+                                        return Column(children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              AmplitudeConfig.amplitude.logEvent(
+                                                  'OpeningNoticeDetail(id:${openingResponse.concerts[index].concertId})');
+                                              // 상세 페이지로 이동
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => TicketDetailV2(
+                                                    concertId:
+                                                        openingResponse.concerts[index].concertId, // 상세 페이지에 데이터 전달
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: OpeningNoticeCard(openingResponse: openingResponse, index: index),
+                                          ),
+                                          const SizedBox(height: 12)
+                                        ]);
+                                      },
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 122)
-                              ]));
+                            const SizedBox(height: 122)
+                          ]));
                     }
                   })
             ]),
