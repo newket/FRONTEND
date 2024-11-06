@@ -157,7 +157,7 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {
           // 로그인 페이지로 이동
-          AmplitudeConfig.amplitude.logEvent('error->LoginV2 $e');
+          AmplitudeConfig.amplitude.logEvent('SignUp error->LoginV2 $e');
           Get.offAll(() => const LoginV2());
           var storage = const FlutterSecureStorage();
           await storage.deleteAll();

@@ -1,7 +1,6 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/repository/artist_repository.dart';
@@ -98,7 +97,8 @@ class _ArtistRequestV2 extends State<ArtistRequestV2> {
 
   Future<void> _requestArtist(String artistName, String? artistInfo) async {
     //제출
-    final deviceToken = await FirebaseMessaging.instance.getToken();
+    const storage = FlutterSecureStorage();
+    final deviceToken = await storage.read(key: "DEVICE_TOKEN");
 
     if (artistName.isNotEmpty) {
       await artistRepository
