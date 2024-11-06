@@ -212,7 +212,6 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                   Expanded(
                       child: TabBarView(
                     controller: controller,
-                    physics: const NeverScrollableScrollPhysics(),
                     children: const <Widget>[OpeningNoticeV2(), OnSaleV2()],
                   ))
                 ])),
