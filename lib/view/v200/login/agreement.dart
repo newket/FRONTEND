@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
+import 'package:newket/component/common/app_bar_back.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/repository/auth_repository.dart';
@@ -77,26 +78,7 @@ class _AgreementV2 extends State<AgreementV2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                AmplitudeConfig.amplitude.logEvent('Back');
-                Navigator.pop(context); //뒤로가기
-              },
-              color: b_100,
-              icon: const Icon(Icons.keyboard_arrow_left)),
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: const Text(
-            "약관 동의",
-            style: TextStyle(
-              fontFamily: 'Pretendard',
-              fontSize: 16,
-              color: f_100,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
+        appBar: appBarBack(context, "약관 동의"),
         body: Container(
             color: Colors.white,
             child: Padding(

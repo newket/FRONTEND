@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
+import 'package:newket/component/common/app_bar_back.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/auth_repository.dart';
 import 'package:newket/repository/user_repository.dart';
@@ -87,26 +88,7 @@ class _MyPageV2 extends State<MyPageV2> {
       return const Center(child: CircularProgressIndicator());
     }
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                AmplitudeConfig.amplitude.logEvent('Back');
-                Navigator.pop(context); //뒤로가기
-              },
-              color: f_90,
-              icon: const Icon(Icons.keyboard_arrow_left)),
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: const Text(
-            "마이페이지",
-            style: TextStyle(
-              fontFamily: 'Pretendard',
-              fontSize: 20,
-              color: f_90,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
+        appBar: appBarBack(context, "마이페이지"),
         backgroundColor: Colors.white,
         body: Padding(
             padding: const EdgeInsets.only(top: 12, left: 20, right: 20),
@@ -411,9 +393,9 @@ class _MyPageV2 extends State<MyPageV2> {
                   const SizedBox(height: 24),
                   GestureDetector(
                       onTap: () async {
+                        await userRepository.deleteDeviceToken();
                         var storage = const FlutterSecureStorage();
                         await storage.deleteAll();
-                        await userRepository.deleteDeviceToken();
                         // 로그인 페이지로 이동
                         AmplitudeConfig.amplitude.logEvent('Logout');
                         Get.offAll(() => const LoginV2());

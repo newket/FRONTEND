@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
+import 'package:newket/component/common/app_bar_back.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/ticket_model.dart';
 import 'package:newket/repository/artist_repository.dart';
@@ -163,26 +164,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
     return Scaffold(
         backgroundColor: Colors.white,
         //앱바
-        appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                AmplitudeConfig.amplitude.logEvent('Back');
-                Navigator.pop(context); //뒤로가기
-              },
-              color: f_90,
-              icon: const Icon(Icons.keyboard_arrow_left)),
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: const Text(
-            "티켓 상세 정보",
-            style: TextStyle(
-              fontFamily: 'Pretendard',
-              fontSize: 20,
-              color: f_90,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
+        appBar: appBarBack(context, "티켓 상세 정보"),
         body: SingleChildScrollView(
             child: Column(children: [
           Stack(children: [

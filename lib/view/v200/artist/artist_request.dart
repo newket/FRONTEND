@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:newket/component/common/app_bar_back.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/repository/artist_repository.dart';
@@ -140,26 +141,7 @@ class _ArtistRequestV2 extends State<ArtistRequestV2> {
         backgroundColor: Colors.white,
 
         //앱바
-        appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                AmplitudeConfig.amplitude.logEvent('Back');
-                Navigator.pop(context); //뒤로가기
-              },
-              color: f_100,
-              icon: const Icon(Icons.keyboard_arrow_left)),
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: const Text(
-            "아티스트 등록 요청하기",
-            style: TextStyle(
-              fontFamily: 'Pretendard',
-              fontSize: 16,
-              color: f_100,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
+        appBar: appBarBack(context, "아티스트 등록 요청하기"),
 
         //내용
         body: GestureDetector(

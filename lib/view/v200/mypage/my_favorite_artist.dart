@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newket/component/common/app_bar_back.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/repository/artist_repository.dart';
@@ -38,26 +39,7 @@ class _MyFavoriteArtistV2 extends State<MyFavoriteArtistV2> {
         backgroundColor: Colors.white,
 
         //앱바
-        appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                AmplitudeConfig.amplitude.logEvent('Back');
-                Navigator.pop(context); //뒤로가기
-              },
-              color: f_90,
-              icon: const Icon(Icons.keyboard_arrow_left)),
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: const Text(
-            "나의 관심 아티스트",
-            style: TextStyle(
-              fontFamily: 'Pretendard',
-              fontSize: 16,
-              color: f_90,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
+        appBar: appBarBack(context, "나의 관심 아티스트"),
 
         //내용
         body: Padding(

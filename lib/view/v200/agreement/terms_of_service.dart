@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newket/component/common/app_bar_back.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/theme/Colors.dart';
 
@@ -34,26 +35,7 @@ class _TermsOfServiceV2 extends State<TermsOfServiceV2> {
         backgroundColor: Colors.white,
 
         //앱바
-        appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                AmplitudeConfig.amplitude.logEvent('Back');
-                Navigator.pop(context); //뒤로가기
-              },
-              color: f_100,
-              icon: const Icon(Icons.keyboard_arrow_left)),
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: const Text(
-            "서비스 이용약관",
-            style: TextStyle(
-              fontFamily: 'Pretendard',
-              fontSize: 16,
-              color: f_100,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
+        appBar: appBarBack(context, "서비스 이용약관"),
 
         //내용
         body: SingleChildScrollView(

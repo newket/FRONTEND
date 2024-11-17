@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:newket/component/common/app_bar_back.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/user_model.dart';
 import 'package:newket/repository/user_repository.dart';
@@ -117,26 +118,7 @@ class _HelpV2 extends State<HelpV2> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       //키보드가 올라 오지 않도록
-      appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              AmplitudeConfig.amplitude.logEvent('Back');
-              Navigator.pop(context); //뒤로가기
-            },
-            color: f_90,
-            icon: const Icon(Icons.keyboard_arrow_left)),
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: const Text(
-          "문의하기",
-          style: TextStyle(
-            fontFamily: 'Pretendard',
-            fontSize: 16,
-            color: f_90,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
+      appBar: appBarBack(context, "문의하기"),
       backgroundColor: Colors.white,
       body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(), // 키보드 외부를 탭하면 키보드 숨기기
