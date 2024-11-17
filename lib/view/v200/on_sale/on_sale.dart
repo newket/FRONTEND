@@ -75,7 +75,7 @@ class _OnSaleV2 extends State<OnSaleV2> {
                                       ),
                                     ),
                                     const Text(
-                                      "의 오픈 예정 티켓이 있어요!",
+                                      "의 예매 중인 티켓이 있어요!",
                                       style: TextStyle(
                                         fontFamily: 'Pretendard',
                                         fontSize: 18,
