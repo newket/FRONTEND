@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -9,16 +10,16 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:newket/config/amplitude_config.dart';
+import 'package:newket/firebase_options.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/view/v200/login/login.dart';
 import 'package:newket/view/v200/tapbar/tab_bar.dart';
+import 'package:newket/view/v200/ticket_detail/ticket_detail.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await NotificationRepository().updateNotificationIsOpened(message.data['notificationId']);
-}
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 AndroidNotificationChannel channel = const AndroidNotificationChannel(
   'newket', // id
@@ -37,26 +38,24 @@ void showFlutterNotification(RemoteMessage message) {
         message.notification?.title,
         message.notification?.body,
         NotificationDetails(
-          android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            importance: Importance.max,
-            priority: Priority.max,
-            playSound: true, // 기본 사운드 재생 설정
-            fullScreenIntent: true, // 화면을 깨우도록 설정
-          ),
-          iOS: const DarwinNotificationDetails(
-            presentAlert: true,
-            presentBadge: true,
-            presentSound: true
-          )
-        ),
-        payload: message.data['notificationId']);
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              importance: Importance.max,
+              priority: Priority.max,
+              playSound: true, // 기본 사운드 재생 설정
+              fullScreenIntent: true, // 화면을 깨우도록 설정
+            ),
+            iOS: const DarwinNotificationDetails(presentAlert: true, presentBadge: true, presentSound: true)),
+        payload: json.encode({
+          'notificationId': message.data['notificationId'],
+          'concertId': message.data['concertId'],
+        }));
   }
 }
 
 void main() async {
-  try{
+  try {
     WidgetsFlutterBinding.ensureInitialized();
     await dotenv.load(fileName: ".env");
     //Amplitude 시작
@@ -82,8 +81,8 @@ void main() async {
     await [Permission.notification].request();
 
     // Firebase 초기화
-    // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    //await Firebase.initializeApp();
 
     //ios 메세지 수신 권한 요청
     await FirebaseMessaging.instance.requestPermission(
@@ -102,7 +101,7 @@ void main() async {
     const iosInitializationSettings = DarwinInitializationSettings(
         requestAlertPermission: true, requestBadgePermission: true, requestSoundPermission: true);
     const initializationSettings =
-    InitializationSettings(android: androidInitializationSettings, iOS: iosInitializationSettings);
+        InitializationSettings(android: androidInitializationSettings, iOS: iosInitializationSettings);
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
@@ -136,7 +135,7 @@ void main() async {
       }
     }
 
-    if(Platform.isAndroid){
+    if (Platform.isAndroid) {
       deviceToken = await FirebaseMessaging.instance.getToken();
     }
 
@@ -154,34 +153,50 @@ void main() async {
 
     // FCM 백그라운드 메시지 리스너
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      Get.to(() => TicketDetailV2(concertId: int.tryParse(message.data['concertId'])!));
+      NotificationRepository().updateNotificationIsOpened(message.data['notificationId']);
+    });
 
-    //종료시 메세지 리스너
+    // FCM terminated 메세지 리스너
     RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
-      await NotificationRepository().updateNotificationIsOpened(initialMessage.data['notificationId']);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Get.to(() => TicketDetailV2(concertId: int.tryParse(initialMessage.data['concertId'])!));
+      });
+      NotificationRepository().updateNotificationIsOpened(initialMessage.data['notificationId']);
     }
 
-    // 선택된 알림 처리
+    // FCM 포어그라운드 메시지 선택
     flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse details) async {
-        await NotificationRepository().updateNotificationIsOpened(details.payload!);
+        debugPrint(details.payload!);
+        // payload에서 JSON 형식으로 데이터를 추출
+        final Map<String, dynamic> payloadData = json.decode(details.payload!);
+
+        // payloadData에서 concertId를 가져오기
+        final String? concertId = payloadData['concertId']?.toString();
+        final String? notificationId = payloadData['notificationId']?.toString();
+
+        if (concertId != null) {
+          debugPrint('concertId:${int.tryParse(concertId.toString())!}');
+          Get.to(() => TicketDetailV2(concertId: int.tryParse(concertId.toString())!));
+        }
+
+        await NotificationRepository().updateNotificationIsOpened(notificationId!);
       },
     );
 
-    String? userInfo = ""; //user의 정보를 저장하기 위한 변수
+    String? accessToken = ""; //user의 정보를 저장하기 위한 변수
     asyncMethod() async {
-      //read 함수를 통하여 key값에 맞는 정보를 불러오게 됩니다. 이때 불러오는 결과의 타입은 String 타입임을 기억해야 합니다.
-      //(데이터가 없을때는 null을 반환을 합니다.)
-      userInfo = await storage.read(key: "ACCESS_TOKEN");
-
-      //user의 정보가 있다면 바로 홈으로 넘어가게 합니다.
-      if (userInfo != null) {
-        runApp(const MyApp2());
-        AmplitudeConfig.amplitude.logEvent('HomeV2');
-      } else {
-        runApp(const MyApp());
+      accessToken = await storage.read(key: "ACCESS_TOKEN");
+      if (accessToken == null) {
         AmplitudeConfig.amplitude.logEvent('LoginV2');
+        runApp(const MyApp());
+      } else {
+        AmplitudeConfig.amplitude.logEvent('HomeV2');
+        runApp(const MyApp2());
       }
     }
 
