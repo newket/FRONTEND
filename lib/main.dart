@@ -108,36 +108,9 @@ void main() async {
         ?.createNotificationChannel(channel);
     String? deviceToken;
     // FCM 기기 토큰 가져오기
-    if (Platform.isIOS) {
-      deviceToken = await FirebaseMessaging.instance.getAPNSToken();
-      if (deviceToken != null) {
-        try {
-          await FirebaseMessaging.instance.subscribeToTopic('notificationChannel');
-        } on FirebaseException catch (e) {
-          debugPrint("token error: $e");
-        }
-      } else {
-        await Future<void>.delayed(const Duration(seconds: 3));
-        deviceToken = await FirebaseMessaging.instance.getAPNSToken();
-        if (deviceToken != null) {
-          try {
-            await FirebaseMessaging.instance.subscribeToTopic('notificationChannel');
-          } on FirebaseException catch (e) {
-            debugPrint("token error: $e");
-          }
-        }
-      }
-    } else {
-      try {
-        await FirebaseMessaging.instance.subscribeToTopic('notificationChannel');
-      } on FirebaseException catch (e) {
-        debugPrint("token error: $e");
-      }
-    }
-
-    if (Platform.isAndroid) {
+    try {
       deviceToken = await FirebaseMessaging.instance.getToken();
-    }
+    } catch (e) {}
 
     debugPrint("deviceToken: $deviceToken");
     AmplitudeConfig.amplitude.setUserId('$deviceToken');
