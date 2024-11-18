@@ -39,13 +39,15 @@ class NotificationAllow {
 class HelpRequest {
   String title;
   String content;
+  String email;
 
-  HelpRequest(this.title, this.content);
+  HelpRequest(this.title, this.content, this.email);
 
   Map<String, dynamic> toJson() {
     return <String, dynamic> {
       "title":title,
-      "content":content
+      "content":content,
+      "email":email
     };
   }
 }

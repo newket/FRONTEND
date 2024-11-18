@@ -14,7 +14,7 @@ flutter_native_splash:
   # of your splash screen to a solid color.  Use background_image to set the background of your
   # splash screen to a png image.  This is useful for gradients. The image will be stretch to the
   # size of the app. Only one parameter can be used, color and background_image cannot both be set.
-  color: "#020617"
+  color: "#7A6FFF"
   #background_image: "images/splash/background.png"
 
   # Optional parameters are listed below.  To enable a parameter, uncomment the line by removing
@@ -23,7 +23,7 @@ flutter_native_splash:
   # The image parameter allows you to specify an image used in the splash screen.  It must be a
   # png file and should be sized for 4x pixel density.
   #image: assets/splash.png
-  image: images/splash/splash.png
+  image: images/v2/splash/splash.png
 
   # The branding property allows you to specify an image used as branding in the splash screen.
   # It must be a png file. It is supported for Android, iOS and the Web.  For Android 12,
@@ -59,11 +59,11 @@ flutter_native_splash:
   # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
   # 768 pixels in diameter.
   #image: assets/android12splash.png
-    image: images/splash/splash.png
+    image: images/v2/splash/splash_ios.png
 
   # Splash screen background color.
   #color: "#42a5f5"
-    color: "#020617"
+    color: "#7A6FFF"
 
   # App icon background color.
   #icon_background_color: "#111111"
@@ -88,13 +88,13 @@ flutter_native_splash:
   # the respective parameter.  You may specify all, selected, or none of these parameters:
   #color_android: "#42a5f5"
   #color_dark_android: "#042a49"
-  #color_ios: "#42a5f5"
+  color_ios: "#7A6FFF"
   #color_dark_ios: "#042a49"
   #color_web: "#42a5f5"
   #color_dark_web: "#042a49"
   #image_android: assets/splash-android.png
   #image_dark_android: assets/splash-invert-android.png
-  #image_ios: assets/splash-ios.png
+  image_ios: images/v2/splash/splash.png
   #image_dark_ios: assets/splash-invert-ios.png
   #image_web: assets/splash-web.gif
   #image_dark_web: assets/splash-invert-web.gif
@@ -126,7 +126,7 @@ flutter_native_splash:
   # https://developer.apple.com/documentation/uikit/uiview/contentmode): scaleToFill,
   # scaleAspectFit, scaleAspectFill, center, top, bottom, left, right, topLeft, topRight,
   # bottomLeft, or bottomRight.
-  #ios_content_mode: center
+  #ios_content_mode: scaleAspectFit
   #
   # web_image_mode can be one of the following modes: center, contain, stretch, and cover.
   #web_image_mode: center

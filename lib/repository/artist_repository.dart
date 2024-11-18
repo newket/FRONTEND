@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/secure/auth_dio.dart';
+import 'package:newket/view/v200/login/before_login.dart';
 
 class ArtistRepository {
   Future<SearchArtists> searchArtist(String keyword) async {
@@ -15,12 +16,11 @@ class ArtistRepository {
     return SearchArtists.fromJson(response.data);
   }
 
-  Future<void> requestArtist(String artistName) async {
+  Future<void> requestArtist(ArtistRequest artistRequest) async {
     var dio = Dio();
     dio.options.baseUrl = dotenv.get("BASE_URL");
-    final deviceToken = await FirebaseMessaging.instance.getToken();
-
-    await dio.post("/api/v1/artists/request?artistName=$artistName&deviceToken=$deviceToken");
+    final requestBody = artistRequest.toJson();
+    await dio.post("/api/v2/artists/request", data: requestBody);
   }
 
   Future<SearchArtists> getFavoriteArtists(BuildContext context) async {
@@ -34,5 +34,39 @@ class ArtistRepository {
     var dio = await authDio(context);
     final requestBody = favoriteArtists.toJson();
     await dio.put("/api/v1/artists/favorite", data: requestBody);
+  }
+
+
+  Future<bool> getIsFavoriteArtist(int favoriteArtistId, BuildContext context) async {
+    try{
+      var dio = await authDio(context);
+      final response = await dio.get("/api/v1/artists/favorite/$favoriteArtistId");
+      return response.data as bool;
+    }  on DioException {
+      return false;
+    }
+  }
+
+
+  Future<bool> addFavoriteArtist(int artistId, BuildContext context) async {
+    try{
+      var dio = await authDio(context);
+      await dio.put("/api/v1/artists/favorite/$artistId");
+      return true;
+    }  on DioException {
+      AmplitudeConfig.amplitude.logEvent('BeforeLogin');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const BeforeLogin(),
+        ),
+      );
+      return false;
+    }
+  }
+
+  Future<void> deleteFavoriteArtist(int artistId, BuildContext context) async {
+    var dio = await authDio(context);
+    await dio.delete("/api/v1/artists/favorite/$artistId");
   }
 }

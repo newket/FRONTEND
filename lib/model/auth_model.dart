@@ -8,6 +8,16 @@ class SocialLoginRequest {
   }
 }
 
+class SocialLoginAppleRequest {
+  String socialId;
+
+  SocialLoginAppleRequest(this.socialId);
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{"socialId": socialId};
+  }
+}
+
 class SocialLoginResponse {
   String accessToken;
   String refreshToken;
@@ -42,11 +52,32 @@ class ReissueResponse {
 
 class SignUpRequest {
   String accessToken;
-  List<int> favoriteArtistIds;
 
-  SignUpRequest(this.accessToken, this.favoriteArtistIds);
+  SignUpRequest(this.accessToken);
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{"accessToken": accessToken, "favoriteArtistIds": favoriteArtistIds};
+    return <String, dynamic>{"accessToken": accessToken};
+  }
+}
+
+class SignUpAppleRequest {
+  String name;
+  String email;
+  String socialId;
+
+  SignUpAppleRequest({required this.name, required this.email, required this.socialId});
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{"name": name, "email": email, "socialId": socialId};
+  }
+}
+
+class WithDrawApple {
+  String authorizationCode;
+
+  WithDrawApple(this.authorizationCode);
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{"authorizationCode": authorizationCode};
   }
 }

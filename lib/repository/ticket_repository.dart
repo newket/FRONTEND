@@ -59,7 +59,7 @@ class TicketRepository{
     dio.options.baseUrl = dotenv.get("BASE_URL");
 
     final response = await dio.get(
-        "/api/v1/tickets/$concertId"
+        "/api/v2/tickets/$concertId"
     );
 
     return TicketDetail.fromJson(response.data);
@@ -83,5 +83,17 @@ class TicketRepository{
 
     final response = await dio.get("/api/v1/tickets/favorite");
     return FavoriteOpeningNotice.fromJson(response.data);
+  }
+
+  //아티스트와 티켓 조회
+  Future<SearchResponse> searchArtistsAndTickets(String keyword) async {
+    var dio = Dio();
+    dio.options.baseUrl = dotenv.get("BASE_URL");
+
+    final response = await dio.get(
+        "/api/v2/tickets/search?keyword=$keyword"
+    );
+
+    return SearchResponse.fromJson(response.data);
   }
 }
