@@ -58,19 +58,24 @@ void main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
     await dotenv.load(fileName: ".env");
-    //Amplitude 시작
-    AmplitudeConfig().init();
-    AmplitudeConfig.amplitude.logEvent('install');
+
+    // Firebase 초기화
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     const storage = FlutterSecureStorage();
 
     // 설치 여부 확인 및 데이터 삭제
-    bool isFirstRun = prefs.getBool('isFirstRun') ?? true; // 초기값을 true로 설정
-    if (isFirstRun) {
-      await prefs.clear(); // 모든 데이터 삭제
-      await storage.deleteAll(); // 모든 데이터 삭제
-      await prefs.setBool('isFirstRun', false); // 다음 실행부터는 false로 설정
+    bool isFirstRun = prefs.getBool('isFirstRun') ?? true;
+    String? storedDeviceToken = await storage.read(key: 'DEVICE_TOKEN');
+
+    if (isFirstRun || storedDeviceToken == null) {
+      // Amplitude 시작
+      AmplitudeConfig().init();
+      AmplitudeConfig.amplitude.logEvent('install');
+      await prefs.clear();
+      await storage.deleteAll();
+      await prefs.setBool('isFirstRun', false);
     }
 
     // Kakao SDK 초기화
@@ -79,10 +84,6 @@ void main() async {
     );
 
     await [Permission.notification].request();
-
-    // Firebase 초기화
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-    //await Firebase.initializeApp();
 
     //ios 메세지 수신 권한 요청
     await FirebaseMessaging.instance.requestPermission(
