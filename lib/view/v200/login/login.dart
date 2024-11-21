@@ -58,15 +58,15 @@ class _LoginV2 extends State<LoginV2> {
               Column(
                 children: [
                   //애플 로그인
-                  // GestureDetector(
-                  //     child: Image.asset("images/v2/login/applelogin.png", width: 320),
-                  //     onTap: () async {
-                  //       await authRepository.appleLoginApi();
-                  //     }),
-                  // const SizedBox(height: 12),
+                  GestureDetector(
+                      child: Image.asset("images/v2/login/apple_login.png", width: 350),
+                      onTap: () async {
+                        await authRepository.appleLoginApi();
+                      }),
+                  const SizedBox(height: 12),
                   //카카오 로그인
                   GestureDetector(
-                      child: Image.asset("images/v1/onboarding/kakao_login_large_wide.png", width: 320),
+                      child: Image.asset("images/v2/login/kakao_login.png", width: 350),
                       onTap: () async {
                         await authRepository.kakaoLoginApi();
                       }),

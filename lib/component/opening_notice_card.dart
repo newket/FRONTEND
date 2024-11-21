@@ -111,6 +111,7 @@ class OpeningNoticeCard extends StatelessWidget {
                                       fontFamily: 'Pretendard',
                                       fontSize: 12,
                                       color: f_60,
+                                      letterSpacing: -0.36,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -134,6 +135,7 @@ class OpeningNoticeCard extends StatelessWidget {
                                         fontFamily: 'Pretendard',
                                         fontSize: 14,
                                         color: p_normal,
+                                        letterSpacing: -0.42,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     )
@@ -145,6 +147,7 @@ class OpeningNoticeCard extends StatelessWidget {
                                         fontFamily: 'Pretendard',
                                         fontSize: 14,
                                         color: f_80,
+                                        letterSpacing: -0.42,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     )
@@ -162,11 +165,12 @@ class OpeningNoticeCard extends StatelessWidget {
                                     Container(color: f_15, width: 1, height: 16),
                                     const SizedBox(width: 12),
                                     Text(
-                                      "${openingResponse.concerts[index].ticketingSchedules[0].type} 오픈 ",
+                                      "${openingResponse.concerts[index].ticketingSchedules[1].type} 오픈 ",
                                       style: const TextStyle(
                                         fontFamily: 'Pretendard',
                                         fontSize: 12,
                                         color: f_60,
+                                        letterSpacing: -0.36,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -190,6 +194,7 @@ class OpeningNoticeCard extends StatelessWidget {
                                           fontFamily: 'Pretendard',
                                           fontSize: 14,
                                           color: p_normal,
+                                          letterSpacing: -0.42,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       )
@@ -201,6 +206,7 @@ class OpeningNoticeCard extends StatelessWidget {
                                           fontFamily: 'Pretendard',
                                           fontSize: 14,
                                           color: f_80,
+                                          letterSpacing: -0.42,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       )

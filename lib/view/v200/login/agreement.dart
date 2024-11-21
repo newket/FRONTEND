@@ -10,7 +10,6 @@ import 'package:newket/repository/user_repository.dart';
 import 'package:newket/theme/colors.dart';
 import 'package:newket/view/v200/agreement/privacy_policy.dart';
 import 'package:newket/view/v200/agreement/terms_of_service.dart';
-import 'package:newket/view/v200/home/home.dart';
 import 'package:newket/view/v200/tapbar/tab_bar.dart';
 
 
@@ -194,7 +193,7 @@ class _AgreementV2 extends State<AgreementV2> {
                                                 ))
                                           ],
                                         ),
-                                        const Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white),
+                                        const Icon(Icons.keyboard_arrow_right_rounded, color: f_60),
                                       ]))),
                           const SizedBox(height: 24),
                           GestureDetector(
@@ -244,7 +243,7 @@ class _AgreementV2 extends State<AgreementV2> {
                                                 ))
                                           ],
                                         ),
-                                        const Icon(Icons.keyboard_arrow_right_rounded, color: Colors.white),
+                                        const Icon(Icons.keyboard_arrow_right_rounded, color: f_60),
                                       ]))),
                         ],
                       ),
@@ -254,12 +253,22 @@ class _AgreementV2 extends State<AgreementV2> {
                             ElevatedButton(
                               onPressed: () async {
                                 var storage = const FlutterSecureStorage();
-                                final name = await storage.read(key: 'APPLE_NAME');
+                                final appleName = await storage.read(key: 'APPLE_NAME');
                                 final email = await storage.read(key: 'APPLE_EMAIL');
                                 final socialId = await storage.read(key: 'APPLE_SOCIAL_ID');
+                                final kakaoToken = await storage.read(key: 'KAKAO_TOKEN');
                                 //signup
-                                await AuthRepository().signUpAppleApi(
-                                    SignUpAppleRequest(name: name!, email: email!, socialId: socialId!));
+                                if(appleName!=null){
+                                  await AuthRepository().signUpAppleApi(
+                                      SignUpAppleRequest(name: appleName, email: email!, socialId: socialId!));
+                                  await storage.delete(key: 'APPLE_NAME');
+                                  await storage.delete(key: 'APPLE_EMAIL');
+                                  await storage.delete(key: 'APPLE_SOCIAL_ID');
+                                } else {
+                                  await AuthRepository().signUpApi(SignUpRequest(kakaoToken!));
+                                  await storage.delete(key: 'KAKAO_TOKEN');
+                                }
+
                                 //기기 토큰 저장
                                 final serverToken = await storage.read(key: 'ACCESS_TOKEN');
                                 await UserRepository().putDeviceTokenApi(serverToken!);
