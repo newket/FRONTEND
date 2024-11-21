@@ -122,6 +122,7 @@ class OnSaleCard extends StatelessWidget {
                                       fontFamily: 'Pretendard',
                                       fontSize: 14,
                                       color: f_80,
+                                      letterSpacing: -0.42,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),

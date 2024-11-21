@@ -487,7 +487,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                                   color: f_15,
                                   borderRadius: BorderRadius.circular(6),
                                 ),
-                                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 11),
+                                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                                 child: Text(
                                   ticketResponse.date[index],
                                   textAlign: TextAlign.center,
