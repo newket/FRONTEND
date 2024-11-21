@@ -96,6 +96,12 @@ void main() async {
       sound: true,
     );
 
+    // iOS에서만 APNS 토큰 가져오기
+    if(Platform.isIOS) {
+      String? apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+      debugPrint("APNS Token: $apnsToken");
+    }
+
     // AndroidNotificationChannel 설정
     // FlutterLocalNotificationsPlugin 설정
     const androidInitializationSettings = AndroidInitializationSettings('logo');
