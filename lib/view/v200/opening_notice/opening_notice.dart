@@ -35,7 +35,7 @@ class _OpeningNoticeV2 extends State<OpeningNoticeV2> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> options = ['공연 날짜 임박 순', '최신 등록 순'];
+    final List<String> options = ['예매 오픈 임박 순', '최신 등록 순'];
     return Scaffold(
         resizeToAvoidBottomInset: false, //키보드가 올라 오지 않도록
         backgroundColor: Colors.white,
@@ -57,7 +57,6 @@ class _OpeningNoticeV2 extends State<OpeningNoticeV2> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(height: 5, color: f_10, width: double.infinity),
                     Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Column(

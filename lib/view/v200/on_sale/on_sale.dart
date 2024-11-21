@@ -58,7 +58,6 @@ class _OnSaleV2 extends State<OnSaleV2> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(height: 5, color: f_10, width: double.infinity),
                           Container(height: 20),
                           Padding(
                               padding: const EdgeInsets.only(left: 20, right: 20),
