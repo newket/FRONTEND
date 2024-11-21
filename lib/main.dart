@@ -192,8 +192,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
-      home: Scaffold(
+    return GetMaterialApp(
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaleFactor: 1.0, // 사용자 글꼴 크기 비율 고정
+          ),
+          child: child!,
+        );
+      },
+      home: const Scaffold(
         body: Center(child: LoginV2()),
       ),
     );
@@ -205,9 +213,17 @@ class MyApp2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
-      home: Scaffold(
-        body: Center(child: TabBarV2()),
+    return GetMaterialApp(
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaleFactor: 1.0, // 사용자 글꼴 크기 비율 고정
+          ),
+          child: child!,
+        );
+      },
+      home: const Scaffold(
+        body: Center(child: LoginV2()),
       ),
     );
   }
