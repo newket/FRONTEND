@@ -209,6 +209,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                       labelPadding: EdgeInsets.zero, //탭 크기가 안 작아지게
                     ),
                   ),
+                  Container(height: 5, color: f_10, width: double.infinity),
                   Expanded(
                       child: TabBarView(
                     controller: controller,
