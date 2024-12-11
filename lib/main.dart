@@ -223,7 +223,7 @@ class MyApp2 extends StatelessWidget {
         );
       },
       home: const Scaffold(
-        body: Center(child: LoginV2()),
+        body: Center(child: TabBarV2()),
       ),
     );
   }
