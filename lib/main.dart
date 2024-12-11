@@ -62,21 +62,11 @@ void main() async {
     // Firebase 초기화
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // Storage 초기화
     const storage = FlutterSecureStorage();
 
-    // 설치 여부 확인 및 데이터 삭제
-    bool isFirstRun = prefs.getBool('isFirstRun') ?? true;
-    String? storedDeviceToken = await storage.read(key: 'DEVICE_TOKEN');
-
-    if (isFirstRun || storedDeviceToken == null) {
-      // Amplitude 시작
-      AmplitudeConfig().init();
-      AmplitudeConfig.amplitude.logEvent('install');
-      await prefs.clear();
-      await storage.deleteAll();
-      await prefs.setBool('isFirstRun', false);
-    }
+    //Amplitude 초기화
+    AmplitudeConfig().init();
 
     // Kakao SDK 초기화
     KakaoSdk.init(
@@ -97,7 +87,7 @@ void main() async {
     );
 
     // iOS에서만 APNS 토큰 가져오기
-    if(Platform.isIOS) {
+    if (Platform.isIOS) {
       String? apnsToken = await FirebaseMessaging.instance.getAPNSToken();
       debugPrint("APNS Token: $apnsToken");
     }
@@ -201,9 +191,7 @@ class MyApp extends StatelessWidget {
           child: child!,
         );
       },
-      home: const Scaffold(
-        body: Center(child: LoginV2()),
-      ),
+      home: const LoginV2(),
     );
   }
 }
@@ -222,9 +210,7 @@ class MyApp2 extends StatelessWidget {
           child: child!,
         );
       },
-      home: const Scaffold(
-        body: Center(child: LoginV2()),
-      ),
+      home: const TabBarV2(),
     );
   }
 }
