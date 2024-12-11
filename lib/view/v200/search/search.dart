@@ -482,7 +482,7 @@ class _SearchV2 extends State<SearchV2> {
             if (_searchController.text.isNotEmpty &&
                 (artists.isNotEmpty || openingNoticeResponse.isNotEmpty || onSaleResponse.isNotEmpty))
               Positioned(
-                top: 68, // 검색 창 바로 아래에 위치
+                top: 0, // 검색 창 바로 아래에 위치
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.only(
