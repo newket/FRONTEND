@@ -14,9 +14,9 @@ Future authDio(BuildContext context) async {
 
   dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async {
     // 기기에 저장된 AccessToken 로드
-    final accessToken = await storage.read(key: 'ACCESS_TOKEN');
+    String? accessToken = await storage.read(key: 'ACCESS_TOKEN');
 
-    if (accessToken == null || accessToken.isEmpty) {
+    if (accessToken == null) {
       // AccessToken이 없을 경우 false 반환
       return handler.reject(
         DioException(

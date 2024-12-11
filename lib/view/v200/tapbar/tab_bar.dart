@@ -31,8 +31,8 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
       // 인덱스가 변경되었을 때만 실행
       if (tabController.index != lastIndex) {
         const storage = FlutterSecureStorage();
-        final accessToken = await storage.read(key: 'ACCESS_TOKEN');
-        if (accessToken == null || accessToken.isEmpty) {
+        String? accessToken = await storage.read(key: "ACCESS_TOKEN");
+        if (accessToken == null) {
           tabController.index = 0; // 이전 인덱스으로 다시 설정
           AmplitudeConfig.amplitude.logEvent('BeforeLogin');
           Get.to(() => const BeforeLogin());
@@ -98,8 +98,8 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                     FocusScope.of(context).unfocus();
                     FocusManager.instance.primaryFocus?.unfocus();
                     const storage = FlutterSecureStorage();
-                    final accessToken = await storage.read(key: 'ACCESS_TOKEN');
-                    if (accessToken == null || accessToken.isEmpty) {
+                    String? accessToken = await storage.read(key: 'ACCESS_TOKEN');
+                    if (accessToken == null) {
                       AmplitudeConfig.amplitude.logEvent('BeforeLogin');
                       Navigator.push(
                         context,
