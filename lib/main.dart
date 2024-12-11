@@ -201,9 +201,7 @@ class MyApp extends StatelessWidget {
           child: child!,
         );
       },
-      home: const Scaffold(
-        body: Center(child: LoginV2()),
-      ),
+      home: const LoginV2(),
     );
   }
 }
@@ -222,9 +220,7 @@ class MyApp2 extends StatelessWidget {
           child: child!,
         );
       },
-      home: const Scaffold(
-        body: Center(child: TabBarV2()),
-      ),
+      home: const TabBarV2(),
     );
   }
 }
