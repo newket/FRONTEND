@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:newket/model/ticket_model.dart';
-import 'package:newket/secure/auth_dio.dart';
+import 'package:newket/auth/auth_dio.dart';
 
 class TicketRepository{
   //예매 오픈 임박 순

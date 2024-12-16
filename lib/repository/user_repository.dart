@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:newket/model/user_model.dart';
-import 'package:newket/secure/auth_dio.dart';
+import 'package:newket/auth/auth_dio.dart';
 
 class UserRepository {
   final storage = const FlutterSecureStorage();
