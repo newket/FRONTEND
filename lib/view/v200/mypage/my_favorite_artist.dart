@@ -3,7 +3,7 @@ import 'package:newket/component/common/app_bar_back.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/repository/artist_repository.dart';
-import 'package:newket/theme/colors.dart';
+import 'package:newket/constant/colors.dart';
 
 class MyFavoriteArtistV2 extends StatefulWidget {
   const MyFavoriteArtistV2({super.key});

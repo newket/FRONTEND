@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/component/opening_notice_card.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
-import 'package:newket/theme/colors.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:newket/view/v200/ticket_detail/ticket_detail.dart';
 
 class OpeningNoticeV2 extends StatefulWidget {

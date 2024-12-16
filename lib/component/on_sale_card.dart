@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newket/model/ticket_model.dart';
-import 'package:newket/theme/colors.dart';
+import 'package:newket/constant/colors.dart';
 
 class OnSaleCard extends StatelessWidget {
   final OnSaleResponse onSaleResponse;

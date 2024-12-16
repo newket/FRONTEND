@@ -2,7 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/notification_repository.dart';
-import 'package:newket/theme/Colors.dart';
+import 'package:newket/constant/colors.dart';
 
 class NotificationsV1 extends StatefulWidget {
   const NotificationsV1({super.key});

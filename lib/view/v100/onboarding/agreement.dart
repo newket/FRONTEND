@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/config/amplitude_config.dart';
-import 'package:newket/theme/colors.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:newket/view/v100/agreement/privacy_policy.dart';
 import 'package:newket/view/v100/agreement/terms_of_service.dart';
 import 'package:newket/view/v100/favorite_artist/favorite_artist.dart';

@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/repository/artist_repository.dart';
-import 'package:newket/theme/colors.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:newket/view/v100/favorite_artist/artist_request.dart';
 
 class MyFavoriteArtistV1 extends StatefulWidget {

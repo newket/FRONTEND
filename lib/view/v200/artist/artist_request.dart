@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:newket/component/common/app_bar_back.dart';
-import 'package:newket/config/amplitude_config.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/repository/artist_repository.dart';
-import 'package:newket/theme/colors.dart';
 
 class ArtistRequestV2 extends StatefulWidget {
   const ArtistRequestV2({super.key});

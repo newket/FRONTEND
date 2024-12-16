@@ -8,7 +8,7 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/model/ticket_model.dart';
 import 'package:newket/repository/ticket_repository.dart';
-import 'package:newket/theme/colors.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:newket/view/v200/on_sale/on_sale.dart';
 import 'package:newket/view/v200/opening_notice/opening_notice.dart';
 import 'package:newket/view/v200/search/search.dart';

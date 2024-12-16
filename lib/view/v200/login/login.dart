@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newket/repository/auth_repository.dart';
-import 'package:newket/theme/Colors.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:get/get.dart';
 import 'package:newket/view/v200/tapbar/tab_bar.dart';
 

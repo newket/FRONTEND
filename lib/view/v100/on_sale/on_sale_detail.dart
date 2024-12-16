@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
-import 'package:newket/theme/Colors.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OnSaleDetailV1 extends StatefulWidget {

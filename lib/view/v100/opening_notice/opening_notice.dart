@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/repository/user_repository.dart';
-import 'package:newket/theme/colors.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:newket/view/v100/opening_notice/opening_notice_detail.dart';
 
 class OpeningNoticeV1 extends StatefulWidget {

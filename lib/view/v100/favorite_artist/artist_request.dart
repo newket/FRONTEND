@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/artist_repository.dart';
-import 'package:newket/theme/colors.dart';
+import 'package:newket/constant/colors.dart';
 
 class ArtistRequestV1 extends StatefulWidget {
   const ArtistRequestV1({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newket/repository/user_repository.dart';
-import 'package:newket/theme/Colors.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:get/route_manager.dart';
 import 'package:newket/view/v100/onboarding/login.dart';
 

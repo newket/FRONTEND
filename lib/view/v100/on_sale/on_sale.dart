@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
-import 'package:newket/theme/colors.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:newket/view/v100/on_sale/on_sale_detail.dart';
 
 class MyApp extends StatelessWidget {

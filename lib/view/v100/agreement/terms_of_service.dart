@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newket/config/amplitude_config.dart';
-import 'package:newket/theme/Colors.dart';
+import 'package:newket/constant/colors.dart';
 
 class TermsOfServiceV1 extends StatefulWidget {
   const TermsOfServiceV1({super.key});

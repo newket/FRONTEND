@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newket/config/amplitude_config.dart';
-import 'package:newket/theme/colors.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:newket/view/v100/home/home.dart';
 import 'package:newket/view/v100/mypage/my_page.dart';
 import 'package:newket/view/v100/search/search.dart';

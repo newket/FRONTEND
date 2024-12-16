@@ -7,7 +7,7 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/repository/user_repository.dart';
-import 'package:newket/theme/colors.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:newket/view/v200/login/login.dart';
 import 'package:newket/view/v200/tapbar/tab_bar.dart';
 import 'package:newket/view/v200/ticket_detail/ticket_detail.dart';

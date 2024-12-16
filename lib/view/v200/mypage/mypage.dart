@@ -7,7 +7,7 @@ import 'package:newket/component/common/app_bar_back.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/auth_repository.dart';
 import 'package:newket/repository/user_repository.dart';
-import 'package:newket/theme/colors.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:newket/view/v200/agreement/privacy_policy.dart';
 import 'package:newket/view/v200/agreement/terms_of_service.dart';
 import 'package:newket/view/v200/login/login.dart';

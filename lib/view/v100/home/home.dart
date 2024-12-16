@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/repository/user_repository.dart';
-import 'package:newket/theme/colors.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:newket/view/v100/favorite_artist/my_favorite_aritst.dart';
 import 'package:newket/view/v100/home/notifications.dart';
 import 'package:newket/view/v100/on_sale/on_sale.dart';
