@@ -168,7 +168,7 @@ class _OnSaleV2 extends State<OnSaleV2> {
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                            SvgPicture.asset('images/v2/opening_notice/arrow-down.svg',
+                                            SvgPicture.asset('images/opening_notice/arrow-down.svg',
                                                 height: 16, width: 16),
                                           ],
                                         ),

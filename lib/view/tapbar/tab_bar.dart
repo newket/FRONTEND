@@ -90,7 +90,7 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                 ),
                 GestureDetector(
                   child: SvgPicture.asset(
-                    'images/v2/home/mypage.svg',
+                    'images/home/mypage.svg',
                     width: 28,
                     height: 28,
                   ),
@@ -172,8 +172,8 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                                     children: [
                                       SvgPicture.asset(
                                         tabController.index == 0
-                                            ? 'images/v2/tab_bar/home_on.svg'
-                                            : 'images/v2/tab_bar/home_off.svg',
+                                            ? 'images/tab_bar/home_on.svg'
+                                            : 'images/tab_bar/home_off.svg',
                                         width: 20,
                                         height: 20,
                                       ),
@@ -196,8 +196,8 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                                     children: [
                                       SvgPicture.asset(
                                         tabController.index == 1
-                                            ? 'images/v2/tab_bar/my_ticket_on.svg'
-                                            : 'images/v2/tab_bar/my_ticket_off.svg',
+                                            ? 'images/tab_bar/my_ticket_on.svg'
+                                            : 'images/tab_bar/my_ticket_off.svg',
                                         width: 20,
                                         height: 20,
                                       ),

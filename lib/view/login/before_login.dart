@@ -30,7 +30,7 @@ class _BeforeLogin extends State<BeforeLogin> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Image.asset(
-            'images/v2/login/before_login.png',
+            'images/login/before_login.png',
             width: 241,
           )
         ],

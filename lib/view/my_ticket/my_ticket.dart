@@ -166,7 +166,7 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                   const SizedBox(height: 24),
                                   // 관심 아티스트의 오픈 예정 티켓
                                   Row(children: [
-                                    SvgPicture.asset("images/v2/my_ticket/star.svg", height: 20),
+                                    SvgPicture.asset("images/my_ticket/star.svg", height: 20),
                                     Container(width: 8),
                                     const Text("관심 아티스트의 오픈 예정 티켓",
                                         style: TextStyle(
@@ -399,7 +399,7 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                         child: Column(
                                           children: [
                                             const SizedBox(height: 39),
-                                            Image.asset("images/v2/my_ticket/favorite_ticket.png",
+                                            Image.asset("images/my_ticket/favorite_ticket.png",
                                                 height: 131, width: 169),
                                             const SizedBox(height: 8),
                                             const Text(
@@ -439,7 +439,7 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                         child: Column(
                                           children: [
                                             const SizedBox(height: 27),
-                                            Image.asset("images/v2/my_ticket/favorite_artist_null.png",
+                                            Image.asset("images/my_ticket/favorite_artist_null.png",
                                                 height: 160, width: 160),
                                             const SizedBox(height: 20),
                                             const Text(
@@ -538,7 +538,7 @@ class _MyTicketV2 extends State<MyTicketV2> {
                             (openingResponse.concerts.isEmpty)
                                 ? Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
                                     const SizedBox(height: 44),
-                                    Image.asset('images/v2/my_ticket/ticket_null.png', width: 160, height: 160),
+                                    Image.asset('images/my_ticket/ticket_null.png', width: 160, height: 160),
                                     const SizedBox(height: 8),
                                     const Text(
                                       '아직 알림 받기 한 티켓이 없어요',

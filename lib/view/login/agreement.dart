@@ -24,9 +24,9 @@ class _AgreementV2 extends State<AgreementV2> {
   bool isAllSelected = false; // 전체 동의 체크 상태
   bool is1Selected = false; // 첫 번째 개별 동의 체크 상태
   bool is2Selected = false; // 두 번째 개별 동의 체크 상태
-  String svgAll = 'images/v2/login/checkbox_off.svg';
-  String svg1 = 'images/v2/login/checkbox_off.svg';
-  String svg2 = 'images/v2/login/checkbox_off.svg';
+  String svgAll = 'images/login/checkbox_off.svg';
+  String svg1 = 'images/login/checkbox_off.svg';
+  String svg2 = 'images/login/checkbox_off.svg';
   Color agreementColor = pn_05;
   Color agreementStrokeColor = pn_10;
 
@@ -35,9 +35,9 @@ class _AgreementV2 extends State<AgreementV2> {
       isAllSelected = !isAllSelected;
       is1Selected = isAllSelected; // 전체 동의 시 첫 번째 개별 동의도 같이 변경
       is2Selected = isAllSelected; // 전체 동의 시 두 번째 개별 동의도 같이 변경
-      svgAll = isAllSelected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
-      svg1 = is1Selected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
-      svg2 = is2Selected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
+      svgAll = isAllSelected ? 'images/login/checkbox_on.svg' : 'images/login/checkbox_off.svg';
+      svg1 = is1Selected ? 'images/login/checkbox_on.svg' : 'images/login/checkbox_off.svg';
+      svg2 = is2Selected ? 'images/login/checkbox_on.svg' : 'images/login/checkbox_off.svg';
       agreementColor = isAllSelected ? pt_10 : pn_05;
       agreementStrokeColor = isAllSelected ? pn_20 : pn_10;
     });
@@ -48,9 +48,9 @@ class _AgreementV2 extends State<AgreementV2> {
       is1Selected = !is1Selected;
       // 전체 동의 체크박스 상태 업데이트
       isAllSelected = is1Selected && is2Selected;
-      svgAll = isAllSelected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
-      svg1 = is1Selected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
-      svg2 = is2Selected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
+      svgAll = isAllSelected ? 'images/login/checkbox_on.svg' : 'images/login/checkbox_off.svg';
+      svg1 = is1Selected ? 'images/login/checkbox_on.svg' : 'images/login/checkbox_off.svg';
+      svg2 = is2Selected ? 'images/login/checkbox_on.svg' : 'images/login/checkbox_off.svg';
       agreementColor = isAllSelected ? pt_10 : pn_05;
       agreementStrokeColor = isAllSelected ? pn_20 : pn_10;
     });
@@ -61,9 +61,9 @@ class _AgreementV2 extends State<AgreementV2> {
       is2Selected = !is2Selected;
       // 전체 동의 체크박스 상태 업데이트
       isAllSelected = is1Selected && is2Selected;
-      svgAll = isAllSelected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
-      svg1 = is1Selected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
-      svg2 = is2Selected ? 'images/v2/login/checkbox_on.svg' : 'images/v2/login/checkbox_off.svg';
+      svgAll = isAllSelected ? 'images/login/checkbox_on.svg' : 'images/login/checkbox_off.svg';
+      svg1 = is1Selected ? 'images/login/checkbox_on.svg' : 'images/login/checkbox_off.svg';
+      svg2 = is2Selected ? 'images/login/checkbox_on.svg' : 'images/login/checkbox_off.svg';
       agreementColor = isAllSelected ? pt_10 : pn_05;
       agreementStrokeColor = isAllSelected ? pn_20 : pn_10;
     });
@@ -109,7 +109,7 @@ class _AgreementV2 extends State<AgreementV2> {
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 34),
-                          Image.asset("images/v2/login/ticket_check.png", height: 220, width: 220),
+                          Image.asset("images/login/ticket_check.png", height: 220, width: 220),
                           const SizedBox(height: 70),
                           Container(
                             height: 60,

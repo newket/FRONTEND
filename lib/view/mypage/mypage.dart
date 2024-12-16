@@ -126,11 +126,11 @@ class _MyPageV2 extends State<MyPageV2> {
                                     (() {
                                       switch (provider) {
                                         case 'KAKAO':
-                                          return 'images/v2/mypage/kakao.png';
+                                          return 'images/mypage/kakao.png';
                                         case 'APPLE':
-                                          return 'images/v2/mypage/apple.png';
+                                          return 'images/mypage/apple.png';
                                         default:
-                                          return 'images/v2/mypage/sns_null.png';
+                                          return 'images/mypage/sns_null.png';
                                       }
                                     })(),
                                     width: 20,
@@ -169,7 +169,7 @@ class _MyPageV2 extends State<MyPageV2> {
                             Row(
                               children: [
                                 SvgPicture.asset(
-                                  "images/v2/mypage/star.svg",
+                                  "images/mypage/star.svg",
                                   height: 20,
                                   width: 20,
                                   color: f_70,
@@ -197,7 +197,7 @@ class _MyPageV2 extends State<MyPageV2> {
                       color: Colors.transparent,
                       child: Row(
                         children: [
-                          SvgPicture.asset("images/v2/mypage/notification.svg", height: 20, width: 20, color: f_70),
+                          SvgPicture.asset("images/mypage/notification.svg", height: 20, width: 20, color: f_70),
                           const SizedBox(width: 8),
                           const Text(
                             '알림 설정',
@@ -433,7 +433,7 @@ class _MyPageV2 extends State<MyPageV2> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  SvgPicture.asset("images/v2/mypage/warning.svg", height: 32, width: 32),
+                                  SvgPicture.asset("images/mypage/warning.svg", height: 32, width: 32),
                                   const SizedBox(height: 12),
                                   const Text(
                                     '잠시만요!\n정말로 탈퇴하시겠어요?',

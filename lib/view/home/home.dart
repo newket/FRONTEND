@@ -100,7 +100,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             // 검색 아이콘
-                            SvgPicture.asset('images/v2/home/search.svg', height: 20, width: 20),
+                            SvgPicture.asset('images/home/search.svg', height: 20, width: 20),
                             const SizedBox(width: 12),
                             // 텍스트 필드 (예시 텍스트)
                             Expanded(
@@ -155,7 +155,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                         _searchController.clear();
                                       })
                                     },
-                                child: SvgPicture.asset('images/v2/home/close-circle.svg', height: 24, width: 24)),
+                                child: SvgPicture.asset('images/home/close-circle.svg', height: 24, width: 24)),
                           ],
                         ),
                       )),
@@ -259,7 +259,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
-                                            SvgPicture.asset('images/v2/home/mypage.svg', width: 20, height: 20),
+                                            SvgPicture.asset('images/home/mypage.svg', width: 20, height: 20),
                                             const SizedBox(width: 8),
                                             Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,7 +316,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
-                                            SvgPicture.asset('images/v2/home/search_ticket.svg', width: 20, height: 20),
+                                            SvgPicture.asset('images/home/search_ticket.svg', width: 20, height: 20),
                                             const SizedBox(width: 8),
                                             SizedBox(
                                               width: MediaQuery.of(context).size.width - 72,
@@ -364,7 +364,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
-                                            SvgPicture.asset('images/v2/home/search_ticket.svg', width: 20, height: 20),
+                                            SvgPicture.asset('images/home/search_ticket.svg', width: 20, height: 20),
                                             const SizedBox(width: 8),
                                             SizedBox(
                                               width: MediaQuery.of(context).size.width - 72,

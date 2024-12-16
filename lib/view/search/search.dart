@@ -107,7 +107,7 @@ class _SearchV2 extends State<SearchV2> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // 검색 아이콘
-                SvgPicture.asset('images/v2/home/search.svg', height: 20, width: 20),
+                SvgPicture.asset('images/home/search.svg', height: 20, width: 20),
                 const SizedBox(width: 12),
                 // 텍스트 필드 (예시 텍스트)
                 Expanded(
@@ -164,7 +164,7 @@ class _SearchV2 extends State<SearchV2> {
                             _searchController.clear();
                           })
                         },
-                    child: SvgPicture.asset('images/v2/home/close-circle.svg', height: 24, width: 24)),
+                    child: SvgPicture.asset('images/home/close-circle.svg', height: 24, width: 24)),
               ],
             ),
           ),
@@ -272,7 +272,7 @@ class _SearchV2 extends State<SearchV2> {
                                                               ),
                                                             ),
                                                             const SizedBox(width: 4),
-                                                            SvgPicture.asset('images/v2/opening_notice/add.svg',
+                                                            SvgPicture.asset('images/opening_notice/add.svg',
                                                                 width: 20, height: 20)
                                                           ])),
                                                       onTap: () async {
@@ -370,7 +370,7 @@ class _SearchV2 extends State<SearchV2> {
                                     child: ClipRRect(
                                         borderRadius: BorderRadius.circular(12.0),
                                         child:
-                                            Image.asset('images/v2/search/ticket_null.png', width: 350, height: 336)))
+                                            Image.asset('images/search/ticket_null.png', width: 350, height: 336)))
                                 : const SizedBox(),
                             ticketResponse.openingNotice.totalNum > 0
                                 ? Column(
@@ -519,7 +519,7 @@ class _SearchV2 extends State<SearchV2> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        SvgPicture.asset('images/v2/home/mypage.svg', width: 20, height: 20),
+                                        SvgPicture.asset('images/home/mypage.svg', width: 20, height: 20),
                                         const SizedBox(width: 8),
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -575,7 +575,7 @@ class _SearchV2 extends State<SearchV2> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        SvgPicture.asset('images/v2/home/search_ticket.svg', width: 20, height: 20),
+                                        SvgPicture.asset('images/home/search_ticket.svg', width: 20, height: 20),
                                         const SizedBox(width: 8),
                                         SizedBox(
                                           width: MediaQuery.of(context).size.width - 72,
@@ -622,7 +622,7 @@ class _SearchV2 extends State<SearchV2> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        SvgPicture.asset('images/v2/home/search_ticket.svg', width: 20, height: 20),
+                                        SvgPicture.asset('images/home/search_ticket.svg', width: 20, height: 20),
                                         const SizedBox(width: 8),
                                         SizedBox(
                                           width: MediaQuery.of(context).size.width - 72,

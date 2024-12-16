@@ -26,7 +26,7 @@ class _LoginV2 extends State<LoginV2> {
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
-      Image.asset("images/v2/login/login.png", width: double.infinity, height: double.infinity, fit: BoxFit.cover),
+      Image.asset("images/login/login.png", width: double.infinity, height: double.infinity, fit: BoxFit.cover),
       // 다른 위젯들
       Scaffold(
           backgroundColor: Colors.transparent, // 배경색을 투명으로 설정,
@@ -46,7 +46,7 @@ class _LoginV2 extends State<LoginV2> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset("images/v2/login/logo.png", height: 37, width: 37),
+                      Image.asset("images/login/logo.png", height: 37, width: 37),
                       const SizedBox(width: 5),
                       const Text("NEWKET",
                           style: TextStyle(
@@ -59,14 +59,14 @@ class _LoginV2 extends State<LoginV2> {
                 children: [
                   //애플 로그인
                   GestureDetector(
-                      child: Image.asset("images/v2/login/apple_login.png", width: 350),
+                      child: Image.asset("images/login/apple_login.png", width: 350),
                       onTap: () async {
                         await authRepository.appleLoginApi();
                       }),
                   const SizedBox(height: 12),
                   //카카오 로그인
                   GestureDetector(
-                      child: Image.asset("images/v2/login/kakao_login.png", width: 350),
+                      child: Image.asset("images/login/kakao_login.png", width: 350),
                       onTap: () async {
                         await authRepository.kakaoLoginApi();
                       }),

@@ -70,7 +70,7 @@ class _HelpV2 extends State<HelpV2> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SvgPicture.asset('images/v2/mypage/checkbox.svg', height: 24, width: 24),
+                SvgPicture.asset('images/mypage/checkbox.svg', height: 24, width: 24),
                 const SizedBox(width: 12),
                 const Column(
                   mainAxisSize: MainAxisSize.min,

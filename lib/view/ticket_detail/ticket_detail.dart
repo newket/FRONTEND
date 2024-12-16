@@ -234,7 +234,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                       )),
                   const SizedBox(height: 32),
                   Row(children: [
-                    SvgPicture.asset('images/v2/opening_notice/ticketing_info.svg'),
+                    SvgPicture.asset('images/opening_notice/ticketing_info.svg'),
                     const SizedBox(width: 8),
                     const Text(
                       "예매 정보",
@@ -281,10 +281,10 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                                         children: [
                                           Image.asset(
                                             switch (ticketResponse.ticketProviders[index].ticketProvider) {
-                                              'INTERPARK' => "images/v2/ticket_detail/interpark.png",
-                                              'MELON' => "images/v2/ticket_detail/melon.png",
-                                              'YES24' => "images/v2/ticket_detail/yes24.png",
-                                              'TICKETLINK' => "images/v2/ticket_detail/ticketlink.png",
+                                              'INTERPARK' => "images/ticket_detail/interpark.png",
+                                              'MELON' => "images/ticket_detail/melon.png",
+                                              'YES24' => "images/ticket_detail/yes24.png",
+                                              'TICKETLINK' => "images/ticket_detail/ticketlink.png",
                                               _ => "",
                                             },
                                             height: 32,
@@ -307,7 +307,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                                               ))
                                         ],
                                       ),
-                                      SvgPicture.asset('images/v2/opening_notice/send.svg')
+                                      SvgPicture.asset('images/opening_notice/send.svg')
                                     ],
                                   ),
                                 ),
@@ -357,7 +357,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SvgPicture.asset('images/v2/opening_notice/circle_info.svg'),
+                      SvgPicture.asset('images/opening_notice/circle_info.svg'),
                       const SizedBox(width: 8),
                       const Expanded(
                           child: Text(
@@ -381,7 +381,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                   const SizedBox(height: 20),
                   Row(
                     children: [
-                      SvgPicture.asset('images/v2/opening_notice/pin.svg'),
+                      SvgPicture.asset('images/opening_notice/pin.svg'),
                       const SizedBox(width: 8),
                       const Text(
                         "기본 정보",
@@ -443,7 +443,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                                     ),
                                     const SizedBox(width: 8),
                                     SvgPicture.asset(
-                                      'images/v2/opening_notice/send.svg',
+                                      'images/opening_notice/send.svg',
                                       color: f_60,
                                     )
                                   ],
@@ -512,7 +512,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                   const SizedBox(height: 20),
                   Row(
                     children: [
-                      SvgPicture.asset('images/v2/opening_notice/profile.svg'),
+                      SvgPicture.asset('images/opening_notice/profile.svg'),
                       const SizedBox(width: 8),
                       const Text(
                         "아티스트 정보",
@@ -611,7 +611,7 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                                                   ),
                                                   const SizedBox(width: 4),
                                                   SvgPicture.asset(
-                                                      'images/v2/opening_notice/add.svg',
+                                                      'images/opening_notice/add.svg',
                                                       width: 20,
                                                       height: 20)
                                                 ])),
@@ -675,8 +675,8 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset(isNotification
-                            ? 'images/v2/opening_notice/notification_off.svg'
-                            : 'images/v2/opening_notice/notification_on.svg'),
+                            ? 'images/opening_notice/notification_off.svg'
+                            : 'images/opening_notice/notification_on.svg'),
                         const SizedBox(width: 10),
                         Text(
                           isNotification ? '알림 해제하기' : '알림 받기',
