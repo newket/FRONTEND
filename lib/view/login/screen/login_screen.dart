@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:newket/repository/auth_repository.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:get/get.dart';
-import 'package:newket/view/tapbar/tab_bar.dart';
+import 'package:newket/view/tapbar/screen/tab_bar_screen.dart';
 
 
-class LoginV2 extends StatefulWidget {
-  const LoginV2({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _LoginV2();
+  State<StatefulWidget> createState() => _LoginScreen();
 }
 
-class _LoginV2 extends State<LoginV2> {
+class _LoginScreen extends State<LoginScreen> {
   late AuthRepository authRepository;
   String? userInfo = ""; //user의 정보를 저장하기 위한 변수
 
@@ -83,7 +83,7 @@ class _LoginV2 extends State<LoginV2> {
                         ),
                       ),
                       onPressed: () async {
-                        Get.offAll(const TabBarV2());
+                        Get.offAll(const TabBarScreen());
                       }),
                   const SizedBox(height: 60),
                 ],

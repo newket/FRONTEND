@@ -11,17 +11,17 @@ import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/view/on_sale/screen/on_sale_screen.dart';
 import 'package:newket/view/opening_notice/screen/opening_notice_screen.dart';
-import 'package:newket/view/search/search.dart';
-import 'package:newket/view/ticket_detail/ticket_detail.dart';
+import 'package:newket/view/search/screen/search_screen.dart';
+import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 
-class HomeV2 extends StatefulWidget {
-  const HomeV2({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _HomeV2();
+  State<StatefulWidget> createState() => _HomeScreen();
 }
 
-class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
+class _HomeScreen extends State<HomeScreen> with SingleTickerProviderStateMixin {
   late TicketRepository ticketRepository;
   final TextEditingController _searchController = TextEditingController();
   late TabController controller;
@@ -56,7 +56,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
             AmplitudeConfig.amplitude.logEvent('OpeningNoticeV2');
             break;
           case 1:
-            AmplitudeConfig.amplitude.logEvent('OnSaleV2');
+            AmplitudeConfig.amplitude.logEvent('OnSale');
             break;
           default:
             break;
@@ -134,7 +134,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => SearchV2(keyword: value),
+                                      builder: (context) => SearchScreen(keyword: value),
                                     ),
                                   );
                                 }
@@ -213,7 +213,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                   Expanded(
                       child: TabBarView(
                     controller: controller,
-                    children: const <Widget>[OpeningNoticeV2(), OnSaleV2()],
+                    children: const <Widget>[OpeningNoticeScreen(), OnSaleScreen()],
                   ))
                 ])),
                 if (_searchController.text != '')
@@ -245,7 +245,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => SearchV2(keyword: artist.name),
+                                              builder: (context) => SearchScreen(keyword: artist.name),
                                             ),
                                           );
                                         });
@@ -304,7 +304,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => TicketDetailV2(concertId: concert.concertId),
+                                              builder: (context) => TicketDetailScreen(concertId: concert.concertId),
                                             ),
                                           );
                                         });
@@ -350,7 +350,7 @@ class _HomeV2 extends State<HomeV2> with SingleTickerProviderStateMixin {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => TicketDetailV2(concertId: concert.concertId),
+                                              builder: (context) => TicketDetailScreen(concertId: concert.concertId),
                                             ),
                                           );
                                         });

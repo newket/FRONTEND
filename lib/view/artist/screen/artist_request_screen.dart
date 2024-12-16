@@ -6,14 +6,14 @@ import 'package:newket/constant/colors.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/repository/artist_repository.dart';
 
-class ArtistRequestV2 extends StatefulWidget {
-  const ArtistRequestV2({super.key});
+class ArtistRequestScreen extends StatefulWidget {
+  const ArtistRequestScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ArtistRequestV2();
+  State<StatefulWidget> createState() => _ArtistRequestScreen();
 }
 
-class _ArtistRequestV2 extends State<ArtistRequestV2> {
+class _ArtistRequestScreen extends State<ArtistRequestScreen> {
   late ArtistRepository artistRepository;
   String artist = '';
   final TextEditingController _artistController = TextEditingController();

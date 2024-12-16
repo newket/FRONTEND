@@ -89,7 +89,7 @@ Future authDio(BuildContext context) async {
           AmplitudeConfig.amplitude.logEvent('Reissue Fail');
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => const LoginV2()),
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
                 (route) => false,
           );
         }

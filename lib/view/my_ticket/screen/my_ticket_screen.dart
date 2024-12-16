@@ -9,17 +9,17 @@ import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
-import 'package:newket/view/tapbar/tab_bar.dart';
-import 'package:newket/view/ticket_detail/ticket_detail.dart';
+import 'package:newket/view/tapbar/screen/tab_bar_screen.dart';
+import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 
-class MyTicketV2 extends StatefulWidget {
-  const MyTicketV2({super.key});
+class MyTicketScreen extends StatefulWidget {
+  const MyTicketScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _MyTicketV2();
+  State<StatefulWidget> createState() => _MyTicketScreen();
 }
 
-class _MyTicketV2 extends State<MyTicketV2> {
+class _MyTicketScreen extends State<MyTicketScreen> {
   late UserRepository userRepository;
   late TicketRepository ticketRepository;
   late NotificationRepository notificationRepository;
@@ -47,8 +47,8 @@ class _MyTicketV2 extends State<MyTicketV2> {
     } catch (e) {
       print("Error in _getUserInfoApi: $e"); // 에러 내용을 출력
       // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
-      AmplitudeConfig.amplitude.logEvent('MyTicket error->LoginV2 $e');
-      Get.offAll(() => const LoginV2());
+      AmplitudeConfig.amplitude.logEvent('MyTicket error->Login $e');
+      Get.offAll(() => const LoginScreen());
       var storage = const FlutterSecureStorage();
       await storage.deleteAll();
     }
@@ -229,7 +229,7 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) => TicketDetailV2(
+                                                  builder: (context) => TicketDetailScreen(
                                                     concertId: response.concerts[index].concertId, // 상세 페이지에 데이터 전달
                                                   ),
                                                 ),
@@ -602,7 +602,7 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) => TicketDetailV2(
+                                                  builder: (context) => TicketDetailScreen(
                                                     concertId:
                                                         openingResponse.concerts[index].concertId, // 상세 페이지에 데이터 전달
                                                   ),

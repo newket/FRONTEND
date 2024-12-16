@@ -13,8 +13,8 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/firebase_options.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
-import 'package:newket/view/tapbar/tab_bar.dart';
-import 'package:newket/view/ticket_detail/ticket_detail.dart';
+import 'package:newket/view/tapbar/screen/tab_bar_screen.dart';
+import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -124,7 +124,7 @@ void main() async {
     // FCM 백그라운드 메시지 리스너
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      Get.to(() => TicketDetailV2(concertId: int.tryParse(message.data['concertId'])!));
+      Get.to(() => TicketDetailScreen(concertId: int.tryParse(message.data['concertId'])!));
       NotificationRepository().updateNotificationIsOpened(message.data['notificationId']);
     });
 
@@ -132,7 +132,7 @@ void main() async {
     RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Get.to(() => TicketDetailV2(concertId: int.tryParse(initialMessage.data['concertId'])!));
+        Get.to(() => TicketDetailScreen(concertId: int.tryParse(initialMessage.data['concertId'])!));
       });
       NotificationRepository().updateNotificationIsOpened(initialMessage.data['notificationId']);
     }
@@ -151,7 +151,7 @@ void main() async {
 
         if (concertId != null) {
           debugPrint('concertId:${int.tryParse(concertId.toString())!}');
-          Get.to(() => TicketDetailV2(concertId: int.tryParse(concertId.toString())!));
+          Get.to(() => TicketDetailScreen(concertId: int.tryParse(concertId.toString())!));
         }
 
         await NotificationRepository().updateNotificationIsOpened(notificationId!);
@@ -162,10 +162,10 @@ void main() async {
     asyncMethod() async {
       accessToken = await storage.read(key: "ACCESS_TOKEN");
       if (accessToken == null) {
-        AmplitudeConfig.amplitude.logEvent('LoginV2');
+        AmplitudeConfig.amplitude.logEvent('Login');
         runApp(const MyApp());
       } else {
-        AmplitudeConfig.amplitude.logEvent('HomeV2');
+        AmplitudeConfig.amplitude.logEvent('Home');
         runApp(const MyApp2());
       }
     }
@@ -191,7 +191,7 @@ class MyApp extends StatelessWidget {
           child: child!,
         );
       },
-      home: const LoginV2(),
+      home: const LoginScreen(),
     );
   }
 }
@@ -210,7 +210,7 @@ class MyApp2 extends StatelessWidget {
           child: child!,
         );
       },
-      home: const TabBarV2(),
+      home: const TabBarScreen(),
     );
   }
 }

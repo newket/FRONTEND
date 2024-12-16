@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:newket/view/common/app_bar_back.dart';
-import 'package:newket/config/amplitude_config.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/repository/artist_repository.dart';
-import 'package:newket/constant/colors.dart';
+import 'package:newket/view/common/app_bar_back.dart';
 
-class MyFavoriteArtistV2 extends StatefulWidget {
-  const MyFavoriteArtistV2({super.key});
+class MyFavoriteArtistScreen extends StatefulWidget {
+  const MyFavoriteArtistScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _MyFavoriteArtistV2();
+  State<StatefulWidget> createState() => _MyFavoriteArtistScreen();
 }
 
-class _MyFavoriteArtistV2 extends State<MyFavoriteArtistV2> {
+class _MyFavoriteArtistScreen extends State<MyFavoriteArtistScreen> {
   late ArtistRepository artistRepository;
   List<Artist> myArtists = []; //선택한 아티스트들을 담을 리스트
 

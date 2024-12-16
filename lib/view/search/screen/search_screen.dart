@@ -12,18 +12,18 @@ import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/view/artist/screen/artist_request_screen.dart';
-import 'package:newket/view/ticket_detail/ticket_detail.dart';
+import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 
-class SearchV2 extends StatefulWidget {
-  const SearchV2({super.key, required this.keyword});
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key, required this.keyword});
 
   final String keyword;
 
   @override
-  State<StatefulWidget> createState() => _SearchV2();
+  State<StatefulWidget> createState() => _SearchScreen();
 }
 
-class _SearchV2 extends State<SearchV2> {
+class _SearchScreen extends State<SearchScreen> {
   late TicketRepository ticketRepository;
   late TextEditingController _searchController;
   String keyword = '';
@@ -332,11 +332,11 @@ class _SearchV2 extends State<SearchV2> {
                                       ),
                                       child: GestureDetector(
                                         onTap: () {
-                                          AmplitudeConfig.amplitude.logEvent('ArtistRequestV2');
+                                          AmplitudeConfig.amplitude.logEvent('ArtistRequest');
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => const ArtistRequestV2(),
+                                              builder: (context) => const ArtistRequestScreen(),
                                             ),
                                           );
                                         },
@@ -406,7 +406,7 @@ class _SearchV2 extends State<SearchV2> {
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                      builder: (context) => TicketDetailV2(
+                                                      builder: (context) => TicketDetailScreen(
                                                         concertId: ticketResponse
                                                             .openingNotice.concerts[index].concertId, // 상세 페이지에 데이터 전달
                                                       ),
@@ -458,7 +458,7 @@ class _SearchV2 extends State<SearchV2> {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                    builder: (context) => TicketDetailV2(
+                                                    builder: (context) => TicketDetailScreen(
                                                       concertId: ticketResponse
                                                           .onSale.concerts[index].concertId, // 상세 페이지에 데이터 전달
                                                     ),
@@ -563,7 +563,7 @@ class _SearchV2 extends State<SearchV2> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => TicketDetailV2(concertId: concert.concertId),
+                                          builder: (context) => TicketDetailScreen(concertId: concert.concertId),
                                         ),
                                       );
                                     });
@@ -608,7 +608,7 @@ class _SearchV2 extends State<SearchV2> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => TicketDetailV2(concertId: concert.concertId),
+                                          builder: (context) => TicketDetailScreen(concertId: concert.concertId),
                                         ),
                                       );
                                     });

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:newket/view/common/app_bar_back.dart';
 import 'package:newket/constant/colors.dart';
 
-class PrivacyPolicyV2 extends StatefulWidget {
-  const PrivacyPolicyV2({super.key});
+class PrivacyPolicyScreen extends StatefulWidget {
+  const PrivacyPolicyScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _PrivacyPolicyV2();
+  State<StatefulWidget> createState() => _PrivacyPolicyScreen();
 }
 
-class _PrivacyPolicyV2 extends State<PrivacyPolicyV2> {
+class _PrivacyPolicyScreen extends State<PrivacyPolicyScreen> {
   @override
   void initState() {
     super.initState();

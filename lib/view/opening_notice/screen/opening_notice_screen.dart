@@ -4,16 +4,16 @@ import 'package:newket/view/opening_notice/widget/opening_notice_widget.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
-import 'package:newket/view/ticket_detail/ticket_detail.dart';
+import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 
-class OpeningNoticeV2 extends StatefulWidget {
-  const OpeningNoticeV2({super.key});
+class OpeningNoticeScreen extends StatefulWidget {
+  const OpeningNoticeScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _OpeningNoticeV2();
+  State<StatefulWidget> createState() => _OpeningNoticeScreen();
 }
 
-class _OpeningNoticeV2 extends State<OpeningNoticeV2> {
+class _OpeningNoticeScreen extends State<OpeningNoticeScreen> {
   late TicketRepository ticketRepository;
   String selectedOption = '예매 오픈 임박 순';
   late Future repository; // Future 타입으로 초기화
@@ -191,7 +191,7 @@ class _OpeningNoticeV2 extends State<OpeningNoticeV2> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => TicketDetailV2(
+                                            builder: (context) => TicketDetailScreen(
                                               concertId: openingResponse.concerts[index].concertId, // 상세 페이지에 데이터 전달
                                             ),
                                           ),

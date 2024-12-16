@@ -7,14 +7,14 @@ import 'package:newket/model/user_model.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/constant/colors.dart';
 
-class HelpV2 extends StatefulWidget {
-  const HelpV2({super.key});
+class HelpScreen extends StatefulWidget {
+  const HelpScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _HelpV2();
+  State<StatefulWidget> createState() => _HelpScreen();
 }
 
-class _HelpV2 extends State<HelpV2> {
+class _HelpScreen extends State<HelpScreen> {
   late UserRepository userRepository;
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();

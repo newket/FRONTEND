@@ -6,14 +6,14 @@ import 'package:get/route_manager.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
 
-class BeforeLogin extends StatefulWidget {
-  const BeforeLogin({super.key});
+class BeforeLoginScreen extends StatefulWidget {
+  const BeforeLoginScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _BeforeLogin();
+  State<StatefulWidget> createState() => _BeforeLoginScreen();
 }
 
-class _BeforeLogin extends State<BeforeLogin> {
+class _BeforeLoginScreen extends State<BeforeLoginScreen> {
   @override
   void initState() {
     super.initState();
@@ -43,7 +43,7 @@ class _BeforeLogin extends State<BeforeLogin> {
         child: ElevatedButton(
             onPressed: () async {
               AmplitudeConfig.amplitude.logEvent('BeforeLogin->Login');
-              Get.offAll(() => const LoginV2());
+              Get.offAll(() => const LoginScreen());
               var storage = const FlutterSecureStorage();
               await storage.deleteAll();
             },

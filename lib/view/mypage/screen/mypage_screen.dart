@@ -15,14 +15,14 @@ import 'package:newket/view/mypage/screen/help_screen.dart';
 import 'package:newket/view/mypage/screen/my_favorite_artist_screen.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-class MyPageV2 extends StatefulWidget {
-  const MyPageV2({super.key});
+class MyPageScreen extends StatefulWidget {
+  const MyPageScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _MyPageV2();
+  State<StatefulWidget> createState() => _MyPageScreen();
 }
 
-class _MyPageV2 extends State<MyPageV2> {
+class _MyPageScreen extends State<MyPageScreen> {
   late UserRepository userRepository;
   late AuthRepository authRepository;
   bool artistNotification = true;
@@ -56,8 +56,8 @@ class _MyPageV2 extends State<MyPageV2> {
       });
     } catch (e) {
       // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
-      AmplitudeConfig.amplitude.logEvent('MyPage error->LoginV2 $e');
-      Get.offAll(() => const LoginV2());
+      AmplitudeConfig.amplitude.logEvent('MyPage error->Login $e');
+      Get.offAll(() => const LoginScreen());
       var storage = const FlutterSecureStorage();
       await storage.deleteAll();
     }
@@ -74,8 +74,8 @@ class _MyPageV2 extends State<MyPageV2> {
       });
     } catch (e) {
       // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
-      AmplitudeConfig.amplitude.logEvent('MyPage error->LoginV2 $e');
-      Get.offAll(() => const LoginV2());
+      AmplitudeConfig.amplitude.logEvent('MyPage error->Login $e');
+      Get.offAll(() => const LoginScreen());
       var storage = const FlutterSecureStorage();
       await storage.deleteAll();
     }
@@ -153,11 +153,11 @@ class _MyPageV2 extends State<MyPageV2> {
                   const SizedBox(height: 20),
                   GestureDetector(
                       onTap: () {
-                        AmplitudeConfig.amplitude.logEvent('MyFavoriteArtistV2');
+                        AmplitudeConfig.amplitude.logEvent('MyFavoriteArtist');
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const MyFavoriteArtistV2(),
+                            builder: (context) => const MyFavoriteArtistScreen(),
                           ),
                         );
                       },
@@ -309,11 +309,11 @@ class _MyPageV2 extends State<MyPageV2> {
                   const SizedBox(height: 20),
                   GestureDetector(
                       onTap: () {
-                        AmplitudeConfig.amplitude.logEvent('PrivacyPolicyV2');
+                        AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const PrivacyPolicyV2(),
+                            builder: (context) => const PrivacyPolicyScreen(),
                           ),
                         );
                       },
@@ -337,11 +337,11 @@ class _MyPageV2 extends State<MyPageV2> {
                   const SizedBox(height: 24),
                   GestureDetector(
                       onTap: () {
-                        AmplitudeConfig.amplitude.logEvent('TermsOfServiceV2');
+                        AmplitudeConfig.amplitude.logEvent('TermsOfService');
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const TermsOfServiceV2(),
+                            builder: (context) => const TermsOfService(),
                           ),
                         );
                       },
@@ -365,11 +365,11 @@ class _MyPageV2 extends State<MyPageV2> {
                   const SizedBox(height: 24),
                   GestureDetector(
                     onTap: () {
-                      AmplitudeConfig.amplitude.logEvent('HelpV2');
+                      AmplitudeConfig.amplitude.logEvent('Help');
                       // 문의하기 페이지로 이동
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const HelpV2()),
+                        MaterialPageRoute(builder: (context) => const HelpScreen()),
                       );
                     },
                     child: Container(
@@ -398,7 +398,7 @@ class _MyPageV2 extends State<MyPageV2> {
                         await storage.deleteAll();
                         // 로그인 페이지로 이동
                         AmplitudeConfig.amplitude.logEvent('Logout');
-                        Get.offAll(() => const LoginV2());
+                        Get.offAll(() => const LoginScreen());
                       },
                       child: const Text(
                         '로그아웃',
@@ -498,7 +498,7 @@ class _MyPageV2 extends State<MyPageV2> {
                                             var storage = const FlutterSecureStorage();
                                             await storage.deleteAll();
                                             AmplitudeConfig.amplitude.logEvent('Withdraw');
-                                            Get.offAll(() => const LoginV2());
+                                            Get.offAll(() => const LoginScreen());
                                           },
                                           icon: Container(
                                             padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 13),

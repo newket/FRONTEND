@@ -12,16 +12,16 @@ import 'package:newket/constant/colors.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class TicketDetailV2 extends StatefulWidget {
-  const TicketDetailV2({super.key, required this.concertId});
+class TicketDetailScreen extends StatefulWidget {
+  const TicketDetailScreen({super.key, required this.concertId});
 
   final int concertId;
 
   @override
-  State<StatefulWidget> createState() => _TicketDetailV2();
+  State<StatefulWidget> createState() => _TicketDetailScreen();
 }
 
-class _TicketDetailV2 extends State<TicketDetailV2> {
+class _TicketDetailScreen extends State<TicketDetailScreen> {
   late TicketRepository ticketRepository;
   late NotificationRepository notificationRepository;
   late ArtistRepository artistRepository;
@@ -125,8 +125,8 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
       });
     } catch (e) {
       // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
-      AmplitudeConfig.amplitude.logEvent('TicketDetail error->LoginV2 $e');
-      Get.offAll(() => const LoginV2());
+      AmplitudeConfig.amplitude.logEvent('TicketDetail error->Login $e');
+      Get.offAll(() => const LoginScreen());
       var storage = const FlutterSecureStorage();
       await storage.deleteAll();
     }

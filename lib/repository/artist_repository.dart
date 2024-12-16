@@ -58,7 +58,7 @@ class ArtistRepository {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const BeforeLogin(),
+          builder: (context) => const BeforeLoginScreen(),
         ),
       );
       return false;

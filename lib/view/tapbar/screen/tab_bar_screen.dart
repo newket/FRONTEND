@@ -9,16 +9,16 @@ import 'package:newket/view/login/screen/before_login_screen.dart';
 import 'package:newket/view/my_ticket/screen/my_ticket_screen.dart';
 import 'package:newket/view/mypage/screen/mypage_screen.dart';
 
-class TabBarV2 extends StatefulWidget {
-  const TabBarV2({super.key});
+class TabBarScreen extends StatefulWidget {
+  const TabBarScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _TabBarV2();
+  State<StatefulWidget> createState() => _TabBarScreen();
 }
 
 late TabController tabController;
 
-class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   int lastIndex = -1;
   bool isKeyboardVisible = false;
   bool isLoading = true;
@@ -35,16 +35,16 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
         if (accessToken == null) {
           tabController.index = 0; // 이전 인덱스으로 다시 설정
           AmplitudeConfig.amplitude.logEvent('BeforeLogin');
-          Get.to(() => const BeforeLogin());
+          Get.to(() => const BeforeLoginScreen());
           lastIndex = 0;
         } else {
           lastIndex = tabController.index; // 현재 인덱스를 마지막 인덱스로 저장
           switch (tabController.index) {
             case 0:
-              AmplitudeConfig.amplitude.logEvent('HomeV2');
+              AmplitudeConfig.amplitude.logEvent('Home');
               break;
             case 1:
-              AmplitudeConfig.amplitude.logEvent('MyTicketV2');
+              AmplitudeConfig.amplitude.logEvent('MyTicket');
               break;
           }
         }
@@ -104,14 +104,14 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const BeforeLogin(),
+                          builder: (context) => const BeforeLoginScreen(),
                         ),
                       );
                     } else {
                       AmplitudeConfig.amplitude.logEvent('MyPage');
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const MyPageV2()),
+                        MaterialPageRoute(builder: (context) => const MyPageScreen()),
                       );
                     }
                   },
@@ -128,7 +128,7 @@ class _TabBarV2 extends State<TabBarV2> with SingleTickerProviderStateMixin, Wid
               child: TabBarView(
                 controller: tabController,
                 physics: const NeverScrollableScrollPhysics(),
-                children: const <Widget>[HomeV2(), MyTicketV2()],
+                children: const <Widget>[HomeScreen(), MyTicketScreen()],
               ),
             ),
             Positioned(

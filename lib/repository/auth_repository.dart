@@ -11,7 +11,7 @@ import 'package:newket/repository/user_repository.dart';
 import 'package:newket/auth/auth_dio.dart';
 import 'package:newket/view/login/screen/agreement_screen.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
-import 'package:newket/view/tapbar/tab_bar.dart';
+import 'package:newket/view/tapbar/screen/tab_bar_screen.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthRepository {
@@ -44,7 +44,7 @@ class AuthRepository {
 
           AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 성공');
 
-          Get.offAll(const TabBarV2());
+          Get.offAll(const TabBarScreen());
         } catch (error) {
           AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 실패 $error');
 
@@ -64,7 +64,7 @@ class AuthRepository {
 
             AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
 
-            Get.offAll(const TabBarV2());
+            Get.offAll(const TabBarScreen());
           } catch (error) {
             AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
           }
@@ -81,7 +81,7 @@ class AuthRepository {
 
           AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
 
-          Get.offAll(const TabBarV2());
+          Get.offAll(const TabBarScreen());
         } catch (error) {
           AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
         }
@@ -127,7 +127,7 @@ class AuthRepository {
 
       AmplitudeConfig.amplitude.logEvent('애플 계정으로 로그인 성공');
 
-      Get.offAll(const TabBarV2());
+      Get.offAll(const TabBarScreen());
 
       // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
       // after they have been validated with Apple (see `Integration` section for more information on how to do this)
@@ -157,8 +157,8 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {
           // 로그인 페이지로 이동
-          AmplitudeConfig.amplitude.logEvent('SignUp error->LoginV2 $e');
-          Get.offAll(() => const LoginV2());
+          AmplitudeConfig.amplitude.logEvent('SignUp error->Login $e');
+          Get.offAll(() => const LoginScreen());
           var storage = const FlutterSecureStorage();
           await storage.deleteAll();
         }
@@ -184,7 +184,7 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {
           // 로그인 페이지로 이동
-          AmplitudeConfig.amplitude.logEvent('LoginV2');
+          AmplitudeConfig.amplitude.logEvent('Login');
           var storage = const FlutterSecureStorage();
                                   await storage.deleteAll();
         }
@@ -210,8 +210,8 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400) {
           // 온보딩 페이지로 이동
-          AmplitudeConfig.amplitude.logEvent('AgreementV2');
-          Get.offAll(() => const AgreementV2());
+          AmplitudeConfig.amplitude.logEvent('Agreement');
+          Get.offAll(() => const AgreementScreen());
         }
       }
       rethrow;
@@ -235,8 +235,8 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400) {
           // 온보딩 페이지로 이동
-          AmplitudeConfig.amplitude.logEvent('AgreementV2');
-          Get.offAll(() => const AgreementV2());
+          AmplitudeConfig.amplitude.logEvent('Agreement');
+          Get.offAll(() => const AgreementScreen());
         }
       }
       rethrow;

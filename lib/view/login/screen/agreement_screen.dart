@@ -10,17 +10,17 @@ import 'package:newket/repository/user_repository.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/view/agreement/screen/privacy_policy_screen.dart';
 import 'package:newket/view/agreement/screen/terms_of_service_screen.dart';
-import 'package:newket/view/tapbar/tab_bar.dart';
+import 'package:newket/view/tapbar/screen/tab_bar_screen.dart';
 
 
-class AgreementV2 extends StatefulWidget {
-  const AgreementV2({super.key});
+class AgreementScreen extends StatefulWidget {
+  const AgreementScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _AgreementV2();
+  State<StatefulWidget> createState() => _AgreementScreen();
 }
 
-class _AgreementV2 extends State<AgreementV2> {
+class _AgreementScreen extends State<AgreementScreen> {
   bool isAllSelected = false; // 전체 동의 체크 상태
   bool is1Selected = false; // 첫 번째 개별 동의 체크 상태
   bool is2Selected = false; // 두 번째 개별 동의 체크 상태
@@ -148,10 +148,10 @@ class _AgreementV2 extends State<AgreementV2> {
                           const SizedBox(height: 24),
                           GestureDetector(
                               onTap: () {
-                                AmplitudeConfig.amplitude.logEvent('TermsOfServiceV2');
+                                AmplitudeConfig.amplitude.logEvent('TermsOfService');
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const TermsOfServiceV2()),
+                                  MaterialPageRoute(builder: (context) => const TermsOfService()),
                                 );
                               },
                               child: Container(
@@ -198,10 +198,10 @@ class _AgreementV2 extends State<AgreementV2> {
                           const SizedBox(height: 24),
                           GestureDetector(
                               onTap: () {
-                                AmplitudeConfig.amplitude.logEvent('PrivacyPolicyV2');
+                                AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const PrivacyPolicyV2()),
+                                  MaterialPageRoute(builder: (context) => const PrivacyPolicyScreen()),
                                 );
                               },
                               child: Container(
@@ -272,8 +272,8 @@ class _AgreementV2 extends State<AgreementV2> {
                                 //기기 토큰 저장
                                 final serverToken = await storage.read(key: 'ACCESS_TOKEN');
                                 await UserRepository().putDeviceTokenApi(serverToken!);
-                                AmplitudeConfig.amplitude.logEvent('HomeV2');
-                                Get.offAll(() => const TabBarV2());
+                                AmplitudeConfig.amplitude.logEvent('Home');
+                                Get.offAll(() => const TabBarScreen());
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: pn_100, // 버튼 색상
