@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:newket/component/common/app_bar_back.dart';
+import 'package:newket/view/common/app_bar_back.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
 

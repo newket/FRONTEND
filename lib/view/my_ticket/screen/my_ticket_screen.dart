@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
-import 'package:newket/component/opening_notice_card.dart';
+import 'package:newket/view/opening_notice/widget/opening_notice_widget.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/constant/colors.dart';
-import 'package:newket/view/login/login.dart';
+import 'package:newket/view/login/screen/login_screen.dart';
 import 'package:newket/view/tapbar/tab_bar.dart';
 import 'package:newket/view/ticket_detail/ticket_detail.dart';
 
@@ -609,7 +609,7 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                                 ),
                                               );
                                             },
-                                            child: OpeningNoticeCard(openingResponse: openingResponse, index: index),
+                                            child: OpeningNoticeWidget(openingResponse: openingResponse, index: index),
                                           ),
                                           const SizedBox(height: 12)
                                         ]);

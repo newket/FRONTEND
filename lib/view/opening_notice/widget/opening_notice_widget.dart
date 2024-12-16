@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:newket/model/ticket_model.dart';
 import 'package:newket/constant/colors.dart';
 
-class OpeningNoticeCard extends StatelessWidget {
+class OpeningNoticeWidget extends StatelessWidget {
   final OpeningNoticeResponse openingResponse;
   final int index;
 
-  const OpeningNoticeCard({
+  const OpeningNoticeWidget({
     super.key,
     required this.openingResponse,
     required this.index,

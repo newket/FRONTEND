@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:newket/component/common/app_bar_back.dart';
+import 'package:newket/view/common/app_bar_back.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:get/route_manager.dart';
 import 'package:newket/constant/colors.dart';
-import 'package:newket/view/login/login.dart';
+import 'package:newket/view/login/screen/login_screen.dart';
 
 class BeforeLogin extends StatefulWidget {
   const BeforeLogin({super.key});

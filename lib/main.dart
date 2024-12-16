@@ -12,7 +12,7 @@ import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/firebase_options.dart';
 import 'package:newket/repository/notification_repository.dart';
-import 'package:newket/view/login/login.dart';
+import 'package:newket/view/login/screen/login_screen.dart';
 import 'package:newket/view/tapbar/tab_bar.dart';
 import 'package:newket/view/ticket_detail/ticket_detail.dart';
 import 'package:permission_handler/permission_handler.dart';

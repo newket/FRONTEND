@@ -9,8 +9,8 @@ import 'package:newket/model/artist_model.dart';
 import 'package:newket/model/ticket_model.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
-import 'package:newket/view/on_sale/on_sale.dart';
-import 'package:newket/view/opening_notice/opening_notice.dart';
+import 'package:newket/view/on_sale/screen/on_sale_screen.dart';
+import 'package:newket/view/opening_notice/screen/opening_notice_screen.dart';
 import 'package:newket/view/search/search.dart';
 import 'package:newket/view/ticket_detail/ticket_detail.dart';
 

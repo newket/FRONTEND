@@ -3,15 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:newket/component/on_sale_card.dart';
-import 'package:newket/component/opening_notice_card.dart';
+import 'package:newket/view/on_sale/widget/on_sale_widget.dart';
+import 'package:newket/view/opening_notice/widget/opening_notice_widget.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/model/ticket_model.dart';
 import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
-import 'package:newket/view/artist/artist_request.dart';
+import 'package:newket/view/artist/screen/artist_request_screen.dart';
 import 'package:newket/view/ticket_detail/ticket_detail.dart';
 
 class SearchV2 extends StatefulWidget {
@@ -413,7 +413,7 @@ class _SearchV2 extends State<SearchV2> {
                                                     ),
                                                   );
                                                 },
-                                                child: OpeningNoticeCard(
+                                                child: OpeningNoticeWidget(
                                                     openingResponse: ticketResponse.openingNotice, index: index),
                                               ),
                                               const SizedBox(height: 12)
@@ -465,7 +465,7 @@ class _SearchV2 extends State<SearchV2> {
                                                   ),
                                                 );
                                               },
-                                              child: OnSaleCard(onSaleResponse: ticketResponse.onSale, index: index),
+                                              child: OnSaleWidget(onSaleResponse: ticketResponse.onSale, index: index),
                                             ),
                                             const SizedBox(height: 12)
                                           ]);

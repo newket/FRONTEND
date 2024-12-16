@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:newket/component/on_sale_card.dart';
+import 'package:newket/view/on_sale/widget/on_sale_widget.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
@@ -196,7 +196,7 @@ class _OnSaleV2 extends State<OnSaleV2> {
                                               ),
                                             );
                                           },
-                                          child: OnSaleCard(onSaleResponse: onSaleResponse, index: index),
+                                          child: OnSaleWidget(onSaleResponse: onSaleResponse, index: index),
                                         ),
                                         const SizedBox(height: 12)
                                       ]);

@@ -4,7 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/auth/auth_dio.dart';
-import 'package:newket/view/login/before_login.dart';
+import 'package:newket/view/login/screen/before_login_screen.dart';
 
 class ArtistRepository {
   Future<SearchArtists> searchArtist(String keyword) async {

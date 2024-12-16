@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:newket/component/opening_notice_card.dart';
+import 'package:newket/view/opening_notice/widget/opening_notice_widget.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
@@ -197,7 +197,7 @@ class _OpeningNoticeV2 extends State<OpeningNoticeV2> {
                                           ),
                                         );
                                       },
-                                      child: OpeningNoticeCard(openingResponse: openingResponse, index: index),
+                                      child: OpeningNoticeWidget(openingResponse: openingResponse, index: index),
                                     ),
                                     const SizedBox(height: 12)
                                   ]);
