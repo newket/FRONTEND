@@ -124,20 +124,30 @@ void main() async {
     // FCM 백그라운드 메시지 리스너
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      Get.to(() => TicketDetailScreen(concertId: int.tryParse(message.data['concertId'])!));
+      String? concertId = message.data['concertId']?.toString();
+
+      if (concertId != null) {
+        debugPrint('concertId:${int.tryParse(concertId.toString())!}');
+        Get.to(() => TicketDetailScreen(concertId: int.tryParse(concertId.toString())!));
+      }
       NotificationRepository().updateNotificationIsOpened(message.data['notificationId']);
     });
 
     // FCM terminated 메세지 리스너
     RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
+      String? concertId = initialMessage.data['concertId']?.toString();
+
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Get.to(() => TicketDetailScreen(concertId: int.tryParse(initialMessage.data['concertId'])!));
+        if (concertId != null) {
+          debugPrint('concertId:${int.tryParse(concertId.toString())!}');
+          Get.to(() => TicketDetailScreen(concertId: int.tryParse(concertId.toString())!));
+        }
       });
       NotificationRepository().updateNotificationIsOpened(initialMessage.data['notificationId']);
     }
 
-    // FCM 포어그라운드 메시지 선택
+    // FCM 포어그라운드 메시지 리스너
     flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse details) async {
@@ -145,16 +155,14 @@ void main() async {
         // payload에서 JSON 형식으로 데이터를 추출
         final Map<String, dynamic> payloadData = json.decode(details.payload!);
 
-        // payloadData에서 concertId를 가져오기
         final String? concertId = payloadData['concertId']?.toString();
-        final String? notificationId = payloadData['notificationId']?.toString();
 
         if (concertId != null) {
           debugPrint('concertId:${int.tryParse(concertId.toString())!}');
           Get.to(() => TicketDetailScreen(concertId: int.tryParse(concertId.toString())!));
         }
 
-        await NotificationRepository().updateNotificationIsOpened(notificationId!);
+        await NotificationRepository().updateNotificationIsOpened(payloadData['notificationId']);
       },
     );
 
