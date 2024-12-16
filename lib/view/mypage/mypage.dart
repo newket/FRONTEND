@@ -169,7 +169,7 @@ class _MyPageV2 extends State<MyPageV2> {
                             Row(
                               children: [
                                 SvgPicture.asset(
-                                  "images/v1/mypage/star.svg",
+                                  "images/v2/mypage/star.svg",
                                   height: 20,
                                   width: 20,
                                   color: f_70,
@@ -197,7 +197,7 @@ class _MyPageV2 extends State<MyPageV2> {
                       color: Colors.transparent,
                       child: Row(
                         children: [
-                          SvgPicture.asset("images/v1/mypage/notification.svg", height: 20, width: 20, color: f_70),
+                          SvgPicture.asset("images/v2/mypage/notification.svg", height: 20, width: 20, color: f_70),
                           const SizedBox(width: 8),
                           const Text(
                             '알림 설정',

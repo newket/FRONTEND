@@ -166,7 +166,7 @@ class _MyTicketV2 extends State<MyTicketV2> {
                                   const SizedBox(height: 24),
                                   // 관심 아티스트의 오픈 예정 티켓
                                   Row(children: [
-                                    SvgPicture.asset("images/v1/favorite_artist/star.svg", height: 20),
+                                    SvgPicture.asset("images/v2/my_ticket/star.svg", height: 20),
                                     Container(width: 8),
                                     const Text("관심 아티스트의 오픈 예정 티켓",
                                         style: TextStyle(

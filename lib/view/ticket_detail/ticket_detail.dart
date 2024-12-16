@@ -281,10 +281,10 @@ class _TicketDetailV2 extends State<TicketDetailV2> {
                                         children: [
                                           Image.asset(
                                             switch (ticketResponse.ticketProviders[index].ticketProvider) {
-                                              'INTERPARK' => "images/v1/ticket_detail/interpark.png",
-                                              'MELON' => "images/v1/ticket_detail/melon.png",
-                                              'YES24' => "images/v1/ticket_detail/yes24.png",
-                                              'TICKETLINK' => "images/v1/ticket_detail/ticketlink.png",
+                                              'INTERPARK' => "images/v2/ticket_detail/interpark.png",
+                                              'MELON' => "images/v2/ticket_detail/melon.png",
+                                              'YES24' => "images/v2/ticket_detail/yes24.png",
+                                              'TICKETLINK' => "images/v2/ticket_detail/ticketlink.png",
                                               _ => "",
                                             },
                                             height: 32,
