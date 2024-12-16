@@ -223,6 +223,7 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400) {
           // 온보딩 페이지로 이동
+          storage.write(key: 'SOCIAL_PROVIDER', value: 'KAKAO');
           AmplitudeConfig.amplitude.logEvent('Agreement');
           Get.offAll(() => const AgreementScreen());
         }
@@ -248,6 +249,7 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400) {
           // 온보딩 페이지로 이동
+          storage.write(key: 'SOCIAL_PROVIDER', value: 'APPLE');
           AmplitudeConfig.amplitude.logEvent('Agreement');
           Get.offAll(() => const AgreementScreen());
         }

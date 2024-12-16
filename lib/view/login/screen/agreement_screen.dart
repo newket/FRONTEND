@@ -13,7 +13,6 @@ import 'package:newket/view/agreement/screen/terms_of_service_screen.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
 import 'package:newket/view/tapbar/screen/tab_bar_screen.dart';
 
-
 class AgreementScreen extends StatefulWidget {
   const AgreementScreen({super.key});
 
@@ -274,20 +273,28 @@ class _AgreementScreen extends State<AgreementScreen> {
                             ElevatedButton(
                               onPressed: () async {
                                 var storage = const FlutterSecureStorage();
-                                final appleName = await storage.read(key: 'APPLE_NAME');
-                                final email = await storage.read(key: 'APPLE_EMAIL');
-                                final socialId = await storage.read(key: 'APPLE_SOCIAL_ID');
-                                final kakaoToken = await storage.read(key: 'KAKAO_TOKEN');
+
+                                String? provider = await storage.read(key: 'SOCIAL_PROVIDER');
                                 //signup
-                                if(appleName!=null){
+                                if (provider == 'APPLE') {
+                                  String? appleName = await storage.read(key: 'APPLE_NAME');
+                                  String? email = await storage.read(key: 'APPLE_EMAIL');
+                                  String? socialId = await storage.read(key: 'APPLE_SOCIAL_ID');
+
                                   await AuthRepository().signUpAppleApi(
-                                      SignUpAppleRequest(name: appleName, email: email!, socialId: socialId!));
+                                      SignUpAppleRequest(name: appleName!, email: email!, socialId: socialId!));
+
                                   await storage.delete(key: 'APPLE_NAME');
                                   await storage.delete(key: 'APPLE_EMAIL');
                                   await storage.delete(key: 'APPLE_SOCIAL_ID');
-                                } else {
+                                  await storage.delete(key: 'SOCIAL_PROVIDER');
+                                } else if (provider == 'KAKAO') {
+                                  String? kakaoToken = await storage.read(key: 'KAKAO_TOKEN');
+
                                   await AuthRepository().signUpApi(SignUpRequest(kakaoToken!));
+
                                   await storage.delete(key: 'KAKAO_TOKEN');
+                                  await storage.delete(key: 'SOCIAL_PROVIDER');
                                 }
 
                                 //기기 토큰 저장
