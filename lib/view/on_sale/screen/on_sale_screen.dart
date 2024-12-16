@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:newket/view/on_sale/widget/on_sale_widget.dart';
 import 'package:newket/config/amplitude_config.dart';
-import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
+import 'package:newket/repository/ticket_repository.dart';
+import 'package:newket/view/on_sale/widget/on_sale_widget.dart';
+import 'package:newket/view/opening_notice/widget/on_sale_skeleton_widget.dart';
 import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 
 class OnSaleScreen extends StatefulWidget {
@@ -45,7 +46,7 @@ class _OnSaleScreen extends State<OnSaleScreen> {
                 future: repository,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: Column(children: [SizedBox(height: 12), CircularProgressIndicator()]));
+                    return const OnSaleSkeletonWidget();
                   } else if (snapshot.hasError) {
                     // 데이터 로딩 실패
                     return const Center();
