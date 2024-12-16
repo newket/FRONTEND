@@ -62,25 +62,15 @@ flutter:
   uses-material-design: true
 
   assets:
-    - images/v1/
-    - images/v1/onboarding/
-    - images/v1/navigator/
-    - images/v1/appbar/
-    - images/v1/opening_notice/
-    - images/v1/on_sale/
-    - images/v1/ticket_detail/
-    - images/v1/search/
-    - images/v1/mypage/
-    - images/v1/splash/
-    - images/v1/favorite_artist/
-    - images/v2/login/
-    - images/v2/tab_bar/
-    - images/v2/home/
-    - images/v2/opening_notice/
-    - images/v2/mypage/
-    - images/v2/search/
-    - images/v2/my_ticket/
-    - images/v2/splash/
+    - images/home/
+    - images/login/
+    - images/my_ticket/
+    - images/mypage/
+    - images/opening_notice/
+    - images/search/
+    - images/splash/
+    - images/tab_bar/
+    - images/ticket_detail/
     - .env
     - assets/
   fonts:
