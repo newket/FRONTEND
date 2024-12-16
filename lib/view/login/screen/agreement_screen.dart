@@ -10,6 +10,7 @@ import 'package:newket/repository/user_repository.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/view/agreement/screen/privacy_policy_screen.dart';
 import 'package:newket/view/agreement/screen/terms_of_service_screen.dart';
+import 'package:newket/view/login/screen/login_screen.dart';
 import 'package:newket/view/tapbar/screen/tab_bar_screen.dart';
 
 
@@ -77,7 +78,27 @@ class _AgreementScreen extends State<AgreementScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarBack(context, "약관 동의"),
+        appBar: AppBar(
+            leading: IconButton(
+                onPressed: () {
+                  AmplitudeConfig.amplitude.logEvent('Agreement->Login');
+                  Get.offAll(const LoginScreen());
+                },
+                color: f_90,
+                icon: const Icon(Icons.keyboard_arrow_left)),
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            title: const Text(
+              "약관동의",
+              style: const TextStyle(
+                color: f_100,
+                fontSize: 16,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w600,
+                height: 0.09,
+                letterSpacing: -0.48,
+              ),
+            )),
         body: Container(
             color: Colors.white,
             child: Padding(
