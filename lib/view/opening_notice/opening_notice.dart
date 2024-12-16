@@ -4,7 +4,7 @@ import 'package:newket/component/opening_notice_card.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
-import 'package:newket/view/v200/ticket_detail/ticket_detail.dart';
+import 'package:newket/view/ticket_detail/ticket_detail.dart';
 
 class OpeningNoticeV2 extends StatefulWidget {
   const OpeningNoticeV2({super.key});

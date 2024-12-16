@@ -9,10 +9,10 @@ import 'package:newket/model/artist_model.dart';
 import 'package:newket/model/ticket_model.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
-import 'package:newket/view/v200/on_sale/on_sale.dart';
-import 'package:newket/view/v200/opening_notice/opening_notice.dart';
-import 'package:newket/view/v200/search/search.dart';
-import 'package:newket/view/v200/ticket_detail/ticket_detail.dart';
+import 'package:newket/view/on_sale/on_sale.dart';
+import 'package:newket/view/opening_notice/opening_notice.dart';
+import 'package:newket/view/search/search.dart';
+import 'package:newket/view/ticket_detail/ticket_detail.dart';
 
 class HomeV2 extends StatefulWidget {
   const HomeV2({super.key});

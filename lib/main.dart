@@ -12,9 +12,9 @@ import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/firebase_options.dart';
 import 'package:newket/repository/notification_repository.dart';
-import 'package:newket/view/v200/login/login.dart';
-import 'package:newket/view/v200/tapbar/tab_bar.dart';
-import 'package:newket/view/v200/ticket_detail/ticket_detail.dart';
+import 'package:newket/view/login/login.dart';
+import 'package:newket/view/tapbar/tab_bar.dart';
+import 'package:newket/view/ticket_detail/ticket_detail.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -8,9 +8,9 @@ import 'package:newket/model/auth_model.dart';
 import 'package:newket/repository/auth_repository.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/constant/colors.dart';
-import 'package:newket/view/v200/agreement/privacy_policy.dart';
-import 'package:newket/view/v200/agreement/terms_of_service.dart';
-import 'package:newket/view/v200/tapbar/tab_bar.dart';
+import 'package:newket/view/agreement/privacy_policy.dart';
+import 'package:newket/view/agreement/terms_of_service.dart';
+import 'package:newket/view/tapbar/tab_bar.dart';
 
 
 class AgreementV2 extends StatefulWidget {

@@ -9,9 +9,9 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/auth/auth_dio.dart';
-import 'package:newket/view/v200/login/agreement.dart';
-import 'package:newket/view/v200/login/login.dart';
-import 'package:newket/view/v200/tapbar/tab_bar.dart';
+import 'package:newket/view/login/agreement.dart';
+import 'package:newket/view/login/login.dart';
+import 'package:newket/view/tapbar/tab_bar.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthRepository {

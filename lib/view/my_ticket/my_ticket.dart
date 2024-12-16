@@ -8,9 +8,9 @@ import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/constant/colors.dart';
-import 'package:newket/view/v200/login/login.dart';
-import 'package:newket/view/v200/tapbar/tab_bar.dart';
-import 'package:newket/view/v200/ticket_detail/ticket_detail.dart';
+import 'package:newket/view/login/login.dart';
+import 'package:newket/view/tapbar/tab_bar.dart';
+import 'package:newket/view/ticket_detail/ticket_detail.dart';
 
 class MyTicketV2 extends StatefulWidget {
   const MyTicketV2({super.key});

@@ -8,11 +8,11 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/auth_repository.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/constant/colors.dart';
-import 'package:newket/view/v200/agreement/privacy_policy.dart';
-import 'package:newket/view/v200/agreement/terms_of_service.dart';
-import 'package:newket/view/v200/login/login.dart';
-import 'package:newket/view/v200/mypage/help.dart';
-import 'package:newket/view/v200/mypage/my_favorite_artist.dart';
+import 'package:newket/view/agreement/privacy_policy.dart';
+import 'package:newket/view/agreement/terms_of_service.dart';
+import 'package:newket/view/login/login.dart';
+import 'package:newket/view/mypage/help.dart';
+import 'package:newket/view/mypage/my_favorite_artist.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class MyPageV2 extends StatefulWidget {

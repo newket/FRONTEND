@@ -4,7 +4,7 @@ import 'package:newket/component/on_sale_card.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
-import 'package:newket/view/v200/ticket_detail/ticket_detail.dart';
+import 'package:newket/view/ticket_detail/ticket_detail.dart';
 
 class OnSaleV2 extends StatefulWidget {
   const OnSaleV2({super.key});

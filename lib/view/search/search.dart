@@ -11,8 +11,8 @@ import 'package:newket/model/ticket_model.dart';
 import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
-import 'package:newket/view/v200/artist/artist_request.dart';
-import 'package:newket/view/v200/ticket_detail/ticket_detail.dart';
+import 'package:newket/view/artist/artist_request.dart';
+import 'package:newket/view/ticket_detail/ticket_detail.dart';
 
 class SearchV2 extends StatefulWidget {
   const SearchV2({super.key, required this.keyword});

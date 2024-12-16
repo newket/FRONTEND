@@ -9,7 +9,7 @@ import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
-import 'package:newket/view/v200/login/login.dart';
+import 'package:newket/view/login/login.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TicketDetailV2 extends StatefulWidget {
