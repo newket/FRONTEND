@@ -133,7 +133,11 @@ class AuthRepository {
         storage.write(key: 'APPLE_SOCIAL_ID', value: credential.userIdentifier.toString());
       }
 
-      await socialLoginAppleApi(SocialLoginAppleRequest(credential.userIdentifier.toString()));
+      try {
+        await socialLoginAppleApi(SocialLoginAppleRequest(credential.userIdentifier.toString()));
+      } catch (error) {
+        //response 가 400이면 약관 동의 페이지
+      }
 
       final serverToken = await storage.read(key: 'ACCESS_TOKEN');
       await UserRepository().putDeviceTokenApi(serverToken!);
@@ -142,8 +146,6 @@ class AuthRepository {
 
       Get.offAll(const TabBarScreen());
 
-      // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
-      // after they have been validated with Apple (see `Integration` section for more information on how to do this)
     } catch (error) {
       AmplitudeConfig.amplitude.logEvent('애플로 로그인 실패 $error');
     } finally {
