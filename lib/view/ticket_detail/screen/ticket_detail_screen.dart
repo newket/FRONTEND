@@ -9,6 +9,7 @@ import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
+import 'package:newket/view/common/toast_widget.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
 import 'package:newket/view/search/widget/small_notification_button_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -30,87 +31,6 @@ class _TicketDetailScreen extends State<TicketDetailScreen> {
   bool isLoading = true; // 로딩 상태 추가
   late TicketDetail ticketResponse;
   late List<bool> isFavoriteArtist;
-
-  void showToast(BuildContext context) {
-    OverlayEntry overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        bottom: 130, // Toast 위치 조정
-        left: 20, // 화면의 가운데 정렬
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
-            width: MediaQuery.of(context).size.width - 40,
-            height: 78,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: ShapeDecoration(
-              color: f_80,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: 24,
-                  height: 24,
-                  padding: const EdgeInsets.all(4.80),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFF8397FF),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(9.60),
-                    ),
-                  ),
-                  child: const Icon(
-                    Icons.check,
-                    color: Colors.white,
-                    size: 14.4,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                const Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '알림 받기 신청이 완료되었어요!',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    SizedBox(height: 2),
-                    Text(
-                      '티켓 오픈 하루 전, 1시간 전에 알려드릴게요',
-                      style: TextStyle(
-                        color: b_400,
-                        fontSize: 12,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-
-    Overlay.of(context).insert(overlayEntry);
-
-    // 5초 후에 Toast를 자동으로 제거
-    Future.delayed(const Duration(seconds: 5), () {
-      overlayEntry.remove();
-    });
-  }
 
   Future<void> _getIsNotification() async {
     try {
@@ -588,6 +508,8 @@ class _TicketDetailScreen extends State<TicketDetailScreen> {
                                               isFavoriteArtist[index] = true;
                                             });
                                           }
+                                          showToast(130, '앞으로 ${ticketResponse.artists[index].name}의 티켓이 뜨면 알려드릴게요!',
+                                              '마이페이지에서 해당 정보를 변경할 수 있어요.', context);
                                         })
                                 ])),
                             const SizedBox(height: 12),
@@ -611,7 +533,7 @@ class _TicketDetailScreen extends State<TicketDetailScreen> {
                         // 알림 안받은 상태에서
                         bool success = await NotificationRepository().addTicketNotification(context, widget.concertId);
                         if (success) {
-                          showToast(context);
+                          showToast(130, '알림 받기 신청이 완료되었어요!', '티켓 오픈 하루 전, 1시간 전에 알려드릴게요', context);
                           AmplitudeConfig.amplitude.logEvent('addTicketNotification(concertId:${widget.concertId}');
                           setState(() {
                             isNotification = !isNotification;
