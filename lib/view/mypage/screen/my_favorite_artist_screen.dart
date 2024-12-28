@@ -39,7 +39,7 @@ class _MyFavoriteArtistScreen extends State<MyFavoriteArtistScreen> {
         backgroundColor: Colors.white,
 
         //앱바
-        appBar: appBarBack(context, "나의 관심 아티스트"),
+        appBar: appBarBack(context, "아티스트 알림 목록"),
 
         //내용
         body: Padding(

@@ -176,7 +176,7 @@ class _MyPageScreen extends State<MyPageScreen> {
                                 ),
                                 const SizedBox(width: 8),
                                 const Text(
-                                  '나의 관심 아티스트',
+                                  '아티스트 알림 목록',
                                   style: TextStyle(
                                     fontFamily: 'Pretendard',
                                     fontSize: 18,
