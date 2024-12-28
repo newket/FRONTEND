@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
-import 'package:newket/view/opening_notice/widget/opening_notice_widget.dart';
+import 'package:newket/view/concert_list/widget/opening_notice_widget.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';

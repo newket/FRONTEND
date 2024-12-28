@@ -49,6 +49,7 @@ const f_100 = Color(0xFF1A1A25);
 const pn_05 = Color(0xFFF8F8FF);
 const pn_10 = Color(0xFFF2F1FF);
 const pn_20 = Color(0xFFE4E2FF);
+const pn_50 = Color(0xFFBDB7FF);
 const pn_100 = Color(0xFF796FFF);
 
 //primary transparent
