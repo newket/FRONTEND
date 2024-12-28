@@ -10,6 +10,7 @@ import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
+import 'package:newket/view/search/widget/small_notification_button_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TicketDetailScreen extends StatefulWidget {
@@ -531,105 +532,68 @@ class _TicketDetailScreen extends State<TicketDetailScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 6),
                       child: Column(
                           children: List.generate(ticketResponse.artists.length, (index) {
-                            return Column(
-                              children: [
-                                SizedBox(height: 48,child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        return Column(
+                          children: [
+                            SizedBox(
+                                height: 48,
+                                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            ticketResponse.artists[index].name,
-                                            style: const TextStyle(
-                                              fontFamily: 'Pretendard',
-                                              fontSize: 16,
-                                              color: f_100,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          if (ticketResponse.artists[index].nicknames !=
-                                              null)
-                                            Text(
-                                              ticketResponse.artists[index].nicknames!,
-                                              style: const TextStyle(
-                                                fontFamily: 'Pretendard',
-                                                fontSize: 14,
-                                                color: f_50,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            )
-                                        ],
+                                      Text(
+                                        ticketResponse.artists[index].name,
+                                        style: const TextStyle(
+                                          fontFamily: 'Pretendard',
+                                          fontSize: 16,
+                                          color: f_100,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
-                                      if (isFavoriteArtist[index]) //관심 아티스트 아님
-                                        GestureDetector(
-                                            child: const Text(
-                                              "관심 아티스트에서 제거",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontFamily: 'Pretendard',
-                                                fontSize: 12,
-                                                color: f_60,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                            onTap: () async {
-                                              await artistRepository.deleteFavoriteArtist(
-                                                  ticketResponse.artists[index].artistId,
-                                                  context);
-                                              setState(() {
-                                                isFavoriteArtist[index] = false;
-                                              });
-                                            })
-                                      else //관심 아티스트
-                                        GestureDetector(
-                                            child: Container(
-                                                width: 111,
-                                                height: 36,
-                                                padding: const EdgeInsets.only(
-                                                    left: 12, top: 8, bottom: 8),
-                                                clipBehavior: Clip.antiAlias,
-                                                decoration: ShapeDecoration(
-                                                  color: pt_10,
-                                                  shape: RoundedRectangleBorder(
-                                                    side: const BorderSide(
-                                                        width: 1, color: pt_20),
-                                                    borderRadius:
-                                                    BorderRadius.circular(8),
-                                                  ),
-                                                ),
-                                                child: Row(children: [
-                                                  const Text(
-                                                    "관심 아티스트",
-                                                    style: TextStyle(
-                                                      fontFamily: 'Pretendard',
-                                                      fontSize: 12,
-                                                      color: pn_100,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(width: 4),
-                                                  SvgPicture.asset(
-                                                      'images/opening_notice/add.svg',
-                                                      width: 20,
-                                                      height: 20)
-                                                ])),
-                                            onTap: () async {
-                                              final isSuccess = await artistRepository.addFavoriteArtist(
-                                                  ticketResponse.artists[index].artistId,
-                                                  context);
-                                              if(isSuccess){
-                                                setState(() {
-                                                  isFavoriteArtist[index] = true;
-                                                });
-                                              }
-                                            })
-                                    ])),
-                                const SizedBox(height: 12),
-                              ],
-                            );
-                          })))
+                                      if (ticketResponse.artists[index].nicknames != null)
+                                        Text(
+                                          ticketResponse.artists[index].nicknames!,
+                                          style: const TextStyle(
+                                            fontFamily: 'Pretendard',
+                                            fontSize: 14,
+                                            color: f_50,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        )
+                                    ],
+                                  ),
+                                  if (isFavoriteArtist[index]) //관심 아티스트 아님
+                                    GestureDetector(
+                                        child: SvgPicture.asset(
+                                          'images/opening_notice/notification_off.svg',
+                                          width: 16,
+                                          height: 16,
+                                          color: f_40,
+                                        ),
+                                        onTap: () async {
+                                          await artistRepository.deleteFavoriteArtist(
+                                              ticketResponse.artists[index].artistId, context);
+                                          setState(() {
+                                            isFavoriteArtist[index] = false;
+                                          });
+                                        })
+                                  else //관심 아티스트
+                                    GestureDetector(
+                                        child: const SmallNotificationButtonWidget(),
+                                        onTap: () async {
+                                          final isSuccess = await artistRepository.addFavoriteArtist(
+                                              ticketResponse.artists[index].artistId, context);
+                                          if (isSuccess) {
+                                            setState(() {
+                                              isFavoriteArtist[index] = true;
+                                            });
+                                          }
+                                        })
+                                ])),
+                            const SizedBox(height: 12),
+                          ],
+                        );
+                      })))
                 ],
               ))
         ])),
@@ -646,7 +610,7 @@ class _TicketDetailScreen extends State<TicketDetailScreen> {
                       if (!isNotification) {
                         // 알림 안받은 상태에서
                         bool success = await NotificationRepository().addTicketNotification(context, widget.concertId);
-                        if(success){
+                        if (success) {
                           showToast(context);
                           AmplitudeConfig.amplitude.logEvent('addTicketNotification(concertId:${widget.concertId}');
                           setState(() {

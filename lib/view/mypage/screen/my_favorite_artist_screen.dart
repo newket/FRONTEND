@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/repository/artist_repository.dart';
@@ -78,15 +79,11 @@ class _MyFavoriteArtistScreen extends State<MyFavoriteArtistScreen> {
                             ],
                           ),
                           GestureDetector(
-                              child: const Text(
-                                "관심 아티스트에서 제거",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Pretendard',
-                                  fontSize: 12,
-                                  color: f_60,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                              child: SvgPicture.asset(
+                                'images/opening_notice/notification_off.svg',
+                                width: 16,
+                                height: 16,
+                                color: f_40,
                               ),
                               onTap: () async {
                                 await artistRepository.deleteFavoriteArtist(myArtist.artistId, context);

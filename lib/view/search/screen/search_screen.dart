@@ -12,6 +12,7 @@ import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/view/artist/screen/artist_request_screen.dart';
+import 'package:newket/view/search/widget/small_notification_button_widget.dart';
 import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -186,7 +187,7 @@ class _SearchScreen extends State<SearchScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text("관심 아티스트 추가하기",
+                                const Text("아티스트",
                                     style: TextStyle(
                                         fontFamily: 'Pretendard',
                                         fontSize: 18,
@@ -230,15 +231,11 @@ class _SearchScreen extends State<SearchScreen> {
                                                 ),
                                                 if (isFavoriteArtist[index]) //관심 아티스트 아님
                                                   GestureDetector(
-                                                      child: const Text(
-                                                        "관심 아티스트에서 제거",
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                          fontFamily: 'Pretendard',
-                                                          fontSize: 12,
-                                                          color: f_60,
-                                                          fontWeight: FontWeight.w500,
-                                                        ),
+                                                      child: SvgPicture.asset(
+                                                        'images/opening_notice/notification_off.svg',
+                                                        width: 16,
+                                                        height: 16,
+                                                        color: f_40,
                                                       ),
                                                       onTap: () async {
                                                         await artistRepository.deleteFavoriteArtist(
@@ -249,32 +246,7 @@ class _SearchScreen extends State<SearchScreen> {
                                                       })
                                                 else //관심 아티스트
                                                   GestureDetector(
-                                                      child: Container(
-                                                          width: 111,
-                                                          height: 36,
-                                                          padding: const EdgeInsets.only(left: 12, top: 8, bottom: 8),
-                                                          clipBehavior: Clip.antiAlias,
-                                                          decoration: ShapeDecoration(
-                                                            color: pt_10,
-                                                            shape: RoundedRectangleBorder(
-                                                              side: const BorderSide(width: 1, color: pt_20),
-                                                              borderRadius: BorderRadius.circular(8),
-                                                            ),
-                                                          ),
-                                                          child: Row(children: [
-                                                            const Text(
-                                                              "관심 아티스트",
-                                                              style: TextStyle(
-                                                                fontFamily: 'Pretendard',
-                                                                fontSize: 12,
-                                                                color: pn_100,
-                                                                fontWeight: FontWeight.w600,
-                                                              ),
-                                                            ),
-                                                            const SizedBox(width: 4),
-                                                            SvgPicture.asset('images/opening_notice/add.svg',
-                                                                width: 20, height: 20)
-                                                          ])),
+                                                      child: const SmallNotificationButtonWidget(),
                                                       onTap: () async {
                                                         final isSuccess = await artistRepository.addFavoriteArtist(
                                                             ticketResponse.artists[index].artistId, context);
@@ -369,8 +341,7 @@ class _SearchScreen extends State<SearchScreen> {
                                 ? Center(
                                     child: ClipRRect(
                                         borderRadius: BorderRadius.circular(12.0),
-                                        child:
-                                            Image.asset('images/search/ticket_null.png', width: 350, height: 336)))
+                                        child: Image.asset('images/search/ticket_null.png', width: 350, height: 336)))
                                 : const SizedBox(),
                             ticketResponse.openingNotice.totalNum > 0
                                 ? Column(
