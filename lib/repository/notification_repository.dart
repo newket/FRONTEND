@@ -6,8 +6,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/notification_model.dart';
 import 'package:newket/model/ticket_model.dart';
-import 'package:newket/secure/auth_dio.dart';
-import 'package:newket/view/v200/login/before_login.dart';
+import 'package:newket/auth/auth_dio.dart';
+import 'package:newket/view/login/screen/before_login_screen.dart';
 
 class NotificationRepository{
   Future<bool> addTicketNotification(BuildContext context, int concertId) async {
@@ -20,7 +20,7 @@ class NotificationRepository{
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const BeforeLogin(),
+          builder: (context) => const BeforeLoginScreen(),
         ),
       );
       return false;

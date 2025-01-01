@@ -8,10 +8,10 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/repository/user_repository.dart';
-import 'package:newket/secure/auth_dio.dart';
-import 'package:newket/view/v200/login/agreement.dart';
-import 'package:newket/view/v200/login/login.dart';
-import 'package:newket/view/v200/tapbar/tab_bar.dart';
+import 'package:newket/auth/auth_dio.dart';
+import 'package:newket/view/login/screen/agreement_screen.dart';
+import 'package:newket/view/login/screen/login_screen.dart';
+import 'package:newket/view/tapbar/screen/tab_bar_screen.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthRepository {
@@ -34,20 +34,23 @@ class AuthRepository {
     try {
       if (await isKakaoTalkInstalled()) {
         try {
-          OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
+          OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
           String accessToken = token.accessToken;
           storage.write(key: 'KAKAO_TOKEN', value: accessToken);
-          await socialLoginApi(SocialLoginRequest(accessToken));
+
+          try {
+            await socialLoginApi(SocialLoginRequest(accessToken));
+          } catch (error) {
+            //response 가 400이면 약관 동의 페이지
+          }
 
           final serverToken = await storage.read(key: 'ACCESS_TOKEN');
           await UserRepository().putDeviceTokenApi(serverToken!);
 
           AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 성공');
 
-          Get.offAll(const TabBarV2());
+          Get.offAll(const TabBarScreen());
         } catch (error) {
-          AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 실패 $error');
-
           // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
           // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
           if (error is PlatformException && error.code == 'CANCELED') {
@@ -57,14 +60,19 @@ class AuthRepository {
             OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
             String accessToken = token.accessToken;
             storage.write(key: 'KAKAO_TOKEN', value: accessToken);
-            await socialLoginApi(SocialLoginRequest(accessToken));
+
+            try {
+              await socialLoginApi(SocialLoginRequest(accessToken));
+            } catch (error) {
+              //response 가 400이면 약관 동의 페이지
+            }
 
             final serverToken = await storage.read(key: 'ACCESS_TOKEN');
             await UserRepository().putDeviceTokenApi(serverToken!);
 
             AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
 
-            Get.offAll(const TabBarV2());
+            Get.offAll(const TabBarScreen());
           } catch (error) {
             AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
           }
@@ -74,20 +82,25 @@ class AuthRepository {
           OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
           String accessToken = token.accessToken;
           storage.write(key: 'KAKAO_TOKEN', value: accessToken);
-          await socialLoginApi(SocialLoginRequest(accessToken));
+
+          try {
+            await socialLoginApi(SocialLoginRequest(accessToken));
+          } catch (error) {
+            //response 가 400이면 약관 동의 페이지
+          }
 
           final serverToken = await storage.read(key: 'ACCESS_TOKEN');
           await UserRepository().putDeviceTokenApi(serverToken!);
 
           AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
 
-          Get.offAll(const TabBarV2());
+          Get.offAll(const TabBarScreen());
         } catch (error) {
           AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
         }
       }
     } catch (error) {
-      AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
+      AmplitudeConfig.amplitude.logEvent('카카오로그인 실패 $error');
     } finally {
       if (Get.isDialogOpen!) {
         Get.back(); // 로딩 화면을 닫음
@@ -113,24 +126,26 @@ class AuthRepository {
       final newUserIdentifier = credential.userIdentifier.toString();
       final savedUserIdentifier = await storage.read(key: 'APPLE_SOCIAL_ID');
 
-      if(credential.familyName!=null || savedUserIdentifier != newUserIdentifier){
+      if (credential.familyName != null || savedUserIdentifier != newUserIdentifier) {
         final name = "${credential.familyName.toString()}${credential.givenName.toString()}";
         storage.write(key: 'APPLE_NAME', value: name);
         storage.write(key: 'APPLE_EMAIL', value: credential.email.toString());
         storage.write(key: 'APPLE_SOCIAL_ID', value: credential.userIdentifier.toString());
       }
 
-      await socialLoginAppleApi(SocialLoginAppleRequest(credential.userIdentifier.toString()));
+      try {
+        await socialLoginAppleApi(SocialLoginAppleRequest(credential.userIdentifier.toString()));
+      } catch (error) {
+        //response 가 400이면 약관 동의 페이지
+      }
 
       final serverToken = await storage.read(key: 'ACCESS_TOKEN');
       await UserRepository().putDeviceTokenApi(serverToken!);
 
       AmplitudeConfig.amplitude.logEvent('애플 계정으로 로그인 성공');
 
-      Get.offAll(const TabBarV2());
+      Get.offAll(const TabBarScreen());
 
-      // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
-      // after they have been validated with Apple (see `Integration` section for more information on how to do this)
     } catch (error) {
       AmplitudeConfig.amplitude.logEvent('애플로 로그인 실패 $error');
     } finally {
@@ -157,8 +172,8 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {
           // 로그인 페이지로 이동
-          AmplitudeConfig.amplitude.logEvent('SignUp error->LoginV2 $e');
-          Get.offAll(() => const LoginV2());
+          AmplitudeConfig.amplitude.logEvent('SignUp error->Login $e');
+          Get.offAll(() => const LoginScreen());
           var storage = const FlutterSecureStorage();
           await storage.deleteAll();
         }
@@ -184,9 +199,9 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {
           // 로그인 페이지로 이동
-          AmplitudeConfig.amplitude.logEvent('LoginV2');
+          AmplitudeConfig.amplitude.logEvent('Login');
           var storage = const FlutterSecureStorage();
-                                  await storage.deleteAll();
+          await storage.deleteAll();
         }
       }
       rethrow;
@@ -210,8 +225,9 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400) {
           // 온보딩 페이지로 이동
-          AmplitudeConfig.amplitude.logEvent('AgreementV2');
-          Get.offAll(() => const AgreementV2());
+          storage.write(key: 'SOCIAL_PROVIDER', value: 'KAKAO');
+          AmplitudeConfig.amplitude.logEvent('Agreement');
+          Get.offAll(() => const AgreementScreen());
         }
       }
       rethrow;
@@ -235,8 +251,9 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400) {
           // 온보딩 페이지로 이동
-          AmplitudeConfig.amplitude.logEvent('AgreementV2');
-          Get.offAll(() => const AgreementV2());
+          storage.write(key: 'SOCIAL_PROVIDER', value: 'APPLE');
+          AmplitudeConfig.amplitude.logEvent('Agreement');
+          Get.offAll(() => const AgreementScreen());
         }
       }
       rethrow;

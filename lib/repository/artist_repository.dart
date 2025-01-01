@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
-import 'package:newket/secure/auth_dio.dart';
-import 'package:newket/view/v200/login/before_login.dart';
+import 'package:newket/auth/auth_dio.dart';
+import 'package:newket/view/login/screen/before_login_screen.dart';
 
 class ArtistRepository {
   Future<SearchArtists> searchArtist(String keyword) async {
@@ -58,7 +58,7 @@ class ArtistRepository {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const BeforeLogin(),
+          builder: (context) => const BeforeLoginScreen(),
         ),
       );
       return false;
