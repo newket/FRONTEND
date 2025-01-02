@@ -31,7 +31,7 @@ class _HomeScreen extends State<HomeScreen> with SingleTickerProviderStateMixin 
   List<ConcertOnSale> onSaleResponse = [];
 
   Future<void> _search(String keyword) async {
-    if (keyword.isNotEmpty) {
+    if (keyword.isNotEmpty && keyword != ' ') {
       SearchResponse result = await ticketRepository.searchArtistsAndTickets(keyword);
       setState(() {
         artists = result.artists;
@@ -129,7 +129,7 @@ class _HomeScreen extends State<HomeScreen> with SingleTickerProviderStateMixin 
                               // 최대 글자 수를 50자로 제한
                               onSubmitted: (value) {
                                 //빈 값이 아닐 때 검색어 제출 시 페이지 이동
-                                if (value != '') {
+                                if (value.isNotEmpty && value != ' ') {
                                   AmplitudeConfig.amplitude.logEvent('SearchDetail(keyword: $value)');
                                   Navigator.push(
                                     context,
@@ -216,7 +216,7 @@ class _HomeScreen extends State<HomeScreen> with SingleTickerProviderStateMixin 
                     children: const <Widget>[OpeningNoticeScreen(), OnSaleScreen()],
                   ))
                 ])),
-                if (_searchController.text != '')
+                if (_searchController.text.isNotEmpty && _searchController.text != ' ')
                   Positioned(
                     top: 68, // 검색 창 바로 아래에 위치
                     child: Container(
