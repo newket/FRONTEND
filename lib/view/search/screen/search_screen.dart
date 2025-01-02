@@ -63,7 +63,7 @@ class _SearchScreen extends State<SearchScreen> {
   }
 
   Future<void> _search(String keyword) async {
-    if (keyword.isNotEmpty) {
+    if (keyword.isNotEmpty && keyword != ' ') {
       SearchResponse result = await ticketRepository.searchArtistsAndTickets(keyword);
       setState(() {
         artists = result.artists;
@@ -78,7 +78,7 @@ class _SearchScreen extends State<SearchScreen> {
     bool isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
     Timer? debounce;
     if (isLoading) {
-      return Container();
+      return Container(color: Colors.white);
     }
     return Scaffold(
         //배경
@@ -138,7 +138,7 @@ class _SearchScreen extends State<SearchScreen> {
                   // 최대 글자 수를 50자로 제한
                   onSubmitted: (value) {
                     //빈 값이 아닐 때 검색어 제출 시 페이지 이동
-                    if (value != '') {
+                    if (value.isNotEmpty && value != ' ') {
                       AmplitudeConfig.amplitude.logEvent('SearchDetail(keyword: $value)');
                       setState(() {
                         artists = [];
