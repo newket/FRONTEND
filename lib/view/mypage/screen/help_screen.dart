@@ -6,6 +6,7 @@ import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/user_model.dart';
 import 'package:newket/repository/user_repository.dart';
 import 'package:newket/constant/colors.dart';
+import 'package:newket/view/common/toast_widget.dart';
 
 class HelpScreen extends StatefulWidget {
   const HelpScreen({super.key});
@@ -46,71 +47,6 @@ class _HelpScreen extends State<HelpScreen> {
     _contentController.removeListener(_updateCharacterCount); // 리스너 제거
     _contentController.dispose();
     super.dispose();
-  }
-
-  void showToast(BuildContext context) {
-    OverlayEntry overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        bottom: 103.0, // Toast 위치 조정
-        left: 20, // 화면의 가운데 정렬
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
-            width: MediaQuery.of(context).size.width - 40,
-            height: 75,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            decoration: ShapeDecoration(
-              color: f_80,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset('images/mypage/checkbox.svg', height: 24, width: 24),
-                const SizedBox(width: 12),
-                const Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '문의가 완료되었어요!',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    SizedBox(height: 2),
-                    Text(
-                      '더 나은 뉴켓을 위해 소중한 의견 주셔서 감사합니다 :)',
-                      style: TextStyle(
-                        color: b_400,
-                        fontSize: 12,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-
-    Overlay.of(context).insert(overlayEntry);
-
-    // 5초 후에 Toast를 자동으로 제거
-    Future.delayed(const Duration(seconds: 5), () {
-      overlayEntry.remove();
-    });
   }
 
   @override
@@ -349,7 +285,7 @@ class _HelpScreen extends State<HelpScreen> {
                     context, HelpRequest(_titleController.value.text, _contentController.value.text, _emailController.value.text));
                 _titleController.clear();
                 _contentController.clear();
-                showToast(context);
+                showToast(74, '문의가 완료되었어요!', '더 나은 뉴켓을 위해 소중한 의견 주셔서 감사합니다.', context);
                 AmplitudeConfig.amplitude.logEvent('Back');
                 Navigator.pop(context); //뒤로가기
               }

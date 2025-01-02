@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:newket/view/common/toast_widget.dart';
 import 'package:newket/view/concert_list/widget/on_sale_widget.dart';
 import 'package:newket/view/concert_list/widget/opening_notice_widget.dart';
 import 'package:newket/config/amplitude_config.dart';
@@ -254,6 +255,11 @@ class _SearchScreen extends State<SearchScreen> {
                                                           setState(() {
                                                             isFavoriteArtist[index] = true;
                                                           });
+                                                          showToast(
+                                                              74,
+                                                              '앞으로 ${ticketResponse.artists[index].name}의 티켓이 뜨면 알려드릴게요!',
+                                                              '마이페이지에서 해당 정보를 변경할 수 있어요.',
+                                                              context);
                                                         }
                                                       })
                                               ])),

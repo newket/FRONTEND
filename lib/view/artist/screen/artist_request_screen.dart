@@ -5,6 +5,7 @@ import 'package:newket/view/common/app_bar_back.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/repository/artist_repository.dart';
+import 'package:newket/view/common/toast_widget.dart';
 
 class ArtistRequestScreen extends StatefulWidget {
   const ArtistRequestScreen({super.key});
@@ -21,79 +22,6 @@ class _ArtistRequestScreen extends State<ArtistRequestScreen> {
   Color nextColor = v1pt_30;
   final FocusNode _artistNode = FocusNode();
   final FocusNode _artistInfoNode = FocusNode();
-
-  void showToast(BuildContext context) {
-    OverlayEntry overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        bottom: 116.0, // Toast 위치 조정
-        left: 20, // 화면의 가운데 정렬
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
-            width: MediaQuery.of(context).size.width - 40,
-            height: 64,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: ShapeDecoration(
-              color: b_800,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: 20,
-                  height: 20,
-                  padding: const EdgeInsets.all(4),
-                  child: const Icon(
-                    Icons.check,
-                    color: p_500,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                const Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '아티스트 등록 요청이 성공적으로 보내졌어요!',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    SizedBox(height: 2),
-                    Text(
-                      '등록이 완료되면 알려드릴게요',
-                      style: TextStyle(
-                        color: b_400,
-                        fontSize: 12,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-
-    Overlay.of(context).insert(overlayEntry);
-
-    // 5초 후에 Toast를 자동으로 제거
-    Future.delayed(const Duration(seconds: 5), () {
-      overlayEntry.remove();
-    });
-  }
 
   Future<void> _requestArtist(String artistName, String? artistInfo) async {
     //제출
@@ -132,8 +60,6 @@ class _ArtistRequestScreen extends State<ArtistRequestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
-
     return Scaffold(
         resizeToAvoidBottomInset: false,
         //키보드가 올라 오지 않도록
@@ -258,7 +184,7 @@ class _ArtistRequestScreen extends State<ArtistRequestScreen> {
                   _requestArtist(_artistController.value.text, _artistInfoController.value.text);
                   _artistController.clear();
                   _artistInfoController.clear();
-                  //showToast(context);
+                  showToast(130, '아티스트 등록 요청이 완료되었어요!', '요청하신 아티스트를 빠른 시일 내로 등록해드릴게요.', context);
                 }
               },
               style: ElevatedButton.styleFrom(
