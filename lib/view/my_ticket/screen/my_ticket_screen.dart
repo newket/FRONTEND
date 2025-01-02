@@ -319,7 +319,7 @@ class _MyTicketScreen extends State<MyTicketScreen> {
                                                   ),
                                                   Container(
                                                     width: 169,
-                                                    height: 70,
+                                                    height: 71,
                                                     decoration: ShapeDecoration(
                                                       color: f_100,
                                                       shape: RoundedRectangleBorder(
@@ -351,6 +351,7 @@ class _MyTicketScreen extends State<MyTicketScreen> {
                                                                               fontSize: 12,
                                                                               color: b_400,
                                                                               fontWeight: FontWeight.w400,
+                                                                              letterSpacing: -0.36,
                                                                             ),
                                                                           ),
                                                                           Text(
@@ -358,18 +359,40 @@ class _MyTicketScreen extends State<MyTicketScreen> {
                                                                                 .ticketingSchedules[index1].dday,
                                                                             style: TextStyle(
                                                                               fontFamily: 'Pretendard',
-                                                                              fontSize: 12,
-                                                                              color: response.concerts[index]
-                                                                                      .ticketingSchedules[index1].dday
-                                                                                      .contains("D-")
-                                                                                  ? const Color(0xffFF5F5F)
+                                                                              fontSize: 14,
+                                                                              color: response
+                                                                                              .concerts[index]
+                                                                                              .ticketingSchedules[
+                                                                                                  index1]
+                                                                                              .dday ==
+                                                                                          "D-Day" ||
+                                                                                      response
+                                                                                              .concerts[index]
+                                                                                              .ticketingSchedules[
+                                                                                                  index1]
+                                                                                              .dday ==
+                                                                                          "D-1" ||
+                                                                                      response
+                                                                                              .concerts[index]
+                                                                                              .ticketingSchedules[
+                                                                                                  index1]
+                                                                                              .dday ==
+                                                                                          "D-2" ||
+                                                                                      response
+                                                                                              .concerts[index]
+                                                                                              .ticketingSchedules[
+                                                                                                  index1]
+                                                                                              .dday ==
+                                                                                          "D-3"
+                                                                                  ? pn_100
                                                                                   : Colors.white,
-                                                                              fontWeight: FontWeight.w700,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              letterSpacing: -0.42,
                                                                             ),
                                                                           ),
                                                                         ],
                                                                       ),
-                                                                      const SizedBox(height: 4),
+                                                                      const SizedBox(height: 3),
                                                                     ],
                                                                   );
                                                                 },
