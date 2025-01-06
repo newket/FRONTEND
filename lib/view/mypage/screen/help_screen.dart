@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:newket/view/common/app_bar_back.dart';
 import 'package:newket/config/amplitude_config.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:newket/model/user_model.dart';
 import 'package:newket/repository/user_repository.dart';
-import 'package:newket/constant/colors.dart';
+import 'package:newket/view/common/app_bar_back.dart';
 import 'package:newket/view/common/toast_widget.dart';
 
 class HelpScreen extends StatefulWidget {
@@ -56,7 +55,7 @@ class _HelpScreen extends State<HelpScreen> {
       //키보드가 올라 오지 않도록
       appBar: appBarBack(context, "문의하기"),
       backgroundColor: Colors.white,
-      body: GestureDetector(
+      body: SingleChildScrollView(child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(), // 키보드 외부를 탭하면 키보드 숨기기
           child: Container(
               padding: const EdgeInsets.only(top: 12, left: 20, right: 20),
@@ -187,7 +186,8 @@ class _HelpScreen extends State<HelpScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Expanded(
-                                  child: TextField(
+                                  child: TextFormField(
+                                      scrollPadding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                                       decoration: const InputDecoration(
                                         hintText: '자세한 내용을 입력해주세요.\n\n\n\n\n\n\n\n\n\n\n\n\n\n',
                                         border: InputBorder.none, // 입력 필드의 기본 테두리 제거
@@ -243,9 +243,10 @@ class _HelpScreen extends State<HelpScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Expanded(
-                                  child: TextField(
+                                  child: TextFormField(
+                                      scrollPadding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                                       decoration: const InputDecoration(
-                                        hintText: '문의에 대한 답변을 원하신다면 전달 받으실 이메일을 입력해주세요.',
+                                        hintText: '답변 받을 이메일 주소를 입력해주세요.',
                                         border: InputBorder.none, // 입력 필드의 기본 테두리 제거
                                         hintStyle: TextStyle(
                                           color: f_50, // 텍스트 색상
@@ -270,8 +271,9 @@ class _HelpScreen extends State<HelpScreen> {
                                     LengthLimitingTextInputFormatter(50), // 최대 글자 수를 50자로 제한
                                   ]
                                   )),
-                            ])))
-              ]))),
+                            ]))),
+                SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
+              ])))),
       bottomNavigationBar: Container(
           color: Colors.white,
           width: MediaQuery.of(context).size.width - 40,
