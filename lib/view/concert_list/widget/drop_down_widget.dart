@@ -71,7 +71,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
           maxWidth: 150,
         ),
         //팝업 가로 길이 고정
-        offset: const Offset(13, 25),
+        offset: const Offset(13, 27),
         // 팝업 위치 조정
         elevation: 0,
         // 그림자 제거
