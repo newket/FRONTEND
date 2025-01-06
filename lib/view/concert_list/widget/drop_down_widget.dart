@@ -34,7 +34,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
     return Container(
       height: 34,
       width: 150,
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       decoration: ShapeDecoration(
         color: backgroundColor, // 배경색 변경
         shape: RoundedRectangleBorder(
