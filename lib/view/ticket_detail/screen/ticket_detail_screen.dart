@@ -142,8 +142,6 @@ class _TicketDetailScreen extends State<TicketDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   RichText(
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis, //2줄 이상은 ...
                       text: TextSpan(
                         text: ticketResponse.title,
                         style: const TextStyle(
