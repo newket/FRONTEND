@@ -397,13 +397,13 @@ class _SearchScreen extends State<SearchScreen> {
                                             ]);
                                           },
                                         ),
-                                      )
+                                      ),
+                                      const SizedBox(height: 28)
                                     ],
                                   )
                                 : const SizedBox(),
                             ticketResponse.onSale.totalNum > 0
                                 ? Column(children: [
-                                    const SizedBox(height: 28),
                                     Row(
                                       children: [
                                         const Text("예매 중인 티켓",
@@ -448,7 +448,8 @@ class _SearchScreen extends State<SearchScreen> {
                                           ]);
                                         },
                                       ),
-                                    )
+                                    ),
+                                    const SizedBox(height: 28)
                                   ])
                                 : const SizedBox()
                           ],
