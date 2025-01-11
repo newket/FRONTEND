@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/model/ticket_model.dart';
@@ -11,7 +13,9 @@ import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/view/concert_list/screen/on_sale_screen.dart';
 import 'package:newket/view/concert_list/screen/opening_notice_screen.dart';
-import 'package:newket/view/search/screen/search_screen.dart';
+import 'package:newket/view/login/screen/before_login_screen.dart';
+import 'package:newket/view/mypage/screen/mypage_screen.dart';
+import 'package:newket/view/search/screen/search_result_screen.dart';
 import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -72,6 +76,52 @@ class _HomeScreen extends State<HomeScreen> with SingleTickerProviderStateMixin 
     Timer? debounce;
 
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  child: const Text(
+                    'NEWKET',
+                    style: TextStyle(
+                      color: pn_100,
+                      fontSize: 24,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  },
+                ),
+                GestureDetector(
+                  child: SvgPicture.asset(
+                    'images/home/mypage.svg',
+                    width: 28,
+                    height: 28,
+                  ),
+                  onTap: () async {
+                    FocusScope.of(context).unfocus();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    const storage = FlutterSecureStorage();
+                    String? accessToken = await storage.read(key: 'ACCESS_TOKEN');
+                    if (accessToken == null) {
+                      AmplitudeConfig.amplitude.logEvent('BeforeLogin');
+                      Get.to(const BeforeLoginScreen());
+                    } else {
+                      AmplitudeConfig.amplitude.logEvent('MyPage');
+                      Get.to(const MyPageScreen());
+                    }
+                  },
+                )
+              ],
+            ),
+          ),
+        ),
         resizeToAvoidBottomInset: false, //키보드가 올라 오지 않도록
         backgroundColor: Colors.white,
         body: GestureDetector(
@@ -134,7 +184,7 @@ class _HomeScreen extends State<HomeScreen> with SingleTickerProviderStateMixin 
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => SearchScreen(keyword: value),
+                                      builder: (context) => SearchResultScreen(keyword: value),
                                     ),
                                   );
                                 }
@@ -245,7 +295,7 @@ class _HomeScreen extends State<HomeScreen> with SingleTickerProviderStateMixin 
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => SearchScreen(keyword: artist.name),
+                                              builder: (context) => SearchResultScreen(keyword: artist.name),
                                             ),
                                           );
                                         });

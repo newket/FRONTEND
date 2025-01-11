@@ -16,16 +16,16 @@ import 'package:newket/view/artist/screen/artist_request_screen.dart';
 import 'package:newket/view/search/widget/small_notification_button_widget.dart';
 import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key, required this.keyword});
+class SearchResultScreen extends StatefulWidget {
+  const SearchResultScreen({super.key, required this.keyword});
 
   final String keyword;
 
   @override
-  State<StatefulWidget> createState() => _SearchScreen();
+  State<StatefulWidget> createState() => _SearchResultScreen();
 }
 
-class _SearchScreen extends State<SearchScreen> {
+class _SearchResultScreen extends State<SearchResultScreen> {
   late TicketRepository ticketRepository;
   late TextEditingController _searchController;
   String keyword = '';
