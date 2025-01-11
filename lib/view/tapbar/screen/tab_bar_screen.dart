@@ -21,7 +21,7 @@ class TabBarScreen extends StatefulWidget {
 late TabController tabController;
 
 class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
-  int lastIndex = -1;
+  int lastIndex = 0;
 
   @override
   void initState() {
@@ -36,7 +36,6 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
           tabController.index = lastIndex; // 이전 인덱스으로 다시 설정
           AmplitudeConfig.amplitude.logEvent('BeforeLogin');
           Get.to(() => const BeforeLoginScreen());
-          lastIndex = 0;
         } else {
           lastIndex = tabController.index; // 현재 인덱스를 마지막 인덱스로 저장
           switch (tabController.index) {
