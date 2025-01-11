@@ -78,13 +78,14 @@ class _AgreementScreen extends State<AgreementScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            highlightColor: Colors.transparent,
             leading: IconButton(
                 onPressed: () {
                   AmplitudeConfig.amplitude.logEvent('Agreement->Login');
                   Get.offAll(const LoginScreen());
                 },
                 color: f_90,
-                icon: const Icon(Icons.keyboard_arrow_left)),
+                icon: const Icon(Icons.arrow_back_ios_new_rounded)),
             backgroundColor: Colors.white,
             centerTitle: true,
             title: const Text(

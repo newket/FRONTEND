@@ -5,12 +5,13 @@ import 'package:newket/constant/colors.dart';
 PreferredSizeWidget appBarBack(BuildContext context, String title) {
   return AppBar(
       leading: IconButton(
+        highlightColor: Colors.transparent,
           onPressed: () {
             AmplitudeConfig.amplitude.logEvent('Back');
             Navigator.pop(context); //뒤로가기
           },
           color: f_90,
-          icon: const Icon(Icons.keyboard_arrow_left)),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded)),
       backgroundColor: Colors.white,
       centerTitle: true,
       title: Text(
