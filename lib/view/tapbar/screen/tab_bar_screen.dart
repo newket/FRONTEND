@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -92,117 +93,121 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
                   child: Stack(
                     children: [
                       TabBar(
-                          tabs: <Tab>[
-                            Tab(
-                              icon: Container(
-                                  width: 50,
-                                  height: 50,
-                                  padding: const EdgeInsets.symmetric(vertical: 4),
-                                  child: Column(
-                                    children: [
-                                      SvgPicture.asset(
-                                        tabController.index == 0
-                                            ? 'images/tab_bar/home_on.svg'
-                                            : 'images/tab_bar/home_off.svg',
-                                        width: 24,
-                                        height: 24,
-                                      ),
-                                      Text("홈",
-                                          style: TextStyle(
-                                              fontFamily: 'Pretendard',
-                                              fontSize: 10,
-                                              letterSpacing: -0.30,
-                                              color: tabController.index == 0 ? pn_100 : f_40,
-                                              fontWeight: FontWeight.w400)),
-                                    ],
-                                  )),
-                            ),
-                            Tab(
-                              icon: Container(
-                                  width: 50,
-                                  height: 50,
-                                  padding: const EdgeInsets.symmetric(vertical: 4),
-                                  child: Column(
-                                    children: [
-                                      SvgPicture.asset(
-                                        tabController.index == 1
-                                            ? 'images/tab_bar/my_ticket_on.svg'
-                                            : 'images/tab_bar/my_ticket_off.svg',
-                                        width: 24,
-                                        height: 24,
-                                      ),
-                                      Text("내 티켓",
-                                          style: TextStyle(
-                                              fontFamily: 'Pretendard',
-                                              fontSize: 10,
-                                              letterSpacing: -0.30,
-                                              color: tabController.index == 1 ? pn_100 : f_40,
-                                              fontWeight: FontWeight.w400)),
-                                    ],
-                                  )),
-                            ),
-                            Tab(
-                              icon: Container(
-                                  width: 50,
-                                  height: 50,
-                                  padding: const EdgeInsets.symmetric(vertical: 4),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                        tabController.index == 2
-                                            ? 'images/tab_bar/search_on.svg'
-                                            : 'images/tab_bar/search_off.svg',
-                                        width: 24,
-                                        height: 24,
-                                      ),
-                                      Text("검색",
-                                          style: TextStyle(
-                                              fontFamily: 'Pretendard',
-                                              fontSize: 10,
-                                              letterSpacing: -0.30,
-                                              color: tabController.index == 2 ? pn_100 : f_40,
-                                              fontWeight: FontWeight.w400)),
-                                    ],
-                                  )),
-                            ),
-                            Tab(
-                              icon: Container(
-                                  width: 50,
-                                  height: 50,
-                                  padding: const EdgeInsets.symmetric(vertical: 4),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                        tabController.index == 3
-                                            ? 'images/tab_bar/my_on.svg'
-                                            : 'images/tab_bar/my_off.svg',
-                                        width: 24,
-                                        height: 24,
-                                      ),
-                                      Text("MY",
-                                          style: TextStyle(
-                                              fontFamily: 'Pretendard',
-                                              fontSize: 10,
-                                              letterSpacing: -0.30,
-                                              color: tabController.index == 3 ? pn_100 : f_40,
-                                              fontWeight: FontWeight.w400)),
-                                    ],
-                                  )),
-                            ),
-                          ],
-                          controller: tabController,
-                          //divider 내리기
-                          dividerColor: Colors.transparent,
-                          // 흰 줄 제거
-                          indicatorPadding: EdgeInsets.zero,
-                          // indicator 위치 내리기
-                          labelPadding: EdgeInsets.zero,
-                          //탭 크기가 안 작아지게
-                          indicator: const BoxDecoration(
-                            color: Colors.transparent,
-                          )),
+                        tabs: <Tab>[
+                          Tab(
+                            icon: Container(
+                                width: 50,
+                                height: 50,
+                                padding: const EdgeInsets.symmetric(vertical: 4),
+                                child: Column(
+                                  children: [
+                                    SvgPicture.asset(
+                                      tabController.index == 0
+                                          ? 'images/tab_bar/home_on.svg'
+                                          : 'images/tab_bar/home_off.svg',
+                                      width: 24,
+                                      height: 24,
+                                    ),
+                                    Text("홈",
+                                        style: TextStyle(
+                                            fontFamily: 'Pretendard',
+                                            fontSize: 10,
+                                            letterSpacing: -0.30,
+                                            color: tabController.index == 0 ? pn_100 : f_40,
+                                            fontWeight: FontWeight.w400)),
+                                  ],
+                                )),
+                          ),
+                          Tab(
+                            icon: Container(
+                                width: 50,
+                                height: 50,
+                                padding: const EdgeInsets.symmetric(vertical: 4),
+                                child: Column(
+                                  children: [
+                                    SvgPicture.asset(
+                                      tabController.index == 1
+                                          ? 'images/tab_bar/my_ticket_on.svg'
+                                          : 'images/tab_bar/my_ticket_off.svg',
+                                      width: 24,
+                                      height: 24,
+                                    ),
+                                    Text("내 티켓",
+                                        style: TextStyle(
+                                            fontFamily: 'Pretendard',
+                                            fontSize: 10,
+                                            letterSpacing: -0.30,
+                                            color: tabController.index == 1 ? pn_100 : f_40,
+                                            fontWeight: FontWeight.w400)),
+                                  ],
+                                )),
+                          ),
+                          Tab(
+                            icon: Container(
+                                width: 50,
+                                height: 50,
+                                padding: const EdgeInsets.symmetric(vertical: 4),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      tabController.index == 2
+                                          ? 'images/tab_bar/search_on.svg'
+                                          : 'images/tab_bar/search_off.svg',
+                                      width: 24,
+                                      height: 24,
+                                    ),
+                                    Text("검색",
+                                        style: TextStyle(
+                                            fontFamily: 'Pretendard',
+                                            fontSize: 10,
+                                            letterSpacing: -0.30,
+                                            color: tabController.index == 2 ? pn_100 : f_40,
+                                            fontWeight: FontWeight.w400)),
+                                  ],
+                                )),
+                          ),
+                          Tab(
+                            icon: Container(
+                                width: 50,
+                                height: 50,
+                                padding: const EdgeInsets.symmetric(vertical: 4),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      tabController.index == 3
+                                          ? 'images/tab_bar/my_on.svg'
+                                          : 'images/tab_bar/my_off.svg',
+                                      width: 24,
+                                      height: 24,
+                                    ),
+                                    Text("MY",
+                                        style: TextStyle(
+                                            fontFamily: 'Pretendard',
+                                            fontSize: 10,
+                                            letterSpacing: -0.30,
+                                            color: tabController.index == 3 ? pn_100 : f_40,
+                                            fontWeight: FontWeight.w400)),
+                                  ],
+                                )),
+                          ),
+                        ],
+                        controller: tabController,
+                        //divider 내리기
+                        dividerColor: Colors.transparent,
+                        // 흰 줄 제거
+                        indicatorPadding: EdgeInsets.zero,
+                        // indicator 위치 내리기
+                        labelPadding: EdgeInsets.zero,
+                        //탭 크기가 안 작아지게
+                        indicator: const BoxDecoration(
+                          color: Colors.transparent,
+                        ),
+                        onTap: (int index) {
+                          HapticFeedback.lightImpact();
+                        },
+                      ),
                     ],
                   )),
             ),
