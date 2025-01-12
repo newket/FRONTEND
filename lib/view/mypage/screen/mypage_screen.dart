@@ -13,6 +13,7 @@ import 'package:newket/view/agreement/screen/terms_of_service_screen.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
 import 'package:newket/view/mypage/screen/help_screen.dart';
 import 'package:newket/view/mypage/screen/my_favorite_artist_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class MyPageScreen extends StatefulWidget {
@@ -497,7 +498,9 @@ class _MyPageScreen extends State<MyPageScreen> {
                                                   await authRepository.withdraw(context);
                                                 }
                                                 var storage = const FlutterSecureStorage();
+                                                final prefs = await SharedPreferences.getInstance();
                                                 await storage.deleteAll();
+                                                await prefs.clear();
                                                 AmplitudeConfig.amplitude.logEvent('Withdraw');
                                                 Get.offAll(() => const LoginScreen());
                                               },
