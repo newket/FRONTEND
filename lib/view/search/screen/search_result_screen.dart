@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
+import 'package:newket/constant/fonts.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/model/ticket_model.dart';
 import 'package:newket/repository/artist_repository.dart';
@@ -79,87 +80,81 @@ class _SearchResultScreen extends State<SearchResultScreen> {
                 ticketResponse.artists.isNotEmpty
                     ? Container(
                         width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.only(left: 20, right: 20, top: 24, bottom: 8),
-                        decoration: const BoxDecoration(color: Colors.white),
+                        padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("아티스트",
-                                style: TextStyle(
-                                    fontFamily: 'Pretendard', fontSize: 18, color: f_100, fontWeight: FontWeight.w600)),
+                            Text("아티스트", style: t2_18Semi(f_100)),
                             const SizedBox(height: 12),
-                            Container(
-                                width: MediaQuery.of(context).size.width - 43,
-                                padding: const EdgeInsets.symmetric(vertical: 6),
-                                child: Column(
-                                    children: List.generate(ticketResponse.artists.length, (index) {
-                                  return Column(
-                                    children: [
-                                      SizedBox(
-                                          height: 48,
-                                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  ticketResponse.artists[index].name,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Pretendard',
-                                                    fontSize: 16,
-                                                    color: f_100,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                                if (ticketResponse.artists[index].nicknames != null)
-                                                  Text(
-                                                    ticketResponse.artists[index].nicknames!,
-                                                    style: const TextStyle(
-                                                      fontFamily: 'Pretendard',
-                                                      fontSize: 14,
-                                                      color: f_50,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                  )
-                                              ],
+                            Column(
+                                children: List.generate(ticketResponse.artists.length, (index) {
+                              return Column(
+                                children: [
+                                  SizedBox(
+                                      height: 48,
+                                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              ticketResponse.artists[index].name,
+                                              style: const TextStyle(
+                                                fontFamily: 'Pretendard',
+                                                fontSize: 16,
+                                                color: f_100,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
-                                            if (isFavoriteArtist[index]) //관심 아티스트 아님
-                                              GestureDetector(
-                                                  child: SvgPicture.asset(
-                                                    'images/opening_notice/notification_off.svg',
-                                                    width: 16,
-                                                    height: 16,
-                                                    color: f_40,
-                                                  ),
-                                                  onTap: () async {
-                                                    await artistRepository.deleteFavoriteArtist(
-                                                        ticketResponse.artists[index].artistId, context);
-                                                    setState(() {
-                                                      isFavoriteArtist[index] = false;
-                                                    });
-                                                  })
-                                            else //관심 아티스트
-                                              GestureDetector(
-                                                  child: const SmallNotificationButtonWidget(),
-                                                  onTap: () async {
-                                                    final isSuccess = await artistRepository.addFavoriteArtist(
-                                                        ticketResponse.artists[index].artistId, context);
-                                                    if (isSuccess) {
-                                                      setState(() {
-                                                        isFavoriteArtist[index] = true;
-                                                      });
-                                                      showToast(
-                                                          74,
-                                                          '앞으로 ${ticketResponse.artists[index].name}의 티켓이 뜨면 알려드릴게요!',
-                                                          '마이페이지에서 해당 정보를 변경할 수 있어요.',
-                                                          context);
-                                                    }
-                                                  })
-                                          ])),
-                                      const SizedBox(height: 12),
-                                    ],
-                                  );
-                                })))
+                                            if (ticketResponse.artists[index].nicknames != null)
+                                              Text(
+                                                ticketResponse.artists[index].nicknames!,
+                                                style: const TextStyle(
+                                                  fontFamily: 'Pretendard',
+                                                  fontSize: 14,
+                                                  color: f_50,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              )
+                                          ],
+                                        ),
+                                        if (isFavoriteArtist[index]) //관심 아티스트 아님
+                                          GestureDetector(
+                                              child: SvgPicture.asset(
+                                                'images/opening_notice/notification_off.svg',
+                                                width: 16,
+                                                height: 16,
+                                                color: f_40,
+                                              ),
+                                              onTap: () async {
+                                                await artistRepository.deleteFavoriteArtist(
+                                                    ticketResponse.artists[index].artistId, context);
+                                                setState(() {
+                                                  isFavoriteArtist[index] = false;
+                                                });
+                                              })
+                                        else //관심 아티스트
+                                          GestureDetector(
+                                              child: const SmallNotificationButtonWidget(),
+                                              onTap: () async {
+                                                final isSuccess = await artistRepository.addFavoriteArtist(
+                                                    ticketResponse.artists[index].artistId, context);
+                                                if (isSuccess) {
+                                                  setState(() {
+                                                    isFavoriteArtist[index] = true;
+                                                  });
+                                                  showToast(
+                                                      74,
+                                                      '앞으로 ${ticketResponse.artists[index].name}의 티켓이 뜨면 알려드릴게요!',
+                                                      '마이페이지에서 해당 정보를 변경할 수 있어요.',
+                                                      context);
+                                                }
+                                              })
+                                      ])),
+                                  const SizedBox(height: 12),
+                                ],
+                              );
+                            }))
                           ],
                         ))
                     : Container(
@@ -171,62 +166,48 @@ class _SearchResultScreen extends State<SearchResultScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const SizedBox(height: 32),
-                              const Text(
+                              Text(
                                 '찾으시는 아티스트가 없나요?',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: f_100,
-                                  fontSize: 16,
-                                  fontFamily: 'Pretendard',
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                style: s1_16Semi(f_100),
                               ),
-                              const Text(
+                              const SizedBox(height: 4),
+                              Text(
                                 '원하는 아티스트를 요청해주세요.\n새로운 아티스트로 등록되면 알림을 보내드릴게요!',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: f_50,
-                                  fontSize: 12,
-                                  fontFamily: 'Pretendard',
-                                  fontWeight: FontWeight.w400,
-                                ),
+                                style: c4_12Reg(f_50),
                               ),
-                              const SizedBox(height: 8),
-                              Container(
-                                  width: 207,
-                                  height: 46,
-                                  padding: const EdgeInsets.symmetric(vertical: 12),
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: ShapeDecoration(
-                                    color: pt_10,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                                  ),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      AmplitudeConfig.amplitude.logEvent('ArtistRequest');
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const ArtistRequestScreen(),
-                                        ),
-                                      );
-                                    },
-                                    child: const Row(
+                              const SizedBox(height: 12),
+                              GestureDetector(
+                                  onTap: () {
+                                    AmplitudeConfig.amplitude.logEvent('ArtistRequest');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const ArtistRequestScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    width: 207,
+                                    height: 46,
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: ShapeDecoration(
+                                      color: pt_10,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                    ),
+                                    child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           Text(
                                             '아티스트 등록 요청하러가기',
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: pt_100,
-                                              fontSize: 14,
-                                              fontFamily: 'Pretendard',
-                                              fontWeight: FontWeight.w600,
-                                            ),
+                                            style: button2_14Semi(pt_100),
                                           ),
-                                          SizedBox(width: 4),
-                                          Icon(Icons.navigate_next, color: pt_100, size: 20)
+                                          const SizedBox(width: 4),
+                                          const Icon(Icons.navigate_next, color: pt_100, size: 20)
                                         ]),
                                   ))
                             ])),
@@ -247,19 +228,9 @@ class _SearchResultScreen extends State<SearchResultScreen> {
                                 children: [
                                   Row(
                                     children: [
-                                      const Text("오픈 예정 티켓",
-                                          style: TextStyle(
-                                              fontFamily: 'Pretendard',
-                                              fontSize: 18,
-                                              color: f_100,
-                                              fontWeight: FontWeight.w600)),
+                                      Text("오픈 예정 티켓", style: t2_18Semi(f_100)),
                                       const SizedBox(width: 8),
-                                      Text("${ticketResponse.openingNotice.totalNum}개",
-                                          style: const TextStyle(
-                                              fontFamily: 'Pretendard',
-                                              fontSize: 16,
-                                              color: pn_100,
-                                              fontWeight: FontWeight.w600))
+                                      Text("${ticketResponse.openingNotice.totalNum}개", style: s1_16Semi(pn_100))
                                     ],
                                   ),
                                   const SizedBox(height: 12),
@@ -299,19 +270,9 @@ class _SearchResultScreen extends State<SearchResultScreen> {
                             ? Column(children: [
                                 Row(
                                   children: [
-                                    const Text("예매 중인 티켓",
-                                        style: TextStyle(
-                                            fontFamily: 'Pretendard',
-                                            fontSize: 18,
-                                            color: f_100,
-                                            fontWeight: FontWeight.w600)),
+                                    Text("예매 중인 티켓", style: t2_18Semi(f_100)),
                                     const SizedBox(width: 8),
-                                    Text("${ticketResponse.onSale.totalNum}개",
-                                        style: const TextStyle(
-                                            fontFamily: 'Pretendard',
-                                            fontSize: 16,
-                                            color: pn_100,
-                                            fontWeight: FontWeight.w600))
+                                    Text("${ticketResponse.onSale.totalNum}개", style: s1_16Semi(pn_100))
                                   ],
                                 ),
                                 const SizedBox(height: 12),
