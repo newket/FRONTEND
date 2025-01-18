@@ -33,7 +33,7 @@ class SearchingBarWidget extends StatelessWidget {
                 color: pn_05,
                 shape: RoundedRectangleBorder(
                   side: const BorderSide(width: 1, color: pt_40),
-                  borderRadius: BorderRadius.circular(62),
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
               padding: const EdgeInsets.symmetric(vertical: 11, horizontal: 12),
