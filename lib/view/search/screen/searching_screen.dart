@@ -6,8 +6,7 @@ import 'package:get/get.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
-import 'package:newket/model/artist_model.dart';
-import 'package:newket/model/ticket_model.dart';
+import 'package:newket/model/ticket/autocomplete_model.dart';
 import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/view/artist/screen/artist_profile_screen.dart';
@@ -28,13 +27,11 @@ class _SearchScreen extends State<SearchingScreen> {
   late TicketRepository ticketRepository;
   late TextEditingController _searchController;
   late FocusNode _searchFocusNode;
-  bool isLoading = true;
-  List<Artist> artists = []; // 검색 결과를 담을 리스트
-  List<Concert> openingNoticeResponse = [];
-  List<ConcertOnSale> onSaleResponse = [];
+  List<Artist> artists = [];
+  List<Ticket> tickets = [];
   late ArtistRepository artistRepository;
-  late SearchResponse ticketResponse;
-  List<bool> isFavoriteArtist = [];
+  late AutocompleteResponse autocompleteResponse;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -44,7 +41,7 @@ class _SearchScreen extends State<SearchingScreen> {
       _searchFocusNode.requestFocus();
     });
     ticketRepository = TicketRepository();
-    if(widget.keyword?.isNotEmpty ?? false){
+    if (widget.keyword?.isNotEmpty ?? false) {
       _search(widget.keyword!);
     }
     _searchController = TextEditingController(text: widget.keyword);
@@ -58,11 +55,10 @@ class _SearchScreen extends State<SearchingScreen> {
 
   Future<void> _search(String keyword) async {
     if (keyword.trim().isNotEmpty) {
-      SearchResponse result = await ticketRepository.searchArtistsAndTickets(keyword);
+      AutocompleteResponse result = await ticketRepository.autocomplete(keyword);
       setState(() {
         artists = result.artists;
-        openingNoticeResponse = result.openingNotice.concerts;
-        onSaleResponse = result.onSale.concerts;
+        tickets = result.tickets;
       });
     }
   }
@@ -204,8 +200,7 @@ class _SearchScreen extends State<SearchingScreen> {
                     ),
                   ],
                 )),
-            if (_searchController.text.isNotEmpty &&
-                (artists.isNotEmpty || openingNoticeResponse.isNotEmpty || onSaleResponse.isNotEmpty))
+            if (_searchController.text.isNotEmpty && (artists.isNotEmpty || tickets.isNotEmpty))
               Expanded(
                   child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
@@ -214,7 +209,6 @@ class _SearchScreen extends State<SearchingScreen> {
                     // 아티스트 항목
                     ...artists.map((artist) => GestureDetector(
                           onTap: () {
-                            _searchController.clear();
                             Get.off(ArtistProfileScreen(artistId: artist.artistId));
                             AmplitudeConfig.amplitude.logEvent('SearchDetail(artist: ${artist.name})');
                             AmplitudeConfig.amplitude.logEvent('ArtistProfile(artist: ${artist.name})');
@@ -235,11 +229,15 @@ class _SearchScreen extends State<SearchingScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     RichText(
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis, // 1줄 이상은 ...
                                       text: _highlightKeyword(artist.name, _searchController.text),
                                     ),
-                                    if (artist.nicknames != null)
+                                    if (artist.subName != null)
                                       Text(
-                                        artist.nicknames ?? '',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis, // 1줄 이상은 ...
+                                        artist.subName ?? '',
                                         style: c4_12Reg(f_40),
                                       ),
                                   ],
@@ -248,46 +246,11 @@ class _SearchScreen extends State<SearchingScreen> {
                             ),
                           ),
                         )),
-                    ...openingNoticeResponse.map((concert) => GestureDetector(
+                    ...tickets.map((concert) => GestureDetector(
                           onTap: () {
-                            setState(() {
-                              _searchController.clear();
-                              Get.off(TicketDetailScreen(concertId: concert.concertId));
-                              AmplitudeConfig.amplitude.logEvent('SearchDetail(concertName: ${concert.title})');
-                              AmplitudeConfig.amplitude.logEvent('TicketDetail(title: ${concert.title})');
-                            });
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(bottom: 6),
-                            // 아래쪽 간격 설정
-                            color: Colors.transparent,
-                            width: MediaQuery.of(context).size.width - 40,
-                            height: 48,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                SvgPicture.asset('images/search/search_ticket.svg', width: 20, height: 20),
-                                const SizedBox(width: 12),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width - 72,
-                                  child: RichText(
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis, // 1줄 이상은 ...
-                                    text: _highlightKeyword(concert.title, _searchController.text),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )),
-                    ...onSaleResponse.map((concert) => GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _searchController.clear();
-                              Get.off(TicketDetailScreen(concertId: concert.concertId));
-                              AmplitudeConfig.amplitude.logEvent('SearchDetail(concertName: ${concert.title})');
-                              AmplitudeConfig.amplitude.logEvent('TicketDetail(title: ${concert.title})');
-                            });
+                            Get.off(TicketDetailScreen(concertId: concert.concertId));
+                            AmplitudeConfig.amplitude.logEvent('SearchDetail(concertName: ${concert.title})');
+                            AmplitudeConfig.amplitude.logEvent('TicketDetail(title: ${concert.title})');
                           },
                           child: Container(
                             margin: const EdgeInsets.only(bottom: 6),
