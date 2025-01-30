@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:newket/model/ticket_model.dart';
 import 'package:newket/constant/colors.dart';
+import 'package:newket/model/ticket/opening_notice_model.dart';
 
 class OpeningNoticeWidget extends StatelessWidget {
   final OpeningNoticeResponse openingResponse;

@@ -5,8 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
-import 'package:newket/model/artist_model.dart';
-import 'package:newket/model/ticket_model.dart';
+import 'package:newket/model/ticket/on_sale_model.dart';
+import 'package:newket/model/ticket/opening_notice_model.dart';
+import 'package:newket/model/ticket/search_result_model.dart';
 import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/view/artist/screen/artist_request_screen.dart';
@@ -30,10 +31,10 @@ class _SearchResultScreen extends State<SearchResultScreen> {
   late TicketRepository ticketRepository;
   bool isLoading = true;
   List<Artist> artists = []; // 검색 결과를 담을 리스트
-  List<Concert> openingNoticeResponse = [];
-  List<ConcertOnSale> onSaleResponse = [];
+  List<OpeningNoticeResponse> openingNoticeResponse = [];
+  List<OnSaleResponse> onSaleResponse = [];
   late ArtistRepository artistRepository;
-  late SearchResponse ticketResponse;
+  late SearchResultResponse ticketResponse;
   List<bool> isFavoriteArtist = [];
 
   @override
@@ -106,9 +107,9 @@ class _SearchResultScreen extends State<SearchResultScreen> {
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                            if (ticketResponse.artists[index].nicknames != null)
+                                            if (ticketResponse.artists[index].subName != null)
                                               Text(
-                                                ticketResponse.artists[index].nicknames!,
+                                                ticketResponse.artists[index].subName!,
                                                 style: const TextStyle(
                                                   fontFamily: 'Pretendard',
                                                   fontSize: 14,
