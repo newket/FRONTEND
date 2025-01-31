@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
@@ -10,12 +10,12 @@ import 'package:newket/model/ticket/opening_notice_model.dart';
 import 'package:newket/model/ticket/search_result_model.dart';
 import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
+import 'package:newket/view/artist/screen/artist_profile_screen.dart';
 import 'package:newket/view/artist/screen/artist_request_screen.dart';
-import 'package:newket/view/common/toast_widget.dart';
 import 'package:newket/view/concert_list/widget/on_sale_widget.dart';
 import 'package:newket/view/concert_list/widget/opening_notice_widget.dart';
+import 'package:newket/view/search/widget/artist_list_widget.dart';
 import 'package:newket/view/search/widget/searching_bar_widget.dart';
-import 'package:newket/view/search/widget/small_notification_button_widget.dart';
 import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 
 class SearchResultScreen extends StatefulWidget {
@@ -30,7 +30,6 @@ class SearchResultScreen extends StatefulWidget {
 class _SearchResultScreen extends State<SearchResultScreen> {
   late TicketRepository ticketRepository;
   bool isLoading = true;
-  List<Artist> artists = []; // 검색 결과를 담을 리스트
   List<OpeningNoticeResponse> openingNoticeResponse = [];
   List<OnSaleResponse> onSaleResponse = [];
   late ArtistRepository artistRepository;
@@ -89,73 +88,15 @@ class _SearchResultScreen extends State<SearchResultScreen> {
                             const SizedBox(height: 12),
                             Column(
                                 children: List.generate(ticketResponse.artists.length, (index) {
-                              return Column(
-                                children: [
-                                  SizedBox(
-                                      height: 48,
-                                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              ticketResponse.artists[index].name,
-                                              style: const TextStyle(
-                                                fontFamily: 'Pretendard',
-                                                fontSize: 16,
-                                                color: f_100,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                            if (ticketResponse.artists[index].subName != null)
-                                              Text(
-                                                ticketResponse.artists[index].subName!,
-                                                style: const TextStyle(
-                                                  fontFamily: 'Pretendard',
-                                                  fontSize: 14,
-                                                  color: f_50,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              )
-                                          ],
-                                        ),
-                                        if (isFavoriteArtist[index]) //관심 아티스트 아님
-                                          GestureDetector(
-                                              child: SvgPicture.asset(
-                                                'images/opening_notice/notification_off.svg',
-                                                width: 16,
-                                                height: 16,
-                                                color: f_40,
-                                              ),
-                                              onTap: () async {
-                                                await artistRepository.deleteFavoriteArtist(
-                                                    ticketResponse.artists[index].artistId, context);
-                                                setState(() {
-                                                  isFavoriteArtist[index] = false;
-                                                });
-                                              })
-                                        else //관심 아티스트
-                                          GestureDetector(
-                                              child: const SmallNotificationButtonWidget(),
-                                              onTap: () async {
-                                                final isSuccess = await artistRepository.addFavoriteArtist(
-                                                    ticketResponse.artists[index].artistId, context);
-                                                if (isSuccess) {
-                                                  setState(() {
-                                                    isFavoriteArtist[index] = true;
-                                                  });
-                                                  showToast(
-                                                      74,
-                                                      '앞으로 ${ticketResponse.artists[index].name}의 티켓이 뜨면 알려드릴게요!',
-                                                      '마이페이지에서 해당 정보를 변경할 수 있어요.',
-                                                      context);
-                                                }
-                                              })
-                                      ])),
-                                  const SizedBox(height: 12),
-                                ],
-                              );
-                            }))
+                              return GestureDetector(
+                                  onTap: () {
+                                    Get.to(ArtistProfileScreen(artistId: ticketResponse.artists[index].artistId));
+                                  },
+                                  child: ArtistListWidget(
+                                      artist: ticketResponse.artists[index],
+                                      isFavoriteArtist: isFavoriteArtist[index]));
+                            })),
+                            const SizedBox(height: 4)
                           ],
                         ))
                     : Container(
