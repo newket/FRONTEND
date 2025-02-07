@@ -78,7 +78,6 @@ class _AgreementScreen extends State<AgreementScreen> {
     return Scaffold(
         appBar: AppBar(
             leading: IconButton(
-                highlightColor: Colors.transparent,
                 onPressed: () {
                   AmplitudeConfig.amplitude.logEvent('Agreement->Login');
                   Get.offAll(const LoginScreen());

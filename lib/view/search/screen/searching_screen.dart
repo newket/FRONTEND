@@ -131,17 +131,15 @@ class _SearchScreen extends State<SearchingScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 4),
                 child: Row(
                   children: [
-                    const SizedBox(width: 12),
-                    GestureDetector(
-                        onTap: () {
+                    IconButton(
+                        onPressed: () {
                           AmplitudeConfig.amplitude.logEvent('Back');
                           Navigator.pop(context);
                         },
-                        child: const Icon(Icons.arrow_back_ios_new_rounded, size: 24, color: f_90)),
-                    const SizedBox(width: 8),
+                        icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 24, color: f_90)),
                     Container(
                       height: 44,
-                      width: MediaQuery.of(context).size.width - 64,
+                      width: MediaQuery.of(context).size.width - 68,
                       decoration: ShapeDecoration(
                         color: pn_05,
                         shape: RoundedRectangleBorder(
