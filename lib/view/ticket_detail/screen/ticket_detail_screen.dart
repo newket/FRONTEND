@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
+import 'package:newket/model/ticket/search_result_model.dart';
+import 'package:newket/model/ticket/ticket_detail_model.dart';
 import 'package:newket/view/common/app_bar_back.dart';
 import 'package:newket/config/amplitude_config.dart';
-import 'package:newket/model/ticket_model.dart';
 import 'package:newket/repository/artist_repository.dart';
 import 'package:newket/repository/notification_repository.dart';
 import 'package:newket/repository/ticket_repository.dart';
@@ -29,7 +30,7 @@ class _TicketDetailScreen extends State<TicketDetailScreen> {
   late ArtistRepository artistRepository;
   bool isNotification = false;
   bool isLoading = true; // 로딩 상태 추가
-  late TicketDetail ticketResponse;
+  late TicketDetailResponse ticketResponse;
   late List<bool> isFavoriteArtist;
 
   Future<void> _getIsNotification() async {
@@ -66,8 +67,8 @@ class _TicketDetailScreen extends State<TicketDetailScreen> {
   Widget build(BuildContext context) {
     // 로딩 중일 때 로딩 화면을 표시
     if (isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(), // 로딩 인디케이터
+      return Container(
+        color: Colors.white,
       );
     }
 
@@ -142,8 +143,6 @@ class _TicketDetailScreen extends State<TicketDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   RichText(
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis, //2줄 이상은 ...
                       text: TextSpan(
                         text: ticketResponse.title,
                         style: const TextStyle(
@@ -256,7 +255,7 @@ class _TicketDetailScreen extends State<TicketDetailScreen> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      "${ticketResponse.ticketProviders[index].ticketingSchedules[index1].date} ${ticketResponse.ticketProviders[index].ticketingSchedules[0].time}",
+                                                      "${ticketResponse.ticketProviders[index].ticketingSchedules[index1].date} ${ticketResponse.ticketProviders[index].ticketingSchedules[index1].time}",
                                                       textAlign: TextAlign.center,
                                                       style: const TextStyle(
                                                         fontFamily: 'Pretendard',
@@ -499,7 +498,7 @@ class _TicketDetailScreen extends State<TicketDetailScreen> {
                                         })
                                   else //관심 아티스트
                                     GestureDetector(
-                                        child: const SmallNotificationButtonWidget(),
+                                        child: SmallNotificationButtonWidget(isFavoriteArtist: isFavoriteArtist[index], artist: Artist(artistId: ticketResponse.artists[index].artistId, name: ticketResponse.artists[index].name, subName: ticketResponse.artists[index].nicknames, imageUrl: '')),
                                         onTap: () async {
                                           final isSuccess = await artistRepository.addFavoriteArtist(
                                               ticketResponse.artists[index].artistId, context);

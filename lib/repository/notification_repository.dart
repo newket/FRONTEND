@@ -1,12 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:newket/auth/auth_dio.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/notification_model.dart';
-import 'package:newket/model/ticket_model.dart';
-import 'package:newket/auth/auth_dio.dart';
+import 'package:newket/model/ticket/opening_notice_model.dart';
 import 'package:newket/view/login/screen/before_login_screen.dart';
 
 class NotificationRepository{

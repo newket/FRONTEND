@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
-import 'package:newket/view/common/app_bar_back.dart';
 import 'package:newket/config/amplitude_config.dart';
+import 'package:newket/constant/colors.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/repository/auth_repository.dart';
 import 'package:newket/repository/user_repository.dart';
-import 'package:newket/constant/colors.dart';
 import 'package:newket/view/agreement/screen/privacy_policy_screen.dart';
 import 'package:newket/view/agreement/screen/terms_of_service_screen.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
@@ -79,12 +78,13 @@ class _AgreementScreen extends State<AgreementScreen> {
     return Scaffold(
         appBar: AppBar(
             leading: IconButton(
+                highlightColor: Colors.transparent,
                 onPressed: () {
                   AmplitudeConfig.amplitude.logEvent('Agreement->Login');
                   Get.offAll(const LoginScreen());
                 },
                 color: f_90,
-                icon: const Icon(Icons.keyboard_arrow_left)),
+                icon: const Icon(Icons.arrow_back_ios_new_rounded)),
             backgroundColor: Colors.white,
             centerTitle: true,
             title: const Text(

@@ -1,24 +1,3 @@
-class SearchArtists {
-  List<Artist> artists;
-
-  SearchArtists({required this.artists});
-
-  factory SearchArtists.fromJson(Map<String, dynamic> json) {
-    var artistList = json['artists'] as List;
-    List<Artist> artistItems = artistList.map((i) => Artist.fromJson(i)).toList();
-
-    return SearchArtists(
-      artists: artistItems,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'artists': artists.map((v) => v.toJson()).toList(),
-    };
-  }
-}
-
 class Artist {
   String name;
   String? nicknames;
@@ -46,10 +25,31 @@ class Artist {
   }
 }
 
-class FavoriteArtists {
+class FavoriteArtistsResponse {
+  List<Artist> artists;
+
+  FavoriteArtistsResponse({required this.artists});
+
+  factory FavoriteArtistsResponse.fromJson(Map<String, dynamic> json) {
+    var artistList = json['artists'] as List;
+    List<Artist> artistItems = artistList.map((i) => Artist.fromJson(i)).toList();
+
+    return FavoriteArtistsResponse(
+      artists: artistItems,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'artists': artists.map((v) => v.toJson()).toList(),
+    };
+  }
+}
+
+class FavoriteArtistsRequest {
   List<int> artistIds;
 
-  FavoriteArtists(this.artistIds);
+  FavoriteArtistsRequest(this.artistIds);
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{"artistIds": artistIds};
