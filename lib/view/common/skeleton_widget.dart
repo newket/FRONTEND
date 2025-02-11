@@ -5,18 +5,14 @@ class SkeletonWidget extends StatelessWidget {
   final double width;
   final double height;
   final double radius;
-  const SkeletonWidget({
-    super.key,
-    required this.width,
-    required this.height,
-    required this.radius
-  });
+
+  const SkeletonWidget({super.key, required this.width, required this.height, required this.radius});
 
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: const Color.fromRGBO(240, 240, 240, 1),
-      highlightColor: Colors.white,
+      baseColor: const Color(0xFFF1F1F1),
+      highlightColor: const Color(0xFFF8F8F8),
       child: Container(
         width: width,
         height: height,
