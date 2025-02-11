@@ -4,10 +4,12 @@ import 'package:shimmer/shimmer.dart';
 class SkeletonWidget extends StatelessWidget {
   final double width;
   final double height;
+  final double radius;
   const SkeletonWidget({
     super.key,
     required this.width,
-    required this.height
+    required this.height,
+    required this.radius
   });
 
   @override
@@ -18,7 +20,7 @@ class SkeletonWidget extends StatelessWidget {
       child: Container(
         width: width,
         height: height,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.grey),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(radius), color: Colors.grey),
       ),
     );
   }

@@ -19,8 +19,8 @@ class ConcertSkeletonUIWidget extends StatelessWidget {
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SkeletonWidget(width: 50, height: 24),
-              SkeletonWidget(width: 150, height: 34),
+              SkeletonWidget(width: 50, height: 24, radius: 8),
+              SkeletonWidget(width: 150, height: 34, radius: 8),
             ],
           ),
           const SizedBox(height: 8),
@@ -29,7 +29,7 @@ class ConcertSkeletonUIWidget extends StatelessWidget {
               10,
                   (index) {
                 return Column(children: [
-                  SkeletonWidget(width: MediaQuery.of(context).size.width - 40, height: 122),
+                  SkeletonWidget(width: MediaQuery.of(context).size.width - 40, height: 122, radius: 8),
                   const SizedBox(height: 12)
                 ]);
               },
