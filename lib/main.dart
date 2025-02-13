@@ -16,7 +16,6 @@ import 'package:newket/view/login/screen/login_screen.dart';
 import 'package:newket/view/tapbar/screen/tab_bar_screen.dart';
 import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
@@ -167,18 +166,15 @@ void main() async {
     );
 
     String? accessToken = ""; //user의 정보를 저장하기 위한 변수
-    asyncMethod() async {
-      accessToken = await storage.read(key: "ACCESS_TOKEN");
-      if (accessToken == null) {
-        AmplitudeConfig.amplitude.logEvent('Login');
-        runApp(const MyApp());
-      } else {
-        AmplitudeConfig.amplitude.logEvent('Home');
-        runApp(const MyApp2());
-      }
+    accessToken = await storage.read(key: "ACCESS_TOKEN");
+    if (accessToken == null || accessToken.isEmpty) {
+      AmplitudeConfig.amplitude.logEvent('Login');
+      runApp(const MyApp());
+    } else {
+      AmplitudeConfig.amplitude.logEvent('Home');
+      runApp(const MyApp2());
     }
 
-    asyncMethod();
   } catch (e) {
     debugPrint('main error: $e');
     AmplitudeConfig.amplitude.logEvent('main error: $e');
