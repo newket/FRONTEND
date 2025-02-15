@@ -90,7 +90,9 @@ class _SearchResultScreen extends State<SearchResultScreen> {
                                 children: List.generate(ticketResponse.artists.length, (index) {
                               return GestureDetector(
                                   onTap: () {
-                                    Get.to(ArtistProfileScreen(artistId: ticketResponse.artists[index].artistId));
+                                    Get.to(() => ArtistProfileScreen(artistId: ticketResponse.artists[index].artistId));
+                                    AmplitudeConfig.amplitude
+                                        .logEvent('ArtistProfile(artist: ${ticketResponse.artists[index].name})');
                                   },
                                   child: ArtistListWidget(
                                       artist: ticketResponse.artists[index],

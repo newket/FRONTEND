@@ -80,7 +80,7 @@ class _AgreementScreen extends State<AgreementScreen> {
             leading: IconButton(
                 onPressed: () {
                   AmplitudeConfig.amplitude.logEvent('Agreement->Login');
-                  Get.offAll(const LoginScreen());
+                  Get.offAll(() => const LoginScreen());
                 },
                 color: f_90,
                 icon: const Icon(Icons.arrow_back_ios_new_rounded)),
@@ -104,7 +104,8 @@ class _AgreementScreen extends State<AgreementScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(child: Column(
+                  Expanded(
+                      child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Column(children: [

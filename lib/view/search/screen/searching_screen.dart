@@ -207,7 +207,7 @@ class _SearchScreen extends State<SearchingScreen> {
                     // 아티스트 항목
                     ...artists.map((artist) => GestureDetector(
                           onTap: () {
-                            Get.off(ArtistProfileScreen(artistId: artist.artistId));
+                            Get.off(() => ArtistProfileScreen(artistId: artist.artistId));
                             AmplitudeConfig.amplitude.logEvent('SearchDetail(artist: ${artist.name})');
                             AmplitudeConfig.amplitude.logEvent('ArtistProfile(artist: ${artist.name})');
                           },
@@ -246,7 +246,7 @@ class _SearchScreen extends State<SearchingScreen> {
                         )),
                     ...tickets.map((concert) => GestureDetector(
                           onTap: () {
-                            Get.off(TicketDetailScreen(concertId: concert.concertId));
+                            Get.off(() => TicketDetailScreen(concertId: concert.concertId));
                             AmplitudeConfig.amplitude.logEvent('SearchDetail(concertName: ${concert.title})');
                             AmplitudeConfig.amplitude.logEvent('TicketDetail(title: ${concert.title})');
                           },

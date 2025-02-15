@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:newket/repository/auth_repository.dart';
-import 'package:newket/constant/colors.dart';
 import 'package:get/get.dart';
+import 'package:newket/constant/colors.dart';
+import 'package:newket/repository/auth_repository.dart';
 import 'package:newket/view/tapbar/screen/tab_bar_screen.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -83,7 +82,7 @@ class _LoginScreen extends State<LoginScreen> {
                         ),
                       ),
                       onPressed: () async {
-                        Get.offAll(const TabBarScreen());
+                        Get.offAll(() => const TabBarScreen());
                       }),
                   const SizedBox(height: 60),
                 ],
