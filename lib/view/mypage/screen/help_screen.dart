@@ -287,7 +287,7 @@ class _HelpScreen extends State<HelpScreen> {
                     context, HelpRequest(_titleController.value.text, _contentController.value.text, _emailController.value.text));
                 _titleController.clear();
                 _contentController.clear();
-                showToast(74, '문의가 완료되었어요!', '더 나은 뉴켓을 위해 소중한 의견 주셔서 감사합니다.', context);
+                ToastManager.showToast(toastBottom: 74, title: '문의가 완료되었어요!', content: '더 나은 뉴켓을 위해 소중한 의견 주셔서 감사합니다.', context: context);
                 AmplitudeConfig.amplitude.logEvent('Back');
                 Navigator.pop(context); //뒤로가기
               }

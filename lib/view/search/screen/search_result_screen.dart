@@ -96,7 +96,8 @@ class _SearchResultScreen extends State<SearchResultScreen> {
                                   },
                                   child: ArtistListWidget(
                                       artist: ticketResponse.artists[index],
-                                      isFavoriteArtist: isFavoriteArtist[index]));
+                                      isFavoriteArtist: isFavoriteArtist[index],
+                                      toastBottom: 74));
                             })),
                             const SizedBox(height: 4)
                           ],

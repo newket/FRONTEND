@@ -8,8 +8,9 @@ import 'package:newket/view/search/widget/small_notification_button_widget.dart'
 class ArtistListWidget extends StatefulWidget {
   final Artist artist;
   final bool isFavoriteArtist;
+  final double toastBottom;
 
-  const ArtistListWidget({super.key, required this.artist, required this.isFavoriteArtist});
+  const ArtistListWidget({super.key, required this.artist, required this.isFavoriteArtist, required this.toastBottom});
 
   @override
   State<StatefulWidget> createState() => _ArtistListWidget();
@@ -90,7 +91,7 @@ class _ArtistListWidget extends State<ArtistListWidget> {
                       ),
                     )
                   ]),
-                  SmallNotificationButtonWidget(isFavoriteArtist: widget.isFavoriteArtist, artist: artist)
+                  SmallNotificationButtonWidget(isFavoriteArtist: widget.isFavoriteArtist, artist: artist, toastBottom: widget.toastBottom,)
                 ])),
             const SizedBox(height: 12),
           ],

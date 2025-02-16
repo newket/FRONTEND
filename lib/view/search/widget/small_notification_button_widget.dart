@@ -58,7 +58,7 @@ class _SmallNotificationButtonWidgetState extends State<SmallNotificationButtonW
                   _showArrow = true;
                 });
               });
-              showToast(74, '앞으로 ${widget.artist.name}의 티켓이 뜨면 알려드릴게요!', '마이페이지에서 해당 정보를 변경할 수 있어요.', context);
+              ToastManager.showToast(toastBottom: widget.toastBottom, title: '앞으로 ${widget.artist.name}의 티켓이 뜨면 알려드릴게요!', content: '마이페이지에서 해당 정보를 변경할 수 있어요.',context: context);
             }
           }
         },
