@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:newket/view/common/app_bar_back.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/model/artist_model.dart';
 import 'package:newket/repository/artist_repository.dart';
+import 'package:newket/view/common/app_bar_back.dart';
 import 'package:newket/view/common/toast_widget.dart';
 
 class ArtistRequestScreen extends StatefulWidget {
@@ -184,7 +184,7 @@ class _ArtistRequestScreen extends State<ArtistRequestScreen> {
                   _requestArtist(_artistController.value.text, _artistInfoController.value.text);
                   _artistController.clear();
                   _artistInfoController.clear();
-                  showToast(130, '아티스트 등록 요청이 완료되었어요!', '요청하신 아티스트를 빠른 시일 내로 등록해드릴게요.', context);
+                  ToastManager.showToast(toastBottom: 130, title: '아티스트 등록 요청이 완료되었어요!', content: '요청하신 아티스트를 빠른 시일 내로 등록해드릴게요.', context: context);
                 }
               },
               style: ElevatedButton.styleFrom(
