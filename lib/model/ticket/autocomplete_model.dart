@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 class AutocompleteResponse {
   List<Artist> artists;
