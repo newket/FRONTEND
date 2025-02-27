@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
-import 'package:newket/model/artist/artist_profile_model.dart';
+import 'package:newket/model/artist/artist_profile_response.dart';
 import 'package:newket/repository/artist_repository.dart';
-import 'package:newket/view/artist/screen/ImagePreviewScreen.dart';
+import 'package:newket/repository/notification_request_repository.dart';
 import 'package:newket/view/artist/screen/artist_profile_skeleton_screen.dart';
+import 'package:newket/view/artist/screen/image_preview_screen.dart';
 import 'package:newket/view/artist/widget/artist_horizontal_list_widget.dart';
 import 'package:newket/view/artist/widget/medium_notification_button_widget.dart';
 import 'package:newket/view/common/image_loading_widget.dart';
-import 'package:newket/view/concert_list/widget/on_sale_widget.dart';
-import 'package:newket/view/concert_list/widget/opening_notice_widget.dart';
+import 'package:newket/view/ticket_list/widget/on_sale_widget.dart';
+import 'package:newket/view/ticket_list/widget/before_sale_widget.dart';
 import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 
 class ArtistProfileScreen extends StatefulWidget {
@@ -27,10 +28,9 @@ class ArtistProfileScreen extends StatefulWidget {
 class _ArtistProfileScreen extends State<ArtistProfileScreen>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver, RouteAware {
   ArtistRepository artistRepository = ArtistRepository();
+  NotificationRequestRepository notificationRequestRepository = NotificationRequestRepository();
   late TabController controller;
   late Future repository;
-  late Timer skeletonTimer;
-  bool showSkeleton = false;
   bool isFavoriteArtist = false;
   final ScrollController _scrollController = ScrollController();
   double _scrollPosition = 0;
@@ -44,14 +44,6 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
 
     _loadFavoriteStatus();
 
-    // 200ms 후 Skeleton UI 표시
-    skeletonTimer = Timer(const Duration(milliseconds: 200), () {
-      if (!mounted) return;
-
-      setState(() {
-        showSkeleton = true;
-      });
-    });
     _scrollController.addListener(_scrollListener);
     controller.addListener(() {
       setState(() {});
@@ -66,7 +58,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
   }
 
   void _loadFavoriteStatus() async {
-    final favoriteStatus = await artistRepository.getIsFavoriteArtist(widget.artistId, context);
+    final favoriteStatus = await notificationRequestRepository.isArtistNotification(widget.artistId, context);
     if (!mounted) return;
     setState(() {
       isFavoriteArtist = favoriteStatus;
@@ -87,7 +79,6 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
 
   @override
   void dispose() {
-    skeletonTimer.cancel();
     controller.dispose();
     _scrollController.dispose();
     WidgetsBinding.instance.removeObserver(this);
@@ -102,10 +93,6 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
       body: FutureBuilder(
         future: repository,
         builder: (context, snapshot) {
-          if ((snapshot.connectionState == ConnectionState.waiting || snapshot.hasError || !snapshot.hasData) &&
-              showSkeleton) {
-            return const ArtistProfileSkeletonScreen();
-          }
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const ArtistProfileSkeletonScreen();
           }
@@ -195,11 +182,21 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                                   const SizedBox(height: 6),
                                   RichText(
                                     maxLines: 1,
+                                    textHeightBehavior: const TextHeightBehavior(
+                                      // 텍스트 높이 맞춤
+                                      applyHeightToFirstAscent: false,
+                                      applyHeightToLastDescent: false,
+                                    ),
                                     overflow: TextOverflow.ellipsis,
                                     text: TextSpan(text: response.info.name, style: h2_24Semi(f_100)),
                                   ),
                                   RichText(
                                     maxLines: 1,
+                                    textHeightBehavior: const TextHeightBehavior(
+                                      // 텍스트 높이 맞춤
+                                      applyHeightToFirstAscent: false,
+                                      applyHeightToLastDescent: false,
+                                    ),
                                     overflow: TextOverflow.ellipsis,
                                     text: TextSpan(text: response.info.subName ?? '', style: b9_14Reg(f_60)),
                                   ),
@@ -306,11 +303,12 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                       //간격
                       tabs: [
                         Tab(
-                            child: Text("판매 중  ${response.openingNotice.totalNum + response.onSale.totalNum}개  ",
+                            child: Text(
+                                "판매 중  ${response.beforeSaleTickets.totalNum + response.onSaleTickets.totalNum}개  ",
                                 style: b8_14Med(controller.index == 0 ? pn_100 : f_40))),
                         Tab(
                             child: Text(
-                          "판매 종료  ${response.afterSale.totalNum}개  ",
+                          "판매 종료  ${response.afterSaleTickets.totalNum}개  ",
                           style: b8_14Med(controller.index == 1 ? pn_100 : f_40),
                         ))
                       ],
@@ -328,7 +326,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Column(children: [
                           const SizedBox(height: 14),
-                          (response.onSale.totalNum == 0 && response.openingNotice.totalNum == 0)
+                          (response.onSaleTickets.totalNum == 0 && response.beforeSaleTickets.totalNum == 0)
                               ? Column(children: [
                                   const SizedBox(height: 30),
                                   Image.asset('images/my_ticket/ticket_null.png', width: 160, height: 160),
@@ -336,12 +334,12 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                                   Text('판매 중인 티켓이 없어요', style: b6_16Med(f_60))
                                 ])
                               : const SizedBox(),
-                          response.openingNotice.totalNum > 0
+                          response.beforeSaleTickets.totalNum > 0
                               ? Column(
                                   children: [
                                     Column(
                                       children: List.generate(
-                                        response.openingNotice.concerts.length,
+                                        response.beforeSaleTickets.tickets.length,
                                         (index) {
                                           return Column(children: [
                                             GestureDetector(
@@ -350,16 +348,15 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) => TicketDetailScreen(
-                                                      concertId: response
-                                                          .openingNotice.concerts[index].concertId, // 상세 페이지에 데이터 전달
+                                                      ticketId: response.beforeSaleTickets.tickets[index].ticketId,
                                                     ),
                                                   ),
                                                 );
                                                 AmplitudeConfig.amplitude.logEvent(
-                                                    'TicketDetail(title:${response.openingNotice.concerts[index].title})');
+                                                    'TicketDetail(title:${response.beforeSaleTickets.tickets[index].title})');
                                               },
-                                              child: OpeningNoticeWidget(
-                                                  openingResponse: response.openingNotice, index: index),
+                                              child: BeforeSaleWidget(
+                                                  beforeSaleTicketsResponse: response.beforeSaleTickets, index: index),
                                             ),
                                             const SizedBox(height: 12)
                                           ]);
@@ -369,11 +366,11 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                                   ],
                                 )
                               : const SizedBox(),
-                          response.onSale.totalNum > 0
+                          response.onSaleTickets.totalNum > 0
                               ? Column(children: [
                                   Column(
                                     children: List.generate(
-                                      response.onSale.concerts.length,
+                                      response.onSaleTickets.tickets.length,
                                       (index) {
                                         return Column(children: [
                                           GestureDetector(
@@ -382,14 +379,14 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) => TicketDetailScreen(
-                                                    concertId: response.onSale.concerts[index].concertId,
+                                                    ticketId: response.onSaleTickets.tickets[index].ticketId,
                                                   ),
                                                 ),
                                               );
                                               AmplitudeConfig.amplitude.logEvent(
-                                                  'TicketDetail(title:${response.onSale.concerts[index].title})');
+                                                  'TicketDetail(title:${response.beforeSaleTickets.tickets[index].title})');
                                             },
-                                            child: OnSaleWidget(onSaleResponse: response.onSale, index: index),
+                                            child: OnSaleWidget(onSaleResponse: response.onSaleTickets, index: index),
                                           ),
                                           const SizedBox(height: 12)
                                         ]);
@@ -406,7 +403,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                         child: Column(
                           children: [
                             const SizedBox(height: 14),
-                            (response.afterSale.totalNum == 0)
+                            (response.afterSaleTickets.totalNum == 0)
                                 ? Column(children: [
                                     const SizedBox(height: 30),
                                     Image.asset('images/my_ticket/ticket_null.png', width: 160, height: 160),
@@ -414,12 +411,12 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                                     Text('판매 종료된 티켓이 없어요', style: b6_16Med(f_60))
                                   ])
                                 : const SizedBox(),
-                            response.afterSale.totalNum > 0
+                            response.afterSaleTickets.totalNum > 0
                                 ? Column(
                                     children: [
                                       Column(
                                         children: List.generate(
-                                          response.afterSale.concerts.length,
+                                          response.afterSaleTickets.totalNum,
                                           (index) {
                                             return Column(children: [
                                               GestureDetector(
@@ -428,14 +425,15 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                                                     context,
                                                     MaterialPageRoute(
                                                       builder: (context) => TicketDetailScreen(
-                                                        concertId: response.afterSale.concerts[index].concertId,
+                                                        ticketId: response.afterSaleTickets.tickets[index].ticketId,
                                                       ),
                                                     ),
                                                   );
                                                   AmplitudeConfig.amplitude.logEvent(
-                                                      'TicketDetail(title:${response.afterSale.concerts[index].title})');
+                                                      'TicketDetail(title:${response.afterSaleTickets.tickets[index].title})');
                                                 },
-                                                child: OnSaleWidget(onSaleResponse: response.afterSale, index: index),
+                                                child: OnSaleWidget(
+                                                    onSaleResponse: response.afterSaleTickets, index: index),
                                               ),
                                               const SizedBox(height: 12)
                                             ]);
