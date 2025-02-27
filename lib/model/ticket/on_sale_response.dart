@@ -1,43 +1,43 @@
 class OnSaleResponse {
   int totalNum;
-  List<Concert> concerts;
+  List<OnSaleTicketDto> tickets;
 
-  OnSaleResponse({required this.totalNum, required this.concerts});
+  OnSaleResponse({required this.totalNum, required this.tickets});
 
   factory OnSaleResponse.fromJson(Map<String, dynamic> json) {
-    var concertList = json['concerts'] as List;
-    List<Concert> concertItems = concertList.map((i) => Concert.fromJson(i)).toList();
+    var ticketList = json['tickets'] as List;
+    List<OnSaleTicketDto> ticketItems = ticketList.map((i) => OnSaleTicketDto.fromJson(i)).toList();
 
     return OnSaleResponse(
       totalNum: json['totalNum'],
-      concerts: concertItems,
+      tickets: ticketItems,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'totalNum': totalNum,
-      'concerts': concerts.map((v) => v.toJson()).toList(),
+      'tickets': tickets.map((v) => v.toJson()).toList(),
     };
   }
 }
 
-class Concert {
-  int concertId;
+class OnSaleTicketDto {
+  int ticketId;
   String imageUrl;
   String title;
   String date;
 
-  Concert({
-    required this.concertId,
+  OnSaleTicketDto({
+    required this.ticketId,
     required this.imageUrl,
     required this.title,
     required this.date,
   });
 
-  factory Concert.fromJson(Map<String, dynamic> json) {
-    return Concert(
-      concertId: json['concertId'],
+  factory OnSaleTicketDto.fromJson(Map<String, dynamic> json) {
+    return OnSaleTicketDto(
+      ticketId: json['ticketId'],
       imageUrl: json['imageUrl'],
       title: json['title'],
       date: json['date'],
@@ -46,7 +46,7 @@ class Concert {
 
   Map<String, dynamic> toJson() {
     return {
-      'concertId': concertId,
+      'ticketId': ticketId,
       'imageUrl': imageUrl,
       'title': title,
       'date': date,

@@ -1,15 +1,14 @@
-
 class AutocompleteResponse {
   List<Artist> artists;
   List<Ticket> tickets;
 
-  AutocompleteResponse({required this.artists ,required this.tickets});
+  AutocompleteResponse({required this.artists, required this.tickets});
 
   factory AutocompleteResponse.fromJson(Map<String, dynamic> json) {
     var artistList = json['artists'] as List;
     List<Artist> artistItems = artistList.map((i) => Artist.fromJson(i)).toList();
     var ticketList = json['tickets'] as List;
-    List<Ticket> ticketItems = ticketList.map((i)=>Ticket.fromJson(i)).toList();
+    List<Ticket> ticketItems = ticketList.map((i) => Ticket.fromJson(i)).toList();
 
     return AutocompleteResponse(
       artists: artistItems,
@@ -54,24 +53,24 @@ class Artist {
 }
 
 class Ticket {
-  int concertId;
+  int ticketId;
   String title;
 
   Ticket({
-    required this.concertId,
+    required this.ticketId,
     required this.title,
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) {
     return Ticket(
-      concertId: json['concertId'],
+      ticketId: json['ticketId'],
       title: json['title'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'concertId': concertId,
+      'ticketId': ticketId,
       'title': title,
     };
   }

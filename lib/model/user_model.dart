@@ -1,5 +1,3 @@
-
-
 class UserInfoResponse {
   String provider;
   String name;
@@ -19,9 +17,7 @@ class UserDeviceToken {
   UserDeviceToken(this.token);
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic> {
-      "token":token
-    };
+    return <String, dynamic>{"token": token};
   }
 }
 
@@ -44,10 +40,6 @@ class HelpRequest {
   HelpRequest(this.title, this.content, this.email);
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic> {
-      "title":title,
-      "content":content,
-      "email":email
-    };
+    return <String, dynamic>{"title": title, "content": content, "email": email};
   }
 }
