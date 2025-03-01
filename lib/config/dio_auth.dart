@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:newket/config/amplitude_config.dart';
+import 'package:newket/config/dio_client.dart';
+import 'package:newket/config/error_interceptor.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
 
+
+
 Future authDio(BuildContext context) async {
-  var dio = Dio();
+  var dio = DioClient.dio;
   const storage = FlutterSecureStorage();
 
-  dio.interceptors.clear();
+  dio.interceptors.removeWhere((interceptor) => interceptor is! ErrorInterceptor); // ErrorInterceptor 유지
 
   dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async {
     // 기기에 저장된 AccessToken 로드
@@ -31,7 +35,6 @@ Future authDio(BuildContext context) async {
     }
 
     // 매 요청마다 헤더에 AccessToken을 포함
-    options.baseUrl = dotenv.get("BASE_URL");
     options.headers['Authorization'] = 'Bearer $accessToken';
 
     return handler.next(options);
@@ -48,11 +51,15 @@ Future authDio(BuildContext context) async {
 
       // 토큰 갱신 API 요청
       try {
-        refreshDio.options.baseUrl = dotenv.get("BASE_URL");
         final requestBody = ReissueRequest(refreshToken!).toJson();
         final response = await refreshDio.put(
-            "/api/v1/auth/reissue",
-            data: requestBody
+          "/api/v1/auth/reissue",
+          data: requestBody,
+          options: Options(
+            headers: {
+              "Content-Type": "application/json;charset=UTF-8",
+            },
+          ),
         );
 
         final responseBody = ReissueResponse.fromJson(response.data);
@@ -90,7 +97,7 @@ Future authDio(BuildContext context) async {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const LoginScreen()),
-                (route) => false,
+            (route) => false,
           );
         }
       }
