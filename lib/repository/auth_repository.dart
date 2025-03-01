@@ -1,26 +1,22 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/route_manager.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:newket/config/dio_auth.dart';
 import 'package:newket/config/amplitude_config.dart';
+import 'package:newket/config/dio_client.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/repository/user_repository.dart';
-import 'package:newket/auth/auth_dio.dart';
 import 'package:newket/view/login/screen/agreement_screen.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
 import 'package:newket/view/tapbar/screen/tab_bar_screen.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthRepository {
-  final Dio dio = Dio();
+  var dio = DioClient.dio;
   var storage = const FlutterSecureStorage();
-
-  AuthRepository() {
-    dio.options.baseUrl = dotenv.get("BASE_URL");
-  }
 
   Future<void> kakaoLoginApi() async {
     Get.dialog(
@@ -40,16 +36,16 @@ class AuthRepository {
 
           try {
             await socialLoginApi(SocialLoginRequest(accessToken));
+
+            final serverToken = await storage.read(key: 'ACCESS_TOKEN');
+            await UserRepository().putDeviceTokenApi(serverToken!);
+
+            AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 성공');
+
+            Get.offAll(() => const TabBarScreen());
           } catch (error) {
             //response 가 400이면 약관 동의 페이지
           }
-
-          final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-          await UserRepository().putDeviceTokenApi(serverToken!);
-
-          AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 성공');
-
-          Get.offAll(()=>const TabBarScreen());
         } catch (error) {
           // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
           // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
@@ -63,16 +59,16 @@ class AuthRepository {
 
             try {
               await socialLoginApi(SocialLoginRequest(accessToken));
+
+              final serverToken = await storage.read(key: 'ACCESS_TOKEN');
+              await UserRepository().putDeviceTokenApi(serverToken!);
+
+              AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 성공');
+
+              Get.offAll(() => const TabBarScreen());
             } catch (error) {
               //response 가 400이면 약관 동의 페이지
             }
-
-            final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-            await UserRepository().putDeviceTokenApi(serverToken!);
-
-            AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
-
-            Get.offAll(()=>const TabBarScreen());
           } catch (error) {
             AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
           }
@@ -85,16 +81,16 @@ class AuthRepository {
 
           try {
             await socialLoginApi(SocialLoginRequest(accessToken));
+
+            final serverToken = await storage.read(key: 'ACCESS_TOKEN');
+            await UserRepository().putDeviceTokenApi(serverToken!);
+
+            AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
+
+            Get.offAll(() => const TabBarScreen());
           } catch (error) {
             //response 가 400이면 약관 동의 페이지
           }
-
-          final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-          await UserRepository().putDeviceTokenApi(serverToken!);
-
-          AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
-
-          Get.offAll(()=>const TabBarScreen());
         } catch (error) {
           AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
         }
@@ -132,20 +128,22 @@ class AuthRepository {
         storage.write(key: 'APPLE_EMAIL', value: credential.email.toString());
         storage.write(key: 'APPLE_SOCIAL_ID', value: credential.userIdentifier.toString());
       }
+      final authorizationCode = credential.authorizationCode.toString();
+      print(authorizationCode);
+
 
       try {
         await socialLoginAppleApi(SocialLoginAppleRequest(credential.userIdentifier.toString()));
+
+        final serverToken = await storage.read(key: 'ACCESS_TOKEN');
+        await UserRepository().putDeviceTokenApi(serverToken!);
+
+        AmplitudeConfig.amplitude.logEvent('애플 계정으로 로그인 성공');
+
+        Get.offAll(() => const TabBarScreen());
       } catch (error) {
         //response 가 400이면 약관 동의 페이지
       }
-
-      final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-      await UserRepository().putDeviceTokenApi(serverToken!);
-
-      AmplitudeConfig.amplitude.logEvent('애플 계정으로 로그인 성공');
-
-      Get.offAll(()=>const TabBarScreen());
-
     } catch (error) {
       AmplitudeConfig.amplitude.logEvent('애플로 로그인 실패 $error');
     } finally {
@@ -159,7 +157,15 @@ class AuthRepository {
     try {
       final requestBody = signUpRequest.toJson();
 
-      final response = await dio.post("/api/v2/auth/signup/KAKAO", data: requestBody);
+      final response = await dio.post(
+        "/api/v1/auth/signup/KAKAO",
+        data: requestBody,
+        options: Options(
+          headers: {
+            "Content-Type": "application/json;charset=UTF-8",
+          },
+        ),
+      );
 
       final responseBody = SocialLoginResponse.fromJson(response.data);
 
@@ -186,7 +192,15 @@ class AuthRepository {
     try {
       final requestBody = signUpAppleRequest.toJson();
 
-      final response = await dio.post("/api/v1/auth/signup/APPLE", data: requestBody);
+      final response = await dio.post(
+        "/api/v1/auth/signup/APPLE",
+        data: requestBody,
+        options: Options(
+          headers: {
+            "Content-Type": "application/json;charset=UTF-8",
+          },
+        ),
+      );
 
       final responseBody = SocialLoginResponse.fromJson(response.data);
 
@@ -208,11 +222,20 @@ class AuthRepository {
     }
   }
 
-  Future<SocialLoginResponse> socialLoginApi(SocialLoginRequest socialLoginRequest) async {
+  Future<void> socialLoginApi(SocialLoginRequest socialLoginRequest) async {
     try {
       final requestBody = socialLoginRequest.toJson();
+      print('requestBody: $requestBody'); // 디버깅을 위한 로그 추가
 
-      final response = await dio.post("/api/v1/auth/login/KAKAO", data: requestBody);
+      final response = await dio.post(
+        "/api/v1/auth/login/KAKAO",
+        data: requestBody,
+        options: Options(
+          headers: {
+            "Content-Type": "application/json;charset=UTF-8",
+          },
+        ),
+      );
 
       final responseBody = SocialLoginResponse.fromJson(response.data);
 
@@ -220,7 +243,6 @@ class AuthRepository {
         storage.write(key: 'ACCESS_TOKEN', value: responseBody.accessToken),
         storage.write(key: 'REFRESH_TOKEN', value: responseBody.refreshToken)
       ]);
-      return responseBody;
     } catch (e) {
       if (e is DioException) {
         if (e.response?.statusCode == 400) {
@@ -228,17 +250,26 @@ class AuthRepository {
           storage.write(key: 'SOCIAL_PROVIDER', value: 'KAKAO');
           AmplitudeConfig.amplitude.logEvent('Agreement');
           Get.offAll(() => const AgreementScreen());
+          return; // 여기서 예외를 다시 throw하지 않음
         }
       }
-      rethrow;
+      rethrow; // 다른 예외는 그대로 던지기
     }
   }
 
-  Future<SocialLoginResponse> socialLoginAppleApi(SocialLoginAppleRequest socialLoginAppleRequest) async {
+  Future<void> socialLoginAppleApi(SocialLoginAppleRequest socialLoginAppleRequest) async {
     try {
       final requestBody = socialLoginAppleRequest.toJson();
 
-      final response = await dio.post("/api/v1/auth/login/APPLE", data: requestBody);
+      final response = await dio.post(
+        "/api/v1/auth/login/APPLE",
+        data: requestBody,
+        options: Options(
+          headers: {
+            "Content-Type": "application/json;charset=UTF-8",
+          },
+        ),
+      );
 
       final responseBody = SocialLoginResponse.fromJson(response.data);
 
@@ -246,7 +277,6 @@ class AuthRepository {
         storage.write(key: 'ACCESS_TOKEN', value: responseBody.accessToken),
         storage.write(key: 'REFRESH_TOKEN', value: responseBody.refreshToken)
       ]);
-      return responseBody;
     } catch (e) {
       if (e is DioException) {
         if (e.response?.statusCode == 400) {
@@ -254,9 +284,10 @@ class AuthRepository {
           storage.write(key: 'SOCIAL_PROVIDER', value: 'APPLE');
           AmplitudeConfig.amplitude.logEvent('Agreement');
           Get.offAll(() => const AgreementScreen());
+          return; // 여기서 예외를 다시 throw하지 않음
         }
       }
-      rethrow;
+      rethrow; // 다른 예외는 그대로 던지기
     }
   }
 
@@ -282,6 +313,14 @@ class AuthRepository {
     var dio = await authDio(context);
     final requestBody = WithDrawApple(authorizationCode).toJson();
 
-    await dio.delete("/api/v1/auth/APPLE", data: requestBody);
+    await dio.delete(
+      "/api/v1/auth/APPLE",
+      data: requestBody,
+      options: Options(
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+      ),
+    );
   }
 }
