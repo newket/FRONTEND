@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/constant/colors.dart';
+import 'package:newket/constant/fonts.dart';
 
 class DropDownWidget extends StatefulWidget {
   final String selectedOption;
@@ -33,8 +34,8 @@ class _DropDownWidgetState extends State<DropDownWidget> {
   Widget build(BuildContext context) {
     return Container(
       height: 34,
-      width: 150,
-      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      width: 131,
+      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
       decoration: ShapeDecoration(
         color: backgroundColor, // 배경색 변경
         shape: RoundedRectangleBorder(
@@ -65,13 +66,10 @@ class _DropDownWidgetState extends State<DropDownWidget> {
             strokeColor = pn_50;
           });
         },
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        constraints: const BoxConstraints(
-          minWidth: 150,
-          maxWidth: 150,
-        ),
+        padding: EdgeInsets.zero,
+        constraints: const BoxConstraints(minWidth: 131, maxWidth: 131),
         //팝업 가로 길이 고정
-        offset: const Offset(13, 27),
+        offset: const Offset(13, 25),
         // 팝업 위치 조정
         elevation: 0,
         // 그림자 제거
@@ -79,20 +77,14 @@ class _DropDownWidgetState extends State<DropDownWidget> {
           return widget.options.map((String option) {
             return PopupMenuItem<String>(
               value: option,
-              padding: const EdgeInsets.only(left: 12),
+              padding: EdgeInsets.zero,
+              height: 33,
               child: Container(
-                height: 38,
+                height: 33,
+                width: 131,
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  option,
-                  style: const TextStyle(
-                    color: f_70,
-                    fontSize: 14,
-                    fontFamily: 'Pretendard',
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: -0.42,
-                  ),
-                ),
+                child: Text(option, style: c4_12Reg(f_70)),
               ),
             );
           }).toList();
@@ -104,18 +96,10 @@ class _DropDownWidgetState extends State<DropDownWidget> {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              selectedOption,
-              style: const TextStyle(
-                color: f_70,
-                fontSize: 14,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w500,
-                letterSpacing: -0.42,
-              ),
-            ),
-            SvgPicture.asset('images/opening_notice/arrow-down.svg', height: 16, width: 16),
+            Text(selectedOption, style: c3_12Med(f_70)),
+            SvgPicture.asset('images/ticket/arrow-down.svg', height: 20, width: 20),
           ],
         ),
       ),
