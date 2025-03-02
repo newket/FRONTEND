@@ -54,15 +54,6 @@ class _TermsOfService extends State<TermsOfService> {
                         ),
                       ),
                       SizedBox(width: 8),
-                      Text(
-                        "ver 1.0.0",
-                        style: TextStyle(
-                          fontFamily: 'Pretendard',
-                          fontSize: 14,
-                          color: f_100,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
                     ],
                   ),
                   const SizedBox(height: 16),
