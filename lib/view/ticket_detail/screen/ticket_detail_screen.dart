@@ -1,570 +1,431 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/route_manager.dart';
-import 'package:newket/model/ticket/search_result_model.dart';
-import 'package:newket/model/ticket/ticket_detail_model.dart';
-import 'package:newket/view/common/app_bar_back.dart';
+import 'package:get/get.dart';
 import 'package:newket/config/amplitude_config.dart';
-import 'package:newket/repository/artist_repository.dart';
-import 'package:newket/repository/notification_repository.dart';
-import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/constant/colors.dart';
+import 'package:newket/constant/fonts.dart';
+import 'package:newket/model/ticket/ticket_detail_response.dart';
+import 'package:newket/repository/notification_request_repository.dart';
+import 'package:newket/repository/ticket_repository.dart';
+import 'package:newket/view/artist/screen/artist_profile_screen.dart';
+import 'package:newket/view/artist/screen/image_preview_screen.dart';
+import 'package:newket/view/artist/widget/artist_list_widget.dart';
+import 'package:newket/view/common/image_loading_widget.dart';
 import 'package:newket/view/common/toast_widget.dart';
-import 'package:newket/view/login/screen/login_screen.dart';
-import 'package:newket/view/search/widget/small_notification_button_widget.dart';
+import 'package:newket/view/ticket_detail/screen/ticket_detail_skeleton_screen.dart';
+import 'package:newket/view/ticket_detail/widget/date_list_popup_widget.dart';
+import 'package:newket/view/ticket_detail/widget/ticket_notification_cacle_popup_widget.dart';
+import 'package:newket/view/ticket_detail/widget/ticket_sale_bottom_sheet_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TicketDetailScreen extends StatefulWidget {
-  const TicketDetailScreen({super.key, required this.concertId});
+  const TicketDetailScreen({super.key, required this.ticketId});
 
-  final int concertId;
+  final int ticketId;
 
   @override
   State<StatefulWidget> createState() => _TicketDetailScreen();
 }
 
-class _TicketDetailScreen extends State<TicketDetailScreen> {
+class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingObserver, RouteAware {
   late TicketRepository ticketRepository;
-  late NotificationRepository notificationRepository;
-  late ArtistRepository artistRepository;
-  bool isNotification = false;
-  bool isLoading = true; // 로딩 상태 추가
+  late NotificationRequestRepository notificationRequestRepository;
+  late bool isNotification;
   late TicketDetailResponse ticketResponse;
   late List<bool> isFavoriteArtist;
+  bool isLoading = true;
+  final ScrollController _scrollController = ScrollController();
+  double _scrollPosition = 0;
+  final RouteObserver<ModalRoute<void>> routeObserver = RouteObserver<ModalRoute<void>>();
 
   Future<void> _getIsNotification() async {
-    try {
-      final response = await notificationRepository.getIsTicketNotification(context, widget.concertId);
-      final response2 = await ticketRepository.ticketDetail(widget.concertId);
-      final response3 =
-          await Future.wait(response2.artists.map((i) => artistRepository.getIsFavoriteArtist(i.artistId, context)));
-      setState(() {
-        isNotification = response;
-        ticketResponse = response2;
-        isFavoriteArtist = response3;
-        isLoading = false; // 로딩 완료 시 로딩 상태 해제
-      });
-    } catch (e) {
-      // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
-      AmplitudeConfig.amplitude.logEvent('TicketDetail error->Login $e');
-      Get.offAll(() => const LoginScreen());
-      var storage = const FlutterSecureStorage();
-      await storage.deleteAll();
-    }
+    final response1 = await ticketRepository.getTicketDetail(widget.ticketId);
+    final response2 = await Future.wait(
+        response1.artists.map((i) => notificationRequestRepository.isArtistNotification(i.artistId, context)));
+    final response3 = await notificationRequestRepository.isTicketNotification(context, widget.ticketId);
+    setState(() {
+      ticketResponse = response1;
+      isFavoriteArtist = response2;
+      isNotification = response3;
+      isLoading = false;
+    });
   }
 
   @override
   void initState() {
     super.initState();
     ticketRepository = TicketRepository();
-    notificationRepository = NotificationRepository();
-    artistRepository = ArtistRepository();
+    notificationRequestRepository = NotificationRequestRepository();
     _getIsNotification();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  _scrollListener() {
+    setState(() {
+      _scrollPosition = _scrollController.position.pixels;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final route = ModalRoute.of(context);
+    if (route != null) {
+      _getIsNotification();
+      routeObserver.unsubscribe(this);
+      routeObserver.subscribe(this, route as PageRoute);
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+    routeObserver.unsubscribe(this);
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // 로딩 중일 때 로딩 화면을 표시
+    //로딩 중일 때 로딩 화면을 표시
     if (isLoading) {
-      return Container(
-        color: Colors.white,
-      );
+      return const TicketDetailSkeletonScreen();
     }
-
-    final double screenWidth = MediaQuery.of(context).size.width;
 
     void launchURL(String url) async {
       Uri uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri);
       } else {
-        throw 'Could not launch $url';
+        throw '';
       }
     }
 
     return Scaffold(
         backgroundColor: Colors.white,
-        //앱바
-        appBar: appBarBack(context, "티켓 상세 정보"),
+        extendBodyBehindAppBar: true,
+        //body 위에 appbar
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text('티켓 상세 보기', style: s1_16Semi((_scrollPosition == 0) ? Colors.white : f_100)),
+          backgroundColor: (_scrollPosition == 0) ? Colors.transparent : Colors.white,
+          scrolledUnderElevation: 0,
+          elevation: 0.0,
+          leading: IconButton(
+            onPressed: () {
+              AmplitudeConfig.amplitude.logEvent('Back');
+              Navigator.pop(context);
+            },
+            color: (_scrollPosition == 0) ? Colors.white : f_100,
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
+          ),
+          primary: true,
+        ),
         body: SingleChildScrollView(
+            controller: _scrollController,
             child: Column(children: [
-          Stack(children: [
-            //점선 위 전체
-            SizedBox(
-              width: double.infinity,
-              height: 228,
-              child: Image.network(
-                ticketResponse.imageUrl,
-                width: 142,
-                height: 188,
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-            //검은 그림자
-            Container(
-              width: double.infinity,
-              height: 228,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: const Alignment(-0.00, 1.00),
-                  end: const Alignment(0, -1),
-                  colors: [
-                    Colors.white,
-                    const Color(0x91AAAAAA),
-                    const Color(0x95454545),
-                    Colors.black.withOpacity(0.6000000238418579)
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-                padding: const EdgeInsets.only(top: 20, left: 20),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 32),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12.0),
-                        child: Image.network(
-                          ticketResponse.imageUrl,
-                          width: 142,
-                          height: 188,
-                          fit: BoxFit.fill,
-                        ),
-                      )
-                    ])),
-          ]),
-          const SizedBox(height: 12),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Stack(
                 children: [
-                  RichText(
-                      text: TextSpan(
-                        text: ticketResponse.title,
-                        style: const TextStyle(
-                          fontFamily: 'Pretendard',
-                          fontSize: 20,
-                          color: f_100,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      )),
-                  const SizedBox(height: 32),
-                  Row(children: [
-                    SvgPicture.asset('images/opening_notice/ticketing_info.svg'),
-                    const SizedBox(width: 8),
-                    const Text(
-                      "예매 정보",
-                      style: TextStyle(
-                        fontFamily: 'Pretendard',
-                        fontSize: 18,
-                        color: f_100,
-                        fontWeight: FontWeight.w600,
+                  ImageLoadingWidget(
+                    width: double.infinity,
+                    height: 537,
+                    radius: 0,
+                    imageUrl: ticketResponse.imageUrl,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 537,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: const Alignment(0, -1),
+                        end: const Alignment(0, 1),
+                        colors: [
+                          Colors.black.withValues(alpha: 0.6),
+                          const Color(0x7C454545),
+                          const Color(0x91AAAAAA),
+                          Colors.white.withValues(alpha: 0.7),
+                          Colors.white.withValues(alpha: 0.9),
+                          Colors.white
+                        ],
                       ),
-                    )
-                  ]),
-                  const SizedBox(height: 16),
-                  Wrap(
-                      runSpacing: 16, // 각 아이템 간의 세로 간격
-                      children: List.generate(ticketResponse.ticketProviders.length, (index) {
-                        return InkWell(
-                            onTap: () {
-                              launchURL(ticketResponse.ticketProviders[index].url); // 클릭 시 URL로 이동
-                            },
-                            child: Stack(
-                              children: [
-                                Container(
-                                    height: 80 + ticketResponse.ticketProviders[index].ticketingSchedules.length * 32,
+                    ),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20, top: 143, bottom: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                              child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white, width: 2),
+                              borderRadius: const BorderRadius.all(Radius.circular(12)),
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  PageRouteBuilder(
+                                    opaque: false,
+                                    pageBuilder: (_, __, ___) => ImagePreviewScreen(imageUrl: ticketResponse.imageUrl),
+                                  ),
+                                );
+                                AmplitudeConfig.amplitude.logEvent('ImagePreview(ticket: ${ticketResponse.title})');
+                              },
+                              child: ImageLoadingWidget(
+                                width: 172,
+                                height: 228,
+                                radius: 12,
+                                imageUrl: ticketResponse.imageUrl,
+                              ),
+                            ),
+                          )),
+                          const SizedBox(height: 46),
+                          Text(ticketResponse.title, style: t1_20Semi(f_100)),
+                          const SizedBox(height: 20),
+                          Row(children: [
+                            Text('장소', style: c2_14Reg(f_50)),
+                            const SizedBox(width: 10),
+                            GestureDetector(
+                              onTap: () => launchURL(ticketResponse.placeUrl),
+                              child: Row(
+                                children: [
+                                  Text(ticketResponse.place, style: c1_14Med(f_90)),
+                                  const Icon(Icons.keyboard_arrow_right_rounded, size: 22, color: f_90)
+                                ],
+                              ),
+                            )
+                          ]),
+                          const SizedBox(height: 4),
+                          Row(children: [
+                            Text('기간', style: c2_14Reg(f_50)),
+                            const SizedBox(width: 10),
+                            GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Dialog(
+                                          insetPadding: EdgeInsets.zero,
+                                          child: DateListPopupWidget(
+                                            dateList: ticketResponse.dateList,
+                                          ));
+                                    });
+                              },
+                              child: Row(
+                                children: [
+                                  Text(ticketResponse.date, style: c1_14Med(f_90)),
+                                  const Icon(Icons.keyboard_arrow_right_rounded, size: 22, color: f_90)
+                                ],
+                              ),
+                            )
+                          ])
+                        ],
+                      ))
+                ],
+              ),
+              Container(color: f_5, height: 6),
+              Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('오픈 정보', style: s1_16Semi(f_100)),
+                      const SizedBox(height: 8),
+                      Column(
+                        children: List.generate(ticketResponse.ticketSaleSchedules.length, (index) {
+                          return Column(children: [
+                            ElevatedButton(
+                                onPressed: () => showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true, // 화면 전체를 덮을 수 있도록 설정
+                                      backgroundColor: Colors.transparent, // 배경 투명
+                                      builder: (context) {
+                                        return TicketSaleBottomSheetWidget(
+                                          type: ticketResponse.ticketSaleSchedules[index].type,
+                                          ticketSaleUrls: ticketResponse.ticketSaleSchedules[index].ticketSaleUrls,
+                                        );
+                                      },
+                                    ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: f_80,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  fixedSize: const Size(double.infinity, 48),
+                                  shadowColor: Colors.transparent,
+                                ).copyWith(
+                                  splashFactory: NoSplash.splashFactory,
+                                ),
+                                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                                    SizedBox(
+                                        width: 72,
+                                        child: Text(ticketResponse.ticketSaleSchedules[index].type,
+                                            style: b9_14Reg(f_15))),
+                                    Container(width: 1.5, height: 12, color: f_40),
+                                  ]),
+                                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                                    Text(ticketResponse.ticketSaleSchedules[index].date, style: b8_14Med(Colors.white)),
+                                    const SizedBox(width: 12),
+                                    SvgPicture.asset('images/ticket/send.svg', width: 16, height: 16)
+                                  ])
+                                ])),
+                            const SizedBox(height: 4)
+                          ]);
+                        }),
+                      ),
+                      const SizedBox(height: 36),
+                      ticketResponse.prices.isNotEmpty
+                          ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              Text('가격 정보', style: s1_16Semi(f_100)),
+                              const SizedBox(height: 8),
+                              Wrap(
+                                spacing: 6, // 가로 간격
+                                runSpacing: 6, // 세로 간격
+                                children: ticketResponse.prices.map((price) {
+                                  return Container(
+                                    height: 38,
+                                    width: (MediaQuery.of(context).size.width - 46) / 2,
+                                    padding: const EdgeInsets.all(9),
                                     decoration: ShapeDecoration(
                                       color: f_5,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    )),
-                                Container(
-                                  height: 56,
-                                  decoration: ShapeDecoration(
-                                    color: f_90,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                     ),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Image.asset(
-                                            switch (ticketResponse.ticketProviders[index].ticketProvider) {
-                                              'INTERPARK' => "images/ticket_detail/interpark.png",
-                                              'MELON' => "images/ticket_detail/melon.png",
-                                              'YES24' => "images/ticket_detail/yes24.png",
-                                              'TICKETLINK' => "images/ticket_detail/ticketlink.png",
-                                              _ => "",
-                                            },
-                                            height: 32,
-                                            width: 32,
-                                          ),
-                                          const SizedBox(width: 12),
-                                          Text(
-                                              switch (ticketResponse.ticketProviders[index].ticketProvider) {
-                                                'INTERPARK' => "인터파크 티켓",
-                                                'MELON' => "멜론 티켓",
-                                                'YES24' => "YES24 티켓",
-                                                'TICKETLINK' => "티켓링크",
-                                                _ => "",
-                                              },
-                                              style: const TextStyle(
-                                                fontFamily: 'Pretendard',
-                                                fontSize: 16,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                              ))
-                                        ],
-                                      ),
-                                      SvgPicture.asset('images/opening_notice/send.svg')
-                                    ],
-                                  ),
-                                ),
-                                Positioned(
-                                    top: 18 + 56,
-                                    left: 16,
-                                    child: SizedBox(
-                                        width: MediaQuery.of(context).size.width - 72,
-                                        child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: List.generate(
-                                                ticketResponse.ticketProviders[index].ticketingSchedules.length,
-                                                (index1) {
-                                              return Column(
-                                                children: [
-                                                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                                    Text(
-                                                      "${ticketResponse.ticketProviders[index].ticketingSchedules[index1].type} 오픈일",
-                                                      textAlign: TextAlign.center,
-                                                      style: const TextStyle(
-                                                        fontFamily: 'Pretendard',
-                                                        fontSize: 12,
-                                                        color: f_50,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "${ticketResponse.ticketProviders[index].ticketingSchedules[index1].date} ${ticketResponse.ticketProviders[index].ticketingSchedules[index1].time}",
-                                                      textAlign: TextAlign.center,
-                                                      style: const TextStyle(
-                                                        fontFamily: 'Pretendard',
-                                                        fontSize: 14,
-                                                        color: f_80,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                    )
-                                                  ]),
-                                                  const SizedBox(height: 8),
-                                                ],
-                                              );
-                                            }))))
-                              ],
-                            ));
-                      })),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset('images/opening_notice/circle_info.svg'),
-                      const SizedBox(width: 8),
-                      const Expanded(
-                          child: Text(
-                        "티켓 오픈 일정은 티켓판매처 또는 기획사의 사정에 사전 예고 없이 변경 또는 취소 될 수 있습니다.",
-                        style: TextStyle(
-                          fontFamily: 'Pretendard',
-                          fontSize: 12,
-                          color: f_60,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        softWrap: true, // 줄바꿈 허용
-                        overflow: TextOverflow.visible,
-                      ))
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    height: 2,
-                    color: f_15,
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      SvgPicture.asset('images/opening_notice/pin.svg'),
-                      const SizedBox(width: 8),
-                      const Text(
-                        "기본 정보",
-                        style: TextStyle(
-                          fontFamily: 'Pretendard',
-                          fontSize: 18,
-                          color: f_100,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Container(
-                      height: 74,
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      decoration: ShapeDecoration(
-                        color: f_5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        const Text(
-                          "공연 장소",
-                          style: TextStyle(
-                            fontFamily: 'Pretendard',
-                            fontSize: 14,
-                            color: f_50,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        //클릭하면 url로 이동
-                        InkWell(
-                            onTap: () {
-                              launchURL(ticketResponse.placeUrl);
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(ticketResponse.place,
-                                    style: const TextStyle(
-                                      fontFamily: 'Pretendard',
-                                      fontSize: 14,
-                                      color: f_90,
-                                      fontWeight: FontWeight.w500,
-                                    )),
-                                Row(
-                                  children: [
-                                    const Text(
-                                      "위치 보러 가기",
-                                      style: TextStyle(
-                                        fontFamily: 'Pretendard',
-                                        fontSize: 14,
-                                        color: f_50,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    SvgPicture.asset(
-                                      'images/opening_notice/send.svg',
-                                      color: f_60,
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ))
-                      ])),
-                  const SizedBox(height: 12),
-                  Container(
-                      width: MediaQuery.of(context).size.width - 40,
-                      height: 50 + ((ticketResponse.date.length - 1) ~/ 2 + 1) * 38,
-                      padding: const EdgeInsets.all(16),
-                      decoration: ShapeDecoration(
-                        color: f_5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        const Text(
-                          "공연 일시",
-                          style: TextStyle(
-                            fontFamily: 'Pretendard',
-                            fontSize: 14,
-                            color: f_50,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Wrap(
-                          spacing: 8, // 각 아이템 간의 가로 간격
-                          runSpacing: 8, // 각 아이템 간의 세로 간격
-                          children: List.generate(
-                            ticketResponse.date.length,
-                            (index) {
-                              return Container(
-                                width: (screenWidth - 80) / 2,
-                                // 아이템의 너비를 반으로 나눔 (양쪽 여백 포함)
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color: f_15,
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                                child: Text(
-                                  ticketResponse.date[index],
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontFamily: 'Pretendard',
-                                    fontSize: 14,
-                                    color: f_90,
-                                    letterSpacing: -0.42,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        )
-                      ])),
-                  const SizedBox(height: 20),
-                  Container(
-                    height: 2,
-                    color: f_15,
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      SvgPicture.asset('images/opening_notice/profile.svg'),
-                      const SizedBox(width: 8),
-                      const Text(
-                        "아티스트 정보",
-                        style: TextStyle(
-                          fontFamily: 'Pretendard',
-                          fontSize: 18,
-                          color: f_100,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Container(
-                      width: MediaQuery.of(context).size.width - 40,
-                      padding: const EdgeInsets.symmetric(vertical: 6),
-                      child: Column(
-                          children: List.generate(ticketResponse.artists.length, (index) {
-                        return Column(
-                          children: [
-                            SizedBox(
-                                height: 48,
-                                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        ticketResponse.artists[index].name,
-                                        style: const TextStyle(
-                                          fontFamily: 'Pretendard',
-                                          fontSize: 16,
-                                          color: f_100,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      if (ticketResponse.artists[index].nicknames != null)
-                                        Text(
-                                          ticketResponse.artists[index].nicknames!,
-                                          style: const TextStyle(
-                                            fontFamily: 'Pretendard',
-                                            fontSize: 14,
-                                            color: f_50,
-                                            fontWeight: FontWeight.w400,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                            child: RichText(
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                textHeightBehavior: const TextHeightBehavior(
+                                                  // 텍스트 높이 맞춤
+                                                  applyHeightToFirstAscent: false,
+                                                  applyHeightToLastDescent: false,
+                                                ),
+                                                text: TextSpan(
+                                                  text: price.type,
+                                                  style: button3_12Reg(f_60),
+                                                ))),
+                                        const SizedBox(width: 12),
+                                        RichText(
+                                          text: TextSpan(text: price.price, style: c3_12Med(f_100)),
+                                          textHeightBehavior: const TextHeightBehavior(
+                                            // 텍스트 높이 맞춤
+                                            applyHeightToFirstAscent: false,
+                                            applyHeightToLastDescent: false,
                                           ),
                                         )
-                                    ],
-                                  ),
-                                  if (isFavoriteArtist[index]) //관심 아티스트 아님
-                                    GestureDetector(
-                                        child: SvgPicture.asset(
-                                          'images/opening_notice/notification_off.svg',
-                                          width: 16,
-                                          height: 16,
-                                          color: f_40,
-                                        ),
-                                        onTap: () async {
-                                          await artistRepository.deleteFavoriteArtist(
-                                              ticketResponse.artists[index].artistId, context);
-                                          setState(() {
-                                            isFavoriteArtist[index] = false;
-                                          });
-                                        })
-                                  else //관심 아티스트
-                                    GestureDetector(
-                                        child: SmallNotificationButtonWidget(isFavoriteArtist: isFavoriteArtist[index], artist: Artist(artistId: ticketResponse.artists[index].artistId, name: ticketResponse.artists[index].name, subName: ticketResponse.artists[index].nicknames, imageUrl: '')),
-                                        onTap: () async {
-                                          final isSuccess = await artistRepository.addFavoriteArtist(
-                                              ticketResponse.artists[index].artistId, context);
-                                          if (isSuccess) {
-                                            setState(() {
-                                              isFavoriteArtist[index] = true;
-                                            });
-                                          }
-                                          showToast(130, '앞으로 ${ticketResponse.artists[index].name}의 티켓이 뜨면 알려드릴게요!',
-                                              '마이페이지에서 해당 정보를 변경할 수 있어요.', context);
-                                        })
-                                ])),
-                            const SizedBox(height: 12),
-                          ],
-                        );
-                      })))
-                ],
-              ))
-        ])),
-        bottomNavigationBar: Container(
-            color: Colors.white,
-            width: MediaQuery.of(context).size.width - 40,
-            height: 122,
-            padding: const EdgeInsets.only(bottom: 54, top: 12, left: 20, right: 20),
-            child: ticketResponse.isAvailableNotification
-                ? // 티켓 알림 받기
-                ElevatedButton(
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                              const SizedBox(height: 34)
+                            ])
+                          : const SizedBox(),
+                      Text('아티스트 정보', style: s1_16Semi(f_100)),
+                      const SizedBox(height: 12),
+                      Column(
+                          children: List.generate(ticketResponse.artists.length, (index) {
+                        return GestureDetector(
+                            onTap: () {
+                              Get.to(() => ArtistProfileScreen(artistId: ticketResponse.artists[index].artistId));
+                              AmplitudeConfig.amplitude
+                                  .logEvent('ArtistProfile(artist: ${ticketResponse.artists[index].name})');
+                            },
+                            child: ArtistListWidget(
+                              artist: ticketResponse.artists[index],
+                              isFavoriteArtist: isFavoriteArtist[index],
+                              toastBottom: ticketResponse.isAvailableNotification ? 100 : 40,
+                              onConfirm: () {
+                                setState(() {
+                                  isFavoriteArtist[index] = !isFavoriteArtist[index];
+                                });
+                              },
+                            ));
+                      })),
+                      const SizedBox(height: 8),
+                      Text('티켓오픈일정은 티켓판매처 또는 기획사의 사정에 의해 사전 예고 없이 변경또는 취소 될 수 있습니다.', style: c4_12Reg(f_50)),
+                      const SizedBox(height: 30)
+                    ],
+                  ))
+            ])),
+        resizeToAvoidBottomInset: false,
+        bottomNavigationBar: ticketResponse.isAvailableNotification
+            ? Container(
+                color: Colors.white,
+                width: MediaQuery.of(context).size.width - 40,
+                height: 88 + MediaQuery.of(context).viewPadding.bottom,
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewPadding.bottom + 20, top: 12, left: 20, right: 20),
+                child: ElevatedButton(
                     onPressed: () async {
                       // 요청 전송
                       if (!isNotification) {
+                        HapticFeedback.lightImpact();
                         // 알림 안받은 상태에서
-                        bool success = await NotificationRepository().addTicketNotification(context, widget.concertId);
+                        bool success =
+                            await NotificationRequestRepository().postTicketNotification(context, widget.ticketId);
                         if (success) {
-                          showToast(130, '알림 받기 신청이 완료되었어요!', '티켓 오픈 하루 전, 1시간 전에 알려드릴게요', context);
-                          AmplitudeConfig.amplitude.logEvent('addTicketNotification(concertId:${widget.concertId}');
+                          ToastManager.showToast(
+                              toastBottom: 100,
+                              title: '알림 받기가 완료되었어요!',
+                              content: '티켓 오픈 하루 전, 1시간 전에 알려드릴게요',
+                              context: context);
                           setState(() {
                             isNotification = !isNotification;
                           });
                         }
                       } else {
                         // 알림 받은 상태에서
-                        await NotificationRepository().deleteTicketNotification(context, widget.concertId);
-                        AmplitudeConfig.amplitude.logEvent('cancelTicketNotification(concertId:${widget.concertId}');
-                        setState(() {
-                          isNotification = !isNotification;
-                        });
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                  insetPadding: EdgeInsets.zero,
+                                  child: TicketNotificationCaclePopupWidget(
+                                    onConfirm: () async {
+                                      setState(() {
+                                        isNotification = !isNotification;
+                                      });
+                                      await NotificationRequestRepository()
+                                          .deleteTicketNotification(context, widget.ticketId);
+                                      Navigator.of(context).pop();
+                                      ToastManager.showToast(
+                                          toastBottom: 100, title: '알림이 해제되었어요', content: null, context: context);
+                                    },
+                                  ));
+                            });
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      elevation: 0, // 그림자 제거
-                      backgroundColor: isNotification ? pt_20 : pn_100, // 버튼 배경색
+                      elevation: 0,
+                      // 그림자 제거
+                      backgroundColor: isNotification ? pt_20 : pn_100,
+                      // 버튼 배경색
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 16), // 상하 패딩
-                      //fixedSize: Size(MediaQuery.of(context).size.width - 40, 56), // 고정 크기
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      // 상하 패딩
+                      shadowColor: Colors.transparent,
+                    ).copyWith(
+                      splashFactory: NoSplash.splashFactory,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(isNotification
-                            ? 'images/opening_notice/notification_off.svg'
-                            : 'images/opening_notice/notification_on.svg'),
+                        isNotification
+                            ? SvgPicture.asset('images/ticket/notification_on.svg', color: pn_100)
+                            : SvgPicture.asset('images/ticket/notification_on.svg'),
                         const SizedBox(width: 10),
                         Text(
-                          isNotification ? '알림 해제하기' : '알림 받기',
+                          isNotification ? '알림 받는 중' : '알림 받기',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 16,
@@ -573,22 +434,7 @@ class _TicketDetailScreen extends State<TicketDetailScreen> {
                               color: isNotification ? pn_100 : Colors.white),
                         )
                       ],
-                    ),
-                  )
-                : //예매 진행 중인 티켓
-                Container(
-                    height: 56,
-                    decoration: ShapeDecoration(
-                        color: f_10,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        )),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: const Text(
-                      '예매 진행 중인 티켓',
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 16, fontFamily: 'Pretendard', fontWeight: FontWeight.w600, color: f_30),
-                    ))));
+                    )))
+            : const SizedBox());
   }
 }
