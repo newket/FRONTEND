@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
-import 'package:newket/view/common/app_bar_back.dart';
 import 'package:newket/config/amplitude_config.dart';
+import 'package:newket/constant/colors.dart';
+import 'package:newket/constant/fonts.dart';
 import 'package:newket/repository/auth_repository.dart';
 import 'package:newket/repository/user_repository.dart';
-import 'package:newket/constant/colors.dart';
 import 'package:newket/view/agreement/screen/privacy_policy_screen.dart';
 import 'package:newket/view/agreement/screen/terms_of_service_screen.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
 import 'package:newket/view/mypage/screen/help_screen.dart';
-import 'package:newket/view/mypage/screen/my_favorite_artist_screen.dart';
+import 'package:newket/view/mypage/screen/mypage_skeleton_screen.dart';
+import 'package:newket/view/mypage/widget/withdraw_popup_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -40,508 +40,270 @@ class _MyPageScreen extends State<MyPageScreen> {
     super.initState();
     userRepository = UserRepository();
     authRepository = AuthRepository();
-    _getUserInfoApi(context); // 이메일 정보 불러오기
-    _loadNotificationSettings(); // 알림 설정 불러오기
-  }
-
-  Future<void> _loadNotificationSettings() async {
-    try {
-      final response = await userRepository.getNotificationAllow();
-      // 알림 설정 값 상태에 반영
-      setState(() {
-        artistNotification = response.artistNotification;
-        artistBackground = artistNotification ? v1pt_20 : b_900;
-        ticketNotification = response.ticketNotification;
-        ticketBackground = ticketNotification ? v1pt_20 : b_900;
-        isLoading = false;
-      });
-    } catch (e) {
-      // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
-      AmplitudeConfig.amplitude.logEvent('MyPage error->Login $e');
-      Get.offAll(() => const LoginScreen());
-      var storage = const FlutterSecureStorage();
-      await storage.deleteAll();
-    }
+    _getUserInfoApi(context);
   }
 
   Future<void> _getUserInfoApi(BuildContext context) async {
-    try {
-      final response = await userRepository.getUserInfoApi(context);
-      // 이메일 정보를 상태에 한 번만 저장
-      setState(() {
-        userName = response.name;
-        email = response.email;
-        provider = response.provider;
-      });
-    } catch (e) {
-      // 에러 처리 (로그인 페이지로 리다이렉트 또는 에러 핸들링)
-      AmplitudeConfig.amplitude.logEvent('MyPage error->Login $e');
-      Get.offAll(() => const LoginScreen());
-      var storage = const FlutterSecureStorage();
-      await storage.deleteAll();
-    }
+    var storage = const FlutterSecureStorage();
+    final serverToken = await storage.read(key: 'ACCESS_TOKEN');
+    await UserRepository().putDeviceTokenApi(serverToken!);
+    final response = await userRepository.getUserInfoApi(context);
+    final response2 = await userRepository.getNotificationAllow();
+
+    if (!mounted) return;
+
+    setState(() {
+      userName = response.name;
+      email = response.email;
+      provider = response.provider;
+      artistNotification = response2.artistNotification;
+      artistBackground = artistNotification ? v1pt_20 : b_900;
+      ticketNotification = response2.ticketNotification;
+      ticketBackground = ticketNotification ? v1pt_20 : b_900;
+      isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     // 로딩 중일 때 로딩 화면을 표시
     if (isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return const MyPageSkeletonScreen();
     }
     return Scaffold(
-        appBar: appBarBack(context, "마이페이지"),
+        appBar: AppBar(title: Text('마이페이지', style: t2_18Semi(f_100)), backgroundColor: Colors.white, centerTitle: false),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
-            child: Padding(
-                padding: const EdgeInsets.only(top: 12, left: 20, right: 20),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: ShapeDecoration(
-                          color: f_5,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+              Padding(
+                  padding: const EdgeInsets.only(top: 12, left: 20, right: 20, bottom: 20),
+                  child: Column(children: [
+                    Container(
+                      decoration: ShapeDecoration(
+                        color: f_5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    userName,
-                                    style: const TextStyle(
-                                      fontFamily: 'Pretendard',
-                                      fontSize: 20,
-                                      color: f_100,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Row(children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      child: Image.asset(
-                                        (() {
-                                          switch (provider) {
-                                            case 'KAKAO':
-                                              return 'images/mypage/kakao.png';
-                                            case 'APPLE':
-                                              return 'images/mypage/apple.png';
-                                            default:
-                                              return 'images/mypage/sns_null.png';
-                                          }
-                                        })(),
-                                        width: 20,
-                                        height: 20,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      email,
-                                      style: const TextStyle(
-                                        fontFamily: 'Pretendard',
-                                        fontSize: 14,
-                                        color: f_50,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    )
-                                  ])
-                                ])),
                       ),
-                      const SizedBox(height: 20),
-                      GestureDetector(
-                          onTap: () {
-                            AmplitudeConfig.amplitude.logEvent('MyFavoriteArtist');
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const MyFavoriteArtistScreen(),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      "images/mypage/star.svg",
-                                      height: 20,
+                                Text(
+                                  userName,
+                                  style: t2_18Semi(f_100),
+                                ),
+                                const SizedBox(height: 2),
+                                Row(children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.asset(
+                                      (() {
+                                        switch (provider) {
+                                          case 'KAKAO':
+                                            return 'images/mypage/kakao.png';
+                                          case 'APPLE':
+                                            return 'images/mypage/apple.png';
+                                          default:
+                                            return 'images/mypage/sns_null.png';
+                                        }
+                                      })(),
                                       width: 20,
-                                      color: f_70,
+                                      height: 20,
                                     ),
-                                    const SizedBox(width: 8),
-                                    const Text(
-                                      '나의 관심 아티스트',
-                                      style: TextStyle(
-                                        fontFamily: 'Pretendard',
-                                        fontSize: 18,
-                                        color: f_100,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                const Icon(Icons.keyboard_arrow_right_rounded, color: f_70)
-                              ],
-                            ),
-                          )),
-                      const SizedBox(height: 20),
-                      Container(color: f_15, height: 2),
-                      const SizedBox(height: 20),
-                      Container(
-                          color: Colors.transparent,
-                          child: Row(
-                            children: [
-                              SvgPicture.asset("images/mypage/notification.svg", height: 20, width: 20, color: f_70),
-                              const SizedBox(width: 8),
-                              const Text(
-                                '알림 설정',
-                                style: TextStyle(
-                                  fontFamily: 'Pretendard',
-                                  fontSize: 18,
-                                  color: f_100,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            ],
-                          )),
-                      const SizedBox(height: 24),
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    email,
+                                    style: c4_12Reg(f_40),
+                                  )
+                                ])
+                              ])),
+                    )
+                  ])),
+              Container(color: f_10, height: 2),
+              Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text('알림 설정', style: s1_16Semi(f_100)),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '관심 아티스트 알림',
-                                  style: TextStyle(
-                                    fontFamily: 'Pretendard',
-                                    fontSize: 16,
-                                    color: f_90,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                Text(
-                                  '관심 아티스트의 티켓이 등록되면 알려드려요.',
-                                  style: TextStyle(
-                                    fontFamily: 'Pretendard',
-                                    fontSize: 12,
-                                    color: f_50,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                )
-                              ],
-                            ),
-                            CupertinoSwitch(
-                              value: artistNotification,
-                              activeColor: pn_100,
-                              onChanged: (bool value) async {
-                                // UI 상태 업데이트
-                                setState(() {
-                                  artistNotification = value;
-                                });
-                                String isAllow = value ? 'on' : 'off';
-                                await userRepository.putNotificationAllow(isAllow, "artist");
-                              },
-                            ),
+                            Text('아티스트 알림', style: b8_14Med(f_90)),
+                            Text('알림 받는 아티스트의 티켓이 등록되면 알림을 보내드려요.', style: c4_12Reg(f_40))
                           ],
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
+                        CupertinoSwitch(
+                          value: artistNotification,
+                          activeColor: pn_100,
+                          onChanged: (bool value) async {
+                            // UI 상태 업데이트
+                            setState(() {
+                              artistNotification = value;
+                            });
+                            String isAllow = value ? 'on' : 'off';
+                            await userRepository.postNotificationAllow(isAllow, "artist");
+                          },
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '티켓 오픈 임박 알림',
-                                  style: TextStyle(
-                                    fontFamily: 'Pretendard',
-                                    fontSize: 16,
-                                    color: f_90,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                Text(
-                                  '티켓 오픈 하루 전, 1시간 전에 알려드려요.',
-                                  style: TextStyle(
-                                    fontFamily: 'Pretendard',
-                                    fontSize: 12,
-                                    color: f_50,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                )
-                              ],
-                            ),
-                            CupertinoSwitch(
-                              value: ticketNotification,
-                              activeColor: pn_100,
-                              onChanged: (bool value) async {
-                                // UI 상태 업데이트
-                                setState(() {
-                                  ticketNotification = value;
-                                });
-                                String isAllow = value ? 'on' : 'off';
-                                await userRepository.putNotificationAllow(isAllow, "ticket");
-                              },
-                            ),
+                            Text('티켓 오픈 임박 알림', style: b8_14Med(f_90)),
+                            Text('티켓 오픈 하루 전, 1시간 전에 알려드려요.', style: c4_12Reg(f_40))
                           ],
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      Container(color: f_15, height: 2),
-                      const SizedBox(height: 20),
-                      GestureDetector(
-                          onTap: () {
-                            AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const PrivacyPolicyScreen(),
-                              ),
-                            );
+                        CupertinoSwitch(
+                          value: ticketNotification,
+                          activeColor: pn_100,
+                          onChanged: (bool value) async {
+                            // UI 상태 업데이트
+                            setState(() {
+                              ticketNotification = value;
+                            });
+                            String isAllow = value ? 'on' : 'off';
+                            await userRepository.postNotificationAllow(isAllow, "ticket");
                           },
-                          child: Container(
-                              color: Colors.transparent,
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '개인정보처리 방침',
-                                    style: TextStyle(
-                                      fontFamily: 'Pretendard',
-                                      fontSize: 16,
-                                      color: f_90,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Icon(Icons.keyboard_arrow_right_rounded, color: f_90)
-                                ],
-                              ))),
-                      const SizedBox(height: 24),
-                      GestureDetector(
-                          onTap: () {
-                            AmplitudeConfig.amplitude.logEvent('TermsOfService');
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const TermsOfService(),
-                              ),
-                            );
-                          },
-                          child: Container(
-                              color: Colors.transparent,
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '서비스 이용약관',
-                                    style: TextStyle(
-                                      fontFamily: 'Pretendard',
-                                      fontSize: 16,
-                                      color: f_90,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Icon(Icons.keyboard_arrow_right_rounded, color: f_90)
-                                ],
-                              ))),
-                      const SizedBox(height: 24),
-                      GestureDetector(
+                        ),
+                      ],
+                    ),
+                  ])),
+              Container(color: f_10, height: 2),
+              Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    GestureDetector(
                         onTap: () {
-                          AmplitudeConfig.amplitude.logEvent('Help');
-                          // 문의하기 페이지로 이동
+                          AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const HelpScreen()),
+                            MaterialPageRoute(
+                              builder: (context) => const PrivacyPolicyScreen(),
+                            ),
                           );
                         },
                         child: Container(
                             color: Colors.transparent,
-                            child: const Row(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '문의하기',
-                                  style: TextStyle(
-                                    fontFamily: 'Pretendard',
-                                    fontSize: 16,
-                                    color: f_90,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                  '개인정보처리 방침',
+                                  style: b8_14Med(f_90),
                                 ),
-                                Icon(Icons.keyboard_arrow_right_rounded, color: f_90)
+                                const Icon(Icons.arrow_forward_ios_rounded, color: f_90, size: 20)
                               ],
-                            )),
-                      ),
-                      const SizedBox(height: 24),
-                      GestureDetector(
-                          onTap: () async {
-                            await userRepository.deleteDeviceToken();
-                            var storage = const FlutterSecureStorage();
-                            await storage.deleteAll();
-                            // 로그인 페이지로 이동
-                            AmplitudeConfig.amplitude.logEvent('Logout');
-                            Get.offAll(() => const LoginScreen());
-                          },
-                          child: const Text(
-                            '로그아웃',
-                            style: TextStyle(
-                              fontFamily: 'Pretendard',
-                              fontSize: 16,
-                              color: f_90,
-                              fontWeight: FontWeight.w500,
+                            ))),
+                    const SizedBox(height: 20),
+                    GestureDetector(
+                        onTap: () {
+                          AmplitudeConfig.amplitude.logEvent('TermsOfService');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const TermsOfService(),
                             ),
+                          );
+                        },
+                        child: Container(
+                            color: Colors.transparent,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '서비스 이용약관',
+                                  style: b8_14Med(f_90),
+                                ),
+                                const Icon(Icons.arrow_forward_ios_rounded, color: f_90, size: 20)
+                              ],
+                            ))),
+                    const SizedBox(height: 20),
+                    GestureDetector(
+                      onTap: () {
+                        AmplitudeConfig.amplitude.logEvent('Help');
+                        // 문의하기 페이지로 이동
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const HelpScreen()),
+                        );
+                      },
+                      child: Container(
+                          color: Colors.transparent,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '문의하기',
+                                style: b8_14Med(f_90),
+                              ),
+                              const Icon(Icons.arrow_forward_ios_rounded, color: f_90, size: 20)
+                            ],
                           )),
-                      const SizedBox(height: 24),
-                      //탈퇴하기
-                      GestureDetector(
+                    ),
+                    const SizedBox(height: 24),
+                    GestureDetector(
+                        onTap: () async {
+                          await userRepository.deleteDeviceToken();
+                          var storage = const FlutterSecureStorage();
+                          await storage.deleteAll();
+                          // 로그인 페이지로 이동
+                          AmplitudeConfig.amplitude.logEvent('Logout');
+                          Get.offAll(() => const LoginScreen());
+                        },
+                        child: Text(
+                          '로그아웃',
+                          style: b8_14Med(f_90),
+                        )),
+                    const SizedBox(height: 24),
+                    //탈퇴하기
+                    GestureDetector(
                         onTap: () async {
                           showDialog(
                             context: context,
                             builder: (context) {
                               return Dialog(
-                                child: Container(
-                                  width: 320,
-                                  height: 264,
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: ShapeDecoration(
-                                    color: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset("images/mypage/warning.svg", height: 32, width: 32),
-                                      const SizedBox(height: 12),
-                                      const Text(
-                                        '잠시만요!\n정말로 탈퇴하시겠어요?',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: f_100,
-                                          fontSize: 18,
-                                          fontFamily: 'Pretendard',
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      const Text(
-                                        '탈퇴하시면 그동안 저장하신 관심 아티스트,\n티켓 오픈 알림 정보가 사라져요.',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: f_60,
-                                          fontSize: 14,
-                                          fontFamily: 'Pretendard',
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 24),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          IconButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              icon: Container(
-                                                  height: 48,
-                                                  padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 13),
-                                                  child: const Text(
-                                                    '아니오',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      color: f_60,
-                                                      fontSize: 14,
-                                                      fontFamily: 'Pretendard',
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                  ))),
-                                          const SizedBox(width: 12),
-                                          IconButton(
-                                              onPressed: () async {
-                                                await userRepository.deleteDeviceToken();
-                                                if (provider == 'APPLE') {
-                                                  final credential = await SignInWithApple.getAppleIDCredential(
-                                                    scopes: [
-                                                      AppleIDAuthorizationScopes.email,
-                                                      AppleIDAuthorizationScopes.fullName,
-                                                    ],
-                                                  );
-                                                  final authorizationCode = credential.authorizationCode.toString();
-                                                  await authRepository.withdrawApple(context, authorizationCode);
-                                                } else {
-                                                  await authRepository.withdraw(context);
-                                                }
-                                                var storage = const FlutterSecureStorage();
-                                                final prefs = await SharedPreferences.getInstance();
-                                                await storage.deleteAll();
-                                                await prefs.clear();
-                                                AmplitudeConfig.amplitude.logEvent('Withdraw');
-                                                Get.offAll(() => const LoginScreen());
-                                              },
-                                              icon: Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 13),
-                                                height: 48,
-                                                clipBehavior: Clip.antiAlias,
-                                                decoration: ShapeDecoration(
-                                                  color: pn_100,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(12),
-                                                  ),
-                                                ),
-                                                child: const Text(
-                                                  '네, 탈퇴할게요',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 14,
-                                                    fontFamily: 'Pretendard',
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                              )),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                insetPadding: EdgeInsets.zero,
+                                child: WithdrawPopupWidget(onConfirm: () async {
+                                  await userRepository.deleteDeviceToken();
+                                  if (provider == 'APPLE') {
+                                    final credential = await SignInWithApple.getAppleIDCredential(
+                                      scopes: [
+                                        AppleIDAuthorizationScopes.email,
+                                        AppleIDAuthorizationScopes.fullName,
+                                      ],
+                                    );
+                                    final authorizationCode = credential.authorizationCode.toString();
+                                    await authRepository.withdrawApple(context, authorizationCode);
+                                  } else {
+                                    await authRepository.withdraw(context);
+                                  }
+                                  var storage = const FlutterSecureStorage();
+                                  final prefs = await SharedPreferences.getInstance();
+                                  await storage.deleteAll();
+                                  await prefs.clear();
+                                  AmplitudeConfig.amplitude.logEvent('Withdraw');
+                                  Get.offAll(() => const LoginScreen());
+                                }),
                               );
                             },
                           );
                         },
-                        child: const Text('회원 탈퇴',
-                            style: TextStyle(
-                              fontFamily: 'Pretendard',
-                              fontSize: 16,
-                              color: b_500,
-                              fontWeight: FontWeight.w400,
-                            )),
-                      )
-                    ]))));
+                        child: Text('회원 탈퇴', style: b9_14Reg(f_50)))
+                  ]))
+            ])));
   }
 }
