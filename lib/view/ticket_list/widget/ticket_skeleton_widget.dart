@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:newket/view/common/skeleton_widget.dart';
 
-class ConcertSkeletonUIWidget extends StatelessWidget {
+class TicketSkeletonWidget extends StatelessWidget {
 
 
-  const ConcertSkeletonUIWidget({
+  const TicketSkeletonWidget({
     super.key,
   });
 
@@ -19,8 +19,8 @@ class ConcertSkeletonUIWidget extends StatelessWidget {
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SkeletonWidget(width: 50, height: 24, radius: 8),
-              SkeletonWidget(width: 150, height: 34, radius: 8),
+              SkeletonWidget(width: 43, height: 22, radius: 8),
+              SkeletonWidget(width: 131, height: 34, radius: 8),
             ],
           ),
           const SizedBox(height: 8),

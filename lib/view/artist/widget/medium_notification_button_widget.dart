@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
-import 'package:newket/model/ticket/search_result_model.dart';
-import 'package:newket/repository/artist_repository.dart';
-import 'package:newket/view/artist/widget/notification_cancel_popup_widget.dart';
+import 'package:newket/model/artist/artist_dto.dart';
+import 'package:newket/repository/notification_request_repository.dart';
+import 'package:newket/view/artist/widget/artist_notification_cancel_popup_widget.dart';
 import 'package:newket/view/common/toast_widget.dart';
 
 class MediumNotificationButtonWidget extends StatefulWidget {
   final bool isFavoriteArtist;
-  final Artist artist;
+  final ArtistDto artist;
 
   const MediumNotificationButtonWidget({super.key, required this.isFavoriteArtist, required this.artist});
 
@@ -20,12 +20,12 @@ class MediumNotificationButtonWidget extends StatefulWidget {
 
 class _MediumNotificationButtonWidget extends State<MediumNotificationButtonWidget> {
   late bool _isPressed;
-  late ArtistRepository artistRepository;
+  late NotificationRequestRepository notificationRequestRepository;
 
   @override
   void initState() {
     super.initState();
-    artistRepository = ArtistRepository();
+    notificationRequestRepository = NotificationRequestRepository();
     _isPressed = widget.isFavoriteArtist;
   }
 
@@ -58,13 +58,14 @@ class _MediumNotificationButtonWidget extends State<MediumNotificationButtonWidg
         onTap: () async {
           if (!_isPressed) {
             HapticFeedback.lightImpact();
-            final isSuccess = await artistRepository.addFavoriteArtist(widget.artist.artistId, context);
+            final isSuccess =
+                await notificationRequestRepository.postArtistNotification(widget.artist.artistId, context);
             if (isSuccess) {
               setState(() {
                 _isPressed = true;
               });
               ToastManager.showToast(
-                  toastBottom: 74,
+                  toastBottom: 40,
                   title: '아티스트 알림이 설정되었어요',
                   content: '${widget.artist.name}의 새로운 티켓 소식을 가장 먼저 전해 드릴게요!',
                   context: context);
@@ -75,15 +76,15 @@ class _MediumNotificationButtonWidget extends State<MediumNotificationButtonWidg
                 builder: (context) {
                   return Dialog(
                       insetPadding: EdgeInsets.zero,
-                      child: NotificationCancelPopupWidget(
+                      child: ArtistNotificationCancelPopupWidget(
                         artist: widget.artist,
                         onConfirm: () async {
-                          await artistRepository.deleteFavoriteArtist(widget.artist.artistId, context);
+                          await notificationRequestRepository.deleteArtistNotification(widget.artist.artistId, context);
                           setState(() {
                             _isPressed = false;
                           });
                           Navigator.of(context).pop();
-                          ToastManager.showToast(toastBottom: 74, title: '알림이 해제되었어요', content: null, context: context);
+                          ToastManager.showToast(toastBottom: 40, title: '알림이 해제되었어요', content: null, context: context);
                         },
                       ));
                 });
@@ -105,7 +106,7 @@ class _MediumNotificationButtonWidget extends State<MediumNotificationButtonWidg
               ),
             ] else ...[
               SvgPicture.asset(
-                'images/opening_notice/notification_on.svg',
+                'images/ticket/notification_on.svg',
                 width: 20,
                 height: 20,
               ),
