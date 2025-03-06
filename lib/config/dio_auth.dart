@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:newket/config/amplitude_config.dart';
-import 'package:newket/config/dio_client.dart';
 import 'package:newket/config/error_interceptor.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
 
-
-
 Future authDio(BuildContext context) async {
-  var dio = DioClient.dio;
+  Dio dio = Dio(BaseOptions(
+    baseUrl: dotenv.get("BASE_URL"),
+    connectTimeout: const Duration(seconds: 20),
+    receiveTimeout: const Duration(seconds: 20),
+  ));
+  dio.interceptors.clear();
+  dio.interceptors.add(ErrorInterceptor(dio));
   const storage = FlutterSecureStorage();
 
   dio.interceptors.removeWhere((interceptor) => interceptor is! ErrorInterceptor); // ErrorInterceptor 유지
@@ -45,7 +48,11 @@ Future authDio(BuildContext context) async {
       final refreshToken = await storage.read(key: 'REFRESH_TOKEN');
 
       // 토큰 갱신 요청을 담당할 dio 객체 구현 후 그에 따른 interceptor 정의
-      var refreshDio = Dio();
+      var refreshDio = Dio(BaseOptions(
+        baseUrl: dotenv.get("BASE_URL"),
+        connectTimeout: const Duration(seconds: 20),
+        receiveTimeout: const Duration(seconds: 20),
+      ));
 
       refreshDio.interceptors.clear();
 
