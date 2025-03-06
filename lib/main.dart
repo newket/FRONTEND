@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -48,7 +49,7 @@ void showFlutterNotification(RemoteMessage message) {
             iOS: const DarwinNotificationDetails(presentAlert: true, presentBadge: true, presentSound: true)),
         payload: json.encode({
           'notificationId': message.data['notificationId'],
-          'concertId': message.data['concertId'],
+          'ticketId': message.data['ticketId'],
         }));
   }
 }
@@ -63,6 +64,15 @@ void main() async {
 
     // Storage 초기화
     const storage = FlutterSecureStorage();
+
+    try {
+      await storage.read(key: 'DEVICE_TOKEN');
+    } catch (e) {
+      if (e.toString().contains('BadPaddingException')) {
+        AmplitudeConfig.amplitude.logEvent('storage error: $e');
+        await storage.deleteAll();
+      }
+    }
 
     //Amplitude 초기화
     AmplitudeConfig().init();
@@ -123,11 +133,11 @@ void main() async {
     // FCM 백그라운드 메시지 리스너
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      String? concertId = message.data['concertId']?.toString();
+      String? ticketId = message.data['ticketId']?.toString();
 
-      if (concertId != null) {
-        debugPrint('concertId:${int.tryParse(concertId.toString())!}');
-        Get.to(() => TicketDetailScreen(concertId: int.tryParse(concertId.toString())!));
+      if (ticketId != null) {
+        debugPrint('ticketId:${int.tryParse(ticketId.toString())!}');
+        Get.to(() => TicketDetailScreen(ticketId: int.tryParse(ticketId.toString())!));
       }
       NotificationRepository().updateNotificationIsOpened(message.data['notificationId']);
     });
@@ -135,12 +145,12 @@ void main() async {
     // FCM terminated 메세지 리스너
     RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
-      String? concertId = initialMessage.data['concertId']?.toString();
+      String? ticketId = initialMessage.data['ticketId']?.toString();
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (concertId != null) {
-          debugPrint('concertId:${int.tryParse(concertId.toString())!}');
-          Get.to(() => TicketDetailScreen(concertId: int.tryParse(concertId.toString())!));
+        if (ticketId != null) {
+          debugPrint('ticketId:${int.tryParse(ticketId.toString())!}');
+          Get.to(() => TicketDetailScreen(ticketId: int.tryParse(ticketId.toString())!));
         }
       });
       NotificationRepository().updateNotificationIsOpened(initialMessage.data['notificationId']);
@@ -154,16 +164,22 @@ void main() async {
         // payload에서 JSON 형식으로 데이터를 추출
         final Map<String, dynamic> payloadData = json.decode(details.payload!);
 
-        final String? concertId = payloadData['concertId']?.toString();
+        final String? ticketId = payloadData['ticketId']?.toString();
 
-        if (concertId != null) {
-          debugPrint('concertId:${int.tryParse(concertId.toString())!}');
-          Get.to(() => TicketDetailScreen(concertId: int.tryParse(concertId.toString())!));
+        if (ticketId != null) {
+          debugPrint('ticketId:${int.tryParse(ticketId.toString())!}');
+          Get.to(() => TicketDetailScreen(ticketId: int.tryParse(ticketId.toString())!));
         }
 
         await NotificationRepository().updateNotificationIsOpened(payloadData['notificationId']);
       },
     );
+
+    // 세로로 유지
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
 
     String? accessToken = ""; //user의 정보를 저장하기 위한 변수
     accessToken = await storage.read(key: "ACCESS_TOKEN");
@@ -174,12 +190,13 @@ void main() async {
       AmplitudeConfig.amplitude.logEvent('Home');
       runApp(const MyApp2());
     }
-
   } catch (e) {
     debugPrint('main error: $e');
     AmplitudeConfig.amplitude.logEvent('main error: $e');
   }
 }
+
+final RouteObserver<ModalRoute<void>> routeObserver = RouteObserver<ModalRoute<void>>();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -190,11 +207,12 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
-            textScaleFactor: 1.0, // 사용자 글꼴 크기 비율 고정
+            textScaler: const TextScaler.linear(1.0),
           ),
           child: child!,
         );
       },
+      navigatorObservers: [routeObserver],
       home: const LoginScreen(),
     );
   }
@@ -209,11 +227,12 @@ class MyApp2 extends StatelessWidget {
       builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
-            textScaleFactor: 1.0, // 사용자 글꼴 크기 비율 고정
+            textScaler: const TextScaler.linear(1.0),
           ),
           child: child!,
         );
       },
+      navigatorObservers: [routeObserver],
       home: const TabBarScreen(),
     );
   }
