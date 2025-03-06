@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 //primary
 const p_100 = Color(0xffD4D0FF);
@@ -63,3 +64,17 @@ const pt_100 = Color(0xFF7A6FFF);
 
 //primary
 const p_normal = Color(0xFF796FFF);
+
+// systemUiOverlayStyle
+const systemUiOverlayStyle = SystemUiOverlayStyle(
+  // 상태바 (Android)
+  statusBarColor: Colors.white,
+  // 상태바 배경 (iOS)
+  statusBarBrightness: Brightness.light,
+  // 상태바 아이콘 (ios)
+  statusBarIconBrightness: Brightness.dark,
+  //하단바 색상 (Android)
+  systemNavigationBarColor: Colors.white,
+  //하단바 아이콘 색상 (Android)
+  systemNavigationBarIconBrightness: Brightness.dark,
+);
