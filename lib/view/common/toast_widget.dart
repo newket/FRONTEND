@@ -18,7 +18,7 @@ class ToastManager {
 
     _instance._overlayEntry = OverlayEntry(
       builder: (context) => SwipeToast(
-        toastBottom: toastBottom,
+        toastBottom: toastBottom + MediaQuery.of(context).viewPadding.bottom,
         title: title,
         content: content,
         onDismiss: _instance._removeToast,
@@ -118,7 +118,14 @@ class _SwipeToastState extends State<SwipeToast> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      DefaultTextStyle(style: s1_16Semi(Colors.white)!, child: Text(widget.title)),
+                      DefaultTextStyle(
+                          textHeightBehavior: const TextHeightBehavior(
+                            // 텍스트 높이 맞춤
+                            applyHeightToFirstAscent: false,
+                            applyHeightToLastDescent: false,
+                          ),
+                          style: s1_16Semi(Colors.white)!,
+                          child: Text(widget.title)),
                       if (widget.content != null) const SizedBox(height: 2),
                       if (widget.content != null) DefaultTextStyle(style: c4_12Reg(f_30)!, child: Text(widget.content!))
                     ],
