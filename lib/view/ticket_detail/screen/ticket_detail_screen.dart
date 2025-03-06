@@ -161,7 +161,7 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
                               child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.white, width: 2),
-                              borderRadius: const BorderRadius.all(Radius.circular(12)),
+                              borderRadius: const BorderRadius.all(Radius.circular(14)),
                             ),
                             child: GestureDetector(
                               onTap: () {
