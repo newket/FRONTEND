@@ -1,7 +1,7 @@
 name: newket
 description: "newket"
 publish_to: 'none'
-version: 2.0.4+9
+version: 2.1.0+14
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
@@ -65,13 +65,15 @@ flutter:
   uses-material-design: true
 
   assets:
+    - images/artist/
+    - images/error/
     - images/login/
     - images/my_ticket/
     - images/mypage/
-    - images/opening_notice/
     - images/search/
     - images/splash/
     - images/tab_bar/
+    - images/ticket/
     - images/ticket_detail/
     - .env
     - assets/
