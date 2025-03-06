@@ -78,10 +78,9 @@ class _AgreementScreen extends State<AgreementScreen> {
     return Scaffold(
         appBar: AppBar(
             leading: IconButton(
-                highlightColor: Colors.transparent,
                 onPressed: () {
                   AmplitudeConfig.amplitude.logEvent('Agreement->Login');
-                  Get.offAll(const LoginScreen());
+                  Get.offAll(() => const LoginScreen());
                 },
                 color: f_90,
                 icon: const Icon(Icons.arrow_back_ios_new_rounded)),
@@ -105,7 +104,8 @@ class _AgreementScreen extends State<AgreementScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(child: Column(
+                  Expanded(
+                      child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Column(children: [
@@ -277,36 +277,52 @@ class _AgreementScreen extends State<AgreementScreen> {
                       if (isAllSelected)
                         ElevatedButton(
                           onPressed: () async {
-                            var storage = const FlutterSecureStorage();
+                            Get.dialog(
+                              const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              barrierDismissible: false, // 화면 터치해도 닫히지 않음
+                            );
 
-                            String? provider = await storage.read(key: 'SOCIAL_PROVIDER');
-                            //signup
-                            if (provider == 'APPLE') {
-                              String? appleName = await storage.read(key: 'APPLE_NAME');
-                              String? email = await storage.read(key: 'APPLE_EMAIL');
-                              String? socialId = await storage.read(key: 'APPLE_SOCIAL_ID');
+                            try {
+                              // 여기에 실제 회원가입 API 호출
+                              var storage = const FlutterSecureStorage();
 
-                              await AuthRepository().signUpAppleApi(
-                                  SignUpAppleRequest(name: appleName!, email: email!, socialId: socialId!));
+                              String? provider = await storage.read(key: 'SOCIAL_PROVIDER');
+                              //signup
+                              if (provider == 'APPLE') {
+                                String? appleName = await storage.read(key: 'APPLE_NAME');
+                                String? email = await storage.read(key: 'APPLE_EMAIL');
+                                String? socialId = await storage.read(key: 'APPLE_SOCIAL_ID');
 
-                              await storage.delete(key: 'APPLE_NAME');
-                              await storage.delete(key: 'APPLE_EMAIL');
-                              await storage.delete(key: 'APPLE_SOCIAL_ID');
-                              await storage.delete(key: 'SOCIAL_PROVIDER');
-                            } else if (provider == 'KAKAO') {
-                              String? kakaoToken = await storage.read(key: 'KAKAO_TOKEN');
+                                await AuthRepository().signUpAppleApi(
+                                    SignUpAppleRequest(name: appleName!, email: email!, socialId: socialId!));
 
-                              await AuthRepository().signUpApi(SignUpRequest(kakaoToken!));
+                                await storage.delete(key: 'APPLE_NAME');
+                                await storage.delete(key: 'APPLE_EMAIL');
+                                await storage.delete(key: 'APPLE_SOCIAL_ID');
+                                await storage.delete(key: 'SOCIAL_PROVIDER');
+                              } else if (provider == 'KAKAO') {
+                                String? kakaoToken = await storage.read(key: 'KAKAO_TOKEN');
 
-                              await storage.delete(key: 'KAKAO_TOKEN');
-                              await storage.delete(key: 'SOCIAL_PROVIDER');
+                                await AuthRepository().signUpApi(SignUpRequest(kakaoToken!));
+
+                                await storage.delete(key: 'KAKAO_TOKEN');
+                                await storage.delete(key: 'SOCIAL_PROVIDER');
+                              }
+
+                              //기기 토큰 저장
+                              final serverToken = await storage.read(key: 'ACCESS_TOKEN');
+                              await UserRepository().putDeviceTokenApi(serverToken!);
+                              AmplitudeConfig.amplitude.logEvent('Home');
+                              // 성공적으로 끝났을 때 다이얼로그 닫기
+                              Get.back();
+                              // 성공 후 다음 화면으로 이동
+                              Get.offAll(() => const TabBarScreen());
+                            } catch (e) {
+                              // 오류 발생 시 다이얼로그 닫기
+                              Get.back();
                             }
-
-                            //기기 토큰 저장
-                            final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-                            await UserRepository().putDeviceTokenApi(serverToken!);
-                            AmplitudeConfig.amplitude.logEvent('Home');
-                            Get.offAll(() => const TabBarScreen());
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: pn_100, // 버튼 색상

@@ -7,28 +7,25 @@ import 'package:newket/constant/fonts.dart';
 import 'package:newket/view/search/screen/searching_screen.dart';
 
 class SearchingBarWidget extends StatelessWidget {
-  final String? keyword;
-  final String? hintText;
+  final String keyword;
 
-  const SearchingBarWidget({super.key, this.keyword, this.hintText});
+  const SearchingBarWidget({super.key, required this.keyword});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
           children: [
-            const SizedBox(width: 12),
-            GestureDetector(
-                onTap: () {
+            IconButton(
+                onPressed: () {
                   AmplitudeConfig.amplitude.logEvent('Back');
                   Navigator.pop(context);
                 },
-                child: const Icon(Icons.arrow_back_ios_new_rounded, size: 24, color: f_90)),
-            const SizedBox(width: 8),
-            Container(
+                icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 24, color: f_90)),
+            Expanded(
+                child: Container(
               height: 44,
-              width: MediaQuery.of(context).size.width - 64,
               decoration: ShapeDecoration(
                 color: pn_05,
                 shape: RoundedRectangleBorder(
@@ -45,31 +42,32 @@ class SearchingBarWidget extends StatelessWidget {
                   Expanded(
                       child: GestureDetector(
                           child: Text(
-                            keyword ?? '아티스트 또는 공연 이름을 검색해보세요',
-                            style: (keyword?.isNotEmpty ?? false) ? c1_14Med(f_80) : b9_14Reg(f_50),
+                            keyword,
+                            style: (keyword.isNotEmpty) ? c1_14Med(f_80) : b9_14Reg(f_50),
                           ),
-                          onTap: () => {
-                                Get.to(
-                                  SearchingScreen(keyword: keyword ?? ''),
-                                  fullscreenDialog: true,
-                                  transition: Transition.noTransition,
-                                )
-                              })),
-                  (keyword?.isNotEmpty ?? false)
-                      ? GestureDetector(
-                          child: SvgPicture.asset('images/search/close-circle.svg', height: 24, width: 24),
-                          onTap: () => {
+                          onTap: () {
                             Get.to(
-                              const SearchingScreen(),
+                              () => SearchingScreen(keyword: keyword),
                               fullscreenDialog: true,
                               transition: Transition.noTransition,
-                            )
+                            );
+                          })),
+                  (keyword.isNotEmpty)
+                      ? GestureDetector(
+                          child: SvgPicture.asset('images/search/close-circle.svg', height: 24, width: 24),
+                          onTap: () {
+                            Get.to(
+                              () => const SearchingScreen(keyword: ''),
+                              fullscreenDialog: true,
+                              transition: Transition.noTransition,
+                            );
                           },
                         )
                       : Container(),
                 ],
               ),
-            ),
+            )),
+            const SizedBox(width: 20)
           ],
         ));
   }

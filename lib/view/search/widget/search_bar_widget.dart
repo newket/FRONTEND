@@ -13,7 +13,7 @@ class SearchBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
       child: Container(
         height: 44,
         decoration: ShapeDecoration(
@@ -29,15 +29,16 @@ class SearchBarWidget extends StatelessWidget {
           children: [
             SvgPicture.asset('images/search/search.svg', height: 20, width: 20),
             const SizedBox(width: 12),
-            Expanded(child: GestureDetector(
-                child:  Text('아티스트 또는 공연 이름을 검색해보세요', style: b9_14Reg(f_50)),
-                onTap: () {
-                  Get.to(
-                    const SearchingScreen(),
-                    fullscreenDialog: true,
-                    transition: Transition.noTransition,
-                  );
-                }))
+            Expanded(
+                child: GestureDetector(
+                    child: Text('아티스트 또는 공연 이름을 검색해보세요', style: b9_14Reg(f_50)),
+                    onTap: () {
+                      Get.to(
+                        () => const SearchingScreen(keyword: ''),
+                        fullscreenDialog: true,
+                        transition: Transition.noTransition,
+                      );
+                    }))
           ],
         ),
       ),

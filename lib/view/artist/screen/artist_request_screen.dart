@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:newket/view/common/app_bar_back.dart';
 import 'package:newket/constant/colors.dart';
-import 'package:newket/model/artist_model.dart';
+import 'package:newket/model/artist/artist_request.dart';
 import 'package:newket/repository/artist_repository.dart';
+import 'package:newket/view/common/app_bar_back.dart';
 import 'package:newket/view/common/toast_widget.dart';
 
 class ArtistRequestScreen extends StatefulWidget {
@@ -175,16 +175,17 @@ class _ArtistRequestScreen extends State<ArtistRequestScreen> {
         bottomNavigationBar: Container(
             color: Colors.white,
             width: MediaQuery.of(context).size.width - 40,
-            height: 122,
-            padding: const EdgeInsets.only(bottom: 54, top: 12, left: 20, right: 20),
+            height: 88 + MediaQuery.of(context).viewPadding.bottom,
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom + 20, top: 12, left: 20, right: 20),
             child: ElevatedButton(
               onPressed: () async {
                 // 요청 전송
                 if (_artistController.value.text.isNotEmpty) {
-                  _requestArtist(_artistController.value.text, _artistInfoController.value.text);
+                  ToastManager.showToast(toastBottom: 40, title: '아티스트 등록 요청이 완료되었어요!', content: '요청하신 아티스트를 빠른 시일 내로 등록해드릴게요.', context: context);
+                  Navigator.pop(context); //뒤로가기
+                  await _requestArtist(_artistController.value.text, _artistInfoController.value.text);
                   _artistController.clear();
                   _artistInfoController.clear();
-                  showToast(130, '아티스트 등록 요청이 완료되었어요!', '요청하신 아티스트를 빠른 시일 내로 등록해드릴게요.', context);
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -194,7 +195,9 @@ class _ArtistRequestScreen extends State<ArtistRequestScreen> {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 16), // 상하 패딩
-                //fixedSize: Size(MediaQuery.of(context).size.width - 40, 56), // 고정 크기
+                shadowColor: Colors.transparent,
+              ).copyWith(
+                splashFactory: NoSplash.splashFactory,
               ),
               child: Text(
                 '요청 완료하기',

@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/constant/colors.dart';
-import 'package:newket/model/ticket/search_result_model.dart';
-import 'package:newket/repository/artist_repository.dart';
+import 'package:newket/model/artist/artist_dto.dart';
+import 'package:newket/repository/notification_request_repository.dart';
 import 'package:newket/view/common/toast_widget.dart';
 
 class SmallNotificationButtonWidget extends StatefulWidget {
   final bool isFavoriteArtist;
-  final Artist artist;
+  final ArtistDto artist;
+  final double toastBottom;
+  final VoidCallback onConfirm;
 
-  const SmallNotificationButtonWidget({super.key, required this.isFavoriteArtist, required this.artist});
+
+  const SmallNotificationButtonWidget(
+      {super.key, required this.isFavoriteArtist, required this.artist, required this.toastBottom, required this.onConfirm});
 
   @override
   State<StatefulWidget> createState() => _SmallNotificationButtonWidgetState();
@@ -19,14 +23,23 @@ class SmallNotificationButtonWidget extends StatefulWidget {
 class _SmallNotificationButtonWidgetState extends State<SmallNotificationButtonWidget> {
   late bool _isPressed;
   late bool _showArrow;
-  late ArtistRepository artistRepository;
+  late NotificationRequestRepository notificationRequestRepository;
 
   @override
   void initState() {
     super.initState();
-    artistRepository = ArtistRepository();
+    notificationRequestRepository = NotificationRequestRepository();
     _isPressed = widget.isFavoriteArtist;
     _showArrow = widget.isFavoriteArtist;
+  }
+
+  @override
+  void didUpdateWidget(covariant SmallNotificationButtonWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    setState(() {
+      _isPressed = widget.isFavoriteArtist;
+      _showArrow = widget.isFavoriteArtist;
+    });
   }
 
   @override
@@ -47,7 +60,8 @@ class _SmallNotificationButtonWidgetState extends State<SmallNotificationButtonW
         onTap: () async {
           if (!_isPressed) {
             HapticFeedback.lightImpact();
-            final isSuccess = await artistRepository.addFavoriteArtist(widget.artist.artistId, context);
+            final isSuccess =
+                await notificationRequestRepository.postArtistNotification(widget.artist.artistId, context);
             if (isSuccess) {
               setState(() {
                 _isPressed = true;
@@ -58,7 +72,12 @@ class _SmallNotificationButtonWidgetState extends State<SmallNotificationButtonW
                   _showArrow = true;
                 });
               });
-              showToast(74, '앞으로 ${widget.artist.name}의 티켓이 뜨면 알려드릴게요!', '마이페이지에서 해당 정보를 변경할 수 있어요.', context);
+              ToastManager.showToast(
+                  toastBottom: widget.toastBottom,
+                  title: '아티스트 알림이 설정되었어요',
+                  content: '${widget.artist.name}의 새로운 티켓 소식을 가장 먼저 전해 드릴게요!',
+                  context: context);
+              widget.onConfirm();
             }
           }
         },

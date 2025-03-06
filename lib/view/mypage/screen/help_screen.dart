@@ -274,22 +274,22 @@ class _HelpScreen extends State<HelpScreen> {
                             ]))),
                 SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
               ])))),
-      bottomNavigationBar: Container(
+      bottomNavigationBar:  Container(
           color: Colors.white,
           width: MediaQuery.of(context).size.width - 40,
-          height: 122,
-          padding: const EdgeInsets.only(bottom: 54, top: 12, left: 20, right: 20),
+          height: 88 + MediaQuery.of(context).viewPadding.bottom,
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom + 20, top: 12, left: 20, right: 20),
           child: ElevatedButton(
             onPressed: () async {
               // 요청 전송
               if (_titleController.value.text.isNotEmpty && _contentController.value.text.isNotEmpty) {
+                ToastManager.showToast(toastBottom: 88, title: '문의가 완료되었어요!', content: '더 나은 뉴켓을 위해 소중한 의견 주셔서 감사합니다.', context: context);
+                Navigator.pop(context); //뒤로가기
                 await userRepository.createHelp(
                     context, HelpRequest(_titleController.value.text, _contentController.value.text, _emailController.value.text));
                 _titleController.clear();
                 _contentController.clear();
-                showToast(74, '문의가 완료되었어요!', '더 나은 뉴켓을 위해 소중한 의견 주셔서 감사합니다.', context);
                 AmplitudeConfig.amplitude.logEvent('Back');
-                Navigator.pop(context); //뒤로가기
               }
             },
             style: ElevatedButton.styleFrom(
@@ -301,7 +301,9 @@ class _HelpScreen extends State<HelpScreen> {
                 borderRadius: BorderRadius.circular(16),
               ),
               padding: const EdgeInsets.symmetric(vertical: 16), // 상하 패딩
-              //fixedSize: Size(MediaQuery.of(context).size.width - 40, 56), // 고정 크기
+              shadowColor: Colors.transparent,
+            ).copyWith(
+              splashFactory: NoSplash.splashFactory,
             ),
             child: Text(
               '문의 완료하기',

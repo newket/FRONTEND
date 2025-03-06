@@ -1,80 +1,140 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/constant/colors.dart';
+import 'package:newket/constant/fonts.dart';
 
-void showToast(double bottom, String title, String content, BuildContext context) {
-  OverlayEntry overlayEntry = OverlayEntry(
-    builder: (context) => Positioned(
-      bottom: bottom, // Toast 위치 조정
-      left: 20, // 화면의 가운데 정렬
-      child: Material(color: Colors.transparent, child: ToastWidget(title: title, content: content)),
-    ),
-  );
+class ToastManager {
+  static final ToastManager _instance = ToastManager._internal();
 
-  Overlay.of(context).insert(overlayEntry);
+  factory ToastManager() => _instance;
 
-  // 5초 후에 Toast를 자동으로 제거
-  Future.delayed(const Duration(seconds: 5), () {
-    overlayEntry.remove();
-  });
+  ToastManager._internal();
+
+  OverlayEntry? _overlayEntry;
+
+  static void showToast(
+      {required double toastBottom, required String title, required String? content, required BuildContext context}) {
+    _instance._removeToast(); // 기존 토스트 제거
+
+    _instance._overlayEntry = OverlayEntry(
+      builder: (context) => SwipeToast(
+        toastBottom: toastBottom + MediaQuery.of(context).viewPadding.bottom,
+        title: title,
+        content: content,
+        onDismiss: _instance._removeToast,
+      ),
+    );
+
+    Overlay.of(context).insert(_instance._overlayEntry!);
+  }
+
+  void _removeToast() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
 }
 
-class ToastWidget extends StatelessWidget {
+class SwipeToast extends StatefulWidget {
+  final double toastBottom;
   final String title;
-  final String content;
+  final String? content;
+  final VoidCallback onDismiss;
 
-  const ToastWidget({super.key, required this.title, required this.content});
+  const SwipeToast({
+    super.key,
+    required this.toastBottom,
+    required this.title,
+    required this.content,
+    required this.onDismiss,
+  });
+
+  @override
+  State<StatefulWidget> createState() => _SwipeToastState();
+}
+
+class _SwipeToastState extends State<SwipeToast> {
+  double _offsetY = 0.0;
+  double _opacity = 1.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(seconds: 5), _dismissToast);
+  }
+
+  void _dismissToast() {
+    if (mounted) {
+      setState(() {
+        _opacity = 0.0;
+      });
+      Future.delayed(const Duration(milliseconds: 50), widget.onDismiss);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width - 40,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      decoration: ShapeDecoration(
-        color: f_80,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+    return Positioned(
+      bottom: _offsetY + widget.toastBottom,
+      left: 20,
+      right: 20,
+      child: GestureDetector(
+        onVerticalDragUpdate: (details) {
+          setState(() {
+            // _offsetY 값을 제한하고, 내려갈 때 opacity를 점차적으로 감소
+            _offsetY = (_offsetY - details.primaryDelta!).clamp(-double.infinity, 20);
+            // opacity는 내려간 만큼 점차 줄어듦
+            _opacity = (_offsetY < 0) ? 1 + (_offsetY / 200) : 1;
+          });
+        },
+        onVerticalDragEnd: (details) {
+          if (_offsetY < -50) {
+            _dismissToast();
+          } else {
+            setState(() {
+              _offsetY = 0; // 원래 자리로 복귀
+              _opacity = 1.0; // 원래 투명도로 복귀
+            });
+          }
+        },
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 50),
+          opacity: _opacity,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            decoration: ShapeDecoration(
+              color: f_90,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset('images/mypage/checkbox.svg', height: 24, width: 24),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DefaultTextStyle(
+                          textHeightBehavior: const TextHeightBehavior(
+                            // 텍스트 높이 맞춤
+                            applyHeightToFirstAscent: false,
+                            applyHeightToLastDescent: false,
+                          ),
+                          style: s1_16Semi(Colors.white)!,
+                          child: Text(widget.title)),
+                      if (widget.content != null) const SizedBox(height: 2),
+                      if (widget.content != null) DefaultTextStyle(style: c4_12Reg(f_30)!, child: Text(widget.content!))
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SvgPicture.asset('images/mypage/checkbox.svg', height: 24, width: 24),
-          const SizedBox(width: 12),
-          Expanded(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontFamily: 'Pretendard',
-                  fontWeight: FontWeight.w700,
-                ),
-                softWrap: true, // 줄바꿈 허용
-                overflow: TextOverflow.visible,
-              ),
-              const SizedBox(height: 2),
-              Text(
-                content,
-                style: const TextStyle(
-                  color: b_400,
-                  fontSize: 12,
-                  fontFamily: 'Pretendard',
-                  fontWeight: FontWeight.w400,
-                ),
-                softWrap: true, // 줄바꿈 허용
-                overflow: TextOverflow.visible,
-              ),
-            ],
-          )),
-        ],
       ),
     );
   }
