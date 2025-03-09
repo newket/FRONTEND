@@ -29,7 +29,6 @@ class ArtistRepository {
   //아티스트 랜덤 추천
   Future<List<ArtistDto>> getRandomArtists() async {
     final response = await dio.get("/api/v1/artists/random");
-    print((response.data as List).map((e) => ArtistDto.fromJson(e)).toList());
     return (response.data as List).map((e) => ArtistDto.fromJson(e)).toList();
   }
 }
