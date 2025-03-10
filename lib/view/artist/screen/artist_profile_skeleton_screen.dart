@@ -39,7 +39,7 @@ class ArtistProfileSkeletonScreen extends StatelessWidget {
                     Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 2),
-                          borderRadius: const BorderRadius.all(Radius.circular(16)),
+                          borderRadius: const BorderRadius.all(Radius.circular(18)),
                         ),
                         child: const SkeletonWidget(width: 120, height: 120, radius: 16)),
                     const SizedBox(height: 6),
@@ -74,7 +74,7 @@ class ArtistProfileSkeletonScreen extends StatelessWidget {
                           SkeletonWidget(width: 79, height: 17, radius: 8)
                         ]));
                   })),
-          SizedBox(height: kToolbarHeight + MediaQuery.of(context).padding.top - 24),
+          const SizedBox(height: 36),
           const Row(children: [
             SizedBox(width: 20),
             SkeletonWidget(width: 31, height: 24, radius: 8),

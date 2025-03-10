@@ -42,7 +42,7 @@ class TicketDetailSkeletonScreen extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 2),
-                          borderRadius: const BorderRadius.all(Radius.circular(12)),
+                          borderRadius: const BorderRadius.all(Radius.circular(14)),
                         ),
                         child: const ImageLoadingWidget(
                           width: 172,
