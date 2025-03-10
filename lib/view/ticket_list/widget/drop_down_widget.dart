@@ -35,7 +35,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
     return Container(
       height: 34,
       width: 131,
-      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       decoration: ShapeDecoration(
         color: backgroundColor, // 배경색 변경
         shape: RoundedRectangleBorder(
@@ -99,7 +99,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(selectedOption, style: c3_12Med(f_70)),
-            SvgPicture.asset('images/ticket/arrow-down.svg', height: 20, width: 20),
+            SvgPicture.asset('images/ticket/arrow-down.svg', height: 12, width: 12),
           ],
         ),
       ),
