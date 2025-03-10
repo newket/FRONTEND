@@ -28,16 +28,16 @@ class OnSaleWidget extends StatelessWidget {
         child: Row(
           children: [
             ClipRRect(
-                borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(6), bottomLeft: Radius.circular(6)),
                 child: ImageLoadingWidget(
-                    width: 85, height: 110, radius: 0, imageUrl: onSaleResponse.tickets[index].imageUrl)),
+                    width: 85, height: 107, radius: 0, imageUrl: onSaleResponse.tickets[index].imageUrl)),
             Stack(
               children: [
                 //티켓 정보
                 Container(
                   width: MediaQuery.of(context).size.width - 85 - 43,
                   // 원하는 여백을 빼고 가로 크기 설정
-                  height: 110,
+                  height: 107,
                   clipBehavior: Clip.antiAlias,
                   decoration: const ShapeDecoration(
                     color: Colors.white,
@@ -57,16 +57,8 @@ class OnSaleWidget extends StatelessWidget {
                               height: 44,
                               child: RichText(
                                   maxLines: 2,
-                                  textHeightBehavior: const TextHeightBehavior(
-                                    // 텍스트 높이 맞춤
-                                    applyHeightToFirstAscent: false,
-                                    applyHeightToLastDescent: false,
-                                  ),
                                   overflow: TextOverflow.ellipsis,
-                                  text: TextSpan(
-                                    text: onSaleResponse.tickets[index].title,
-                                    style: b8_14Med(f_100),
-                                  )))),
+                                  text: TextSpan(text: onSaleResponse.tickets[index].title, style: b8_14Med(f_100))))),
                       //실선
                       Container(color: f_15, height: 1),
                       // 티켓 오픈 정보
@@ -75,18 +67,12 @@ class OnSaleWidget extends StatelessWidget {
                           Container(
                               width: (MediaQuery.of(context).size.width - 85 - 43),
                               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                              height: 42,
+                              height: 40,
                               child: Row(
                                 children: [
-                                  Text(
-                                    "공연일시",
-                                    style: c4_12Reg(f_60),
-                                  ),
+                                  Text("공연일시", style: c4_12Reg(f_60)),
                                   const SizedBox(width: 10),
-                                  Text(
-                                    onSaleResponse.tickets[index].date,
-                                    style: c3_12Med(f_90),
-                                  ),
+                                  Text(onSaleResponse.tickets[index].date, style: c3_12Med(f_90)),
                                 ],
                               )),
                         ],
