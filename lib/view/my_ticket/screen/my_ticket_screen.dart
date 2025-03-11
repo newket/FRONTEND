@@ -245,7 +245,7 @@ class _MyTicketScreen extends State<MyTicketScreen> with TickerProviderStateMixi
                                                             radius: 16,
                                                             imageUrl: artist.imageUrl ?? '',
                                                           )),
-                                                      const SizedBox(height: 4),
+                                                      const SizedBox(height: 2),
                                                       RichText(
                                                         maxLines: 1,
                                                         overflow: TextOverflow.ellipsis,
