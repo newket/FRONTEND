@@ -51,7 +51,7 @@ class _MyTicketTabBar1State extends State<MyTicketTabBar1> with TickerProviderSt
             child: TabBar(
               tabs: <Tab>[
                 Tab(
-                  height: 36,
+                  height: 34,
                   icon: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,7 +63,7 @@ class _MyTicketTabBar1State extends State<MyTicketTabBar1> with TickerProviderSt
                   ),
                 ),
                 Tab(
-                  height: 36,
+                  height: 34,
                   icon: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
