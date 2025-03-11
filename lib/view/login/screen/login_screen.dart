@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newket/constant/colors.dart';
@@ -57,11 +59,13 @@ class _LoginScreen extends State<LoginScreen> {
               Column(
                 children: [
                   //애플 로그인
-                  GestureDetector(
-                      child: Image.asset("images/login/apple_login.png", width: 350),
-                      onTap: () async {
-                        await authRepository.appleLoginApi();
-                      }),
+                  Platform.isIOS
+                      ? GestureDetector(
+                          child: Image.asset("images/login/apple_login.png", width: 350),
+                          onTap: () async {
+                            await authRepository.appleLoginApi();
+                          })
+                      : const SizedBox(),
                   const SizedBox(height: 12),
                   //카카오 로그인
                   GestureDetector(
