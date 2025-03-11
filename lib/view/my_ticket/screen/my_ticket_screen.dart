@@ -298,13 +298,14 @@ class _MyTicketScreen extends State<MyTicketScreen> with TickerProviderStateMixi
                             controller: controller,
                             dividerColor: Colors.transparent,
                             // 흰 줄 제거
-                            indicatorColor: const Color(0xFF796FFF),
+                            indicatorColor: pn_100,
                             indicatorWeight: 2,
                             indicatorPadding: const EdgeInsets.all(-11),
                             // indicator 위치 내리기
                             labelPadding: EdgeInsets.zero, //탭 크기가 안 작아지게
                           ),
                         ),
+                        Container(height: 1, color: f_10, width: double.infinity),
                         Expanded(
                             child: TabBarView(
                           physics: const NeverScrollableScrollPhysics(),
