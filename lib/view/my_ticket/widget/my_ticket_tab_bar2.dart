@@ -49,9 +49,9 @@ class MyTicketTabBar2 extends StatelessWidget {
                     Stack(
                       alignment: Alignment.bottomLeft,
                       children: [
-                        ImageLoadingWidget(width: 171, height: 200, radius: 8, imageUrl: ticket.imageUrl),
+                        ImageLoadingWidget(width: double.infinity, height: 200, radius: 8, imageUrl: ticket.imageUrl),
                         Container(
-                          width: 171,
+                          width: double.infinity,
                           height: 148,
                           decoration: const ShapeDecoration(
                             gradient: LinearGradient(
@@ -80,7 +80,7 @@ class MyTicketTabBar2 extends StatelessWidget {
                     ),
                     Container(
                       height: 70,
-                      width: 171,
+                      width: double.infinity,
                       decoration: ShapeDecoration(
                         color: f_100,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
