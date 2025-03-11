@@ -93,7 +93,7 @@ class _MyTicketArtistBottomSheetWidgetState extends State<MyTicketArtistBottomSh
             .size
             .height - 164,
         width: double.infinity,
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: const ShapeDecoration(
           color: Colors.white,
           shape: RoundedRectangleBorder(
@@ -111,7 +111,8 @@ class _MyTicketArtistBottomSheetWidgetState extends State<MyTicketArtistBottomSh
             )
           ],
         ),
-        child: Column(children: [
+        child: SingleChildScrollView(child: Column(children: [
+          const SizedBox(height: 20),
           ElevatedButton(
               onPressed: () {
                 Get.to(() => ArtistProfileScreen(artistId: widget.artistId));
@@ -224,6 +225,6 @@ class _MyTicketArtistBottomSheetWidgetState extends State<MyTicketArtistBottomSh
             const SizedBox(height: 28)
           ])
               : const SizedBox()
-        ]));
+        ])));
   }
 }
