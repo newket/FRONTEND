@@ -71,7 +71,7 @@ class _MyPageScreen extends State<MyPageScreen> {
       return const MyPageSkeletonScreen();
     }
     return Scaffold(
-        appBar: AppBar(title: Text('마이페이지', style: t2_18Semi(f_100)), backgroundColor: Colors.white, centerTitle: false),
+        appBar: AppBar(title: Text('마이페이지', style: t2_18Semi(f_100)), backgroundColor: Colors.white, centerTitle: true),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
             child: Column(
