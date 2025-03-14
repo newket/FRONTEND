@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
+import 'package:newket/constant/fonts.dart';
 import 'package:newket/repository/ticket_repository.dart';
 import 'package:newket/view/ticket_list/screen/before_sale_screen.dart';
 import 'package:newket/view/ticket_list/screen/on_sale_screen.dart';
@@ -126,14 +127,7 @@ class _HomeScreen extends State<HomeScreen> with SingleTickerProviderStateMixin 
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text("오픈 예정 티켓",
-                                    style: TextStyle(
-                                        fontFamily: 'Pretendard',
-                                        fontSize: 16,
-                                        color: controller.index == 0 ? pn_100 : f_40,
-                                        fontWeight: FontWeight.w600))
-                              ])),
+                              children: [Text("오픈 예정 티켓", style: button2_14Semi(controller.index == 0 ? pn_100 : f_40))])),
                     ),
                     Tab(
                       icon: SizedBox(
@@ -143,12 +137,7 @@ class _HomeScreen extends State<HomeScreen> with SingleTickerProviderStateMixin 
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text("예매 중인 티켓",
-                                    style: TextStyle(
-                                        fontFamily: 'Pretendard',
-                                        fontSize: 16,
-                                        color: controller.index == 1 ? pn_100 : f_40,
-                                        fontWeight: FontWeight.w600))
+                                Text("예매 중인 티켓", style: button2_14Semi(controller.index == 1 ? pn_100 : f_40))
                               ])),
                     ),
                   ],
@@ -162,7 +151,7 @@ class _HomeScreen extends State<HomeScreen> with SingleTickerProviderStateMixin 
                   labelPadding: EdgeInsets.zero, //탭 크기가 안 작아지게
                 ),
               ),
-              Container(height: 5, color: f_10, width: double.infinity),
+              Container(height: 1, color: f_10, width: double.infinity),
               Expanded(
                   child: TabBarView(
                 controller: controller,

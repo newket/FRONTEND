@@ -1,6 +1,6 @@
 import 'dart:io';
+
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/view/error/screen/global_error_screen.dart';
@@ -29,7 +29,7 @@ class ErrorInterceptor extends Interceptor {
                 }),
             arguments: previousRoute);
       }
-    } else if(err.response?.data?["error"] == "Internal Server Error"){
+    } else if (err.response?.data?["error"] == "Internal Server Error") {
       // 토큰 만료됨
       handler.next(err);
       return;

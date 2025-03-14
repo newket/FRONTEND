@@ -34,9 +34,9 @@ class BeforeSaleWidget extends StatelessWidget {
         child: Row(
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
+              borderRadius: const BorderRadius.only(topLeft: Radius.circular(6), bottomLeft: Radius.circular(6)),
               child: ImageLoadingWidget(
-                  width: 85, height: 110, radius: 0, imageUrl: beforeSaleTicketsResponse.tickets[index].imageUrl),
+                  width: 85, height: 107, radius: 0, imageUrl: beforeSaleTicketsResponse.tickets[index].imageUrl),
             ),
             Stack(
               children: [
@@ -44,7 +44,7 @@ class BeforeSaleWidget extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width - 85 - 43,
                   // 원하는 여백을 빼고 가로 크기 설정
-                  height: 110,
+                  height: 107,
                   clipBehavior: Clip.antiAlias,
                   decoration: const ShapeDecoration(
                     color: Colors.white,
@@ -78,12 +78,12 @@ class BeforeSaleWidget extends StatelessWidget {
                         children: [
                           SizedBox(
                               width: (MediaQuery.of(context).size.width - 85 - 43) / 2,
-                              height: 42,
+                              height: 40,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  const SizedBox(width: 12),
+                                  const SizedBox(width: 16),
                                   Text(
                                     first.type,
                                     style: c4_12Reg(f_60),
@@ -107,7 +107,7 @@ class BeforeSaleWidget extends StatelessWidget {
                           if (beforeSaleTicketsResponse.tickets[index].ticketSaleSchedules.length > 1)
                             SizedBox(
                                 width: (MediaQuery.of(context).size.width - 85 - 43) / 2,
-                                height: 42,
+                                height: 40,
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.start,

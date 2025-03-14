@@ -29,7 +29,7 @@ class TicketSkeletonWidget extends StatelessWidget {
               10,
                   (index) {
                 return Column(children: [
-                  SkeletonWidget(width: MediaQuery.of(context).size.width - 40, height: 122, radius: 8),
+                  SkeletonWidget(width: MediaQuery.of(context).size.width - 40, height: 110, radius: 8),
                   const SizedBox(height: 12)
                 ]);
               },

@@ -65,7 +65,7 @@ class _OnSaleScreen extends State<OnSaleScreen> {
                   return Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: Column(children: [
-                        Container(height: 13),
+                        Container(height: 16),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

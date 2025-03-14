@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:newket/config/dio_auth.dart';
 import 'package:newket/config/dio_client.dart';
 import 'package:newket/model/user/notification_allow_request.dart';
 import 'package:newket/model/user_model.dart';
-import 'package:newket/config/dio_auth.dart';
 
 class UserRepository {
   final storage = const FlutterSecureStorage();

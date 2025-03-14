@@ -161,7 +161,7 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
                               child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.white, width: 2),
-                              borderRadius: const BorderRadius.all(Radius.circular(12)),
+                              borderRadius: const BorderRadius.all(Radius.circular(14)),
                             ),
                             child: GestureDetector(
                               onTap: () {
@@ -422,7 +422,7 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
                       children: [
                         isNotification
                             ? SvgPicture.asset('images/ticket/notification_on.svg', color: pn_100)
-                            : SvgPicture.asset('images/ticket/notification_on.svg'),
+                            : SvgPicture.asset('images/search/notification_null.svg', width: 20,),
                         const SizedBox(width: 10),
                         Text(
                           isNotification ? '알림 받는 중' : '알림 받기',

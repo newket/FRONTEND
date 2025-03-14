@@ -1332,7 +1332,7 @@ class _PrivacyPolicyScreen extends State<PrivacyPolicyScreen> {
                       "제1조 본 방침은 2024.09.25.부터 시행됩니다.",
                       style: content,
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 100),
                   ],
                 ))));
   }
