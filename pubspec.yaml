@@ -1,7 +1,7 @@
 name: newket
 description: "newket"
 publish_to: 'none'
-version: 2.1.0+14
+version: 2.1.1+16
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
@@ -32,7 +32,6 @@ dependencies:
 
   # 푸시 알림
   flutter_local_notifications: ^17.2.2
-  workmanager: ^0.5.2
 
   #fcm
   firebase_messaging: ^15.1.2
@@ -45,7 +44,7 @@ dependencies:
   flutter_native_splash: ^2.4.1
 
   #amplitude
-  amplitude_flutter: ^3.13.0
+  amplitude_flutter: ^4.1.0
 
   #shared_preferences
   shared_preferences: ^2.0.0
@@ -55,6 +54,9 @@ dependencies:
 
   #skeleton ui
   shimmer: ^3.0.0
+
+  #smart look
+  flutter_smartlook: 4.1.25
 
 dev_dependencies:
   flutter_test:

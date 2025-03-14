@@ -106,7 +106,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                 elevation: 0.0,
                 leading: IconButton(
                   onPressed: () {
-                    AmplitudeConfig.amplitude.logEvent('Back');
+                    //AmplitudeConfig.amplitude.logEvent('Back');
                     Navigator.pop(context);
                   },
                   color: (_scrollPosition == 0) ? Colors.white : f_100,
@@ -186,8 +186,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                                                   ImagePreviewScreen(imageUrl: response.info.imageUrl ?? ''),
                                             ),
                                           );
-                                          AmplitudeConfig.amplitude
-                                              .logEvent('ImagePreview(artist: ${response.info.name})');
+                                          //AmplitudeConfig.amplitude.logEvent('ImagePreview(artist: ${response.info.name})');
                                         },
                                         child: ImageLoadingWidget(
                                           width: 120,
@@ -247,8 +246,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                                                             MaterialPageRoute(
                                                                 builder: (context) => ArtistProfileScreen(
                                                                     artistId: response.members[index].artistId)));
-                                                        AmplitudeConfig.amplitude.logEvent(
-                                                            'ArtistProfile(artist: ${response.members[index].name})');
+                                                        //AmplitudeConfig.amplitude.logEvent('ArtistProfile(artist: ${response.members[index].name})');
                                                       },
                                                       child:
                                                           ArtistHorizontalListWidget(artist: response.members[index])));
@@ -284,8 +282,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                                                               builder: (context) => ArtistProfileScreen(
                                                                   artistId: response.groups[index].artistId),
                                                             ));
-                                                        AmplitudeConfig.amplitude.logEvent(
-                                                            'ArtistProfile(artist: ${response.groups[index].name})');
+                                                        //AmplitudeConfig.amplitude.logEvent('ArtistProfile(artist: ${response.groups[index].name})');
                                                       },
                                                       child:
                                                           ArtistHorizontalListWidget(artist: response.groups[index])));
@@ -365,8 +362,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                                                       ),
                                                     ),
                                                   );
-                                                  AmplitudeConfig.amplitude.logEvent(
-                                                      'TicketDetail(title:${response.beforeSaleTickets.tickets[index].title})');
+                                                  //AmplitudeConfig.amplitude.logEvent('TicketDetail(title:${response.beforeSaleTickets.tickets[index].title})');
                                                 },
                                                 child: BeforeSaleWidget(
                                                     beforeSaleTicketsResponse: response.beforeSaleTickets,
@@ -397,8 +393,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                                                     ),
                                                   ),
                                                 );
-                                                AmplitudeConfig.amplitude.logEvent(
-                                                    'TicketDetail(title:${response.beforeSaleTickets.tickets[index].title})');
+                                                //AmplitudeConfig.amplitude.logEvent('TicketDetail(title:${response.beforeSaleTickets.tickets[index].title})');
                                               },
                                               child: OnSaleWidget(onSaleResponse: response.onSaleTickets, index: index),
                                             ),
@@ -443,8 +438,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
                                                         ),
                                                       ),
                                                     );
-                                                    AmplitudeConfig.amplitude.logEvent(
-                                                        'TicketDetail(title:${response.afterSaleTickets.tickets[index].title})');
+                                                    //AmplitudeConfig.amplitude.logEvent('TicketDetail(title:${response.afterSaleTickets.tickets[index].title})');
                                                   },
                                                   child: OnSaleWidget(
                                                       onSaleResponse: response.afterSaleTickets, index: index),

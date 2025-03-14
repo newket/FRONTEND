@@ -40,7 +40,7 @@ class AuthRepository {
             final serverToken = await storage.read(key: 'ACCESS_TOKEN');
             await UserRepository().putDeviceTokenApi(serverToken!);
 
-            AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 성공');
+            //AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 성공');
 
             Get.offAll(() => const TabBarScreen());
           } catch (error) {
@@ -63,14 +63,14 @@ class AuthRepository {
               final serverToken = await storage.read(key: 'ACCESS_TOKEN');
               await UserRepository().putDeviceTokenApi(serverToken!);
 
-              AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 성공');
+              //AmplitudeConfig.amplitude.logEvent('카카오톡으로 로그인 성공');
 
               Get.offAll(() => const TabBarScreen());
             } catch (error) {
               //response 가 400이면 약관 동의 페이지
             }
           } catch (error) {
-            AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
+            //AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
           }
         }
       } else {
@@ -85,18 +85,18 @@ class AuthRepository {
             final serverToken = await storage.read(key: 'ACCESS_TOKEN');
             await UserRepository().putDeviceTokenApi(serverToken!);
 
-            AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
+            //AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 성공');
 
             Get.offAll(() => const TabBarScreen());
           } catch (error) {
             //response 가 400이면 약관 동의 페이지
           }
         } catch (error) {
-          AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
+          //AmplitudeConfig.amplitude.logEvent('카카오계정으로 로그인 실패 $error');
         }
       }
     } catch (error) {
-      AmplitudeConfig.amplitude.logEvent('카카오로그인 실패 $error');
+      //AmplitudeConfig.amplitude.logEvent('카카오로그인 실패 $error');
     } finally {
       if (Get.isDialogOpen!) {
         Get.back(); // 로딩 화면을 닫음
@@ -138,14 +138,14 @@ class AuthRepository {
         final serverToken = await storage.read(key: 'ACCESS_TOKEN');
         await UserRepository().putDeviceTokenApi(serverToken!);
 
-        AmplitudeConfig.amplitude.logEvent('애플 계정으로 로그인 성공');
+        //AmplitudeConfig.amplitude.logEvent('애플 계정으로 로그인 성공');
 
         Get.offAll(() => const TabBarScreen());
       } catch (error) {
         //response 가 400이면 약관 동의 페이지
       }
     } catch (error) {
-      AmplitudeConfig.amplitude.logEvent('애플로 로그인 실패 $error');
+      //AmplitudeConfig.amplitude.logEvent('애플로 로그인 실패 $error');
     } finally {
       if (Get.isDialogOpen!) {
         Get.back(); // 로딩 화면을 닫음
@@ -178,7 +178,7 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {
           // 로그인 페이지로 이동
-          AmplitudeConfig.amplitude.logEvent('SignUp error->Login $e');
+          //AmplitudeConfig.amplitude.logEvent('SignUp error->Login $e');
           Get.offAll(() => const LoginScreen());
           var storage = const FlutterSecureStorage();
           await storage.deleteAll();
@@ -213,7 +213,7 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {
           // 로그인 페이지로 이동
-          AmplitudeConfig.amplitude.logEvent('Login');
+          //AmplitudeConfig.amplitude.logEvent('Login');
           var storage = const FlutterSecureStorage();
           await storage.deleteAll();
         }
@@ -248,7 +248,7 @@ class AuthRepository {
         if (e.response?.statusCode == 400) {
           // 온보딩 페이지로 이동
           storage.write(key: 'SOCIAL_PROVIDER', value: 'KAKAO');
-          AmplitudeConfig.amplitude.logEvent('Agreement');
+          //AmplitudeConfig.amplitude.logEvent('Agreement');
           Get.offAll(() => const AgreementScreen());
           return; // 여기서 예외를 다시 throw하지 않음
         }
@@ -282,7 +282,7 @@ class AuthRepository {
         if (e.response?.statusCode == 400) {
           // 온보딩 페이지로 이동
           storage.write(key: 'SOCIAL_PROVIDER', value: 'APPLE');
-          AmplitudeConfig.amplitude.logEvent('Agreement');
+          //AmplitudeConfig.amplitude.logEvent('Agreement');
           Get.offAll(() => const AgreementScreen());
           return; // 여기서 예외를 다시 throw하지 않음
         }

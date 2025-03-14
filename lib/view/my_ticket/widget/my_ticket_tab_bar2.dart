@@ -30,7 +30,7 @@ class MyTicketTabBar2 extends StatelessWidget {
             final ticket = notificationTickets.tickets[index];
             return GestureDetector(
               onTap: () {
-                AmplitudeConfig.amplitude.logEvent('OpeningNoticeDetail(id:${ticket.ticketId})');
+                //AmplitudeConfig.amplitude.logEvent('OpeningNoticeDetail(id:${ticket.ticketId})');
                 Navigator.push(
                   context,
                   MaterialPageRoute(

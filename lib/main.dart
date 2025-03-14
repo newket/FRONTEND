@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:newket/config/amplitude_config.dart';
@@ -69,13 +70,18 @@ void main() async {
       await storage.read(key: 'DEVICE_TOKEN');
     } catch (e) {
       if (e.toString().contains('BadPaddingException')) {
-        AmplitudeConfig.amplitude.logEvent('storage error: $e');
+        //AmplitudeConfig.amplitude.logEvent('storage error: $e');
         await storage.deleteAll();
       }
     }
 
     //Amplitude 초기화
     AmplitudeConfig().init();
+
+    // //smart look 초기화
+    final Smartlook smartlook = Smartlook.instance;
+    smartlook.start();
+    smartlook.preferences.setProjectKey(dotenv.get("SMART_LOOK"));
 
     // Kakao SDK 초기화
     KakaoSdk.init(
@@ -184,15 +190,15 @@ void main() async {
     String? accessToken = ""; //user의 정보를 저장하기 위한 변수
     accessToken = await storage.read(key: "ACCESS_TOKEN");
     if (accessToken == null || accessToken.isEmpty) {
-      AmplitudeConfig.amplitude.logEvent('Login');
+      //AmplitudeConfig.amplitude.logEvent('Login');
       runApp(const MyApp());
     } else {
-      AmplitudeConfig.amplitude.logEvent('Home');
+      //AmplitudeConfig.amplitude.logEvent('Home');
       runApp(const MyApp2());
     }
   } catch (e) {
     debugPrint('main error: $e');
-    AmplitudeConfig.amplitude.logEvent('main error: $e');
+    //AmplitudeConfig.amplitude.logEvent('main error: $e');
   }
 }
 

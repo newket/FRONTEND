@@ -20,7 +20,7 @@ class _NetworkErrorScreenState extends State<NetworkErrorScreen> {
         backgroundColor: Colors.white,
         leading: IconButton(
             onPressed: () {
-              AmplitudeConfig.amplitude.logEvent('Back');
+              //AmplitudeConfig.amplitude.logEvent('Back');
               Navigator.pop(context); //뒤로가기
             },
             color: f_90,

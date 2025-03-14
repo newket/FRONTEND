@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
@@ -85,8 +86,7 @@ class _OnSaleScreen extends State<OnSaleScreen> {
                               return Column(children: [
                                 GestureDetector(
                                   onTap: () {
-                                    AmplitudeConfig.amplitude.logEvent(
-                                        'OpeningNoticeDetail(id:${onSaleResponse.tickets[index].ticketId})');
+                                    //AmplitudeConfig.amplitude.track(BaseEvent('OpeningNoticeDetail(id:${onSaleResponse.tickets[index].ticketId}'));
                                     // 상세 페이지로 이동
                                     Navigator.push(
                                       context,

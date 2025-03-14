@@ -188,7 +188,7 @@ class _MyPageScreen extends State<MyPageScreen> {
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     GestureDetector(
                         onTap: () {
-                          AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
+                          //AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -211,7 +211,7 @@ class _MyPageScreen extends State<MyPageScreen> {
                     const SizedBox(height: 20),
                     GestureDetector(
                         onTap: () {
-                          AmplitudeConfig.amplitude.logEvent('TermsOfService');
+                          //AmplitudeConfig.amplitude.logEvent('TermsOfService');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -234,7 +234,7 @@ class _MyPageScreen extends State<MyPageScreen> {
                     const SizedBox(height: 20),
                     GestureDetector(
                       onTap: () {
-                        AmplitudeConfig.amplitude.logEvent('Help');
+                        //AmplitudeConfig.amplitude.logEvent('Help');
                         // 문의하기 페이지로 이동
                         Navigator.push(
                           context,
@@ -261,7 +261,7 @@ class _MyPageScreen extends State<MyPageScreen> {
                           var storage = const FlutterSecureStorage();
                           await storage.deleteAll();
                           // 로그인 페이지로 이동
-                          AmplitudeConfig.amplitude.logEvent('Logout');
+                          //AmplitudeConfig.amplitude.logEvent('Logout');
                           Get.offAll(() => const LoginScreen());
                         },
                         child: Text(
@@ -295,7 +295,7 @@ class _MyPageScreen extends State<MyPageScreen> {
                                   final prefs = await SharedPreferences.getInstance();
                                   await storage.deleteAll();
                                   await prefs.clear();
-                                  AmplitudeConfig.amplitude.logEvent('Withdraw');
+                                  //AmplitudeConfig.amplitude.logEvent('Withdraw');
                                   Get.offAll(() => const LoginScreen());
                                 }),
                               );

@@ -79,7 +79,7 @@ class _AgreementScreen extends State<AgreementScreen> {
       appBar: AppBar(
           leading: IconButton(
               onPressed: () {
-                AmplitudeConfig.amplitude.logEvent('Agreement->Login');
+                //AmplitudeConfig.amplitude.logEvent('Agreement->Login');
                 Get.offAll(() => const LoginScreen());
               },
               color: f_90,
@@ -88,7 +88,7 @@ class _AgreementScreen extends State<AgreementScreen> {
           centerTitle: true,
           title: const Text(
             "약관동의",
-            style: const TextStyle(
+            style: TextStyle(
               color: f_100,
               fontSize: 16,
               fontFamily: 'Pretendard',
@@ -170,7 +170,7 @@ class _AgreementScreen extends State<AgreementScreen> {
                         const SizedBox(height: 24),
                         GestureDetector(
                             onTap: () {
-                              AmplitudeConfig.amplitude.logEvent('TermsOfService');
+                              //AmplitudeConfig.amplitude.logEvent('TermsOfService');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => const TermsOfService()),
@@ -220,7 +220,7 @@ class _AgreementScreen extends State<AgreementScreen> {
                         const SizedBox(height: 24),
                         GestureDetector(
                             onTap: () {
-                              AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
+                              //AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => const PrivacyPolicyScreen()),
@@ -318,7 +318,7 @@ class _AgreementScreen extends State<AgreementScreen> {
                       //기기 토큰 저장
                       final serverToken = await storage.read(key: 'ACCESS_TOKEN');
                       await UserRepository().putDeviceTokenApi(serverToken!);
-                      AmplitudeConfig.amplitude.logEvent('Home');
+                      //AmplitudeConfig.amplitude.logEvent('Home');
                       // 성공적으로 끝났을 때 다이얼로그 닫기
                       Get.back();
                       // 성공 후 다음 화면으로 이동

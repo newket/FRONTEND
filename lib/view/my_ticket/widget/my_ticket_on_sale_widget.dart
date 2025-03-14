@@ -31,7 +31,7 @@ class MyTicketOnSaleWidget extends StatelessWidget {
                       ),
                     ),
                   );
-                  AmplitudeConfig.amplitude.logEvent('TicketDetail(title:${onSaleResponse.tickets[index].title})');
+                  //AmplitudeConfig.amplitude.logEvent('TicketDetail(title:${onSaleResponse.tickets[index].title})');
                 },
                 child: OnSaleWidget(onSaleResponse: onSaleResponse, index: index),
               ),

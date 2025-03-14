@@ -83,8 +83,7 @@ class _BeforeSaleScreen extends State<BeforeSaleScreen> {
                               return Column(children: [
                                 GestureDetector(
                                   onTap: () {
-                                    AmplitudeConfig.amplitude.logEvent(
-                                        'OpeningNoticeDetail(id:${beforeSaleResponse.tickets[index].ticketId})');
+                                    //AmplitudeConfig.amplitude.logEvent('OpeningNoticeDetail(id:${beforeSaleResponse.tickets[index].ticketId})');
                                     // 상세 페이지로 이동
                                     Navigator.push(
                                       context,

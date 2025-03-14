@@ -18,7 +18,7 @@ class ErrorInterceptor extends Interceptor {
 
     if (err.type == DioExceptionType.connectionError || err.error is SocketException) {
       print('network error : ${err.response}');
-      AmplitudeConfig.amplitude.logEvent('network error : ${err.message}');
+      //AmplitudeConfig.amplitude.logEvent('network error : ${err.message}');
 
       if (currentScreen != NetworkErrorScreen) {
         await Get.to(
@@ -40,7 +40,7 @@ class ErrorInterceptor extends Interceptor {
     } else {
       if (currentScreen != GlobalErrorScreen) {
         print('global error : ${err.response}');
-        AmplitudeConfig.amplitude.logEvent('global error : ${err.message}');
+        //AmplitudeConfig.amplitude.logEvent('global error : ${err.message}');
 
         await Get.to(
             () => GlobalErrorScreen(onRetry: () async {

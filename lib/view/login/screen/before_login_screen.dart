@@ -36,7 +36,7 @@ class _BeforeLoginScreen extends State<BeforeLoginScreen> {
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom + 20, top: 12, left: 20, right: 20),
         child: ElevatedButton(
             onPressed: () async {
-              AmplitudeConfig.amplitude.logEvent('BeforeLogin->Login');
+              //AmplitudeConfig.amplitude.logEvent('BeforeLogin->Login');
               Get.offAll(() => const LoginScreen());
               var storage = const FlutterSecureStorage();
               await storage.deleteAll();

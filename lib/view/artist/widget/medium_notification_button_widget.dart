@@ -94,27 +94,16 @@ class _MediumNotificationButtonWidget extends State<MediumNotificationButtonWidg
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (!_isPressed) ...[
-              SvgPicture.asset(
-                'images/search/notification_null.svg',
-                width: 20,
-                height: 20,
-              ),
+              SvgPicture.asset('images/search/notification_null.svg', width: 20, height: 20),
               const SizedBox(width: 8),
               Text(
                 "알림 받기",
                 style: button2_14Semi(Colors.white),
               ),
             ] else ...[
-              SvgPicture.asset(
-                'images/ticket/notification_on.svg',
-                width: 20,
-                height: 20,
-              ),
+              SvgPicture.asset('images/ticket/notification_on.svg', width: 20, height: 20),
               const SizedBox(width: 8),
-              Text(
-                "알림 받는 중",
-                style: button2_14Semi(Colors.white),
-              ),
+              Text("알림 받는 중", style: button2_14Semi(Colors.white)),
             ]
           ],
         ),

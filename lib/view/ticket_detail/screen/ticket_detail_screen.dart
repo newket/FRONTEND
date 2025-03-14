@@ -115,7 +115,7 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
           elevation: 0.0,
           leading: IconButton(
             onPressed: () {
-              AmplitudeConfig.amplitude.logEvent('Back');
+              //AmplitudeConfig.amplitude.logEvent('Back');
               Navigator.pop(context);
             },
             color: (_scrollPosition == 0) ? Colors.white : f_100,
@@ -171,7 +171,7 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
                                     pageBuilder: (_, __, ___) => ImagePreviewScreen(imageUrl: ticketResponse.imageUrl),
                                   ),
                                 );
-                                AmplitudeConfig.amplitude.logEvent('ImagePreview(ticket: ${ticketResponse.title})');
+                                //AmplitudeConfig.amplitude.logEvent('ImagePreview(ticket: ${ticketResponse.title})');
                               },
                               child: ImageLoadingWidget(
                                 width: 172,
@@ -335,8 +335,7 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
                         return GestureDetector(
                             onTap: () {
                               Get.to(() => ArtistProfileScreen(artistId: ticketResponse.artists[index].artistId));
-                              AmplitudeConfig.amplitude
-                                  .logEvent('ArtistProfile(artist: ${ticketResponse.artists[index].name})');
+                              //AmplitudeConfig.amplitude.logEvent('ArtistProfile(artist: ${ticketResponse.artists[index].name})');
                             },
                             child: ArtistListWidget(
                               artist: ticketResponse.artists[index],

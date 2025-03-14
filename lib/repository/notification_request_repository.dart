@@ -17,7 +17,7 @@ class NotificationRequestRepository {
       await dio.post("/api/v1/notification-requests/artists/$artistId");
       return true;
     } on DioException catch (e) {
-      AmplitudeConfig.amplitude.logEvent('BeforeLogin');
+      //AmplitudeConfig.amplitude.logEvent('BeforeLogin');
       Get.to(() => const BeforeLoginScreen());
       return false;
     }
@@ -47,7 +47,7 @@ class NotificationRequestRepository {
       await dio.post("/api/v1/notification-requests/tickets/$ticketId");
       return true;
     } on DioException catch (e) {
-      AmplitudeConfig.amplitude.logEvent('BeforeLogin');
+      //AmplitudeConfig.amplitude.logEvent('BeforeLogin');
       Navigator.push(
         context,
         MaterialPageRoute(
