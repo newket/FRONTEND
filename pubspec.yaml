@@ -58,6 +58,9 @@ dependencies:
   #smart look
   flutter_smartlook: 4.1.25
 
+  #naver login
+  flutter_naver_login: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

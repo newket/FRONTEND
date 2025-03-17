@@ -55,8 +55,9 @@ class UserRepository {
     );
   }
 
-  Future<void> putDeviceTokenApi(String accessToken) async {
-    dio.options.headers['Authorization'] = 'Bearer $accessToken';
+  Future<void> putDeviceTokenApi(BuildContext context) async {
+    var dio = await authDio(context);
+
     final deviceToken = await FirebaseMessaging.instance.getToken();
     storage.write(key: 'DEVICE_TOKEN', value: deviceToken);
     final requestBody = UserDeviceToken(deviceToken!).toJson();

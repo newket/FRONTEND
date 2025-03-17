@@ -12,6 +12,12 @@ class DioClient {
       receiveTimeout: const Duration(seconds: 20),
     ));
     _dio!.interceptors.clear();
+    _dio!.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        options.headers['Authorization'] = null;
+        return handler.next(options);
+      },
+    ));
     _dio!.interceptors.add(ErrorInterceptor(_dio!));
     return _dio!;
   }

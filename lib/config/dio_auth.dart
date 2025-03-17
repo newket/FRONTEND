@@ -17,8 +17,6 @@ Future authDio(BuildContext context) async {
   dio.interceptors.add(ErrorInterceptor(dio));
   const storage = FlutterSecureStorage();
 
-  dio.interceptors.removeWhere((interceptor) => interceptor is! ErrorInterceptor); // ErrorInterceptor 유지
-
   dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async {
     // 기기에 저장된 AccessToken 로드
     String? accessToken = await storage.read(key: 'ACCESS_TOKEN');

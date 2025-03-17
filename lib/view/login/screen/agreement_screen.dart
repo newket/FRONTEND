@@ -295,29 +295,39 @@ class _AgreementScreen extends State<AgreementScreen> {
                       String? provider = await storage.read(key: 'SOCIAL_PROVIDER');
                       //signup
                       if (provider == 'APPLE') {
-                        String? appleName = await storage.read(key: 'APPLE_NAME');
+                        String? name = await storage.read(key: 'APPLE_NAME');
                         String? email = await storage.read(key: 'APPLE_EMAIL');
                         String? socialId = await storage.read(key: 'APPLE_SOCIAL_ID');
 
                         await AuthRepository()
-                            .signUpAppleApi(SignUpAppleRequest(name: appleName!, email: email!, socialId: socialId!));
+                            .signUpAppleApi(SignUpAppleRequest(name: name!, email: email!, socialId: socialId!));
 
                         await storage.delete(key: 'APPLE_NAME');
                         await storage.delete(key: 'APPLE_EMAIL');
                         await storage.delete(key: 'APPLE_SOCIAL_ID');
                         await storage.delete(key: 'SOCIAL_PROVIDER');
+                      } else if (provider == 'NAVER') {
+                        String? name = await storage.read(key: 'NAVER_NAME');
+                        String? email = await storage.read(key: 'NAVER_EMAIL');
+                        String? socialId = await storage.read(key: 'NAVER_SOCIAL_ID');
+
+                        await AuthRepository()
+                            .signUpNaverApi(SignUpAppleRequest(name: name!, email: email!, socialId: socialId!));
+
+                        await storage.delete(key: 'NAVER_NAME');
+                        await storage.delete(key: 'NAVER_EMAIL');
+                        await storage.delete(key: 'NAVER_SOCIAL_ID');
+                        await storage.delete(key: 'SOCIAL_PROVIDER');
                       } else if (provider == 'KAKAO') {
                         String? kakaoToken = await storage.read(key: 'KAKAO_TOKEN');
 
-                        await AuthRepository().signUpApi(SignUpRequest(kakaoToken!));
+                        await AuthRepository().signUpKakaoApi(SignUpRequest(kakaoToken!));
 
                         await storage.delete(key: 'KAKAO_TOKEN');
                         await storage.delete(key: 'SOCIAL_PROVIDER');
                       }
 
-                      //기기 토큰 저장
-                      final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-                      await UserRepository().putDeviceTokenApi(serverToken!);
+                      await UserRepository().putDeviceTokenApi(context);
                       //AmplitudeConfig.amplitude.logEvent('Home');
                       // 성공적으로 끝났을 때 다이얼로그 닫기
                       Get.back();
