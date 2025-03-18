@@ -10,6 +10,7 @@ class TicketRepository {
 
   // 오픈 예정 티켓 (예매 오픈 임박 순)
   Future<BeforeSaleTicketsResponse> getBeforeSaleTickets() async {
+    dio.interceptors.clear();
     final response = await dio.get("/api/v1/tickets/before-sale");
 
     return BeforeSaleTicketsResponse.fromJson(response.data);
@@ -17,6 +18,7 @@ class TicketRepository {
 
   // 오픈 예정 티켓 (최신 등록 순)
   Future<BeforeSaleTicketsResponse> getBeforeSaleTicketsOrderById() async {
+    dio.interceptors.clear();
     final response = await dio.get("/api/v1/tickets/before-sale?orderby=new");
 
     return BeforeSaleTicketsResponse.fromJson(response.data);
@@ -24,6 +26,7 @@ class TicketRepository {
 
   // 예매 중인 티켓 (공연 날짜 임박 순)
   Future<OnSaleResponse> getOnSaleTickets() async {
+    dio.interceptors.clear();
     final response = await dio.get("/api/v1/tickets/on-sale");
 
     return OnSaleResponse.fromJson(response.data);
@@ -31,6 +34,7 @@ class TicketRepository {
 
   // 예매 중인 티켓 (최신 등록 순)
   Future<OnSaleResponse> getOnSaleTicketsById() async {
+    dio.interceptors.clear();
     final response = await dio.get("/api/v1/tickets/on-sale?orderby=new");
 
     return OnSaleResponse.fromJson(response.data);

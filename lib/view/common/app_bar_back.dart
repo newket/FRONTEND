@@ -6,7 +6,6 @@ PreferredSizeWidget appBarBack(BuildContext context, String title) {
   return AppBar(
     leading: IconButton(
         onPressed: () {
-          //AmplitudeConfig.amplitude.logEvent('Back');
           Navigator.pop(context); //뒤로가기
         },
         color: f_90,

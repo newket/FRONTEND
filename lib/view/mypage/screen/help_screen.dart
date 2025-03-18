@@ -250,7 +250,6 @@ class _HelpScreen extends State<HelpScreen> {
                         _titleController.value.text, _contentController.value.text, _emailController.value.text));
                 _titleController.clear();
                 _contentController.clear();
-                //AmplitudeConfig.amplitude.logEvent('Back');
               }
             },
             style: ElevatedButton.styleFrom(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 
@@ -20,7 +19,6 @@ class _GlobalErrorScreenState extends State<GlobalErrorScreen> {
         backgroundColor: Colors.white,
         leading: IconButton(
             onPressed: () {
-              //AmplitudeConfig.amplitude.logEvent('Back');
               Navigator.pop(context); //뒤로가기
             },
             color: f_90,

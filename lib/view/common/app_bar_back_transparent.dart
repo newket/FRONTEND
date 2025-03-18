@@ -6,7 +6,6 @@ PreferredSizeWidget appBarBackTransparent(BuildContext context, String title) {
   return AppBar(
     leading: IconButton(
       onPressed: () {
-        //AmplitudeConfig.amplitude.logEvent('Back');
         Navigator.pop(context);
       },
       color: Colors.white,

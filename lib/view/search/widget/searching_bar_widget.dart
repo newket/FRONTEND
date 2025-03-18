@@ -19,7 +19,6 @@ class SearchingBarWidget extends StatelessWidget {
           children: [
             IconButton(
                 onPressed: () {
-                  //AmplitudeConfig.amplitude.logEvent('Back');
                   Navigator.pop(context);
                 },
                 icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 24, color: f_90)),

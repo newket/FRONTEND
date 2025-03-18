@@ -33,24 +33,9 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
         String? accessToken = await storage.read(key: "ACCESS_TOKEN");
         if ((tabController.index == 1 || tabController.index == 3) && accessToken == null) {
           tabController.index = lastIndex; // 이전 인덱스로 복구
-          //AmplitudeConfig.amplitude.logEvent('BeforeLogin');
           Get.to(() => const BeforeLoginScreen());
         } else {
           lastIndex = tabController.index;
-          switch (tabController.index) {
-            case 0:
-              //AmplitudeConfig.amplitude.logEvent('Home');
-              break;
-            case 1:
-              //AmplitudeConfig.amplitude.logEvent('MyTicket');
-              break;
-            case 2:
-              //AmplitudeConfig.amplitude.logEvent('Search');
-              break;
-            case 3:
-              //AmplitudeConfig.amplitude.logEvent('MyPage');
-              break;
-          }
         }
         setState(() {});
       }

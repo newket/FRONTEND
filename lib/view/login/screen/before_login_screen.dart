@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:newket/view/common/app_bar_back.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:get/route_manager.dart';
 import 'package:newket/constant/colors.dart';
+import 'package:newket/view/common/app_bar_back.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
 
 class BeforeLoginScreen extends StatefulWidget {
@@ -36,7 +35,6 @@ class _BeforeLoginScreen extends State<BeforeLoginScreen> {
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom + 20, top: 12, left: 20, right: 20),
         child: ElevatedButton(
             onPressed: () async {
-              //AmplitudeConfig.amplitude.logEvent('BeforeLogin->Login');
               Get.offAll(() => const LoginScreen());
               var storage = const FlutterSecureStorage();
               await storage.deleteAll();

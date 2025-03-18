@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:get/get.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/view/error/screen/global_error_screen.dart';
 import 'package:newket/view/error/screen/network_error_screen.dart';
 
@@ -18,8 +18,10 @@ class ErrorInterceptor extends Interceptor {
 
     if (err.type == DioExceptionType.connectionError || err.error is SocketException) {
       print('network error : ${err.response}');
-      //AmplitudeConfig.amplitude.logEvent('network error : ${err.message}');
-
+      final Properties properties = Properties();
+      properties.putString('error', value: 'error');
+      properties.putString('error', value: err.message);
+      Smartlook.instance.trackEvent('NetworkErrorScreen');
       if (currentScreen != NetworkErrorScreen) {
         await Get.to(
             () => NetworkErrorScreen(onRetry: () async {
@@ -40,8 +42,10 @@ class ErrorInterceptor extends Interceptor {
     } else {
       if (currentScreen != GlobalErrorScreen) {
         print('global error : ${err.response}');
-        //AmplitudeConfig.amplitude.logEvent('global error : ${err.message}');
-
+        final Properties properties = Properties();
+        properties.putString('error', value: 'error');
+        properties.putString('error', value: err.message);
+        Smartlook.instance.trackEvent('GlobalErrorScreen');
         await Get.to(
             () => GlobalErrorScreen(onRetry: () async {
                   if (await _checkErrorResolved(err.requestOptions)) {

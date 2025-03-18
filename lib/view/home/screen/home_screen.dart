@@ -76,10 +76,8 @@ class _HomeScreen extends State<HomeScreen> with SingleTickerProviderStateMixin 
         lastIndex = controller.index; // 현재 인덱스를 마지막 인덱스로 저장
         switch (controller.index) {
           case 0:
-            //AmplitudeConfig.amplitude.logEvent('OpeningNotice');
             break;
           case 1:
-            //AmplitudeConfig.amplitude.logEvent('OnSale');
             break;
           default:
             break;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:newket/view/common/app_bar_back.dart';
 import 'package:newket/constant/colors.dart';
+import 'package:newket/view/common/app_bar_back.dart';
 
 class PrivacyPolicyScreen extends StatefulWidget {
   const PrivacyPolicyScreen({super.key});

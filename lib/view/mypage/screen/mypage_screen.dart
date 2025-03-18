@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:get/route_manager.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/repository/auth_repository.dart';
@@ -41,12 +42,11 @@ class _MyPageScreen extends State<MyPageScreen> {
     userRepository = UserRepository();
     authRepository = AuthRepository();
     _getUserInfoApi(context);
+    Smartlook.instance.trackEvent('MyPageScreen');
   }
 
   Future<void> _getUserInfoApi(BuildContext context) async {
-    var storage = const FlutterSecureStorage();
-    final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-    await UserRepository().putDeviceTokenApi(serverToken!);
+    await UserRepository().putDeviceTokenApi(context);
     final response = await userRepository.getUserInfoApi(context);
     final response2 = await userRepository.getNotificationAllow();
 
@@ -188,7 +188,6 @@ class _MyPageScreen extends State<MyPageScreen> {
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     GestureDetector(
                         onTap: () {
-                          //AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -211,7 +210,6 @@ class _MyPageScreen extends State<MyPageScreen> {
                     const SizedBox(height: 20),
                     GestureDetector(
                         onTap: () {
-                          //AmplitudeConfig.amplitude.logEvent('TermsOfService');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -234,7 +232,6 @@ class _MyPageScreen extends State<MyPageScreen> {
                     const SizedBox(height: 20),
                     GestureDetector(
                       onTap: () {
-                        //AmplitudeConfig.amplitude.logEvent('Help');
                         // 문의하기 페이지로 이동
                         Navigator.push(
                           context,
@@ -257,11 +254,13 @@ class _MyPageScreen extends State<MyPageScreen> {
                     const SizedBox(height: 24),
                     GestureDetector(
                         onTap: () async {
+                          if(provider=='NAVER') {
+                            await FlutterNaverLogin.logOut();
+                          }
                           await userRepository.deleteDeviceToken();
                           var storage = const FlutterSecureStorage();
                           await storage.deleteAll();
                           // 로그인 페이지로 이동
-                          //AmplitudeConfig.amplitude.logEvent('Logout');
                           Get.offAll(() => const LoginScreen());
                         },
                         child: Text(
@@ -279,6 +278,9 @@ class _MyPageScreen extends State<MyPageScreen> {
                                 insetPadding: EdgeInsets.zero,
                                 child: WithdrawPopupWidget(onConfirm: () async {
                                   await userRepository.deleteDeviceToken();
+                                  if(provider=='NAVER'){
+                                    await FlutterNaverLogin.logOut();
+                                  }
                                   if (provider == 'APPLE') {
                                     final credential = await SignInWithApple.getAppleIDCredential(
                                       scopes: [
@@ -295,7 +297,6 @@ class _MyPageScreen extends State<MyPageScreen> {
                                   final prefs = await SharedPreferences.getInstance();
                                   await storage.deleteAll();
                                   await prefs.clear();
-                                  //AmplitudeConfig.amplitude.logEvent('Withdraw');
                                   Get.offAll(() => const LoginScreen());
                                 }),
                               );

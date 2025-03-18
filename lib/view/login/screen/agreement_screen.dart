@@ -79,7 +79,6 @@ class _AgreementScreen extends State<AgreementScreen> {
       appBar: AppBar(
           leading: IconButton(
               onPressed: () {
-                //AmplitudeConfig.amplitude.logEvent('Agreement->Login');
                 Get.offAll(() => const LoginScreen());
               },
               color: f_90,
@@ -170,7 +169,6 @@ class _AgreementScreen extends State<AgreementScreen> {
                         const SizedBox(height: 24),
                         GestureDetector(
                             onTap: () {
-                              //AmplitudeConfig.amplitude.logEvent('TermsOfService');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => const TermsOfService()),
@@ -220,7 +218,6 @@ class _AgreementScreen extends State<AgreementScreen> {
                         const SizedBox(height: 24),
                         GestureDetector(
                             onTap: () {
-                              //AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => const PrivacyPolicyScreen()),
@@ -328,7 +325,6 @@ class _AgreementScreen extends State<AgreementScreen> {
                       }
 
                       await UserRepository().putDeviceTokenApi(context);
-                      //AmplitudeConfig.amplitude.logEvent('Home');
                       // 성공적으로 끝났을 때 다이얼로그 닫기
                       Get.back();
                       // 성공 후 다음 화면으로 이동

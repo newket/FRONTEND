@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/model/ticket/search_result_response.dart';
@@ -112,7 +111,6 @@ class _SearchResultScreen extends State<SearchResultScreen> with WidgetsBindingO
                                                     onTap: () {
                                                       Get.to(() => ArtistProfileScreen(
                                                           artistId: ticketResponse.artists[index].artistId));
-                                                      //AmplitudeConfig.amplitude.logEvent('ArtistProfile(artist: ${ticketResponse.artists[index].name})');
                                                     },
                                                     child: ArtistListWidget(
                                                         artist: ticketResponse.artists[index],
@@ -145,7 +143,6 @@ class _SearchResultScreen extends State<SearchResultScreen> with WidgetsBindingO
                                                 const SizedBox(height: 12),
                                                 GestureDetector(
                                                     onTap: () {
-                                                      //AmplitudeConfig.amplitude.logEvent('ArtistRequest');
                                                       Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
@@ -211,7 +208,6 @@ class _SearchResultScreen extends State<SearchResultScreen> with WidgetsBindingO
                                                           return Column(children: [
                                                             GestureDetector(
                                                               onTap: () {
-                                                                //AmplitudeConfig.amplitude.logEvent('OpeningNoticeDetail(title:${ticketResponse.beforeSaleTickets.tickets[index].title})');
                                                                 Navigator.push(
                                                                   context,
                                                                   MaterialPageRoute(
@@ -254,7 +250,6 @@ class _SearchResultScreen extends State<SearchResultScreen> with WidgetsBindingO
                                                         return Column(children: [
                                                           GestureDetector(
                                                             onTap: () {
-                                                              //AmplitudeConfig.amplitude.logEvent('OpeningNoticeDetail(title:${ticketResponse.onSaleTickets.tickets[index].title})');
                                                               // 상세 페이지로 이동
                                                               Navigator.push(
                                                                 context,

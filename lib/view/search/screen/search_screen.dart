@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:get/get.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/model/artist/artist_dto.dart';
@@ -39,6 +39,7 @@ class _SearchScreen extends State<SearchScreen> with WidgetsBindingObserver, Rou
     artistRepository = ArtistRepository();
     notificationRequestRepository = NotificationRequestRepository();
     WidgetsBinding.instance.addObserver(this);
+    Smartlook.instance.trackEvent('SearchScreen');
   }
 
   Future<void> _initializeArtistsAndFavorites() async {
@@ -136,7 +137,6 @@ class _SearchScreen extends State<SearchScreen> with WidgetsBindingObserver, Rou
                                     return GestureDetector(
                                       onTap: () {
                                         Get.to(() => ArtistProfileScreen(artistId: artistList[index].artistId));
-                                        //AmplitudeConfig.amplitude.logEvent('ArtistProfile(artist: ${artistList[index].name})');
                                       },
                                       child: ArtistListWidget(
                                           artist: artistList[index],

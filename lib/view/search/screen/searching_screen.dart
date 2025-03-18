@@ -137,7 +137,6 @@ class _SearchScreen extends State<SearchingScreen> {
                           height: 44,
                           child: IconButton(
                             onPressed: () {
-                              //AmplitudeConfig.amplitude.logEvent('Back');
                               Navigator.pop(context);
                             },
                             icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 24, color: f_90),
@@ -179,7 +178,6 @@ class _SearchScreen extends State<SearchingScreen> {
                                 onSubmitted: (value) {
                                   if (value.isNotEmpty && value != ' ') {
                                     Get.off(() => SearchResultScreen(keyword: value));
-                                    //AmplitudeConfig.amplitude.logEvent('SearchDetail(keyword: $value)');
                                   }
                                 },
                                 onChanged: (value) {
@@ -216,8 +214,6 @@ class _SearchScreen extends State<SearchingScreen> {
                         ...artists.map((artist) => GestureDetector(
                               onTap: () {
                                 Get.off(() => ArtistProfileScreen(artistId: artist.artistId));
-                                //AmplitudeConfig.amplitude.logEvent('SearchDetail(artist: ${artist.name})');
-                                //AmplitudeConfig.amplitude.logEvent('ArtistProfile(artist: ${artist.name})');
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(bottom: 6),
@@ -260,8 +256,6 @@ class _SearchScreen extends State<SearchingScreen> {
                         ...tickets.map((ticket) => GestureDetector(
                               onTap: () {
                                 Get.off(() => TicketDetailScreen(ticketId: ticket.ticketId));
-                                //AmplitudeConfig.amplitude.logEvent('SearchDetail(title: ${ticket.title})');
-                                //AmplitudeConfig.amplitude.logEvent('TicketDetail(title: ${ticket.title})');
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(bottom: 6),

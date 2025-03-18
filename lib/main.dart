@@ -70,7 +70,6 @@ void main() async {
       await storage.read(key: 'DEVICE_TOKEN');
     } catch (e) {
       if (e.toString().contains('BadPaddingException')) {
-        //AmplitudeConfig.amplitude.logEvent('storage error: $e');
         await storage.deleteAll();
       }
     }
@@ -126,6 +125,7 @@ void main() async {
 
     debugPrint("deviceToken: $deviceToken");
     AmplitudeConfig.amplitude.setUserId('$deviceToken');
+    Smartlook.instance.user.setIdentifier('$deviceToken');
     storage.write(key: 'DEVICE_TOKEN', value: deviceToken);
 
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
@@ -190,15 +190,12 @@ void main() async {
     String? accessToken = ""; //user의 정보를 저장하기 위한 변수
     accessToken = await storage.read(key: "ACCESS_TOKEN");
     if (accessToken == null || accessToken.isEmpty) {
-      //AmplitudeConfig.amplitude.logEvent('Login');
       runApp(const MyApp());
     } else {
-      //AmplitudeConfig.amplitude.logEvent('Home');
       runApp(const MyApp2());
     }
   } catch (e) {
     debugPrint('main error: $e');
-    //AmplitudeConfig.amplitude.logEvent('main error: $e');
   }
 }
 
@@ -218,7 +215,7 @@ class MyApp extends StatelessWidget {
           child: child!,
         );
       },
-      navigatorObservers: [routeObserver],
+      navigatorObservers: [routeObserver, SmartlookObserver()],
       home: const LoginScreen(),
     );
   }
@@ -238,7 +235,7 @@ class MyApp2 extends StatelessWidget {
           child: child!,
         );
       },
-      navigatorObservers: [routeObserver],
+      navigatorObservers: [routeObserver, SmartlookObserver()],
       home: const TabBarScreen(),
     );
   }

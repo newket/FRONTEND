@@ -159,7 +159,6 @@ class _MyTicketArtistBottomSheetWidgetState extends State<MyTicketArtistBottomSh
                     return Column(children: [
                       GestureDetector(
                         onTap: () {
-                          //AmplitudeConfig.amplitude.logEvent('OpeningNoticeDetail(title:${artistProfileResponse.beforeSaleTickets.tickets[index].title})');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -199,7 +198,6 @@ class _MyTicketArtistBottomSheetWidgetState extends State<MyTicketArtistBottomSh
                   return Column(children: [
                     GestureDetector(
                       onTap: () {
-                        //AmplitudeConfig.amplitude.logEvent('OpeningNoticeDetail(title:${artistProfileResponse.onSaleTickets.tickets[index].title})');
                         // 상세 페이지로 이동
                         Navigator.push(
                           context,
