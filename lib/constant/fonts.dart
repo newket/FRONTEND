@@ -115,6 +115,16 @@ TextStyle? b9_14Reg(Color color) {
 }
 
 //button
+TextStyle? button1_16Semi(Color color) {
+  return TextStyle(
+    color: color,
+    fontSize: 16,
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w600,
+    height: 1.50,
+    letterSpacing: -0.48,
+  );
+}
 TextStyle? button2_14Semi(Color color) {
   return TextStyle(
     color: color,
