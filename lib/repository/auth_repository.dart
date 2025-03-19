@@ -6,7 +6,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/route_manager.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:newket/config/dio_auth.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/config/dio_client.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/repository/user_repository.dart';

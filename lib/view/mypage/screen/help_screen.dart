@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/model/user_model.dart';

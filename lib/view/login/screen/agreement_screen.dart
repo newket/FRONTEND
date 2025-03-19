@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/repository/auth_repository.dart';

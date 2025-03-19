@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/ticket/on_sale_response.dart';
 import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 import 'package:newket/view/ticket_list/widget/on_sale_widget.dart';

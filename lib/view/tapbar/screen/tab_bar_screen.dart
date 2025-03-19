@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/view/home/screen/home_screen.dart';
 import 'package:newket/view/login/screen/before_login_screen.dart';
 import 'package:newket/view/my_ticket/screen/my_ticket_screen.dart';

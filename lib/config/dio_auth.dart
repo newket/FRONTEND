@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/config/error_interceptor.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
