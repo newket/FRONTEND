@@ -66,18 +66,18 @@ class _LoginScreen extends State<LoginScreen> {
                           })
                       : const SizedBox(),
                   const SizedBox(height: 12),
-                  //네이버 로그인
-                  GestureDetector(
-                      child: Container(width: 200, height: 50, color: Colors.green),
-                      onTap: () async {
-                        await authRepository.naverLoginApi(context);
-                      }),
-                  const SizedBox(height: 12),
                   //카카오 로그인
                   GestureDetector(
                       child: Image.asset("images/login/kakao_login.png", width: 350),
                       onTap: () async {
                         await authRepository.kakaoLoginApi(context);
+                      }),
+                  const SizedBox(height: 12),
+                  //네이버 로그인
+                  GestureDetector(
+                      child: Image.asset("images/login/naver_login.png", width: 350),
+                      onTap: () async {
+                        await authRepository.naverLoginApi(context);
                       }),
                   IconButton(
                       icon: const Text(

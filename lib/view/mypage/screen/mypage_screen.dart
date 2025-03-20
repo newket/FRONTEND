@@ -109,6 +109,8 @@ class _MyPageScreen extends State<MyPageScreen> {
                                             return 'images/mypage/kakao.png';
                                           case 'APPLE':
                                             return 'images/mypage/apple.png';
+                                          case 'NAVER':
+                                            return 'images/mypage/naver.png';
                                           default:
                                             return 'images/mypage/sns_null.png';
                                         }
@@ -144,7 +146,7 @@ class _MyPageScreen extends State<MyPageScreen> {
                         ),
                         CupertinoSwitch(
                           value: artistNotification,
-                          activeColor: pn_100,
+                          activeTrackColor: pn_100,
                           onChanged: (bool value) async {
                             // UI 상태 업데이트
                             setState(() {
@@ -169,7 +171,7 @@ class _MyPageScreen extends State<MyPageScreen> {
                         ),
                         CupertinoSwitch(
                           value: ticketNotification,
-                          activeColor: pn_100,
+                          activeTrackColor: pn_100,
                           onChanged: (bool value) async {
                             // UI 상태 업데이트
                             setState(() {
@@ -254,7 +256,7 @@ class _MyPageScreen extends State<MyPageScreen> {
                     const SizedBox(height: 24),
                     GestureDetector(
                         onTap: () async {
-                          if(provider=='NAVER') {
+                          if (provider == 'NAVER') {
                             await FlutterNaverLogin.logOut();
                           }
                           await userRepository.deleteDeviceToken();
@@ -263,10 +265,7 @@ class _MyPageScreen extends State<MyPageScreen> {
                           // 로그인 페이지로 이동
                           Get.offAll(() => const LoginScreen());
                         },
-                        child: Text(
-                          '로그아웃',
-                          style: b8_14Med(f_90),
-                        )),
+                        child: Text('로그아웃', style: b8_14Med(f_90))),
                     const SizedBox(height: 24),
                     //탈퇴하기
                     GestureDetector(
@@ -278,7 +277,7 @@ class _MyPageScreen extends State<MyPageScreen> {
                                 insetPadding: EdgeInsets.zero,
                                 child: WithdrawPopupWidget(onConfirm: () async {
                                   await userRepository.deleteDeviceToken();
-                                  if(provider=='NAVER'){
+                                  if (provider == 'NAVER') {
                                     await FlutterNaverLogin.logOut();
                                   }
                                   if (provider == 'APPLE') {
