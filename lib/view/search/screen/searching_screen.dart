@@ -122,6 +122,7 @@ class _SearchScreen extends State<SearchingScreen> {
         value: systemUiOverlayStyle,
         child: Scaffold(
           backgroundColor: Colors.white,
+          resizeToAvoidBottomInset: false,
           body: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
