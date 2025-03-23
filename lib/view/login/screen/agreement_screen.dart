@@ -296,7 +296,7 @@ class _AgreementScreen extends State<AgreementScreen> {
                         String? socialId = await storage.read(key: 'APPLE_SOCIAL_ID');
 
                         await AuthRepository()
-                            .signUpAppleApi(SignUpAppleRequest(name: name!, email: email!, socialId: socialId!));
+                            .signUpApi(SignUpAppleRequest(name: name!, email: email!, socialId: socialId!), provider!);
 
                         await storage.delete(key: 'APPLE_NAME');
                         await storage.delete(key: 'APPLE_EMAIL');
@@ -308,11 +308,23 @@ class _AgreementScreen extends State<AgreementScreen> {
                         String? socialId = await storage.read(key: 'NAVER_SOCIAL_ID');
 
                         await AuthRepository()
-                            .signUpNaverApi(SignUpAppleRequest(name: name!, email: email!, socialId: socialId!));
+                            .signUpApi(SignUpAppleRequest(name: name!, email: email!, socialId: socialId!), provider!);
 
                         await storage.delete(key: 'NAVER_NAME');
                         await storage.delete(key: 'NAVER_EMAIL');
                         await storage.delete(key: 'NAVER_SOCIAL_ID');
+                        await storage.delete(key: 'SOCIAL_PROVIDER');
+                      } else if (provider == 'GOOGLE') {
+                        String? name = await storage.read(key: 'GOOGLE_NAME');
+                        String? email = await storage.read(key: 'GOOGLE_EMAIL');
+                        String? socialId = await storage.read(key: 'GOOGLE_SOCIAL_ID');
+
+                        await AuthRepository()
+                            .signUpApi(SignUpAppleRequest(name: name!, email: email!, socialId: socialId!), provider!);
+
+                        await storage.delete(key: 'GOOGLE_NAME');
+                        await storage.delete(key: 'GOOGLE_EMAIL');
+                        await storage.delete(key: 'GOOGLE_SOCIAL_ID');
                         await storage.delete(key: 'SOCIAL_PROVIDER');
                       } else if (provider == 'KAKAO') {
                         String? kakaoToken = await storage.read(key: 'KAKAO_TOKEN');

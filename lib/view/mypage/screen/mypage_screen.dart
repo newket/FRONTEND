@@ -111,6 +111,8 @@ class _MyPageScreen extends State<MyPageScreen> {
                                             return 'images/mypage/apple.png';
                                           case 'NAVER':
                                             return 'images/mypage/naver.png';
+                                          case 'GOOGLE':
+                                            return 'images/mypage/google.png';
                                           default:
                                             return 'images/mypage/sns_null.png';
                                         }

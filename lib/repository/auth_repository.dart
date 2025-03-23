@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/route_manager.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:newket/config/dio_auth.dart';
 import 'package:newket/config/dio_client.dart';
@@ -82,7 +83,8 @@ class AuthRepository {
           }
         } catch (error) {}
       }
-    } catch (error) {} finally {
+    } catch (error) {
+    } finally {
       if (Get.isDialogOpen!) {
         Get.back(); // 로딩 화면을 닫음
       }
@@ -117,7 +119,7 @@ class AuthRepository {
       print(authorizationCode);
 
       try {
-        await socialLoginAppleApi(SocialLoginAppleRequest(credential.userIdentifier.toString()));
+        await socialLoginApi(SocialLoginAppleRequest(credential.userIdentifier.toString()), "APPLE");
 
         await UserRepository().putDeviceTokenApi(context);
 
@@ -125,7 +127,8 @@ class AuthRepository {
       } catch (error) {
         //response 가 400이면 약관 동의 페이지
       }
-    } catch (error) {} finally {
+    } catch (error) {
+    } finally {
       if (Get.isDialogOpen!) {
         Get.back(); // 로딩 화면을 닫음
       }
@@ -141,23 +144,56 @@ class AuthRepository {
     );
     try {
       NaverLoginResult result = await FlutterNaverLogin.logIn();
+
       // 사용자 취소
       if (result.status == NaverLoginStatus.cancelledByUser || result.status == NaverLoginStatus.error) {
         return;
-      } else{
-        storage.write(key: 'NAVER_NAME', value: result.account.name);
-        storage.write(key: 'NAVER_EMAIL', value: result.account.email);
-        storage.write(key: 'NAVER_SOCIAL_ID', value: result.account.id);
+      }
+      storage.write(key: 'NAVER_NAME', value: result.account.name);
+      storage.write(key: 'NAVER_EMAIL', value: result.account.email);
+      storage.write(key: 'NAVER_SOCIAL_ID', value: result.account.id);
 
-        try {
-          await socialLoginNaverApi(SocialLoginAppleRequest(result.account.id));
+      try {
+        await socialLoginApi(SocialLoginAppleRequest(result.account.id), "NAVER");
 
-          await UserRepository().putDeviceTokenApi(context);
+        await UserRepository().putDeviceTokenApi(context);
 
-          Get.offAll(() => const TabBarScreen());
-        } catch (error) {
-          //response 가 400이면 약관 동의 페이지
-        }
+        Get.offAll(() => const TabBarScreen());
+      } catch (error) {
+        //response 가 400이면 약관 동의 페이지
+      }
+    } catch (error) {
+    } finally {
+      if (Get.isDialogOpen!) {
+        Get.back(); // 로딩 화면을 닫음
+      }
+    }
+  }
+
+  Future<void> googleLoginApi(BuildContext context) async {
+    Get.dialog(
+      const Center(
+        child: CircularProgressIndicator(),
+      ),
+      barrierDismissible: false, // 화면을 터치해도 닫히지 않도록 설정
+    );
+    try {
+      GoogleSignInAccount? result = await GoogleSignIn().signIn();
+      if (result==null) {
+        return;
+      }
+      storage.write(key: 'GOOGLE_NAME', value: result.displayName);
+      storage.write(key: 'GOOGLE_EMAIL', value: result.email);
+      storage.write(key: 'GOOGLE_SOCIAL_ID', value: result.id);
+
+      try {
+        await socialLoginApi(SocialLoginAppleRequest(result.id),"GOOGLE");
+
+        await UserRepository().putDeviceTokenApi(context);
+
+        Get.offAll(() => const TabBarScreen());
+      } catch (error) {
+        //response 가 400이면 약관 동의 페이지
       }
     } catch (error) {
     } finally {
@@ -201,45 +237,12 @@ class AuthRepository {
     }
   }
 
-  Future<SocialLoginResponse> signUpAppleApi(SignUpAppleRequest signUpAppleRequest) async {
+  Future<SocialLoginResponse> signUpApi(SignUpAppleRequest signUpAppleRequest, String provider) async {
     try {
       final requestBody = signUpAppleRequest.toJson();
 
       final response = await dio.post(
-        "/api/v1/auth/signup/APPLE",
-        data: requestBody,
-        options: Options(
-          headers: {
-            "Content-Type": "application/json;charset=UTF-8",
-          },
-        ),
-      );
-
-      final responseBody = SocialLoginResponse.fromJson(response.data);
-
-      await Future.wait([
-        storage.write(key: 'ACCESS_TOKEN', value: responseBody.accessToken),
-        storage.write(key: 'REFRESH_TOKEN', value: responseBody.refreshToken)
-      ]);
-      return responseBody;
-    } catch (e) {
-      if (e is DioException) {
-        if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {
-          // 로그인 페이지로 이동
-          var storage = const FlutterSecureStorage();
-          await storage.deleteAll();
-        }
-      }
-      rethrow;
-    }
-  }
-
-  Future<SocialLoginResponse> signUpNaverApi(SignUpAppleRequest signUpAppleRequest) async {
-    try {
-      final requestBody = signUpAppleRequest.toJson();
-
-      final response = await dio.post(
-        "/api/v1/auth/signup/NAVER",
+        "/api/v1/auth/signup/$provider",
         data: requestBody,
         options: Options(
           headers: {
@@ -301,12 +304,12 @@ class AuthRepository {
     }
   }
 
-  Future<void> socialLoginAppleApi(SocialLoginAppleRequest socialLoginAppleRequest) async {
+  Future<void> socialLoginApi(SocialLoginAppleRequest socialLoginAppleRequest, String provider) async {
     try {
       final requestBody = socialLoginAppleRequest.toJson();
 
       final response = await dio.post(
-        "/api/v1/auth/login/APPLE",
+        "/api/v1/auth/login/$provider",
         data: requestBody,
         options: Options(
           headers: {
@@ -325,40 +328,7 @@ class AuthRepository {
       if (e is DioException) {
         if (e.response?.statusCode == 400) {
           // 온보딩 페이지로 이동
-          storage.write(key: 'SOCIAL_PROVIDER', value: 'APPLE');
-          Get.offAll(() => const AgreementScreen());
-          return; // 여기서 예외를 다시 throw하지 않음
-        }
-      }
-      rethrow; // 다른 예외는 그대로 던지기
-    }
-  }
-
-  Future<void> socialLoginNaverApi(SocialLoginAppleRequest socialLoginAppleRequest) async {
-    try {
-      final requestBody = socialLoginAppleRequest.toJson();
-
-      final response = await dio.post(
-        "/api/v1/auth/login/NAVER",
-        data: requestBody,
-        options: Options(
-          headers: {
-            "Content-Type": "application/json;charset=UTF-8",
-          },
-        ),
-      );
-
-      final responseBody = SocialLoginResponse.fromJson(response.data);
-
-      await Future.wait([
-        storage.write(key: 'ACCESS_TOKEN', value: responseBody.accessToken),
-        storage.write(key: 'REFRESH_TOKEN', value: responseBody.refreshToken)
-      ]);
-    } catch (e) {
-      if (e is DioException) {
-        if (e.response?.statusCode == 400) {
-          // 온보딩 페이지로 이동
-          storage.write(key: 'SOCIAL_PROVIDER', value: 'NAVER');
+          storage.write(key: 'SOCIAL_PROVIDER', value: provider);
           Get.offAll(() => const AgreementScreen());
           return; // 여기서 예외를 다시 throw하지 않음
         }

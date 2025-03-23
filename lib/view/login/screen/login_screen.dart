@@ -79,6 +79,13 @@ class _LoginScreen extends State<LoginScreen> {
                       onTap: () async {
                         await authRepository.naverLoginApi(context);
                       }),
+                  const SizedBox(height: 12),
+                  //구글 로그인
+                  GestureDetector(
+                      child: Image.asset("images/login/google_login.png", width: 350),
+                      onTap: () async {
+                        await authRepository.googleLoginApi(context);
+                      }),
                   IconButton(
                       icon: const Text(
                         '로그인 없이 둘러볼래요',
