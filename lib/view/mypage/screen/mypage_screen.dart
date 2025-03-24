@@ -71,7 +71,12 @@ class _MyPageScreen extends State<MyPageScreen> {
       return const MyPageSkeletonScreen();
     }
     return Scaffold(
-        appBar: AppBar(title: Text('마이페이지', style: t2_18Semi(f_100)), backgroundColor: Colors.white, centerTitle: true),
+        appBar: AppBar(
+          title: Text('마이페이지', style: t2_18Semi(f_100)),
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          scrolledUnderElevation: 0,
+        ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
             child: Column(
@@ -304,7 +309,8 @@ class _MyPageScreen extends State<MyPageScreen> {
                             },
                           );
                         },
-                        child: Text('회원 탈퇴', style: b9_14Reg(f_50)))
+                        child: Text('회원 탈퇴', style: b9_14Reg(f_50))),
+                    const SizedBox(height: 100)
                   ]))
             ])));
   }
