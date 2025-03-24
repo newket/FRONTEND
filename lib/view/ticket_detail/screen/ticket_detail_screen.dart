@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:newket/config/notification_permission.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/model/ticket/ticket_detail_response.dart';
@@ -12,6 +13,7 @@ import 'package:newket/view/artist/screen/artist_profile_screen.dart';
 import 'package:newket/view/artist/screen/image_preview_screen.dart';
 import 'package:newket/view/artist/widget/artist_list_widget.dart';
 import 'package:newket/view/common/image_loading_widget.dart';
+import 'package:newket/view/common/notification_disabled_popup_widget.dart';
 import 'package:newket/view/common/toast_widget.dart';
 import 'package:newket/view/ticket_detail/screen/ticket_detail_skeleton_screen.dart';
 import 'package:newket/view/ticket_detail/widget/date_list_popup_widget.dart';
@@ -21,6 +23,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class TicketDetailScreen extends StatefulWidget {
   const TicketDetailScreen({super.key, required this.ticketId});
+
   final int ticketId;
 
   @override
@@ -102,8 +105,8 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
     }
 
     final Properties properties = Properties();
-    properties.putString('ticket_detail',value: 'ticket_detail');
-    properties.putString('ticket_title',value: ticketResponse.title);
+    properties.putString('ticket_detail', value: 'ticket_detail');
+    properties.putString('ticket_title', value: ticketResponse.title);
     Smartlook.instance.trackEvent('TicketDetailScreen', properties: properties);
 
     return Scaffold(
@@ -380,6 +383,14 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
                             isNotification = !isNotification;
                           });
                         }
+                        if (!await NotificationPermissionManager.isNotificationEnabled()) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const Dialog(
+                                    insetPadding: EdgeInsets.zero, child: NotificationDisabledPopupWidget());
+                              });
+                        }
                       } else {
                         // 알림 받은 상태에서
                         showDialog(
@@ -421,7 +432,10 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
                       children: [
                         isNotification
                             ? SvgPicture.asset('images/ticket/notification_on.svg', color: pn_100)
-                            : SvgPicture.asset('images/search/notification_null.svg', width: 20,),
+                            : SvgPicture.asset(
+                                'images/search/notification_null.svg',
+                                width: 20,
+                              ),
                         const SizedBox(width: 10),
                         Text(
                           isNotification ? '알림 받는 중' : '알림 받기',
