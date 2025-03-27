@@ -61,7 +61,27 @@ class _MyPageScreen extends State<MyPageScreen> {
       ticketNotification = response2.ticketNotification;
       ticketBackground = ticketNotification ? v1pt_20 : b_900;
       isLoading = false;
+      notificationAllow = isEnabled;
     });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {
+      bool isEnabled = await NotificationPermissionManager.isNotificationEnabled();
+
+      if (mounted && notificationAllow!=isEnabled) {
+        setState(() {
+          notificationAllow = isEnabled;
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override
@@ -141,55 +161,144 @@ class _MyPageScreen extends State<MyPageScreen> {
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Text('알림 설정', style: s1_16Semi(f_100)),
                     const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('아티스트 알림', style: b8_14Med(f_90)),
-                            Text('알림 받는 아티스트의 티켓이 등록되면 알림을 보내드려요.', style: c4_12Reg(f_40))
-                          ],
-                        ),
-                        CupertinoSwitch(
-                          value: artistNotification,
-                          activeTrackColor: pn_100,
-                          onChanged: (bool value) async {
-                            // UI 상태 업데이트
-                            setState(() {
-                              artistNotification = value;
-                            });
-                            String isAllow = value ? 'on' : 'off';
-                            await userRepository.postNotificationAllow(isAllow, "artist");
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('티켓 오픈 임박 알림', style: b8_14Med(f_90)),
-                            Text('티켓 오픈 하루 전, 1시간 전에 알려드려요.', style: c4_12Reg(f_40))
-                          ],
-                        ),
-                        CupertinoSwitch(
-                          value: ticketNotification,
-                          activeTrackColor: pn_100,
-                          onChanged: (bool value) async {
-                            // UI 상태 업데이트
-                            setState(() {
-                              ticketNotification = value;
-                            });
-                            String isAllow = value ? 'on' : 'off';
-                            await userRepository.postNotificationAllow(isAllow, "ticket");
-                          },
-                        ),
-                      ],
-                    ),
+                    notificationAllow
+                        ? Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('아티스트 알림', style: b8_14Med(f_90)),
+                                      Text('알림 받는 아티스트의 티켓이 등록되면 알림을 보내드려요.', style: c4_12Reg(f_40))
+                                    ],
+                                  ),
+                                  CupertinoSwitch(
+                                    value: artistNotification,
+                                    activeTrackColor: pn_100,
+                                    onChanged: (bool value) async {
+                                      // UI 상태 업데이트
+                                      setState(() {
+                                        artistNotification = value;
+                                      });
+                                      String isAllow = value ? 'on' : 'off';
+                                      await userRepository.postNotificationAllow(isAllow, "artist");
+                                    },
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 24),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('티켓 오픈 임박 알림', style: b8_14Med(f_90)),
+                                      Text('티켓 오픈 하루 전, 1시간 전에 알려드려요.', style: c4_12Reg(f_40))
+                                    ],
+                                  ),
+                                  CupertinoSwitch(
+                                    value: ticketNotification,
+                                    activeTrackColor: pn_100,
+                                    onChanged: (bool value) async {
+                                      // UI 상태 업데이트
+                                      setState(() {
+                                        ticketNotification = value;
+                                      });
+                                      String isAllow = value ? 'on' : 'off';
+                                      await userRepository.postNotificationAllow(isAllow, "ticket");
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        : Column(children: [
+                            GestureDetector(
+                                child: Container(
+                                    height: 66,
+                                    decoration: BoxDecoration(
+                                      color: pn_05,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                      Row(
+                                        children: [
+                                          SvgPicture.asset("images/artist/alarm.svg", height: 24, width: 24),
+                                          const SizedBox(width: 10),
+                                          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                            Text("휴대폰 알림이 꺼져있어요", style: b8_14Med(f_100)),
+                                            Text(
+                                              "기기에서 알림을 켜야 티켓 소식을 놓치지 않아요",
+                                              style: c4_12Reg(f_40),
+                                            )
+                                          ])
+                                        ],
+                                      ),
+                                      Text("알림 켜기", style: button2_14Semi(pn_100))
+                                    ])),
+                                onTap: () async {
+                                  // 알림 설정 화면 열기
+                                  await openAppSettings();
+                                }),
+                            const SizedBox(height: 20),
+                            Opacity(
+                                opacity: 0.3,
+                                child: Column(children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('아티스트 알림', style: b8_14Med(f_90)),
+                                          Text('알림 받는 아티스트의 티켓이 등록되면 알림을 보내드려요.', style: c4_12Reg(f_40))
+                                        ],
+                                      ),
+                                      CupertinoSwitch(
+                                        value: false,
+                                        activeTrackColor: pn_100,
+                                        onChanged: (bool value) async {
+                                          // UI 상태 업데이트
+                                          setState(() {
+                                            artistNotification = value;
+                                          });
+                                          String isAllow = value ? 'on' : 'off';
+                                          await userRepository.postNotificationAllow(isAllow, "artist");
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 24),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('티켓 오픈 임박 알림', style: b8_14Med(f_90)),
+                                          Text('티켓 오픈 하루 전, 1시간 전에 알려드려요.', style: c4_12Reg(f_40))
+                                        ],
+                                      ),
+                                      CupertinoSwitch(
+                                        value: false,
+                                        activeTrackColor: pn_100,
+                                        onChanged: (bool value) async {
+                                          // UI 상태 업데이트
+                                          setState(() {
+                                            ticketNotification = value;
+                                          });
+                                          String isAllow = value ? 'on' : 'off';
+                                          await userRepository.postNotificationAllow(isAllow, "ticket");
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                ]))
+                          ])
                   ])),
               Container(color: f_10, height: 2),
               Padding(
