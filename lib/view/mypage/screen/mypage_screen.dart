@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_smartlook/flutter_smartlook.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
+import 'package:newket/config/notification_permission.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/repository/auth_repository.dart';
@@ -14,6 +16,7 @@ import 'package:newket/view/login/screen/login_screen.dart';
 import 'package:newket/view/mypage/screen/help_screen.dart';
 import 'package:newket/view/mypage/screen/mypage_skeleton_screen.dart';
 import 'package:newket/view/mypage/widget/withdraw_popup_widget.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -24,7 +27,7 @@ class MyPageScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _MyPageScreen();
 }
 
-class _MyPageScreen extends State<MyPageScreen> {
+class _MyPageScreen extends State<MyPageScreen> with WidgetsBindingObserver {
   late UserRepository userRepository;
   late AuthRepository authRepository;
   bool artistNotification = true;
@@ -35,6 +38,7 @@ class _MyPageScreen extends State<MyPageScreen> {
   String email = '';
   String provider = '';
   bool isLoading = true;
+  bool notificationAllow = true;
 
   @override
   void initState() {
@@ -43,12 +47,14 @@ class _MyPageScreen extends State<MyPageScreen> {
     authRepository = AuthRepository();
     _getUserInfoApi(context);
     Smartlook.instance.trackEvent('MyPageScreen');
+    WidgetsBinding.instance.addObserver(this);
   }
 
   Future<void> _getUserInfoApi(BuildContext context) async {
-    await UserRepository().putDeviceTokenApi(context);
+    await userRepository.putDeviceTokenApi(context);
     final response = await userRepository.getUserInfoApi(context);
     final response2 = await userRepository.getNotificationAllow();
+    bool isEnabled = await NotificationPermissionManager.isNotificationEnabled();
 
     if (!mounted) return;
 
@@ -394,7 +400,7 @@ class _MyPageScreen extends State<MyPageScreen> {
                                 child: WithdrawPopupWidget(onConfirm: () async {
                                   await userRepository.deleteDeviceToken();
                                   if (provider == 'NAVER') {
-                                    await FlutterNaverLogin.logOut();
+                                    await FlutterNaverLogin.logOutAndDeleteToken();
                                   }
                                   if (provider == 'APPLE') {
                                     final credential = await SignInWithApple.getAppleIDCredential(
