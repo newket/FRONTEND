@@ -20,7 +20,7 @@ late TabController tabController;
 
 class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   int lastIndex = 0;
-  DateTime? backPressedTime; // 🔹 뒤로 가기 시간 저장 변수
+  DateTime? backPressedTime; // 뒤로 가기 시간 저장 변수
 
   @override
   void initState() {
@@ -75,7 +75,6 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -85,7 +84,7 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
 
         if (backPressedTime == null || nowTime.difference(backPressedTime!) > const Duration(seconds: 2)) {
           backPressedTime = nowTime;
-          showSnackbar(context,'한 번 더 누르시면 종료됩니다.');
+          showSnackbar(context, '한 번 더 누르시면 종료됩니다.');
         } else {
           SystemNavigator.pop(); // 앱 종료
         }
@@ -129,9 +128,7 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
                             height: 48,
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             child: SvgPicture.asset(
-                              tabController.index == 0
-                                  ? 'images/tab_bar/home_on.svg'
-                                  : 'images/tab_bar/home_off.svg',
+                              tabController.index == 0 ? 'images/tab_bar/home_on.svg' : 'images/tab_bar/home_off.svg',
                               width: 24,
                               height: 24,
                             ),
@@ -171,9 +168,7 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
                             height: 48,
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             child: SvgPicture.asset(
-                              tabController.index == 3
-                                  ? 'images/tab_bar/my_on.svg'
-                                  : 'images/tab_bar/my_off.svg',
+                              tabController.index == 3 ? 'images/tab_bar/my_on.svg' : 'images/tab_bar/my_off.svg',
                               width: 24,
                               height: 24,
                             ),
@@ -181,13 +176,22 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
                         ),
                       ],
                       controller: tabController,
-                      dividerColor: Colors.transparent, // 흰 줄 제거
-                      indicatorPadding: EdgeInsets.zero, // indicator 위치 내리기
-                      labelPadding: EdgeInsets.zero, //탭 크기 유지
+                      dividerColor: Colors.transparent,
+                      // 흰 줄 제거
+                      indicatorPadding: EdgeInsets.zero,
+                      // indicator 위치 내리기
+                      labelPadding: EdgeInsets.zero,
+                      //탭 크기 유지
                       indicator: const BoxDecoration(
                         color: Colors.transparent,
                       ),
                       onTap: (int index) {
+                        if (index == 0 && lastIndex == 0) {
+                          Get.offAll(
+                            () => const TabBarScreen(),
+                            transition: Transition.noTransition,
+                          );
+                        }
                         HapticFeedback.lightImpact();
                       },
                     ),
