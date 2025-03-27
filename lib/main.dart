@@ -61,7 +61,7 @@ void main() async {
     await dotenv.load(fileName: ".env");
 
     // Firebase 초기화
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp(name: 'newket', options: DefaultFirebaseOptions.currentPlatform);
 
     // Storage 초기화
     const storage = FlutterSecureStorage();
