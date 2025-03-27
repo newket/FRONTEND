@@ -91,6 +91,7 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
       },
       child: Scaffold(
         backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             SizedBox(
