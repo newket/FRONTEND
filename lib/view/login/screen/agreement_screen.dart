@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/repository/auth_repository.dart';
@@ -79,7 +78,6 @@ class _AgreementScreen extends State<AgreementScreen> {
       appBar: AppBar(
           leading: IconButton(
               onPressed: () {
-                AmplitudeConfig.amplitude.logEvent('Agreement->Login');
                 Get.offAll(() => const LoginScreen());
               },
               color: f_90,
@@ -88,7 +86,7 @@ class _AgreementScreen extends State<AgreementScreen> {
           centerTitle: true,
           title: const Text(
             "약관동의",
-            style: const TextStyle(
+            style: TextStyle(
               color: f_100,
               fontSize: 16,
               fontFamily: 'Pretendard',
@@ -170,7 +168,6 @@ class _AgreementScreen extends State<AgreementScreen> {
                         const SizedBox(height: 24),
                         GestureDetector(
                             onTap: () {
-                              AmplitudeConfig.amplitude.logEvent('TermsOfService');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => const TermsOfService()),
@@ -220,7 +217,6 @@ class _AgreementScreen extends State<AgreementScreen> {
                         const SizedBox(height: 24),
                         GestureDetector(
                             onTap: () {
-                              AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => const PrivacyPolicyScreen()),
@@ -295,30 +291,51 @@ class _AgreementScreen extends State<AgreementScreen> {
                       String? provider = await storage.read(key: 'SOCIAL_PROVIDER');
                       //signup
                       if (provider == 'APPLE') {
-                        String? appleName = await storage.read(key: 'APPLE_NAME');
+                        String? name = await storage.read(key: 'APPLE_NAME');
                         String? email = await storage.read(key: 'APPLE_EMAIL');
                         String? socialId = await storage.read(key: 'APPLE_SOCIAL_ID');
 
                         await AuthRepository()
-                            .signUpAppleApi(SignUpAppleRequest(name: appleName!, email: email!, socialId: socialId!));
+                            .signUpApi(SignUpAppleRequest(name: name!, email: email!, socialId: socialId!), provider!);
 
                         await storage.delete(key: 'APPLE_NAME');
                         await storage.delete(key: 'APPLE_EMAIL');
                         await storage.delete(key: 'APPLE_SOCIAL_ID');
                         await storage.delete(key: 'SOCIAL_PROVIDER');
+                      } else if (provider == 'NAVER') {
+                        String? name = await storage.read(key: 'NAVER_NAME');
+                        String? email = await storage.read(key: 'NAVER_EMAIL');
+                        String? socialId = await storage.read(key: 'NAVER_SOCIAL_ID');
+
+                        await AuthRepository()
+                            .signUpApi(SignUpAppleRequest(name: name!, email: email!, socialId: socialId!), provider!);
+
+                        await storage.delete(key: 'NAVER_NAME');
+                        await storage.delete(key: 'NAVER_EMAIL');
+                        await storage.delete(key: 'NAVER_SOCIAL_ID');
+                        await storage.delete(key: 'SOCIAL_PROVIDER');
+                      } else if (provider == 'GOOGLE') {
+                        String? name = await storage.read(key: 'GOOGLE_NAME');
+                        String? email = await storage.read(key: 'GOOGLE_EMAIL');
+                        String? socialId = await storage.read(key: 'GOOGLE_SOCIAL_ID');
+
+                        await AuthRepository()
+                            .signUpApi(SignUpAppleRequest(name: name!, email: email!, socialId: socialId!), provider!);
+
+                        await storage.delete(key: 'GOOGLE_NAME');
+                        await storage.delete(key: 'GOOGLE_EMAIL');
+                        await storage.delete(key: 'GOOGLE_SOCIAL_ID');
+                        await storage.delete(key: 'SOCIAL_PROVIDER');
                       } else if (provider == 'KAKAO') {
                         String? kakaoToken = await storage.read(key: 'KAKAO_TOKEN');
 
-                        await AuthRepository().signUpApi(SignUpRequest(kakaoToken!));
+                        await AuthRepository().signUpKakaoApi(SignUpRequest(kakaoToken!));
 
                         await storage.delete(key: 'KAKAO_TOKEN');
                         await storage.delete(key: 'SOCIAL_PROVIDER');
                       }
 
-                      //기기 토큰 저장
-                      final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-                      await UserRepository().putDeviceTokenApi(serverToken!);
-                      AmplitudeConfig.amplitude.logEvent('Home');
+                      await UserRepository().putDeviceTokenApi(context);
                       // 성공적으로 끝났을 때 다이얼로그 닫기
                       Get.back();
                       // 성공 후 다음 화면으로 이동

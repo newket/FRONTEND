@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/model/ticket/before_sale_ticket_response.dart';
@@ -30,7 +29,6 @@ class MyTicketTabBar2 extends StatelessWidget {
             final ticket = notificationTickets.tickets[index];
             return GestureDetector(
               onTap: () {
-                AmplitudeConfig.amplitude.logEvent('OpeningNoticeDetail(id:${ticket.ticketId})');
                 Navigator.push(
                   context,
                   MaterialPageRoute(

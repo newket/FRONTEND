@@ -1,7 +1,7 @@
 name: newket
 description: "newket"
 publish_to: 'none'
-version: 2.1.0+14
+version: 2.2.0+19
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
@@ -28,11 +28,10 @@ dependencies:
   url_launcher: ^6.3.0
 
   # 알림 동의
-  permission_handler: ^11.3.1
+  permission_handler: ^11.4.0
 
   # 푸시 알림
   flutter_local_notifications: ^17.2.2
-  workmanager: ^0.5.2
 
   #fcm
   firebase_messaging: ^15.1.2
@@ -45,7 +44,7 @@ dependencies:
   flutter_native_splash: ^2.4.1
 
   #amplitude
-  amplitude_flutter: ^3.13.0
+  amplitude_flutter: ^4.1.0
 
   #shared_preferences
   shared_preferences: ^2.0.0
@@ -55,6 +54,18 @@ dependencies:
 
   #skeleton ui
   shimmer: ^3.0.0
+
+  #smart look
+  flutter_smartlook: 4.1.25
+
+  #naver login
+  flutter_naver_login: ^2.0.0
+
+  #google login
+  google_sign_in: ^6.3.0
+
+  # firebase web 연동
+  firebase_core_web: ^2.21.1
 
 dev_dependencies:
   flutter_test:

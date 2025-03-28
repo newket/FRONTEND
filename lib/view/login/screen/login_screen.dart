@@ -21,7 +21,6 @@ class _LoginScreen extends State<LoginScreen> {
   void initState() {
     super.initState();
     authRepository = AuthRepository();
-    //비동기로 flutter secure storage 정보를 불러오는 작업.
   }
 
   @override
@@ -63,7 +62,7 @@ class _LoginScreen extends State<LoginScreen> {
                       ? GestureDetector(
                           child: Image.asset("images/login/apple_login.png", width: 350),
                           onTap: () async {
-                            await authRepository.appleLoginApi();
+                            await authRepository.appleLoginApi(context);
                           })
                       : const SizedBox(),
                   const SizedBox(height: 12),
@@ -71,7 +70,21 @@ class _LoginScreen extends State<LoginScreen> {
                   GestureDetector(
                       child: Image.asset("images/login/kakao_login.png", width: 350),
                       onTap: () async {
-                        await authRepository.kakaoLoginApi();
+                        await authRepository.kakaoLoginApi(context);
+                      }),
+                  const SizedBox(height: 12),
+                  //네이버 로그인
+                  GestureDetector(
+                      child: Image.asset("images/login/naver_login.png", width: 350),
+                      onTap: () async {
+                        await authRepository.naverLoginApi(context);
+                      }),
+                  const SizedBox(height: 12),
+                  //구글 로그인
+                  GestureDetector(
+                      child: Image.asset("images/login/google_login.png", width: 350),
+                      onTap: () async {
+                        await authRepository.googleLoginApi(context);
                       }),
                   IconButton(
                       icon: const Text(

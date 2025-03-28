@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_smartlook/flutter_smartlook.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
-import 'package:newket/config/amplitude_config.dart';
+import 'package:newket/config/notification_permission.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/repository/auth_repository.dart';
@@ -13,6 +16,7 @@ import 'package:newket/view/login/screen/login_screen.dart';
 import 'package:newket/view/mypage/screen/help_screen.dart';
 import 'package:newket/view/mypage/screen/mypage_skeleton_screen.dart';
 import 'package:newket/view/mypage/widget/withdraw_popup_widget.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -23,7 +27,7 @@ class MyPageScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _MyPageScreen();
 }
 
-class _MyPageScreen extends State<MyPageScreen> {
+class _MyPageScreen extends State<MyPageScreen> with WidgetsBindingObserver {
   late UserRepository userRepository;
   late AuthRepository authRepository;
   bool artistNotification = true;
@@ -34,6 +38,7 @@ class _MyPageScreen extends State<MyPageScreen> {
   String email = '';
   String provider = '';
   bool isLoading = true;
+  bool notificationAllow = true;
 
   @override
   void initState() {
@@ -41,14 +46,15 @@ class _MyPageScreen extends State<MyPageScreen> {
     userRepository = UserRepository();
     authRepository = AuthRepository();
     _getUserInfoApi(context);
+    Smartlook.instance.trackEvent('MyPageScreen');
+    WidgetsBinding.instance.addObserver(this);
   }
 
   Future<void> _getUserInfoApi(BuildContext context) async {
-    var storage = const FlutterSecureStorage();
-    final serverToken = await storage.read(key: 'ACCESS_TOKEN');
-    await UserRepository().putDeviceTokenApi(serverToken!);
+    await userRepository.putDeviceTokenApi(context);
     final response = await userRepository.getUserInfoApi(context);
     final response2 = await userRepository.getNotificationAllow();
+    bool isEnabled = await NotificationPermissionManager.isNotificationEnabled();
 
     if (!mounted) return;
 
@@ -61,7 +67,27 @@ class _MyPageScreen extends State<MyPageScreen> {
       ticketNotification = response2.ticketNotification;
       ticketBackground = ticketNotification ? v1pt_20 : b_900;
       isLoading = false;
+      notificationAllow = isEnabled;
     });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {
+      bool isEnabled = await NotificationPermissionManager.isNotificationEnabled();
+
+      if (mounted && notificationAllow!=isEnabled) {
+        setState(() {
+          notificationAllow = isEnabled;
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override
@@ -71,7 +97,12 @@ class _MyPageScreen extends State<MyPageScreen> {
       return const MyPageSkeletonScreen();
     }
     return Scaffold(
-        appBar: AppBar(title: Text('마이페이지', style: t2_18Semi(f_100)), backgroundColor: Colors.white, centerTitle: true),
+        appBar: AppBar(
+          title: Text('마이페이지', style: t2_18Semi(f_100)),
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          scrolledUnderElevation: 0,
+        ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
             child: Column(
@@ -109,6 +140,10 @@ class _MyPageScreen extends State<MyPageScreen> {
                                             return 'images/mypage/kakao.png';
                                           case 'APPLE':
                                             return 'images/mypage/apple.png';
+                                          case 'NAVER':
+                                            return 'images/mypage/naver.png';
+                                          case 'GOOGLE':
+                                            return 'images/mypage/google.png';
                                           default:
                                             return 'images/mypage/sns_null.png';
                                         }
@@ -132,55 +167,144 @@ class _MyPageScreen extends State<MyPageScreen> {
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Text('알림 설정', style: s1_16Semi(f_100)),
                     const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('아티스트 알림', style: b8_14Med(f_90)),
-                            Text('알림 받는 아티스트의 티켓이 등록되면 알림을 보내드려요.', style: c4_12Reg(f_40))
-                          ],
-                        ),
-                        CupertinoSwitch(
-                          value: artistNotification,
-                          activeColor: pn_100,
-                          onChanged: (bool value) async {
-                            // UI 상태 업데이트
-                            setState(() {
-                              artistNotification = value;
-                            });
-                            String isAllow = value ? 'on' : 'off';
-                            await userRepository.postNotificationAllow(isAllow, "artist");
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('티켓 오픈 임박 알림', style: b8_14Med(f_90)),
-                            Text('티켓 오픈 하루 전, 1시간 전에 알려드려요.', style: c4_12Reg(f_40))
-                          ],
-                        ),
-                        CupertinoSwitch(
-                          value: ticketNotification,
-                          activeColor: pn_100,
-                          onChanged: (bool value) async {
-                            // UI 상태 업데이트
-                            setState(() {
-                              ticketNotification = value;
-                            });
-                            String isAllow = value ? 'on' : 'off';
-                            await userRepository.postNotificationAllow(isAllow, "ticket");
-                          },
-                        ),
-                      ],
-                    ),
+                    notificationAllow
+                        ? Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('아티스트 알림', style: b8_14Med(f_90)),
+                                      Text('알림 받는 아티스트의 티켓이 등록되면 알림을 보내드려요.', style: c4_12Reg(f_40))
+                                    ],
+                                  ),
+                                  CupertinoSwitch(
+                                    value: artistNotification,
+                                    activeTrackColor: pn_100,
+                                    onChanged: (bool value) async {
+                                      // UI 상태 업데이트
+                                      setState(() {
+                                        artistNotification = value;
+                                      });
+                                      String isAllow = value ? 'on' : 'off';
+                                      await userRepository.postNotificationAllow(isAllow, "artist");
+                                    },
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 24),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('티켓 오픈 임박 알림', style: b8_14Med(f_90)),
+                                      Text('티켓 오픈 하루 전, 1시간 전에 알려드려요.', style: c4_12Reg(f_40))
+                                    ],
+                                  ),
+                                  CupertinoSwitch(
+                                    value: ticketNotification,
+                                    activeTrackColor: pn_100,
+                                    onChanged: (bool value) async {
+                                      // UI 상태 업데이트
+                                      setState(() {
+                                        ticketNotification = value;
+                                      });
+                                      String isAllow = value ? 'on' : 'off';
+                                      await userRepository.postNotificationAllow(isAllow, "ticket");
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        : Column(children: [
+                            GestureDetector(
+                                child: Container(
+                                    height: 66,
+                                    decoration: BoxDecoration(
+                                      color: pn_05,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                      Row(
+                                        children: [
+                                          SvgPicture.asset("images/artist/alarm.svg", height: 24, width: 24),
+                                          const SizedBox(width: 10),
+                                          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                            Text("휴대폰 알림이 꺼져있어요", style: b8_14Med(f_100)),
+                                            Text(
+                                              "기기에서 알림을 켜야 티켓 소식을 놓치지 않아요",
+                                              style: c4_12Reg(f_40),
+                                            )
+                                          ])
+                                        ],
+                                      ),
+                                      Text("알림 켜기", style: button2_14Semi(pn_100))
+                                    ])),
+                                onTap: () async {
+                                  // 알림 설정 화면 열기
+                                  await openAppSettings();
+                                }),
+                            const SizedBox(height: 20),
+                            Opacity(
+                                opacity: 0.3,
+                                child: Column(children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('아티스트 알림', style: b8_14Med(f_90)),
+                                          Text('알림 받는 아티스트의 티켓이 등록되면 알림을 보내드려요.', style: c4_12Reg(f_40))
+                                        ],
+                                      ),
+                                      CupertinoSwitch(
+                                        value: false,
+                                        activeTrackColor: pn_100,
+                                        onChanged: (bool value) async {
+                                          // UI 상태 업데이트
+                                          setState(() {
+                                            artistNotification = value;
+                                          });
+                                          String isAllow = value ? 'on' : 'off';
+                                          await userRepository.postNotificationAllow(isAllow, "artist");
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 24),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('티켓 오픈 임박 알림', style: b8_14Med(f_90)),
+                                          Text('티켓 오픈 하루 전, 1시간 전에 알려드려요.', style: c4_12Reg(f_40))
+                                        ],
+                                      ),
+                                      CupertinoSwitch(
+                                        value: false,
+                                        activeTrackColor: pn_100,
+                                        onChanged: (bool value) async {
+                                          // UI 상태 업데이트
+                                          setState(() {
+                                            ticketNotification = value;
+                                          });
+                                          String isAllow = value ? 'on' : 'off';
+                                          await userRepository.postNotificationAllow(isAllow, "ticket");
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                ]))
+                          ])
                   ])),
               Container(color: f_10, height: 2),
               Padding(
@@ -188,7 +312,6 @@ class _MyPageScreen extends State<MyPageScreen> {
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     GestureDetector(
                         onTap: () {
-                          AmplitudeConfig.amplitude.logEvent('PrivacyPolicy');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -211,7 +334,6 @@ class _MyPageScreen extends State<MyPageScreen> {
                     const SizedBox(height: 20),
                     GestureDetector(
                         onTap: () {
-                          AmplitudeConfig.amplitude.logEvent('TermsOfService');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -234,7 +356,6 @@ class _MyPageScreen extends State<MyPageScreen> {
                     const SizedBox(height: 20),
                     GestureDetector(
                       onTap: () {
-                        AmplitudeConfig.amplitude.logEvent('Help');
                         // 문의하기 페이지로 이동
                         Navigator.push(
                           context,
@@ -257,17 +378,16 @@ class _MyPageScreen extends State<MyPageScreen> {
                     const SizedBox(height: 24),
                     GestureDetector(
                         onTap: () async {
+                          if (provider == 'NAVER') {
+                            await FlutterNaverLogin.logOut();
+                          }
                           await userRepository.deleteDeviceToken();
                           var storage = const FlutterSecureStorage();
                           await storage.deleteAll();
                           // 로그인 페이지로 이동
-                          AmplitudeConfig.amplitude.logEvent('Logout');
                           Get.offAll(() => const LoginScreen());
                         },
-                        child: Text(
-                          '로그아웃',
-                          style: b8_14Med(f_90),
-                        )),
+                        child: Text('로그아웃', style: b8_14Med(f_90))),
                     const SizedBox(height: 24),
                     //탈퇴하기
                     GestureDetector(
@@ -279,6 +399,9 @@ class _MyPageScreen extends State<MyPageScreen> {
                                 insetPadding: EdgeInsets.zero,
                                 child: WithdrawPopupWidget(onConfirm: () async {
                                   await userRepository.deleteDeviceToken();
+                                  if (provider == 'NAVER') {
+                                    await FlutterNaverLogin.logOutAndDeleteToken();
+                                  }
                                   if (provider == 'APPLE') {
                                     final credential = await SignInWithApple.getAppleIDCredential(
                                       scopes: [
@@ -295,14 +418,14 @@ class _MyPageScreen extends State<MyPageScreen> {
                                   final prefs = await SharedPreferences.getInstance();
                                   await storage.deleteAll();
                                   await prefs.clear();
-                                  AmplitudeConfig.amplitude.logEvent('Withdraw');
                                   Get.offAll(() => const LoginScreen());
                                 }),
                               );
                             },
                           );
                         },
-                        child: Text('회원 탈퇴', style: b9_14Reg(f_50)))
+                        child: Text('회원 탈퇴', style: b9_14Reg(f_50))),
+                    const SizedBox(height: 100)
                   ]))
             ])));
   }

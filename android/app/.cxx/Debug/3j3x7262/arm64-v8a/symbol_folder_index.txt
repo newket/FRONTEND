@@ -1,0 +1,1 @@
+/Users/sominyun/Desktop/newket-FRONTEND/build/app/intermediates/cxx/Debug/3j3x7262/obj/arm64-v8a

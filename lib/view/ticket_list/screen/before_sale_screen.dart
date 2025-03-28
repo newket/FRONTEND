@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:newket/config/amplitude_config.dart';
+import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/model/ticket/before_sale_ticket_response.dart';
+import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 import 'package:newket/view/ticket_list/widget/before_sale_widget.dart';
 import 'package:newket/view/ticket_list/widget/drop_down_widget.dart';
 import 'package:newket/view/ticket_list/widget/ticket_skeleton_widget.dart';
-import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BeforeSaleScreen extends StatefulWidget {
@@ -36,6 +36,10 @@ class _BeforeSaleScreen extends State<BeforeSaleScreen> {
     setState(() {
       selectedOption = prefs.getString('openingNoticeSelectedOption') ?? '예매 오픈 임박 순';
     });
+    final Properties properties = Properties();
+    properties.putString('option', value: selectedOption);
+    properties.putString('tab',value: '오픈 예정 티켓');
+    Smartlook.instance.trackEvent('HomeScreen', properties: properties);
   }
 
   void updateItemList(String option) async {
@@ -83,8 +87,6 @@ class _BeforeSaleScreen extends State<BeforeSaleScreen> {
                               return Column(children: [
                                 GestureDetector(
                                   onTap: () {
-                                    AmplitudeConfig.amplitude.logEvent(
-                                        'OpeningNoticeDetail(id:${beforeSaleResponse.tickets[index].ticketId})');
                                     // 상세 페이지로 이동
                                     Navigator.push(
                                       context,

@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:newket/config/amplitude_config.dart';
@@ -60,7 +61,7 @@ void main() async {
     await dotenv.load(fileName: ".env");
 
     // Firebase 초기화
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp(name: 'newket', options: DefaultFirebaseOptions.currentPlatform);
 
     // Storage 초기화
     const storage = FlutterSecureStorage();
@@ -69,13 +70,17 @@ void main() async {
       await storage.read(key: 'DEVICE_TOKEN');
     } catch (e) {
       if (e.toString().contains('BadPaddingException')) {
-        AmplitudeConfig.amplitude.logEvent('storage error: $e');
         await storage.deleteAll();
       }
     }
 
     //Amplitude 초기화
     AmplitudeConfig().init();
+
+    // //smart look 초기화
+    final Smartlook smartlook = Smartlook.instance;
+    smartlook.start();
+    smartlook.preferences.setProjectKey(dotenv.get("SMART_LOOK"));
 
     // Kakao SDK 초기화
     KakaoSdk.init(
@@ -120,6 +125,7 @@ void main() async {
 
     debugPrint("deviceToken: $deviceToken");
     AmplitudeConfig.amplitude.setUserId('$deviceToken');
+    Smartlook.instance.user.setIdentifier('$deviceToken');
     storage.write(key: 'DEVICE_TOKEN', value: deviceToken);
 
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
@@ -184,15 +190,12 @@ void main() async {
     String? accessToken = ""; //user의 정보를 저장하기 위한 변수
     accessToken = await storage.read(key: "ACCESS_TOKEN");
     if (accessToken == null || accessToken.isEmpty) {
-      AmplitudeConfig.amplitude.logEvent('Login');
       runApp(const MyApp());
     } else {
-      AmplitudeConfig.amplitude.logEvent('Home');
       runApp(const MyApp2());
     }
   } catch (e) {
     debugPrint('main error: $e');
-    AmplitudeConfig.amplitude.logEvent('main error: $e');
   }
 }
 
@@ -212,7 +215,7 @@ class MyApp extends StatelessWidget {
           child: child!,
         );
       },
-      navigatorObservers: [routeObserver],
+      navigatorObservers: [routeObserver, SmartlookObserver()],
       home: const LoginScreen(),
     );
   }
@@ -232,7 +235,7 @@ class MyApp2 extends StatelessWidget {
           child: child!,
         );
       },
-      navigatorObservers: [routeObserver],
+      navigatorObservers: [routeObserver, SmartlookObserver()],
       home: const TabBarScreen(),
     );
   }

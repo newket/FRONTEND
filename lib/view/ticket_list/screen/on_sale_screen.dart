@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:newket/config/amplitude_config.dart';
+import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/model/ticket/on_sale_response.dart';
 import 'package:newket/repository/ticket_repository.dart';
-import 'package:newket/view/ticket_list/widget/ticket_skeleton_widget.dart';
+import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 import 'package:newket/view/ticket_list/widget/drop_down_widget.dart';
 import 'package:newket/view/ticket_list/widget/on_sale_widget.dart';
-import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
+import 'package:newket/view/ticket_list/widget/ticket_skeleton_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnSaleScreen extends StatefulWidget {
@@ -38,6 +38,10 @@ class _OnSaleScreen extends State<OnSaleScreen> {
     setState(() {
       selectedOption = prefs.getString('onSaleSelectedOption') ?? '공연 날짜 임박 순';
     });
+    final Properties properties = Properties();
+    properties.putString('option', value: selectedOption);
+    properties.putString('tab',value: '예매 중인 티켓');
+    Smartlook.instance.trackEvent('HomeScreen', properties: properties);
   }
 
   void updateItemList(String option) async {
@@ -85,8 +89,6 @@ class _OnSaleScreen extends State<OnSaleScreen> {
                               return Column(children: [
                                 GestureDetector(
                                   onTap: () {
-                                    AmplitudeConfig.amplitude.logEvent(
-                                        'OpeningNoticeDetail(id:${onSaleResponse.tickets[index].ticketId})');
                                     // 상세 페이지로 이동
                                     Navigator.push(
                                       context,

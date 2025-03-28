@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/config/dio_auth.dart';
 import 'package:newket/model/notification_request/artist_notification_response.dart';
 import 'package:newket/model/ticket/before_sale_ticket_response.dart';
@@ -17,7 +15,6 @@ class NotificationRequestRepository {
       await dio.post("/api/v1/notification-requests/artists/$artistId");
       return true;
     } on DioException catch (e) {
-      AmplitudeConfig.amplitude.logEvent('BeforeLogin');
       Get.to(() => const BeforeLoginScreen());
       return false;
     }
@@ -47,7 +44,6 @@ class NotificationRequestRepository {
       await dio.post("/api/v1/notification-requests/tickets/$ticketId");
       return true;
     } on DioException catch (e) {
-      AmplitudeConfig.amplitude.logEvent('BeforeLogin');
       Navigator.push(
         context,
         MaterialPageRoute(

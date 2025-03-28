@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/model/ticket/before_sale_ticket_response.dart';
 import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
 import 'package:newket/view/ticket_list/widget/before_sale_widget.dart';
@@ -24,8 +22,6 @@ class MyTicketBeforeSaleWidget extends StatelessWidget {
                         return Column(children: [
                           GestureDetector(
                             onTap: () {
-                              AmplitudeConfig.amplitude
-                                  .logEvent('OpeningNoticeDetail(id:${beforeSaleResponse.tickets[index].ticketId})');
                               // 상세 페이지로 이동
                               Navigator.push(
                                 context,

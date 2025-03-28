@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:get/get.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/model/artist/artist_dto.dart';
@@ -39,6 +39,7 @@ class _SearchScreen extends State<SearchScreen> with WidgetsBindingObserver, Rou
     artistRepository = ArtistRepository();
     notificationRequestRepository = NotificationRequestRepository();
     WidgetsBinding.instance.addObserver(this);
+    Smartlook.instance.trackEvent('SearchScreen');
   }
 
   Future<void> _initializeArtistsAndFavorites() async {
@@ -70,6 +71,11 @@ class _SearchScreen extends State<SearchScreen> with WidgetsBindingObserver, Rou
     });
   }
 
+  Future<void> refresh() async {
+    HapticFeedback.mediumImpact();
+    _initializeArtistsAndFavorites();
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -98,47 +104,52 @@ class _SearchScreen extends State<SearchScreen> with WidgetsBindingObserver, Rou
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SearchBarWidget(),
-                const SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('추천 아티스트', style: s1_16Semi(f_100)),
-                      const SizedBox(height: 12),
-                      if (isLoading)
-                        if (showSkeleton)
-                          Column(
-                              children: List.generate(10, (index) {
-                            return const ArtistListSkeletonUiWidget();
-                          }))
-                        else
-                          const SizedBox()
-                      else
-                        Column(
-                          children: List.generate(artistList.length, (index) {
-                            return GestureDetector(
-                              onTap: () {
-                                Get.to(() => ArtistProfileScreen(artistId: artistList[index].artistId));
-                                AmplitudeConfig.amplitude.logEvent('ArtistProfile(artist: ${artistList[index].name})');
-                              },
-                              child: ArtistListWidget(
-                                  artist: artistList[index],
-                                  isFavoriteArtist: isFavoriteArtist[index],
-                                  toastBottom: 40),
-                            );
-                          }),
-                        ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SearchBarWidget(),
+              RefreshIndicator(
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  onRefresh: refresh, // 새로고침 기능 추가
+                  child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(), // 스크롤이 항상 가능하도록 설정
+                      child: Column(children: [
+                        const SizedBox(height: 12),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('추천 아티스트', style: s1_16Semi(f_100)),
+                              const SizedBox(height: 12),
+                              if (isLoading)
+                                if (showSkeleton)
+                                  Column(
+                                      children: List.generate(10, (index) {
+                                    return const ArtistListSkeletonUiWidget();
+                                  }))
+                                else
+                                  const SizedBox()
+                              else
+                                Column(
+                                  children: List.generate(artistList.length, (index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Get.to(() => ArtistProfileScreen(artistId: artistList[index].artistId));
+                                      },
+                                      child: ArtistListWidget(
+                                          artist: artistList[index],
+                                          isFavoriteArtist: isFavoriteArtist[index],
+                                          toastBottom: 40),
+                                    );
+                                  }),
+                                ),
+                            ],
+                          ),
+                        )
+                      ])))
+            ],
           ),
         ),
       ),

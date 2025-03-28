@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/view/search/screen/searching_screen.dart';
@@ -19,7 +18,6 @@ class SearchingBarWidget extends StatelessWidget {
           children: [
             IconButton(
                 onPressed: () {
-                  AmplitudeConfig.amplitude.logEvent('Back');
                   Navigator.pop(context);
                 },
                 icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 24, color: f_90)),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:newket/constant/colors.dart';
@@ -90,6 +91,7 @@ class _MyTicketScreen extends State<MyTicketScreen> with TickerProviderStateMixi
     controller.addListener(() {
       setState(() {}); // 탭 변경 시 상태 업데이트
     });
+    Smartlook.instance.trackEvent('MyTicketScreen');
   }
 
   Future<void> _loadMyTicket() async {

@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/view/home/screen/home_screen.dart';
 import 'package:newket/view/login/screen/before_login_screen.dart';
 import 'package:newket/view/my_ticket/screen/my_ticket_screen.dart';
@@ -21,7 +20,7 @@ late TabController tabController;
 
 class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   int lastIndex = 0;
-  DateTime? backPressedTime; // 🔹 뒤로 가기 시간 저장 변수
+  DateTime? backPressedTime; // 뒤로 가기 시간 저장 변수
 
   @override
   void initState() {
@@ -33,24 +32,9 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
         String? accessToken = await storage.read(key: "ACCESS_TOKEN");
         if ((tabController.index == 1 || tabController.index == 3) && accessToken == null) {
           tabController.index = lastIndex; // 이전 인덱스로 복구
-          AmplitudeConfig.amplitude.logEvent('BeforeLogin');
           Get.to(() => const BeforeLoginScreen());
         } else {
           lastIndex = tabController.index;
-          switch (tabController.index) {
-            case 0:
-              AmplitudeConfig.amplitude.logEvent('Home');
-              break;
-            case 1:
-              AmplitudeConfig.amplitude.logEvent('MyTicket');
-              break;
-            case 2:
-              AmplitudeConfig.amplitude.logEvent('Search');
-              break;
-            case 3:
-              AmplitudeConfig.amplitude.logEvent('MyPage');
-              break;
-          }
         }
         setState(() {});
       }
@@ -91,7 +75,6 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -101,13 +84,14 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
 
         if (backPressedTime == null || nowTime.difference(backPressedTime!) > const Duration(seconds: 2)) {
           backPressedTime = nowTime;
-          showSnackbar(context,'한 번 더 누르시면 종료됩니다.');
+          showSnackbar(context, '한 번 더 누르시면 종료됩니다.');
         } else {
           SystemNavigator.pop(); // 앱 종료
         }
       },
       child: Scaffold(
         backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             SizedBox(
@@ -145,9 +129,7 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
                             height: 48,
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             child: SvgPicture.asset(
-                              tabController.index == 0
-                                  ? 'images/tab_bar/home_on.svg'
-                                  : 'images/tab_bar/home_off.svg',
+                              tabController.index == 0 ? 'images/tab_bar/home_on.svg' : 'images/tab_bar/home_off.svg',
                               width: 24,
                               height: 24,
                             ),
@@ -187,9 +169,7 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
                             height: 48,
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             child: SvgPicture.asset(
-                              tabController.index == 3
-                                  ? 'images/tab_bar/my_on.svg'
-                                  : 'images/tab_bar/my_off.svg',
+                              tabController.index == 3 ? 'images/tab_bar/my_on.svg' : 'images/tab_bar/my_off.svg',
                               width: 24,
                               height: 24,
                             ),
@@ -197,13 +177,22 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
                         ),
                       ],
                       controller: tabController,
-                      dividerColor: Colors.transparent, // 흰 줄 제거
-                      indicatorPadding: EdgeInsets.zero, // indicator 위치 내리기
-                      labelPadding: EdgeInsets.zero, //탭 크기 유지
+                      dividerColor: Colors.transparent,
+                      // 흰 줄 제거
+                      indicatorPadding: EdgeInsets.zero,
+                      // indicator 위치 내리기
+                      labelPadding: EdgeInsets.zero,
+                      //탭 크기 유지
                       indicator: const BoxDecoration(
                         color: Colors.transparent,
                       ),
                       onTap: (int index) {
+                        if (index == 0 && lastIndex == 0) {
+                          Get.offAll(
+                            () => const TabBarScreen(),
+                            transition: Transition.noTransition,
+                          );
+                        }
                         HapticFeedback.lightImpact();
                       },
                     ),

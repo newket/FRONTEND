@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:newket/config/notification_permission.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/model/artist/artist_dto.dart';
 import 'package:newket/repository/notification_request_repository.dart';
 import 'package:newket/view/artist/widget/artist_notification_cancel_popup_widget.dart';
+import 'package:newket/view/common/notification_disabled_popup_widget.dart';
 import 'package:newket/view/common/toast_widget.dart';
 
 class MediumNotificationButtonWidget extends StatefulWidget {
@@ -69,6 +71,14 @@ class _MediumNotificationButtonWidget extends State<MediumNotificationButtonWidg
                   title: '아티스트 알림이 설정되었어요',
                   content: '${widget.artist.name}의 새로운 티켓 소식을 가장 먼저 전해 드릴게요!',
                   context: context);
+              if (!await NotificationPermissionManager.isNotificationEnabled()) {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const Dialog(
+                          insetPadding: EdgeInsets.zero, child: NotificationDisabledPopupWidget());
+                    });
+              }
             }
           } else {
             showDialog(
@@ -94,27 +104,16 @@ class _MediumNotificationButtonWidget extends State<MediumNotificationButtonWidg
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (!_isPressed) ...[
-              SvgPicture.asset(
-                'images/search/notification_null.svg',
-                width: 20,
-                height: 20,
-              ),
+              SvgPicture.asset('images/search/notification_null.svg', width: 20, height: 20),
               const SizedBox(width: 8),
               Text(
                 "알림 받기",
                 style: button2_14Semi(Colors.white),
               ),
             ] else ...[
-              SvgPicture.asset(
-                'images/ticket/notification_on.svg',
-                width: 20,
-                height: 20,
-              ),
+              SvgPicture.asset('images/ticket/notification_on.svg', width: 20, height: 20),
               const SizedBox(width: 8),
-              Text(
-                "알림 받는 중",
-                style: button2_14Semi(Colors.white),
-              ),
+              Text("알림 받는 중", style: button2_14Semi(Colors.white)),
             ]
           ],
         ),

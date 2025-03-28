@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/config/error_interceptor.dart';
 import 'package:newket/model/auth_model.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
@@ -16,8 +15,6 @@ Future authDio(BuildContext context) async {
   dio.interceptors.clear();
   dio.interceptors.add(ErrorInterceptor(dio));
   const storage = FlutterSecureStorage();
-
-  dio.interceptors.removeWhere((interceptor) => interceptor is! ErrorInterceptor); // ErrorInterceptor 유지
 
   dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async {
     // 기기에 저장된 AccessToken 로드
@@ -89,8 +86,6 @@ Future authDio(BuildContext context) async {
           queryParameters: error.requestOptions.queryParameters,
         );
 
-        //Amplitude log
-        AmplitudeConfig.amplitude.logEvent('Reissue');
         // API 복사본으로 재요청
         return handler.resolve(clonedRequest);
       } catch (e) {
@@ -99,8 +94,6 @@ Future authDio(BuildContext context) async {
 
         // 로그인 만료 dialog 발생 후 로그인 페이지로 이동
         if (context.mounted) {
-          //Amplitude log
-          AmplitudeConfig.amplitude.logEvent('Reissue Fail');
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const LoginScreen()),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:newket/config/amplitude_config.dart';
+import 'package:newket/config/notification_permission.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/model/ticket/ticket_detail_response.dart';
@@ -12,6 +13,7 @@ import 'package:newket/view/artist/screen/artist_profile_screen.dart';
 import 'package:newket/view/artist/screen/image_preview_screen.dart';
 import 'package:newket/view/artist/widget/artist_list_widget.dart';
 import 'package:newket/view/common/image_loading_widget.dart';
+import 'package:newket/view/common/notification_disabled_popup_widget.dart';
 import 'package:newket/view/common/toast_widget.dart';
 import 'package:newket/view/ticket_detail/screen/ticket_detail_skeleton_screen.dart';
 import 'package:newket/view/ticket_detail/widget/date_list_popup_widget.dart';
@@ -57,7 +59,6 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
     super.initState();
     ticketRepository = TicketRepository();
     notificationRequestRepository = NotificationRequestRepository();
-    _getIsNotification();
     _scrollController.addListener(_scrollListener);
   }
 
@@ -103,6 +104,11 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
       }
     }
 
+    final Properties properties = Properties();
+    properties.putString('ticket_detail', value: 'ticket_detail');
+    properties.putString('ticket_title', value: ticketResponse.title);
+    Smartlook.instance.trackEvent('TicketDetailScreen', properties: properties);
+
     return Scaffold(
         backgroundColor: Colors.white,
         extendBodyBehindAppBar: true,
@@ -115,7 +121,6 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
           elevation: 0.0,
           leading: IconButton(
             onPressed: () {
-              AmplitudeConfig.amplitude.logEvent('Back');
               Navigator.pop(context);
             },
             color: (_scrollPosition == 0) ? Colors.white : f_100,
@@ -171,7 +176,6 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
                                     pageBuilder: (_, __, ___) => ImagePreviewScreen(imageUrl: ticketResponse.imageUrl),
                                   ),
                                 );
-                                AmplitudeConfig.amplitude.logEvent('ImagePreview(ticket: ${ticketResponse.title})');
                               },
                               child: ImageLoadingWidget(
                                 width: 172,
@@ -335,8 +339,6 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
                         return GestureDetector(
                             onTap: () {
                               Get.to(() => ArtistProfileScreen(artistId: ticketResponse.artists[index].artistId));
-                              AmplitudeConfig.amplitude
-                                  .logEvent('ArtistProfile(artist: ${ticketResponse.artists[index].name})');
                             },
                             child: ArtistListWidget(
                               artist: ticketResponse.artists[index],
@@ -381,6 +383,14 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
                             isNotification = !isNotification;
                           });
                         }
+                        if (!await NotificationPermissionManager.isNotificationEnabled()) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const Dialog(
+                                    insetPadding: EdgeInsets.zero, child: NotificationDisabledPopupWidget());
+                              });
+                        }
                       } else {
                         // 알림 받은 상태에서
                         showDialog(
@@ -422,7 +432,10 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
                       children: [
                         isNotification
                             ? SvgPicture.asset('images/ticket/notification_on.svg', color: pn_100)
-                            : SvgPicture.asset('images/search/notification_null.svg', width: 20,),
+                            : SvgPicture.asset(
+                                'images/search/notification_null.svg',
+                                width: 20,
+                              ),
                         const SizedBox(width: 10),
                         Text(
                           isNotification ? '알림 받는 중' : '알림 받기',
