@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -54,15 +51,28 @@ class DefaultFirebaseOptions {
     appId: '1:16426504801:android:4ec04fae92f48e3a941020',
     messagingSenderId: '16426504801',
     projectId: 'newket-94290',
-    storageBucket: 'newket-94290.appspot.com',
+    storageBucket: 'newket-94290.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDCoxYQCnWQB-nihFUO1AKfVhpaJmBz9nc',
-    appId: '1:16426504801:ios:ce85826215034ec4941020',
+    appId: '1:16426504801:ios:97d331f4e16ce147941020',
     messagingSenderId: '16426504801',
     projectId: 'newket-94290',
-    storageBucket: 'newket-94290.appspot.com',
+    storageBucket: 'newket-94290.firebasestorage.app',
+    androidClientId: '16426504801-e8q2kaj9sgb6e55f4lk2b22914fifncs.apps.googleusercontent.com',
+    iosClientId: '16426504801-6mdj2o4k4pkmno08fqipajvq809f8urq.apps.googleusercontent.com',
     iosBundleId: 'com.newket.soyaa',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDROt8bog9y00mF5dXvrELRgxtKh8MY56M',
+    appId: '1:16426504801:web:0762fca9e4fabff3941020',
+    messagingSenderId: '16426504801',
+    projectId: 'newket-94290',
+    authDomain: 'newket-94290.firebaseapp.com',
+    storageBucket: 'newket-94290.firebasestorage.app',
+    measurementId: 'G-3MKEE6G98H',
+  );
+
 }
