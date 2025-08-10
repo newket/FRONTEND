@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
-import 'package:newket/model/artist/artist_dto.dart';
 
 class TicketNotificationCaclePopupWidget extends StatelessWidget {
   final VoidCallback onConfirm;

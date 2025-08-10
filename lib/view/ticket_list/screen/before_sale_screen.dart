@@ -38,7 +38,7 @@ class _BeforeSaleScreen extends State<BeforeSaleScreen> {
     });
     final Properties properties = Properties();
     properties.putString('option', value: selectedOption);
-    properties.putString('tab',value: '오픈 예정 티켓');
+    properties.putString('tab', value: '오픈 예정 티켓');
     Smartlook.instance.trackEvent('HomeScreen', properties: properties);
   }
 
@@ -54,7 +54,7 @@ class _BeforeSaleScreen extends State<BeforeSaleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false, //키보드가 올라 오지 않도록
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
             child: FutureBuilder(

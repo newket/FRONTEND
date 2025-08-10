@@ -14,7 +14,7 @@ class NotificationRequestRepository {
       var dio = await authDio(context);
       await dio.post("/api/v1/notification-requests/artists/$artistId");
       return true;
-    } on DioException catch (e) {
+    } on DioException {
       Get.to(() => const BeforeLoginScreen());
       return false;
     }
@@ -26,7 +26,7 @@ class NotificationRequestRepository {
       var dio = await authDio(context);
       final response = await dio.get("/api/v1/notification-requests/artists/$artistId");
       return response.data as bool;
-    } on DioException catch (e) {
+    } on DioException {
       return false;
     }
   }
@@ -43,7 +43,7 @@ class NotificationRequestRepository {
       var dio = await authDio(context);
       await dio.post("/api/v1/notification-requests/tickets/$ticketId");
       return true;
-    } on DioException catch (e) {
+    } on DioException {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -60,7 +60,7 @@ class NotificationRequestRepository {
       var dio = await authDio(context);
       final response = await dio.get("/api/v1/notification-requests/tickets/$ticketId");
       return response.data as bool;
-    } on DioException catch (e) {
+    } on DioException {
       return false;
     }
   }
