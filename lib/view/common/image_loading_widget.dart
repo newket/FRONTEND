@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:newket/constant/colors.dart';
 
@@ -19,26 +20,34 @@ class ImageLoadingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(radius)),
-      child: Image.network(
-        imageUrl,
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
         height: height,
         width: width,
         fit: BoxFit.cover,
-        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-          if (loadingProgress == null) {
-            return child; // 로딩이 완료되었을 때의 이미지
-          }
+        fadeInDuration: Duration.zero,
+        fadeOutDuration: Duration.zero,
+        placeholderFadeInDuration: Duration.zero,
+        placeholder: (context, url) {
           return Container(
             height: height,
             width: width,
-            color: f_10, // 로딩 중일 때의 배경색
+            color: f_10,
           );
         },
-        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+        errorWidget: (context, url, error) {
           return Container(
             height: height,
             width: width,
-            color: f_10, // 로딩 실패 시의 배경색
+            color: f_10,
+          );
+        },
+        imageBuilder: (context, imageProvider) {
+          return Image(
+            image: imageProvider,
+            height: height,
+            width: width,
+            fit: BoxFit.cover,
           );
         },
       ),

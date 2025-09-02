@@ -56,16 +56,19 @@ dependencies:
   shimmer: ^3.0.0
 
   #smart look
-  flutter_smartlook: 4.1.25
+  flutter_smartlook: 4.1.29
 
   #naver login
-  flutter_naver_login: ^2.0.0
+  flutter_naver_login: 2.1.1
 
   #google login
   google_sign_in: ^6.3.0
 
   # firebase web 연동
   firebase_core_web: ^2.21.1
+
+  # cache image
+  cached_network_image: 3.4.1
 
 dev_dependencies:
   flutter_test:
