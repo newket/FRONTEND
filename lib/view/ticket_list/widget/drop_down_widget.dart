@@ -69,7 +69,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
         padding: EdgeInsets.zero,
         constraints: const BoxConstraints(minWidth: 131, maxWidth: 131),
         //팝업 가로 길이 고정
-        offset: const Offset(13, 25),
+        offset: const Offset(13, 26),
         // 팝업 위치 조정
         elevation: 0,
         // 그림자 제거

@@ -89,7 +89,7 @@ class ArtistProfileSkeletonScreen extends StatelessWidget {
           const SizedBox(height: 9),
           Container(height: 6, color: f_5),
           const SizedBox(height: 14),
-          const Row(children: [SizedBox(width: 20), const SkeletonWidget(width: 350, height: 110, radius: 8)])
+          const Row(children: [SizedBox(width: 20), SkeletonWidget(width: 350, height: 110, radius: 8)])
         ])));
   }
 }
