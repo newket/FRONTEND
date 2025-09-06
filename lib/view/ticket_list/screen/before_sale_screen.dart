@@ -80,30 +80,38 @@ class _BeforeSaleScreen extends State<BeforeSaleScreen> {
                           ],
                         ),
                         Container(height: 8),
-                        Column(
-                          children: List.generate(
-                            beforeSaleResponse.tickets.length,
-                            (index) {
-                              return Column(children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    // 상세 페이지로 이동
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => TicketDetailScreen(
-                                          ticketId: beforeSaleResponse.tickets[index].ticketId, // 상세 페이지에 데이터 전달
-                                        ),
+                        (beforeSaleResponse.totalNum == 0)
+                            ? Column(children: [
+                                Container(height: 88),
+                                Image.asset('images/ticket/ticket_null.png', width: 160),
+                                Container(height: 16),
+                                Text('오픈 예정인 티켓이 없어요.', style: button2_14Semi(f_100))
+                              ])
+                            : Column(
+                                children: List.generate(
+                                  beforeSaleResponse.tickets.length,
+                                  (index) {
+                                    return Column(children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          // 상세 페이지로 이동
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => TicketDetailScreen(
+                                                ticketId: beforeSaleResponse.tickets[index].ticketId, // 상세 페이지에 데이터 전달
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: BeforeSaleWidget(
+                                            beforeSaleTicketsResponse: beforeSaleResponse, index: index),
                                       ),
-                                    );
+                                      const SizedBox(height: 12)
+                                    ]);
                                   },
-                                  child: BeforeSaleWidget(beforeSaleTicketsResponse: beforeSaleResponse, index: index),
                                 ),
-                                const SizedBox(height: 12)
-                              ]);
-                            },
-                          ),
-                        ),
+                              ),
                         const SizedBox(height: 122)
                       ]));
                 })));

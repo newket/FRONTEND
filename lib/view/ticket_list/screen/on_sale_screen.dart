@@ -40,7 +40,7 @@ class _OnSaleScreen extends State<OnSaleScreen> {
     });
     final Properties properties = Properties();
     properties.putString('option', value: selectedOption);
-    properties.putString('tab',value: '예매 중인 티켓');
+    properties.putString('tab', value: '예매 중인 티켓');
     Smartlook.instance.trackEvent('HomeScreen', properties: properties);
   }
 
@@ -82,30 +82,37 @@ class _OnSaleScreen extends State<OnSaleScreen> {
                           ],
                         ),
                         Container(height: 8),
-                        Column(
-                          children: List.generate(
-                            onSaleResponse.tickets.length,
-                            (index) {
-                              return Column(children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    // 상세 페이지로 이동
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => TicketDetailScreen(
-                                          ticketId: onSaleResponse.tickets[index].ticketId, // 상세 페이지에 데이터 전달
-                                        ),
+                        (onSaleResponse.totalNum == 0)
+                            ? Column(children: [
+                                Container(height: 88),
+                                Image.asset('images/ticket/ticket_null.png', width: 160),
+                                Container(height: 16),
+                                Text('예매 중인 티켓이 없어요.', style: button2_14Semi(f_100))
+                              ])
+                            : Column(
+                                children: List.generate(
+                                  onSaleResponse.tickets.length,
+                                  (index) {
+                                    return Column(children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          // 상세 페이지로 이동
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => TicketDetailScreen(
+                                                ticketId: onSaleResponse.tickets[index].ticketId, // 상세 페이지에 데이터 전달
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: OnSaleWidget(onSaleResponse: onSaleResponse, index: index),
                                       ),
-                                    );
+                                      const SizedBox(height: 12)
+                                    ]);
                                   },
-                                  child: OnSaleWidget(onSaleResponse: onSaleResponse, index: index),
                                 ),
-                                const SizedBox(height: 12)
-                              ]);
-                            },
-                          ),
-                        ),
+                              ),
                         const SizedBox(height: 122)
                       ]));
                 })));
