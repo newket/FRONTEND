@@ -23,6 +23,14 @@ class TicketSaleBottomSheetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, String> providerLogos = {
+      "Yes24": "images/ticket_detail/yes24.png",
+      "멜론티켓": "images/ticket_detail/melon.png",
+      "인터파크": "images/ticket_detail/nol.png",
+      "NOL티켓": "images/ticket_detail/nol.png",
+      "티켓링크": "images/ticket_detail/ticketlink.png"
+    };
+
     return Container(
       width: double.infinity,
       height: 222,
@@ -49,8 +57,18 @@ class TicketSaleBottomSheetWidget extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () => launchURL(ticketSaleUrls[index].url),
                       child: Column(children: [
-                        ImageLoadingWidget(
-                            width: 60, height: 60, radius: 15, imageUrl: ticketSaleUrls[index].providerImageUrl),
+                        providerLogos.containsKey(ticketSaleUrls[index].ticketProvider)
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(15.0),
+                                child: Image.asset(providerLogos[ticketSaleUrls[index].ticketProvider]!,
+                                    width: 60, height: 60),
+                              )
+                            : ImageLoadingWidget(
+                                width: 60,
+                                height: 60,
+                                radius: 15,
+                                imageUrl: ticketSaleUrls[index].providerImageUrl,
+                              ),
                         const SizedBox(height: 4),
                         Text(ticketSaleUrls[index].ticketProvider, style: button3_12Reg(f_70))
                       ]),
