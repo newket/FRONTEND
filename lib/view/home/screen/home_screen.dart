@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
+import 'package:newket/model/ticket/ticket_response.dart';
 import 'package:newket/repository/ticket_repository.dart';
-import 'package:newket/view/ticket_list/screen/before_sale_screen.dart';
-import 'package:newket/view/ticket_list/screen/on_sale_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:newket/view/common/skeleton_widget.dart';
+import 'package:newket/view/ticket_list/screen/ticket_list_screen.dart';
+import 'package:newket/view/ticket_list/widget/genre_widget.dart';
+import 'package:newket/view/ticket_list/widget/on_sale_widget.dart';
+
+import '../../../constant/enum.dart';
+import '../../ticket_detail/screen/ticket_detail_screen.dart';
+import '../../ticket_list/widget/before_sale_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,86 +20,49 @@ class HomeScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _HomeScreen();
 }
 
-class _HomeScreen extends State<HomeScreen> with SingleTickerProviderStateMixin {
-  late TabController controller;
-  int lastIndex = -1;
+class _HomeScreen extends State<HomeScreen> with WidgetsBindingObserver, RouteAware {
+  bool isLoading = true;
+  late TicketRepository ticketRepository;
+  late TicketResponse top5tickets;
+  final ScrollController _scrollController = ScrollController();
+  double _scrollPosition = 0;
 
-  // beforeSale
-  late String beforeSaleSelectedOption;
-  late Future beforeSaleRepository;
-  final List<String> beforeSaleOptions = ['예매 오픈 임박 순', '최신 등록 순'];
-
-  loadBeforeSaleSelectedOption() async {
-    final prefs = await SharedPreferences.getInstance();
+  void _load() async {
+    final tickets = await ticketRepository.top5();
+    if (!mounted) return;
     setState(() {
-      beforeSaleSelectedOption = prefs.getString('openingNoticeSelectedOption') ?? beforeSaleOptions[0];
-      if (beforeSaleSelectedOption == beforeSaleOptions[0]) {
-        beforeSaleRepository = TicketRepository().getBeforeSaleTickets();
-      } else if (beforeSaleSelectedOption == beforeSaleOptions[1]) {
-        beforeSaleRepository = TicketRepository().getBeforeSaleTicketsOrderById();
-      }
+      top5tickets = tickets;
+      isLoading = false;
     });
   }
 
-  void beforeSaleOptionChanged() {
-    loadBeforeSaleSelectedOption();
-  }
-
-  // onSale
-  late String onSaleSelectedOption;
-  late Future onSaleRepository;
-  final List<String> onSaleOptions = ['공연 날짜 임박 순', '최신 등록 순'];
-
-  loadOnSaleSelectedOption() async {
-    final prefs = await SharedPreferences.getInstance();
+  _scrollListener() {
     setState(() {
-      onSaleSelectedOption = prefs.getString('onSaleSelectedOption') ?? onSaleOptions[0];
-      if (onSaleSelectedOption == onSaleOptions[0]) {
-        onSaleRepository = TicketRepository().getOnSaleTickets();
-      } else if (onSaleSelectedOption == onSaleOptions[1]) {
-        onSaleRepository = TicketRepository().getOnSaleTicketsById();
-      }
+      _scrollPosition = _scrollController.position.pixels;
     });
-  }
-
-  void onSaleOptionChanged() {
-    loadOnSaleSelectedOption();
   }
 
   @override
   void initState() {
     super.initState();
-    beforeSaleRepository = TicketRepository().getBeforeSaleTickets();
-    onSaleRepository = TicketRepository().getOnSaleTickets();
-    loadBeforeSaleSelectedOption();
-    loadOnSaleSelectedOption();
+    ticketRepository = TicketRepository();
+    _load();
+    WidgetsBinding.instance.addObserver(this);
+    _scrollController.addListener(_scrollListener);
+  }
 
-    controller = TabController(length: 2, vsync: this);
-    controller.addListener(() {
-      // 탭이 변경될 때마다 Amplitude 로그 기록
-      if (controller.index != lastIndex) {
-        // 인덱스가 변경되었을 때만 실행
-        lastIndex = controller.index; // 현재 인덱스를 마지막 인덱스로 저장
-        switch (controller.index) {
-          case 0:
-            break;
-          case 1:
-            break;
-          default:
-            break;
-        }
-      }
-      setState(() {}); // 탭 변경 시 상태 업데이트
-    });
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
-          titleSpacing: 20,
           centerTitle: true,
+          backgroundColor: (_scrollPosition == 0) ? const Color(0xffF9F9F9) : Colors.white,
           title: const Text(
             'NEWKET',
             style: TextStyle(
@@ -100,63 +70,143 @@ class _HomeScreen extends State<HomeScreen> with SingleTickerProviderStateMixin 
               fontSize: 24,
               fontFamily: 'Pretendard',
               fontWeight: FontWeight.w800,
+              height: 1.33,
+              letterSpacing: -0.72,
             ),
           ),
+          scrolledUnderElevation: 0,
         ),
-        resizeToAvoidBottomInset: false, //키보드가 올라 오지 않도록
-        backgroundColor: Colors.white,
-        body: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-              FocusManager.instance.primaryFocus?.unfocus();
-            }, // 키보드 외부를 탭하면 키보드 숨기기
-            child: Column(children: [
-              Container(
-                color: Colors.white,
-                height: 44,
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: TabBar(
-                  tabs: <Tab>[
-                    Tab(
-                      icon: SizedBox(
-                          width: MediaQuery.of(context).size.width / 2,
-                          height: 44,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [Text("오픈 예정 티켓", style: button2_14Semi(controller.index == 0 ? pn_100 : f_40))])),
-                    ),
-                    Tab(
-                      icon: SizedBox(
-                          width: MediaQuery.of(context).size.width / 2,
-                          height: 44,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+        backgroundColor: const Color(0xffF9F9F9),
+        body: SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                Row(mainAxisAlignment: MainAxisAlignment.center, spacing: 8, children: [
+                  GestureDetector(
+                      onTap: () {
+                        Get.to(() => const TicketListScreen(genre: Genre.ALL));
+                      },
+                      child: Container(
+                        width: (MediaQuery.of(context).size.width - 48) / 2,
+                        height: 282,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              width: 1,
+                              color: f_15,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(left: 16, top: 16, child: Text('전체 티켓', style: s1_16Semi(f_100))),
+                            Positioned(
+                              left: 16,
+                              top: 44,
+                              child: SizedBox(width: 91, child: Text('알림 받을 티켓을 찾아보세요!', style: c1_14Med(f_50))),
+                            ),
+                            Positioned(right: 0, bottom: 0, child: Image.asset('images/ticket/all.png', width: 134.78)),
+                          ],
+                        ),
+                      )),
+                  const Column(
+                    spacing: 8,
+                    children: [
+                      GenreWidget(title: '콘서트/팬미팅', imagePath: 'images/ticket/concert.png', genre: Genre.CONCERT),
+                      GenreWidget(title: '뮤지컬/연극', imagePath: 'images/ticket/musical.png', genre: Genre.MUSICAL),
+                      GenreWidget(title: '페스티벌', imagePath: 'images/ticket/festival.png', genre: Genre.FESTIVAL)
+                    ],
+                  ),
+                ]),
+                const SizedBox(height: 20),
+                Container(
+                  color: Colors.white,
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('오늘의 인기 티켓 TOP 5', style: s1_16Semi(f_100)),
+                      const SizedBox(height: 8),
+                      if (isLoading)
+                        Column(
+                          children: List.generate(
+                            5,
+                            (index) => Column(
                               children: [
-                                Text("예매 중인 티켓", style: button2_14Semi(controller.index == 1 ? pn_100 : f_40))
-                              ])),
-                    ),
-                  ],
-                  controller: controller,
-                  dividerColor: Colors.transparent,
-                  // 흰 줄 제거
-                  indicatorColor: pn_100,
-                  indicatorWeight: 2,
-                  indicatorPadding: const EdgeInsets.all(-11),
-                  // indicator 위치 내리기
-                  labelPadding: EdgeInsets.zero, //탭 크기가 안 작아지게
+                                SkeletonWidget(
+                                  width: MediaQuery.of(context).size.width - 40,
+                                  height: 110,
+                                  radius: 8,
+                                ),
+                                const SizedBox(height: 12),
+                              ],
+                            ),
+                          ),
+                        )
+                      else ...[
+                        Column(
+                          children: List.generate(
+                            top5tickets.beforeSaleTickets.totalNum,
+                            (index) => Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => TicketDetailScreen(
+                                          ticketId: top5tickets.beforeSaleTickets.tickets[index].ticketId,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: BeforeSaleWidget(
+                                    beforeSaleTicketsResponse: top5tickets.beforeSaleTickets,
+                                    index: index,
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Column(
+                          children: List.generate(
+                            top5tickets.onSaleTickets.totalNum,
+                            (index) => Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => TicketDetailScreen(
+                                          ticketId: top5tickets.onSaleTickets.tickets[index].ticketId,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: OnSaleWidget(
+                                    onSaleResponse: top5tickets.onSaleTickets,
+                                    index: index,
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: 100),
+                    ],
+                  ),
                 ),
-              ),
-              Container(height: 1, color: f_10, width: double.infinity),
-              Expanded(
-                  child: TabBarView(
-                controller: controller,
-                children: <Widget>[
-                  BeforeSaleScreen(repository: beforeSaleRepository, onOptionChanged: beforeSaleOptionChanged),
-                  OnSaleScreen(repository: onSaleRepository, onOptionChanged: onSaleOptionChanged)
-                ],
-              ))
-            ])));
+              ],
+            )));
   }
 }
