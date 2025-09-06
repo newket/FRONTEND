@@ -125,7 +125,8 @@ void main() async {
 
     debugPrint("deviceToken: $deviceToken");
     AmplitudeConfig.amplitude.setUserId('$deviceToken');
-    Smartlook.instance.user.setName('$deviceToken');
+    smartlook.user.setName('$deviceToken');
+    smartlook.user.setIdentifier('$deviceToken');
     storage.write(key: 'DEVICE_TOKEN', value: deviceToken);
 
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
