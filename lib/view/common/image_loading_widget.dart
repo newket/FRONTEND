@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:newket/constant/colors.dart';
 
 class ImageLoadingWidget extends StatelessWidget {
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
   final double radius;
   final String imageUrl;
 
   const ImageLoadingWidget({
     super.key,
-    required this.width,
-    required this.height,
+    this.width,
+    this.height,
     required this.radius,
     required this.imageUrl,
   });
