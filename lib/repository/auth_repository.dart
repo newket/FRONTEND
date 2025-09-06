@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
+import 'package:flutter_naver_login/interface/types/naver_login_result.dart';
+import 'package:flutter_naver_login/interface/types/naver_login_status.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -83,7 +85,6 @@ class AuthRepository {
           }
         } catch (error) {}
       }
-    } catch (error) {
     } finally {
       if (Get.isDialogOpen!) {
         Get.back(); // 로딩 화면을 닫음
@@ -127,7 +128,6 @@ class AuthRepository {
       } catch (error) {
         //response 가 400이면 약관 동의 페이지
       }
-    } catch (error) {
     } finally {
       if (Get.isDialogOpen!) {
         Get.back(); // 로딩 화면을 닫음
@@ -145,24 +145,21 @@ class AuthRepository {
     try {
       NaverLoginResult result = await FlutterNaverLogin.logIn();
 
-      // 사용자 취소
-      if (result.status == NaverLoginStatus.cancelledByUser || result.status == NaverLoginStatus.error) {
-        return;
+      if (result.status == NaverLoginStatus.loggedIn) {
+        storage.write(key: 'NAVER_NAME', value: result.account?.name ?? '');
+        storage.write(key: 'NAVER_EMAIL', value: result.account?.email ?? '');
+        storage.write(key: 'NAVER_SOCIAL_ID', value: result.account?.id ?? '');
+
+        try {
+          await socialLoginApi(SocialLoginAppleRequest(result.account?.id ?? ''), "NAVER");
+
+          await UserRepository().putDeviceTokenApi(context);
+
+          Get.offAll(() => const TabBarScreen());
+        } catch (error) {
+          //response 가 400이면 약관 동의 페이지
+        }
       }
-      storage.write(key: 'NAVER_NAME', value: result.account.name);
-      storage.write(key: 'NAVER_EMAIL', value: result.account.email);
-      storage.write(key: 'NAVER_SOCIAL_ID', value: result.account.id);
-
-      try {
-        await socialLoginApi(SocialLoginAppleRequest(result.account.id), "NAVER");
-
-        await UserRepository().putDeviceTokenApi(context);
-
-        Get.offAll(() => const TabBarScreen());
-      } catch (error) {
-        //response 가 400이면 약관 동의 페이지
-      }
-    } catch (error) {
     } finally {
       if (Get.isDialogOpen!) {
         Get.back(); // 로딩 화면을 닫음
@@ -179,7 +176,7 @@ class AuthRepository {
     );
     try {
       GoogleSignInAccount? result = await GoogleSignIn().signIn();
-      if (result==null) {
+      if (result == null) {
         return;
       }
       storage.write(key: 'GOOGLE_NAME', value: result.displayName);
@@ -187,7 +184,7 @@ class AuthRepository {
       storage.write(key: 'GOOGLE_SOCIAL_ID', value: result.id);
 
       try {
-        await socialLoginApi(SocialLoginAppleRequest(result.id),"GOOGLE");
+        await socialLoginApi(SocialLoginAppleRequest(result.id), "GOOGLE");
 
         await UserRepository().putDeviceTokenApi(context);
 
@@ -195,7 +192,6 @@ class AuthRepository {
       } catch (error) {
         //response 가 400이면 약관 동의 페이지
       }
-    } catch (error) {
     } finally {
       if (Get.isDialogOpen!) {
         Get.back(); // 로딩 화면을 닫음
