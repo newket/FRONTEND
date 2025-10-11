@@ -335,7 +335,7 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
                           : const SizedBox(),
                       Text('아티스트 정보', style: s1_16Semi(f_100)),
                       const SizedBox(height: 12),
-                      (ticketResponse.lineup != null)
+                      (ticketResponse.lineup != null && ticketResponse.lineup!.imageUrl.isNotEmpty)
                           ? Column(
                               children: [
                                 ElevatedButton(
