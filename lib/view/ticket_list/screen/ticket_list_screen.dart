@@ -184,7 +184,11 @@ class _TicketListScreen extends State<TicketListScreen> with SingleTickerProvide
                     // 흰 줄 제거
                     indicatorColor: pn_100,
                     indicatorWeight: 2,
-                    indicatorPadding: const EdgeInsets.all(-11),
+                    indicatorPadding: EdgeInsets.zero,
+                    indicator: const UnderlineTabIndicator(
+                      borderSide: BorderSide(width: 2, color: pn_100),
+                      insets: EdgeInsets.fromLTRB(0, 0, 0, -10), // 위치 조정
+                    ),
                     // indicator 위치 내리기
                     labelPadding: EdgeInsets.zero, //탭 크기가 안 작아지게
                   ),
