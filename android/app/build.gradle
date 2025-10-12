@@ -59,6 +59,10 @@ android {
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
         multiDexEnabled = true // 추가하는 라인
+        // 16KB 지원
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86_64"
+        }
     }
 
     signingConfigs {
@@ -78,6 +82,13 @@ android {
 
             minifyEnabled true
             proguardFiles  getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // 16KB
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging true
         }
     }
 }
