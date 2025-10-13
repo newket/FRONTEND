@@ -1,7 +1,7 @@
 name: newket
 description: "newket"
 publish_to: 'none'
-version: 2.2.0+19
+version: 2.3.0+20
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
@@ -70,6 +70,9 @@ dependencies:
   # cache image
   cached_network_image: 3.4.1
 
+  # 업데이트 package
+  package_info_plus: ^8.0.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -89,6 +92,7 @@ flutter:
     - images/tab_bar/
     - images/ticket/
     - images/ticket_detail/
+    - images/update/
     - .env
     - assets/
   fonts:

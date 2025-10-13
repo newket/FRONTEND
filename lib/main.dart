@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -14,9 +15,11 @@ import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:newket/config/amplitude_config.dart';
 import 'package:newket/firebase_options.dart';
 import 'package:newket/repository/notification_repository.dart';
+import 'package:newket/view/update/screen/update_app_screen.dart';
 import 'package:newket/view/login/screen/login_screen.dart';
 import 'package:newket/view/tapbar/screen/tab_bar_screen.dart';
 import 'package:newket/view/ticket_detail/screen/ticket_detail_screen.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 @pragma('vm:entry-point')
@@ -62,6 +65,34 @@ void main() async {
 
     // Firebase 초기화
     await Firebase.initializeApp(name: 'newket', options: DefaultFirebaseOptions.currentPlatform);
+
+    // 업데이트 팝업
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.setConfigSettings(RemoteConfigSettings(
+      fetchTimeout: const Duration(seconds: 5),
+      minimumFetchInterval: const Duration(seconds: 0),
+    ));
+    await remoteConfig.fetchAndActivate();
+
+    final latestAndroidVersion = remoteConfig.getString('latest_android_version');
+    final latestIOSVersion = remoteConfig.getString('latest_ios_version');
+    final androidUrl = remoteConfig.getString('play_store_url');
+    final iosUrl = remoteConfig.getString('app_store_url');
+
+    final packageInfo = await PackageInfo.fromPlatform();
+    final currentVersion = packageInfo.version;
+
+    bool needUpdate = false;
+    if (Platform.isAndroid && currentVersion != latestAndroidVersion) {
+      needUpdate = true;
+    } else if (Platform.isIOS && currentVersion != latestIOSVersion) {
+      needUpdate = true;
+    }
+
+    if (needUpdate) {
+      runApp(UpdateAppScreen(androidUrl: androidUrl, iosUrl: iosUrl));
+      return;
+    }
 
     // Storage 초기화
     const storage = FlutterSecureStorage();
