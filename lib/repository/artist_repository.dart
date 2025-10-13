@@ -22,7 +22,7 @@ class ArtistRepository {
 
   //아티스트 프로필
   Future<ArtistProfileResponse> getArtistProfile(int artistId) async {
-    final response = await dio.get("/api/v1/artists/$artistId");
+    final response = await dio.get("/api/v1/artists/$artistId?genre=ALL");
     return ArtistProfileResponse.fromJson(response.data);
   }
 

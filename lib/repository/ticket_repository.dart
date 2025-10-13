@@ -51,14 +51,14 @@ class TicketRepository {
 
   // 공연명+아티스트로 검색
   Future<SearchResultResponse> searchResult(String keyword) async {
-    final response = await dio.get("/api/v1/tickets/search?keyword=$keyword");
+    final response = await dio.get("/api/v1/tickets/search?keyword=$keyword&genre=ALL");
 
     return SearchResultResponse.fromJson(response.data);
   }
 
   // 공연명+아티스트로 검색 자동완성
   Future<AutocompleteResponse> autocomplete(String keyword) async {
-    final response = await dio.get("/api/v1/tickets/autocomplete?keyword=$keyword");
+    final response = await dio.get("/api/v1/tickets/autocomplete?keyword=$keyword&genre=ALL");
 
     return AutocompleteResponse.fromJson(response.data);
   }

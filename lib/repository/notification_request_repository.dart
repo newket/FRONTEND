@@ -82,7 +82,7 @@ class NotificationRequestRepository {
   // 아티스트 알림받는 오픈 예정 티켓
   Future<BeforeSaleTicketsResponse> getAllBeforeSaleTicketNotification(BuildContext context) async {
     var dio = await authDio(context);
-    final response = await dio.get("/api/v1/notification-requests/artists/before-sale");
+    final response = await dio.get("/api/v1/notification-requests/artists/before-sale?genre=ALL");
 
     return BeforeSaleTicketsResponse.fromJson(response.data);
   }
@@ -90,7 +90,7 @@ class NotificationRequestRepository {
   // 아티스트 알림받는 예매 중인 티켓
   Future<OnSaleResponse> getAllArtistOnSaleTicket(BuildContext context) async {
     var dio = await authDio(context);
-    final response = await dio.get("/api/v1/notification-requests/artists/on-sale");
+    final response = await dio.get("/api/v1/notification-requests/artists/on-sale?genre=ALL");
 
     return OnSaleResponse.fromJson(response.data);
   }
