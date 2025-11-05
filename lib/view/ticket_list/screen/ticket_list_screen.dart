@@ -210,8 +210,24 @@ class _TicketListScreen extends State<TicketListScreen> with SingleTickerProvide
               right: 0,
               child: Container(
                 height: 124,
-                color: Colors.white,
                 padding: const EdgeInsets.only(top: 20, bottom: 24, left: 20, right: 20),
+                decoration: const ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
+                    ),
+                  ),
+                  shadows: [
+                    BoxShadow(
+                      color: Color(0x33060943),
+                      blurRadius: 31,
+                      offset: Offset(0, 7),
+                      spreadRadius: 0,
+                    )
+                  ],
+                ),
                 child: GridView.count(
                   crossAxisCount: 2,
                   childAspectRatio: (MediaQuery.of(context).size.width - 48) / 2 / 36,
