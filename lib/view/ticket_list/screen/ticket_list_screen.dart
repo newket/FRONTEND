@@ -203,6 +203,19 @@ class _TicketListScreen extends State<TicketListScreen> with SingleTickerProvide
                   ],
                 ))
               ])),
+          // 외부 터치시 드롭다운 닫힘
+          if (_dropdownVisible)
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _dropdownVisible = false;
+                  });
+                },
+                child: Container(color: Colors.transparent),
+              ),
+            ),
+          // 드롭다운
           if (_dropdownVisible)
             Positioned(
               top: 0,
