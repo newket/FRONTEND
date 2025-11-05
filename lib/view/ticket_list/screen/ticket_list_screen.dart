@@ -198,8 +198,14 @@ class _TicketListScreen extends State<TicketListScreen> with SingleTickerProvide
                     child: TabBarView(
                   controller: controller,
                   children: <Widget>[
-                    BeforeSaleScreen(repository: beforeSaleRepository, onOptionChanged: beforeSaleOptionChanged),
-                    OnSaleScreen(repository: onSaleRepository, onOptionChanged: onSaleOptionChanged)
+                    BeforeSaleScreen(
+                        key: ValueKey('before_${_selectedGenre.name}'),
+                        repository: beforeSaleRepository,
+                        onOptionChanged: beforeSaleOptionChanged),
+                    OnSaleScreen(
+                        key: ValueKey('before_${_selectedGenre.name}'),
+                        repository: onSaleRepository,
+                        onOptionChanged: onSaleOptionChanged)
                   ],
                 ))
               ])),
