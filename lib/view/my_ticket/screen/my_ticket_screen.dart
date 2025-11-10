@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -64,12 +65,15 @@ class _MyTicketScreen extends State<MyTicketScreen> with TickerProviderStateMixi
       (context) => StatefulBuilder(
         builder: (context, setState) {
           _bottomSheetSetState = setState; // setState 저장
-          return MyTicketArtistBottomSheetWidget(artistId: selectedArtistId ?? artistId, onConfirm: () {
-            _bottomSheetController?.close();
-            _bottomSheetController = null;
-            _bottomSheetSetState = null;
-            setState(() => selectedIndex = null);
-          },);
+          return MyTicketArtistBottomSheetWidget(
+            artistId: selectedArtistId ?? artistId,
+            onConfirm: () {
+              _bottomSheetController?.close();
+              _bottomSheetController = null;
+              _bottomSheetSetState = null;
+              setState(() => selectedIndex = null);
+            },
+          );
         },
       ),
       backgroundColor: Colors.white,
@@ -95,20 +99,25 @@ class _MyTicketScreen extends State<MyTicketScreen> with TickerProviderStateMixi
   }
 
   Future<void> _loadMyTicket() async {
-    final artistList = await notificationRequestRepository.getAllArtistNotification(context);
-    final beforeSaleTicketList = await notificationRequestRepository.getAllBeforeSaleTicketNotification(context);
-    final onSaleTicketList = await notificationRequestRepository.getAllArtistOnSaleTicket(context);
-    final notificationTicketList = await notificationRequestRepository.getAllTicketNotification(context);
+    const storage = FlutterSecureStorage();
+    final token = await storage.read(key: "ACCESS_TOKEN");
 
-    if (!mounted) return;
+    if (token != null) {
+      final artistList = await notificationRequestRepository.getAllArtistNotification(context);
+      final beforeSaleTicketList = await notificationRequestRepository.getAllBeforeSaleTicketNotification(context);
+      final onSaleTicketList = await notificationRequestRepository.getAllArtistOnSaleTicket(context);
+      final notificationTicketList = await notificationRequestRepository.getAllTicketNotification(context);
 
-    setState(() {
-      artists = artistList;
-      beforeSaleResponse = beforeSaleTicketList;
-      onSaleResponse = onSaleTicketList;
-      notificationTickets = notificationTicketList;
-      isLoading = false;
-    });
+      if (!mounted) return;
+
+      setState(() {
+        artists = artistList;
+        beforeSaleResponse = beforeSaleTicketList;
+        onSaleResponse = onSaleTicketList;
+        notificationTickets = notificationTicketList;
+        isLoading = false;
+      });
+    }
   }
 
   @override

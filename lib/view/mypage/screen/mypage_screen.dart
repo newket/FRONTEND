@@ -51,24 +51,29 @@ class _MyPageScreen extends State<MyPageScreen> with WidgetsBindingObserver {
   }
 
   Future<void> _getUserInfoApi(BuildContext context) async {
-    await userRepository.putDeviceTokenApi(context);
-    final response = await userRepository.getUserInfoApi(context);
-    final response2 = await userRepository.getNotificationAllow();
-    bool isEnabled = await NotificationPermissionManager.isNotificationEnabled();
+    const storage = FlutterSecureStorage();
+    final token = await storage.read(key: "ACCESS_TOKEN");
 
-    if (!mounted) return;
+    if (token != null) {
+      await userRepository.putDeviceTokenApi(context);
+      final response = await userRepository.getUserInfoApi(context);
+      final response2 = await userRepository.getNotificationAllow();
+      bool isEnabled = await NotificationPermissionManager.isNotificationEnabled();
 
-    setState(() {
-      userName = response.name;
-      email = response.email;
-      provider = response.provider;
-      artistNotification = response2.artistNotification;
-      artistBackground = artistNotification ? v1pt_20 : b_900;
-      ticketNotification = response2.ticketNotification;
-      ticketBackground = ticketNotification ? v1pt_20 : b_900;
-      isLoading = false;
-      notificationAllow = isEnabled;
-    });
+      if (!mounted) return;
+
+      setState(() {
+        userName = response.name;
+        email = response.email;
+        provider = response.provider;
+        artistNotification = response2.artistNotification;
+        artistBackground = artistNotification ? v1pt_20 : b_900;
+        ticketNotification = response2.ticketNotification;
+        ticketBackground = ticketNotification ? v1pt_20 : b_900;
+        isLoading = false;
+        notificationAllow = isEnabled;
+      });
+    }
   }
 
   @override
@@ -76,7 +81,7 @@ class _MyPageScreen extends State<MyPageScreen> with WidgetsBindingObserver {
     if (state == AppLifecycleState.resumed) {
       bool isEnabled = await NotificationPermissionManager.isNotificationEnabled();
 
-      if (mounted && notificationAllow!=isEnabled) {
+      if (mounted && notificationAllow != isEnabled) {
         setState(() {
           notificationAllow = isEnabled;
         });

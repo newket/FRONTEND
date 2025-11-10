@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/view/artist/widget/artist_list_skeleton_ui_widget.dart';
 import 'package:newket/view/common/skeleton_widget.dart';
-import 'package:newket/view/ticket_list/widget/ticket_skeleton_widget.dart';
-import 'package:newket/view/ticket_list/widget/on_sale_widget.dart';
 
 class SearchResultSkeletonWidget extends StatelessWidget {
   const SearchResultSkeletonWidget({super.key});

@@ -24,7 +24,7 @@ class _BeforeLoginScreen extends State<BeforeLoginScreen> {
       //앱바
       appBar: appBarBack(context, "미리보기"),
       backgroundColor: Colors.white,
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
           child:
       Image.asset('images/login/before_login.png', width: 241, fit: BoxFit.cover)),

@@ -15,6 +15,7 @@ import 'package:newket/view/artist/widget/artist_list_widget.dart';
 import 'package:newket/view/common/image_loading_widget.dart';
 import 'package:newket/view/common/notification_disabled_popup_widget.dart';
 import 'package:newket/view/common/toast_widget.dart';
+import 'package:newket/view/ticket_detail/screen/line_up_screen.dart';
 import 'package:newket/view/ticket_detail/screen/ticket_detail_skeleton_screen.dart';
 import 'package:newket/view/ticket_detail/widget/date_list_popup_widget.dart';
 import 'package:newket/view/ticket_detail/widget/ticket_notification_cacle_popup_widget.dart';
@@ -334,6 +335,37 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
                           : const SizedBox(),
                       Text('아티스트 정보', style: s1_16Semi(f_100)),
                       const SizedBox(height: 12),
+                      (ticketResponse.lineup != null && ticketResponse.lineup!.imageUrl.isNotEmpty)
+                          ? Column(
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () => Get.to(() => LineUpScreen(
+                                        message: ticketResponse.lineup!.message,
+                                        imageUrl: ticketResponse.lineup!.imageUrl,
+                                      )),
+                                  style: ElevatedButton.styleFrom(
+                                    elevation: 0,
+                                    backgroundColor: pt_10,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 11, horizontal: 12),
+                                    shadowColor: Colors.transparent,
+                                  ).copyWith(
+                                    splashFactory: NoSplash.splashFactory,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(ticketResponse.lineup!.message, style: button2_14Semi(pn_100)),
+                                      const Icon(Icons.arrow_forward_ios_sharp, size: 16, color: pn_100)
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                              ],
+                            )
+                          : const SizedBox(),
                       Column(
                           children: List.generate(ticketResponse.artists.length, (index) {
                         return GestureDetector(

@@ -131,40 +131,36 @@ class _AgreementScreen extends State<AgreementScreen> {
                     Image.asset("images/login/ticket_check.png", width: 220),
                     Column(
                       children: [
-                        Container(
-                          height: 60,
-                          padding: const EdgeInsets.all(16),
-                          decoration: ShapeDecoration(
-                            color: agreementColor,
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(width: 1, color: pt_10),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                  onTap: _toggleAll,
-                                  child: SvgPicture.asset(
-                                    svgAll,
-                                    width: 24,
-                                    height: 24,
-                                  )),
-                              const SizedBox(width: 16),
-                              const Text(
-                                '약관 전체 동의',
-                                style: TextStyle(
-                                  color: f_100,
-                                  fontSize: 18,
-                                  fontFamily: 'Pretendard',
-                                  fontWeight: FontWeight.w700,
+                        GestureDetector(
+                            onTap: _toggleAll,
+                            child: Container(
+                              height: 60,
+                              padding: const EdgeInsets.all(16),
+                              decoration: ShapeDecoration(
+                                color: agreementColor,
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(width: 1, color: pt_10),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SvgPicture.asset(svgAll, width: 24, height: 24),
+                                  const SizedBox(width: 16),
+                                  const Text(
+                                    '약관 전체 동의',
+                                    style: TextStyle(
+                                      color: f_100,
+                                      fontSize: 18,
+                                      fontFamily: 'Pretendard',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
                         const SizedBox(height: 24),
                         GestureDetector(
                             onTap: () {
