@@ -26,18 +26,8 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
   void initState() {
     super.initState();
     tabController = TabController(length: 4, vsync: this);
-    const storage = FlutterSecureStorage();
     tabController.addListener(() async {
-      if (tabController.index != lastIndex) {
-        String? accessToken = await storage.read(key: "ACCESS_TOKEN");
-        if ((tabController.index == 1 || tabController.index == 3) && accessToken == null) {
-          tabController.index = lastIndex; // 이전 인덱스로 복구
-          Get.to(() => const BeforeLoginScreen());
-        } else {
-          lastIndex = tabController.index;
-        }
-        setState(() {});
-      }
+      setState(() {});
     });
   }
 
@@ -96,10 +86,9 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: TabBarView(
-                controller: tabController,
-                physics: const NeverScrollableScrollPhysics(),
-                children: const <Widget>[HomeScreen(), MyTicketScreen(), SearchScreen(), MyPageScreen()],
+              child: IndexedStack(
+                index: tabController.index,
+                children: const [HomeScreen(), MyTicketScreen(), SearchScreen(), MyPageScreen()],
               ),
             ),
             Positioned(
@@ -186,14 +175,25 @@ class _TabBarScreen extends State<TabBarScreen> with SingleTickerProviderStateMi
                       indicator: const BoxDecoration(
                         color: Colors.transparent,
                       ),
-                      onTap: (int index) {
-                        if (index == 0 && lastIndex == 0) {
-                          Get.offAll(
-                            () => const TabBarScreen(),
-                            transition: Transition.noTransition,
-                          );
+                      onTap: (int index) async {
+                        if (index == 1 || index == 3) {
+                          const storage = FlutterSecureStorage();
+                          final token = await storage.read(key: "ACCESS_TOKEN");
+                          if (token == null || token.isEmpty) {
+                            Get.to(() => const BeforeLoginScreen());
+                            tabController.animateTo(
+                              lastIndex,
+                              duration: const Duration(milliseconds: 0),
+                            );
+                            return;
+                          } else {
+                            lastIndex = index;
+                          }
+                        } else {
+                          lastIndex = index;
                         }
                         HapticFeedback.lightImpact();
+                        setState(() {});
                       },
                     ),
                   ],
