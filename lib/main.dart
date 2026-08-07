@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:newket/config/amplitude_config.dart';
@@ -76,6 +75,10 @@ void main() async {
 
     final latestAndroidVersion = remoteConfig.getString('latest_android_version');
     final latestIOSVersion = remoteConfig.getString('latest_ios_version');
+
+    final testAndroidVersion = remoteConfig.getString('test_android_version');
+    final testIOSVersion = remoteConfig.getString('test_ios_version');
+
     final androidUrl = remoteConfig.getString('play_store_url');
     final iosUrl = remoteConfig.getString('app_store_url');
 
@@ -83,10 +86,15 @@ void main() async {
     final currentVersion = packageInfo.version;
 
     bool needUpdate = false;
-    if (Platform.isAndroid && currentVersion != latestAndroidVersion) {
-      needUpdate = true;
-    } else if (Platform.isIOS && currentVersion != latestIOSVersion) {
-      needUpdate = true;
+
+    if (Platform.isAndroid) {
+      if (currentVersion != testAndroidVersion && currentVersion != latestAndroidVersion) {
+        needUpdate = true;
+      }
+    } else if (Platform.isIOS) {
+      if (currentVersion != testIOSVersion && currentVersion != latestIOSVersion) {
+        needUpdate = true;
+      }
     }
 
     if (needUpdate) {
@@ -107,11 +115,6 @@ void main() async {
 
     //Amplitude 초기화
     AmplitudeConfig().init();
-
-    // //smart look 초기화
-    final Smartlook smartlook = Smartlook.instance;
-    smartlook.start();
-    smartlook.preferences.setProjectKey(dotenv.get("SMART_LOOK"));
 
     // Kakao SDK 초기화
     KakaoSdk.init(
@@ -156,8 +159,6 @@ void main() async {
 
     debugPrint("deviceToken: $deviceToken");
     AmplitudeConfig.amplitude.setUserId('$deviceToken');
-    smartlook.user.setName('$deviceToken');
-    smartlook.user.setIdentifier('$deviceToken');
     storage.write(key: 'DEVICE_TOKEN', value: deviceToken);
 
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
@@ -247,7 +248,7 @@ class MyApp extends StatelessWidget {
           child: child!,
         );
       },
-      navigatorObservers: [routeObserver, SmartlookObserver()],
+      navigatorObservers: [routeObserver],
       home: const LoginScreen(),
     );
   }
@@ -267,7 +268,7 @@ class MyApp2 extends StatelessWidget {
           child: child!,
         );
       },
-      navigatorObservers: [routeObserver, SmartlookObserver()],
+      navigatorObservers: [routeObserver],
       home: const TabBarScreen(),
     );
   }

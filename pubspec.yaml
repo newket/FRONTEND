@@ -1,7 +1,7 @@
 name: newket
 description: "newket"
 publish_to: 'none'
-version: 2.3.0+23
+version: 2.3.2+26
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
@@ -11,7 +11,7 @@ dependencies:
   cupertino_icons: ^1.0.6
 
   #  카카오
-  kakao_flutter_sdk: ^1.9.2
+  kakao_flutter_sdk: ^2.0.0+1
 
   get: ^4.6.6
   dio: ^5.5.0
@@ -44,7 +44,7 @@ dependencies:
   flutter_native_splash: ^2.4.1
 
   #amplitude
-  amplitude_flutter: ^4.1.0
+  amplitude_flutter: ^4.6.2
 
   #shared_preferences
   shared_preferences: ^2.0.0
@@ -54,9 +54,6 @@ dependencies:
 
   #skeleton ui
   shimmer: ^3.0.0
-
-  #smart look
-  flutter_smartlook: 4.1.29
 
   #naver login
   flutter_naver_login: 2.1.1
