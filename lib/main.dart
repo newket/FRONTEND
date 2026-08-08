@@ -117,7 +117,7 @@ void main() async {
     AmplitudeConfig().init();
 
     // Kakao SDK 초기화
-    KakaoSdk.init(
+    await KakaoSdk.init(
       nativeAppKey: dotenv.get("NATIVE_APP_KEY"),
     );
 
