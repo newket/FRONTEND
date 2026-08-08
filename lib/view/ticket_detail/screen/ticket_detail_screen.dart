@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:newket/config/notification_permission.dart';
@@ -104,11 +103,6 @@ class _TicketDetailScreen extends State<TicketDetailScreen> with WidgetsBindingO
         throw '';
       }
     }
-
-    final Properties properties = Properties();
-    properties.putString('ticket_detail', value: 'ticket_detail');
-    properties.putString('ticket_title', value: ticketResponse.title);
-    Smartlook.instance.trackEvent('TicketDetailScreen', properties: properties);
 
     return Scaffold(
         backgroundColor: Colors.white,

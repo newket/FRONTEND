@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/model/ticket/before_sale_ticket_response.dart';
@@ -36,10 +35,6 @@ class _BeforeSaleScreen extends State<BeforeSaleScreen> {
     setState(() {
       selectedOption = prefs.getString('openingNoticeSelectedOption') ?? '예매 오픈 임박 순';
     });
-    final Properties properties = Properties();
-    properties.putString('option', value: selectedOption);
-    properties.putString('tab', value: '오픈 예정 티켓');
-    Smartlook.instance.trackEvent('HomeScreen', properties: properties);
   }
 
   void updateItemList(String option) async {
