@@ -18,7 +18,8 @@ class UserRepository {
     return UserInfoResponse.fromJson(response.data);
   }
 
-  Future<void> postNotificationAllow(String isAllow, String target) async {
+  Future<void> postNotificationAllow(String isAllow, String target, BuildContext context) async {
+    var dio = await authDio(context);
     final deviceToken = await storage.read(key: "DEVICE_TOKEN");
     final requestBody = NotificationAllowRequest(isAllow: isAllow, target: target, token: deviceToken!).toJson();
 
@@ -33,7 +34,8 @@ class UserRepository {
     );
   }
 
-  Future<NotificationAllow> getNotificationAllow() async {
+  Future<NotificationAllow> getNotificationAllow(BuildContext context) async {
+    var dio = await authDio(context);
     final deviceToken = await storage.read(key: "DEVICE_TOKEN");
     final response = await dio.put("/api/v1/users/notification?token=$deviceToken");
 

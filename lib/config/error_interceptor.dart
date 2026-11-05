@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:get/get.dart';
 import 'package:newket/view/error/screen/global_error_screen.dart';
 import 'package:newket/view/error/screen/network_error_screen.dart';
@@ -18,10 +17,6 @@ class ErrorInterceptor extends Interceptor {
 
     if (err.type == DioExceptionType.connectionError || err.error is SocketException) {
       print('network error : ${err.response}');
-      final Properties properties = Properties();
-      properties.putString('network_error', value: 'error');
-      properties.putString('network_error_message', value: err.message);
-      Smartlook.instance.trackEvent('NetworkErrorScreen', properties: properties);
       if (currentScreen != NetworkErrorScreen) {
         await Get.to(
             () => NetworkErrorScreen(onRetry: () async {
@@ -42,10 +37,6 @@ class ErrorInterceptor extends Interceptor {
     } else {
       if (currentScreen != GlobalErrorScreen) {
         print('global error : ${err.response}');
-        final Properties properties = Properties();
-        properties.putString('global_error', value: 'error');
-        properties.putString('global_error_message', value: err.message);
-        Smartlook.instance.trackEvent('GlobalErrorScreen', properties: properties);
         await Get.to(
             () => GlobalErrorScreen(onRetry: () async {
                   if (await _checkErrorResolved(err.requestOptions)) {

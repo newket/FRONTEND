@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/model/ticket/on_sale_response.dart';
@@ -38,10 +37,6 @@ class _OnSaleScreen extends State<OnSaleScreen> {
     setState(() {
       selectedOption = prefs.getString('onSaleSelectedOption') ?? '공연 날짜 임박 순';
     });
-    final Properties properties = Properties();
-    properties.putString('option', value: selectedOption);
-    properties.putString('tab', value: '예매 중인 티켓');
-    Smartlook.instance.trackEvent('HomeScreen', properties: properties);
   }
 
   void updateItemList(String option) async {

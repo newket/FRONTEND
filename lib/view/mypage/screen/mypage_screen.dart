@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
 import 'package:newket/config/notification_permission.dart';
@@ -46,7 +45,6 @@ class _MyPageScreen extends State<MyPageScreen> with WidgetsBindingObserver {
     userRepository = UserRepository();
     authRepository = AuthRepository();
     _getUserInfoApi(context);
-    Smartlook.instance.trackEvent('MyPageScreen');
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -57,7 +55,7 @@ class _MyPageScreen extends State<MyPageScreen> with WidgetsBindingObserver {
     if (token != null) {
       await userRepository.putDeviceTokenApi(context);
       final response = await userRepository.getUserInfoApi(context);
-      final response2 = await userRepository.getNotificationAllow();
+      final response2 = await userRepository.getNotificationAllow(context);
       bool isEnabled = await NotificationPermissionManager.isNotificationEnabled();
 
       if (!mounted) return;
@@ -194,7 +192,7 @@ class _MyPageScreen extends State<MyPageScreen> with WidgetsBindingObserver {
                                         artistNotification = value;
                                       });
                                       String isAllow = value ? 'on' : 'off';
-                                      await userRepository.postNotificationAllow(isAllow, "artist");
+                                      await userRepository.postNotificationAllow(isAllow, "artist", context);
                                     },
                                   ),
                                 ],
@@ -219,7 +217,7 @@ class _MyPageScreen extends State<MyPageScreen> with WidgetsBindingObserver {
                                         ticketNotification = value;
                                       });
                                       String isAllow = value ? 'on' : 'off';
-                                      await userRepository.postNotificationAllow(isAllow, "ticket");
+                                      await userRepository.postNotificationAllow(isAllow, "ticket", context);
                                     },
                                   ),
                                 ],
@@ -278,7 +276,7 @@ class _MyPageScreen extends State<MyPageScreen> with WidgetsBindingObserver {
                                             artistNotification = value;
                                           });
                                           String isAllow = value ? 'on' : 'off';
-                                          await userRepository.postNotificationAllow(isAllow, "artist");
+                                          await userRepository.postNotificationAllow(isAllow, "artist", context);
                                         },
                                       ),
                                     ],
@@ -303,7 +301,7 @@ class _MyPageScreen extends State<MyPageScreen> with WidgetsBindingObserver {
                                             ticketNotification = value;
                                           });
                                           String isAllow = value ? 'on' : 'off';
-                                          await userRepository.postNotificationAllow(isAllow, "ticket");
+                                          await userRepository.postNotificationAllow(isAllow, "ticket", context);
                                         },
                                       ),
                                     ],

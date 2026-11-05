@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
 import 'package:newket/model/artist/artist_profile_response.dart';
@@ -96,10 +95,6 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen>
             return const ArtistProfileSkeletonScreen();
           }
           ArtistProfileResponse response = snapshot.data!;
-          final Properties properties = Properties();
-          properties.putString('artist_profile', value: 'artist_profile');
-          properties.putString('artist_name', value: response.info.name.toString());
-          Smartlook.instance.trackEvent('ArtistProfileScreen', properties: properties);
 
           return Scaffold(
             backgroundColor: Colors.white,

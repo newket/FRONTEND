@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:get/get.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/fonts.dart';
@@ -39,7 +38,6 @@ class _SearchScreen extends State<SearchScreen> with WidgetsBindingObserver, Rou
     artistRepository = ArtistRepository();
     notificationRequestRepository = NotificationRequestRepository();
     WidgetsBinding.instance.addObserver(this);
-    Smartlook.instance.trackEvent('SearchScreen');
   }
 
   Future<void> _initializeArtistsAndFavorites() async {

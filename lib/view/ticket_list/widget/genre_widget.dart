@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:get/get.dart';
 import 'package:newket/constant/colors.dart';
 import 'package:newket/constant/enum.dart';
@@ -19,10 +18,6 @@ class GenreWidget extends StatelessWidget {
     return GestureDetector(
         onTap: () {
           Get.to(() => TicketListScreen(genre: genre));
-          final Properties properties = Properties();
-          properties.putString('page', value: 'home');
-          properties.putString('genre', value: genre.name);
-          Smartlook.instance.trackEvent('HomeScreen', properties: properties);
         },
         child: Container(
             width: (MediaQuery.of(context).size.width - 48) / 2,
